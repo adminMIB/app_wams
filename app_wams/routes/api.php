@@ -34,5 +34,11 @@ Route::apiResource('reports','\App\Http\Controllers\API\ReportController', [
     "only" => ["store","index","edit","update","destroy"]
 ]);
 
+Route::apiResource('elearning','App\Http\Controllers\API\ElearningController', [
+    "only" => ["store","index","edit"]
+   ]);
+
+Route::post('elearning/{id}',[ElearningController::class,'update'])->name('elearnings.update');   
+
 // Route::group(['middleware' => ['auth:sanctum']],function() {
 // });
