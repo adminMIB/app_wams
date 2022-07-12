@@ -118,4 +118,12 @@ class ElearningController extends Controller
         }
 
     }
+
+    public function destroy($id)
+    {
+        $ele= Elearning::find($id);
+        $ele->delete();
+        return response()->json(["status"=>true, "mesaage"=>"data berhasil dihapus"]);
+
+    }
 }
