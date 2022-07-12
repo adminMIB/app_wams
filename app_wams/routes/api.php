@@ -29,5 +29,10 @@ Route::apiResource('roles','\App\Http\Controllers\API\RoleController', [
 
 Route::post( '/logout',[\App\Http\Controllers\API\AuthController::class,'logout']);
 
+//Technical
+Route::apiResource('reports','\App\Http\Controllers\API\ReportController', [
+    "only" => ["store","index","edit","update","destroy"]
+]);
+
 // Route::group(['middleware' => ['auth:sanctum']],function() {
 // });
