@@ -53,8 +53,16 @@ Route::apiResource('ProjectTimeline','\App\Http\Controllers\API\ProjectTimelineC
 Route::apiResource('upload','\App\Http\Controllers\API\UploadController',[
     "only" => ["index", "store","destroy"]    
 ]);
+// route salesorder 
+route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
+    "only" => ["store", "index"]
+]);
 
+// route up dok
 
+route::apiResource('updoc', '\App\Http\Controllers\API\UploadDocumentController', [
+    "only" => ["store", "index"]
+]);
 
 // Route::group(['middleware' => ['auth:sanctum']],function() {
 // });
