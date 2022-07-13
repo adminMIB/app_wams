@@ -34,6 +34,10 @@ Route::apiResource('reports','\App\Http\Controllers\API\ReportController', [
     "only" => ["store","index","edit","update","destroy"]
 ]);
 
+Route::apiResource('createweeklies','\App\Http\Controllers\API\CreateWeekliesController', [
+    "only" => ["store","index","edit","update","destroy"]
+]);
+
 Route::apiResource('elearning','App\Http\Controllers\API\ElearningController', [
     "only" => ["store","index","edit","destroy"]
    ]);
