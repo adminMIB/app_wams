@@ -43,6 +43,10 @@ Route::apiResource('ProjectTimeline','\App\Http\Controllers\API\ProjectTimelineC
     "only" => ["index", "store", "edit", "update", "destroy"]    
 ]);
 
+Route::apiResource('upload','\App\Http\Controllers\API\UploadController',[
+    "only" => ["index", "store"]    
+]);
+
 Route::post('elearning/{id}',[ElearningController::class,'update'])->name('elearnings.update');   
 
 // Route::group(['middleware' => ['auth:sanctum']],function() {
