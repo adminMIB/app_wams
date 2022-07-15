@@ -74,5 +74,12 @@ Route::apiResource('timeline','\App\Http\Controllers\API\TimelineController', [
     "only" => ["store", "index"]
 ]);
 
+
+//manager route
+Route::apiResource('manager','\App\Http\Controllers\API\managerController',[
+    "only" => ["store", "index", "edit", "destroy", "update"]    
+]);
+
+
 // Route::group(['middleware' => ['auth:sanctum']],function() {
 // });
