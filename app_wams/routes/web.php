@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SALES\ElearningController;
+use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
@@ -93,6 +95,15 @@ Route::group(['middleware' => ['role:AM/Sales']], function()
 {
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class,'index'])->name('/dashboardAmSales');
 
+  Route::get('/elearning', [ElearningController::class,'index']);
+
+  Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
+  Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');
+  route::post('/simpan-data', [SalesOrderController::class, 'store'])->name('simpan-data');
+  route::put('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
+  route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
+  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  Route::get('/order-export', [SalesOrderController::class,'export'])->name('order-export');
 });
 
 

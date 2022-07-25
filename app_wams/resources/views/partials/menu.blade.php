@@ -44,10 +44,23 @@
 {{-- ! AM/Sales --}}
 @if (Auth::user()->hasRole('AM/Sales'))
 
-  <form action="/logout" method="POST">
-    @csrf
-    <button class="btn btn-danger">Logout</button>
-</form>
+  <ul class="sidebar-menu">
+    <li class="menu-header">Management Tools</li>
+    <li class="nav-item ">
+      <a href="/dashboardAmSales" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="/slsorder"><i class="fas fa-keyboard"></i> <span>Sales Order</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/slsopty"><i class="fas fa-file-invoice-dollar"></i> <span>Sales Opty</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/elearning"><i class="fab fa-readme"></i> <span>Elearning</span></a></li>
+    {{-- <li class="nav-item"><a class="nav-link" href="/updoc"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
+    {{-- <li class="nav-item"><a class="nav-link" href="/upload"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
+    <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
+      <form action="/logout" method="POST">
+        @csrf
+        <button class="btn btn-danger">Logout</button>
+      </form>
+    </div>
+  </ul>
 @endif
 
 {{-- ! Management --}}
