@@ -90,13 +90,13 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $deletData = Role::find($id);
-        $deletData->delete();
+        // $deletData = Role::find($id);
+        // $deletData->delete();
 
-        return response()->json([
-            "status" => true,
-            "message" => "role berhasil dihapus",
-            "results" => $deletData
-        ]);
+        // return response()->json([
+        //     "status" => true,
+        //     "message" => "role berhasil dihapus",
+        //     "results" => $deletData
+        // ]);
     }
 }

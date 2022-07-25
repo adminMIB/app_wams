@@ -10,6 +10,6 @@ class SalesOrder extends Model
     use HasFactory;
 
     protected $fillable = [
-        "no_so","tgl_order","institusi", "project", "hps", "file_quotation", "file_po", "file_spk", "status"
+        "no_so","kode_project","institusi", "project", "hps", "file_quotation", "file_po", "file_spk", "file_dokumen", "jenis_dok", "status"
     ];
 }

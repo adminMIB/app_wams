@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('NamaClient');
             $table->string('NamaProject');
+            $table->string('Timeline');
             $table->date('Date');
             $table->integer('Angka');
             $table->string('Status')->comment('Tender', 'Menang', 'Kalah');

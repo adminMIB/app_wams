@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +24,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        "role_id"
     ];
 
     /**
@@ -36,10 +38,10 @@ class User extends Authenticatable
 
     // buat relasi ke roles
 
-    public function roles()
-    {
-        return $this->belongsTo(Role::class, "role_id");
-    }
+    // public function roles()
+    // {
+    //     return $this->belongsTo(Role::class);
+    // }
 
     /**
      * The attributes that should be cast.
@@ -51,48 +53,48 @@ class User extends Authenticatable
     ];
 
 
-    // buat variabel buat role
-    const Super_Admin = 0;
-    const AM_SALES = 1;
-    const PM = 2;
-    const Finance = 3;
-    const Management = 4;
-    const Technikal = 5;
+    // // buat variabel buat role
+    // const Super_Admin = 0;
+    // const AM_SALES = 1;
+    // const PM = 2;
+    // const Finance = 3;
+    // const Management = 4;
+    // const Technikal = 5;
     
 
-     // buat SUPER ADMIN
-    public function superAdmin()
-    {
-        return $this->role === self::Super_Admin;
-    }
+    //  // buat SUPER ADMIN
+    // public function superAdmin()
+    // {
+    //     return $this->role === self::Super_Admin;
+    // }
 
-     // buat AM_SALES
-    public function amSales()
-    {
-        return $this->role === self::AM_SALES;
-    }
+    //  // buat AM_SALES
+    // public function amSales()
+    // {
+    //     return $this->role === self::AM_SALES;
+    // }
 
-     // buat PM
-    public function pM()
-    {
-        return $this->role === self::PM;
-    }
+    //  // buat PM
+    // public function pM()
+    // {
+    //     return $this->role === self::PM;
+    // }
 
-     // buat Finance
-    public function finance()
-    {
-        return $this->role === self::Finance;
-    }
+    //  // buat Finance
+    // public function finance()
+    // {
+    //     return $this->role === self::Finance;
+    // }
 
-     // buat Management
-    public function management()
-    {
-        return $this->role === self::Management;
-    }
+    //  // buat Management
+    // public function management()
+    // {
+    //     return $this->role === self::Management;
+    // }
 
-     // buat Technikal
-    public function technikal()
-    {
-        return $this->role === self::Technikal;
-    }
+    //  // buat Technikal
+    // public function technikal()
+    // {
+    //     return $this->role === self::Technikal;
+    // }
 }

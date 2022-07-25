@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectTimeline extends Model
 {
     use HasFactory;
-    protected $fillable = ["nama_institusi", "nama_project", "nama_sales", "project_timeline", "start_date", "finish_date", "sign_to"];
+    protected $fillable = ["nama_institusi", "nama_project", "nama_sales", "project_timeline", "start_date", "finish_date", "sign_to", "sign_to_pm"];
 }

@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700&display=swap");
+body {
+  font-family: "Mulish", sans-serif;
+}
+
+.main-sidebar {
+  background-color: #12406c;
+  opacity: 100%;
+}
+.main-sidebar #sidebar-wrapper .sidebar-menu .menu-header {
+  color: white;
+  font-weight: 700;
+  margin-left: 26px;
+}
+.main-sidebar #sidebar-wrapper .sidebar-menu .nav-item {
+  margin-left: 20px;
+}
+.main-sidebar #sidebar-wrapper .sidebar-menu .nav-item .nav-link span {
+  color: white;
+  font-weight: 200;
+}
+.main-sidebar #sidebar-wrapper .sidebar-menu .nav-item .nav-link img {
+  width: 14px;
+  margin-right: 13px;
+}
+.main-sidebar #sidebar-wrapper .sidebar-menu .hide-sidebar-mini {
+  margin-right: 20px;
+  margin-left: -10px;
+}
+.main-sidebar #sidebar-wrapper .sidebar-menu .hide-sidebar-mini .btn {
+  border-radius: 16px;
+  padding-right: 100px;
+  margin-top: -35px;
+}
+.main-sidebar #sidebar-wrapper .sidebar-menu .hide-sidebar-mini .btn img {
+  width: 14px;
+  margin-right: 6px;
+}
+.main-sidebar #sidebar-wrapper .sidebar-brand .nav-brand span {
+  color: white;
+}
+.main-sidebar #sidebar-wrapper .sidebar-brand .nav-brand img {
+  width: 32px;
+  margin-right: 6px;
+}
+
+#app .main-wrapper .navbar-bg .navbar .navbar-expand .form-inline .search-element {
+  margin-left: 60px;
+}
+#app .main-wrapper .navbar-bg .navbar .navbar-expand .form-inline .search-element .form-control {
+  width: 100px;
+}/*# sourceMappingURL=style.css.map */

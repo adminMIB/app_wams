@@ -10,11 +10,11 @@ class SalesOpty extends Model
     use HasFactory;
 
     protected $fillable =[
-        "NamaClient","NamaProject","Date", "Angka","Status","Note", "timeline" 
+        "NamaClient","NamaProject","Date", "Angka","Status","Note", "Timeline" 
     ];
 
-    public function timelines()
-    {
-        return $this->belongsTo(Timeline::class, 'timeline');
-    }
+    // public function timelines()
+    // {
+    //     return $this->belongsTo(Timeline::class, 'timeline');
+    // }
 }
