@@ -44,10 +44,23 @@
 {{-- ! AM/Sales --}}
 @if (Auth::user()->hasRole('AM/Sales'))
 
-  <form action="/logout" method="POST">
-    @csrf
-    <button class="btn btn-danger">Logout</button>
-</form>
+  <ul class="sidebar-menu">
+    <li class="menu-header">Management Tools</li>
+    <li class="nav-item ">
+      <a href="/dashboardAmSales" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="/slsorder"><i class="fas fa-keyboard"></i> <span>Sales Order</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/index-sales"><i class="fas fa-file-invoice-dollar"></i> <span>Sales Opty</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/elearning"><i class="fab fa-readme"></i> <span>Elearning</span></a></li>
+    {{-- <li class="nav-item"><a class="nav-link" href="/updoc"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
+    {{-- <li class="nav-item"><a class="nav-link" href="/upload"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
+    <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
+      <form action="/logout" method="POST">
+        @csrf
+        <button class="btn btn-danger">Logout</button>
+      </form>
+    </div>
+  </ul>
 @endif
 
 {{-- ! Management --}}
@@ -57,11 +70,11 @@
   <li class="nav-item ">
     <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
   </li>
-  <li class="nav-item"><a class="nav-link" href="/approval"><i class="fas fa-clipboard-check"></i> <span>Approval SO</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/approval"><i class="fas fa-clipboard-check"></i> <span class="">Approval SO</span></a></li>
   <li class="nav-item"><a class="nav-link" href="/reportp"><i class="fas fa-file-alt"></i> <span>Report Project</span></a></li>
   <li class="nav-item"><a class="nav-link" href="/inputwo"><i class="fas fa-edit"></i> <span>Input Work Order</span></a></li>
   <li class="nav-item"><a class="nav-link" href="/listd"><i class="fas fa-file-alt"></i> <span>List Document</span></a></li>
-  <li class="nav-item">
+  <li class="nav-item mt-3 d-block  ">
     <form action="/logout" method="POST">
       @csrf
       <button class="btn btn-danger">Logout</button>
@@ -94,6 +107,18 @@
 @if (Auth::user()->hasRole('Technikal'))
   <form action="/logout" method="POST">
     @csrf
+    <ul class="sidebar-menu">
+    <li class="menu-header">Management Tools</li>
+    <li class="nav-item ">
+      <a href="/dashboardTeknikal" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="{{route ('dashboard')}}"><img src="image/Akar.png" alt=""> <span>Report Progress</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/create"><img src="image/Line.png" alt=""> <span>Create Weekly Report</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/telearning"><img src="image/Line.png" alt=""> <span>Form Elearning</span></a></li>
+    <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
+     
+    </div>
+</ul>
     <button class="btn btn-danger">Logout</button>
 </form>
 @endif

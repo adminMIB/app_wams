@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SalesOrder;
 use Illuminate\Http\Request;
 
 class DashboardAmSalesController extends Controller
 {
     public function index()
     {
-        return view('dashboardAmSales');
+        $qq = SalesOrder::all()->count();
+        return view('dashboardAmSales', compact('qq'));
     }
 }

@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\viewControlerrSuperAdmin;
+namespace App\Http\Controllers\SALES;
 
+use App\Exports\SoExport;
 use App\Http\Controllers\Controller;
 use App\Models\SalesOrder;
-use App\Models\UploadDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
-class SalesOrderControllerM extends Controller
+class SalesOrderController extends Controller
 {
     public function index()
     {
         $odr = SalesOrder::orderBy("created_at", "ASC")->paginate(10);
-        return view('superAdmin.salesMonitoring.dashboardSalesOrder', compact('odr'));
+        return view('SALES.slsorder', compact('odr'));
     }
 
     public function create()
@@ -33,7 +34,7 @@ class SalesOrderControllerM extends Controller
             $dd = "001";
         }
         $odr = SalesOrder::all();
-        return view('superAdmin.salesMonitoring.addSalesOrder', compact('odr', 'dd')); //, compact('kd')
+        return view('SALES.create', compact('odr', 'dd')); //, compact('kd')
     }
 
     public function store(Request $request)
@@ -128,7 +129,7 @@ class SalesOrderControllerM extends Controller
         //     // "no_doc" => $request->no_doc
         // ]);
 
-        return redirect('/saOrder/saveData');
+        return redirect('slsorder');
 
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -144,7 +145,7 @@ class SalesOrderControllerM extends Controller
     {
         $getOneById = SalesOrder::find($id);
 
-        return view('SALES.edit', compact('getOneById'));
+        return view('SALES.SOedit', compact('getOneById'));
     }
 
     public function update(Request $request, $id)

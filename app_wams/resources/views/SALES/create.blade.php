@@ -6,7 +6,7 @@
           <h1>Tambah Sales Order</h1>
       </div>
       <div class="card-body">
-          <form action="{{route('saOrder/saveData')}}" method="POST" enctype="multipart/form-data">
+          <form action="{{route('Ssimpan-data')}}" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="row">
                   <div class="column col-4">
@@ -63,7 +63,7 @@
                   </div>
               </div>
               <button type="submit" class="btn btn-primary mr-2">Submit</button>
-              <a href="{{route('/dashboard/salesOrder')}}" class="btn btn-secondary">Back</a>
+              <a href="{{route('slsorder')}}" class="btn btn-secondary">Back</a>
           </form>
       </div>
   </div>

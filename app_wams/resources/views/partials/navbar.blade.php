@@ -91,7 +91,10 @@
         </a>
         <div class="dropdown-divider"></div>
         <a href="#" class="dropdown-item has-icon text-danger">
-          <i class="fas fa-sign-out-alt"></i> Logout
+          <form action="/logout" method="POST">
+            @csrf
+            <button class="btn btn-danger">Logout</button>
+          </form>
         </a>
       </div>
     </li>

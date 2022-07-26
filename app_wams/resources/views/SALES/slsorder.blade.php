@@ -13,7 +13,7 @@
           <div class="text-right mb-2">
             <div class="row ml-1">
               <div>
-                <a href="{{route('/dashboard/addSalesOrder')}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Tambah Sales Order</a>
+                <a href="{{route('createodr')}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Tambah Sales Order</a>
               </div>
               <div class="col mr-1">
                 {{-- <a href="{{route('order-export')}}" class="btn btn-primary"><i class="fas fa-file-excel"></i> Export Excel</a> --}}
@@ -44,16 +44,16 @@
                 <td><a href="/files/dokumen/{{$item->file_dokumen}}">{{$item->file_dokumen}}</a></td>
                 <td>
                   @if ($item->status == 'Pending')
-                  <div class="btn btn-warning">{{$item->status}}</div>
+                  <div class="text-warning">{{$item->status}}</div>
                   @elseif ($item->status == 'Reject')
-                  <div class="btn btn-danger">{{$item->status}}</div>
+                  <div class="text-danger">{{$item->status}}</div>
                   @elseif ($item->status == 'Approve')
-                  <div class="btn btn-success">{{$item->status}}</div>
+                  <div class="text-success">{{$item->status}}</div>
                   @endif 
                  </td>
                  <td>{{$item->name_user}}</td>
                 <td>
-                  <a href="{{url('/edit', $item->id)}}" class="btn btn-info"><i class="far fa-edit"></i></a>
+                  <a href="{{url('/Sedit', $item->id)}}" class="btn btn-info"><i class="far fa-edit"></i></a>
                   <a href="{{url('/del', $item->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
                 </td>
               </tr>

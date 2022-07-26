@@ -41,7 +41,7 @@ Route::apiResource('createweeklies','\App\Http\Controllers\API\CreateWeekliesCon
 Route::apiResource('elearning','App\Http\Controllers\API\ElearningController', [
     "only" => ["store","index","edit","destroy"]
    ]);
-//    Route::post('elearning/{id}',[ElearningController::class,'update'])->name('elearnings.update');      
+   Route::post('elearning/{id}',[ElearningController::class,'update'])->name('elearnings.update');      
 
    // route project timeline
 Route::apiResource('ProjectTimeline','\App\Http\Controllers\API\ProjectTimelineController',[
@@ -55,8 +55,10 @@ Route::apiResource('upload','\App\Http\Controllers\API\UploadController',[
 ]);
 // route salesorder 
 route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
-    "only" => ["store", "index"]
+    "only" => ["store", "index", "edit", "destroy", "show"]
 ]);
+
+Route::post('salesorder/{id}', [SalesOrderController::class, 'update'])->name('up');
 
 // route up dok
 
@@ -68,6 +70,7 @@ route::apiResource('updoc', '\App\Http\Controllers\API\UploadDocumentController'
 Route::apiResource('salesopty','\App\Http\Controllers\API\SalesOptyController', [
     "only" => ["store", "update", "index", "edit", "destroy"]
 ]);
+
 
 // route relasi timeline
 Route::apiResource('timeline','\App\Http\Controllers\API\TimelineController', [

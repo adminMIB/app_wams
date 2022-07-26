@@ -22,11 +22,8 @@
                     <div class="form-group">
                       @foreach ($getid->permissions as $ermission)
                       {{-- <option value="{{$role->name}}">{{$role->name}}</option> --}}
-                      <div class="d-flex bg-danger ">
+                      <div class="d-flex bg-light p-3">
                             <p>{{$ermission->name}}</p>
-                          <div class="">
-                            <a class="align-items-end" href="#">hapus</a> 
-                          </div>
                       </div>
                         @endforeach
                       <hr />

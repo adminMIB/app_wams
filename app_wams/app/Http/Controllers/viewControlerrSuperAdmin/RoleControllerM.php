@@ -74,32 +74,20 @@ class RoleControllerM extends Controller
     {
         try {
             $getData = Role::findOrFail($id);
-            // return $request;
-            $ceks = $getData->permissions = [];
-
-
-
-            // foreach ($ceks as $key => $i) {
-            //         $pmsOld =  $i;
-            //     };
-                // $inputPermision0 = $request->input('names');
-                // $k = array_splice($ceks, 3);
-            // $ceksArray0 = $ceks[0];
-            // $ceksArray1 = $ceks[1];
-            // $ceksArray2 = $ceks[2];
-            // $ceksArray3 = $ceks[3];
-          
-
 
             $getData->update([
                 "name" => $request->name,
             ]);
 
-            $getData->permissions->update($ceks);
+            // kita tampung permission yang dulu
+            $ab = $getData->permissions;
+            // lalu hapus
+            $getData->revokePermissionTo($ab);
 
 
-            // $inputPermision0 = $request->input('names');
-            // $getData->givePermissionTo($inputPermision0);
+            // lalu ganti dengan yang baru dari inputan
+            $inputPermision0 = $request->input('names');
+            $getData->givePermissionTo($inputPermision0);
 
             return redirect('dashboard/role');
         } catch (\Throwable $th) {
