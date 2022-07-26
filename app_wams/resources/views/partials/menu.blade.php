@@ -107,6 +107,18 @@
 @if (Auth::user()->hasRole('Technikal'))
   <form action="/logout" method="POST">
     @csrf
+    <ul class="sidebar-menu">
+    <li class="menu-header">Management Tools</li>
+    <li class="nav-item ">
+      <a href="/dashboardTeknikal" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="{{route ('dashboard')}}"><img src="image/Akar.png" alt=""> <span>Report Progress</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/create"><img src="image/Line.png" alt=""> <span>Create Weekly Report</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/telearning"><img src="image/Line.png" alt=""> <span>Form Elearning</span></a></li>
+    <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
+     
+    </div>
+</ul>
     <button class="btn btn-danger">Logout</button>
 </form>
 @endif

@@ -20,15 +20,15 @@ class UserSeeder extends Seeder
         // !buat akun 
         // user admin
         $admin = User::create([
-            'name' => "AlthafRp",
-            'email' => 'althaf@gmail.com',
+            'name' => "godz",
+            'email' => 'godz@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         // kita asiggin rolenya
-        $admin->assignRole('AM/Sales');
+        $admin->assignRole('Technikal');
 
         //!/ user Managemnt
         // $user = User::create([

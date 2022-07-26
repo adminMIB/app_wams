@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ElearningController as ControllersElearningController;
 use App\Http\Controllers\SALES\ElearningController;
 use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\UM\InputwoController;
@@ -104,6 +105,19 @@ Route::group(['middleware' => ['role:AM/Sales']], function()
   route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
   route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
   Route::get('/order-export', [SalesOrderController::class,'export'])->name('order-export');
+});
+
+//teknikal
+Route::group(['middleware' => ['role:Technikal']], function() 
+{
+
+  Route::get('/dashboardTeknikal',[DashboardController::class, 'index'])->name('dashboard');
+  Route::get('/telearning',[ControllersElearningController::class,'index'])->name('elearning');
+  Route::get('/create-elearning',[ControllersElearningController::class,'create'])->name('create-elearning');
+  Route::post('/simpan-data',[ControllersElearningController::class,'store'])->name('simpan-data');
+  Route::get('/edit/{id}',[ControllersElearningController::class,'edit'])->name('edit');
+  Route::get('/delete/{id}',[ControllersElearningController::class,'destroy']);
+  Route::post('/update-data/{id}',[ControllersElearningController::class,'update'])->name('update-data');
 });
 
 
