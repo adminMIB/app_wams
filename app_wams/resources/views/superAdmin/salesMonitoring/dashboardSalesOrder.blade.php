@@ -1,64 +1,70 @@
 @extends('layouts.main')
 @section('content')
-    <section class="section">
-        <div class="card">
-          <div class="card-header">
-            <h1>Sales Order</h1>
-          </div>
-          <div class="card-body">
-            {{-- <div class="text-right mb-2">
-              <a href="{{route('createodr')}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Tambah Sales Order</a>
-              <a href="{{route('slsorder-export')}}" class="btn btn-primary"><i class="fas fa-file-excel"></i> Export Excel</a>
-            </div> --}}
-            <div class="text-right mb-2 d-flex justify-content-end">
-              <div class="row ml-1">
-                <div>
-                  <a href="{{{route('/dashboard/addSalesOrder')}}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Add Sales Order</a>
-                </div>
-                {{-- <div class="col mr-1">
-                  <a href="{{route('order-export')}}" class="btn btn-primary"><i class="fas fa-file-excel"></i> Export Excel</a>
-                </div> --}}
-              </div>
-            </div>
-            <div class="table-responsive">
-              <table class="table table-bordered table-md">
-                <tbody><tr>
-                  <th>No</th>
-                  <th>Nama Project</th>
-                  <th>Nama Institusi</th>
-                  <th>TGL Project</th>
-                  <th>Kuantitas</th>
-                  <th>Harga</th>
-                  <th>Total Harga</th>
-                  <th>Status</th>
-                </tr>
-                @php $no = 1; @endphp
-                @foreach ($odr as $item)
-                <tr>
-                  <td>000{{ $no++ }}</td>
-                  <td>{{ date('d/m/Y').'/'.$kd.$item->id }}</td>
-                  <td>{{$item->institusi}}</td>
-                  <td>{{$item->created_at->format('d/m/Y')}}</td>
-                  <td>{{$item->status}}</td>
-                  <td>{{$item->uploaddoc->jenis_doc}}</td>
-                  <td>{{$item->uploaddoc->up_doc}}</td>
-                  <td>{{$item->uploaddoc->editor}}</td>
-                </tr>
-                @endforeach
-              </tbody></table>
-            </div>
-          </div>
-          
-          <div class="card-footer text-right">
-            <div class="row ml-2">
+  <section class="section">
+      <div class="card">
+        <div class="card-header">
+          <h1>Sales Order</h1>
+        </div>
+        <div class="card-body">
+          {{-- <div class="text-right mb-2">
+            <a href="{{route('createodr')}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Tambah Sales Order</a>
+            <a href="{{route('slsorder-export')}}" class="btn btn-primary"><i class="fas fa-file-excel"></i> Export Excel</a>
+          </div> --}}
+          <div class="text-right mb-2">
+            <div class="row ml-1">
               <div>
-                <h6>Page (<Strong>{{ $odr->currentPage() }}</Strong>)</h6>
+                <a href="{{route('/dashboard/addSalesOrder')}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Tambah Sales Order</a>
               </div>
-              <div class="col">
-                {{ $odr->links() }}
+              <div class="col mr-1">
+                {{-- <a href="{{route('order-export')}}" class="btn btn-primary"><i class="fas fa-file-excel"></i> Export Excel</a> --}}
               </div>
             </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-md">
+              <tbody>
+              <tr class="text-center">
+                <th>No</th>
+                <th>No Sales Order</th>
+                <th>TGL Project</th>
+                <th>Nama Institusi</th>
+                <th>Jenis Dokumen</th>
+                <th>File</th>
+                <th>Status</th>
+                <th>Editor</th>
+                <th>Action</th>
+              </tr>
+              @foreach ($odr as $item)
+              <tr class="text-center">
+                <td>{{$loop->iteration }}</td>
+                <td>{{$item->no_so }}</td>
+                <td>{{$item->created_at->format('d/m/Y')}}</td>
+                <td>{{$item->institusi}}</td>
+                <td>{{$item->jenis_dok}}</td>
+                <td><a href="/files/dokumen/{{$item->file_dokumen}}">{{$item->file_dokumen}}</a></td>
+                <td>
+                  @if ($item->status == 'Pending')
+                  <div class="btn btn-warning">{{$item->status}}</div>
+                  @elseif ($item->status == 'Reject')
+                  <div class="btn btn-danger">{{$item->status}}</div>
+                  @elseif ($item->status == 'Approve')
+                  <div class="btn btn-success">{{$item->status}}</div>
+                  @endif 
+                 </td>
+                 <td>{{$item->name_user}}</td>
+                <td>
+                  <a href="{{url('/edit', $item->id)}}" class="btn btn-info"><i class="far fa-edit"></i></a>
+                  <a href="{{url('/del', $item->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+            </table>
           </div>
         </div>
-    </section>
+        <div class="card-footer">
+          {{ $odr->links() }}
+        </div>
+      </div>
+  </section>
 @endsection

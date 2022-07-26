@@ -81,10 +81,10 @@ Route::group(['middleware' => ['role:Super Admin']] , function()
   // sales order
   Route::get('/dashboard/salesOrder', [SalesOrderControllerM  ::class,'index'])->name('/dashboard/salesOrder');
   Route::get('/dashboard/addSalesOrder', [SalesOrderControllerM::class,'create'])->name('/dashboard/addSalesOrder');
-  // route::post('/simpan-data', [SalesOrderController::class, 'store'])->name('simpan-data');
-  // route::post('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
-  // route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
-  // route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  route::post('/saOrder/saveData', [SalesOrderController::class, 'store'])->name('saOrder/saveData');
+  route::post('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
+  route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
+  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
 
   //! Route Project Timline
   Route::get('/dashboard/projectTimeline', [ProjectTimelineControllerM  ::class,'index'])->name('/dashboard/projectTimeline');

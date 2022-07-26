@@ -80,7 +80,7 @@ class RoleControllerM extends Controller
             ]);
 
             // kita tampung permission yang dulu
-            $ab = $getData->permissions ;
+            $ab = $getData->permissions;
             // lalu hapus
             $getData->revokePermissionTo($ab);
 
