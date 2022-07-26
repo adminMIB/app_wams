@@ -13,6 +13,7 @@ use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
+use App\Http\Controllers\UM\ReportpController;
 use App\Http\Controllers\UM\UmDashboardController;
 use App\Http\Controllers\viewControlerrSuperAdmin\AuthControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\PermisiionControlerr;
@@ -48,7 +49,7 @@ Route::group(['middleware' ] , function()
   Route::get('/dashboard/role', [RoleControllerM::class,'index'])->name('/dashboard/role');
   Route::get('/dashboard/addRole', [RoleControllerM::class,'create'])->name('/dashboard/addRole');
   Route::post('/dashboard/saveRole', [RoleControllerM::class,'store'])->name('/dashboard/saveRole');
-  Route::get('/edit/{id}', [RoleControllerM::class,'edit']);
+  Route::get('/editRole/{id}', [RoleControllerM::class,'edit']);
   Route::post('/dashboard/updateEdit/{id}', [RoleControllerM::class,'update'])->name('/dashboard/updateEdit');
   Route::get('/dashboard/deleteRole/{id}', [RoleControllerM::class,'destroy']);
   
@@ -80,10 +81,10 @@ Route::group(['middleware' ] , function()
   // sales order
   Route::get('/dashboard/salesOrder', [SalesOrderControllerM  ::class,'index'])->name('/dashboard/salesOrder');
   Route::get('/dashboard/addSalesOrder', [SalesOrderControllerM::class,'create'])->name('/dashboard/addSalesOrder');
-  // route::post('/simpan-data', [SalesOrderController::class, 'store'])->name('simpan-data');
-  // route::post('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
-  // route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
-  // route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  route::post('/saOrder/saveData', [SalesOrderController::class, 'store'])->name('saOrder/saveData');
+  route::post('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
+  route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
+  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
 
   //! Route Project Timline
   Route::get('/dashboard/projectTimeline', [ProjectTimelineControllerM  ::class,'index'])->name('/dashboard/projectTimeline');
@@ -127,7 +128,7 @@ Route::group(['middleware'  => ['role:Management']], function()
   Route::get('/um/dashboard', [UmDashboardController::class,'index']);
   Route::get('/approval', [ApprovalController::class,'index']);
   Route::get('/detailapproval/{id}', [ApprovalController::class,'show']);
-  Route::get('/reportp', [ReportController::class,'index']);
+  Route::get('/reportp', [ReportpController::class,'index']);
   Route::get('/inputwo', [InputwoController::class,'index']);
   Route::get('/listd', [ListdController::class,'index']);
 });

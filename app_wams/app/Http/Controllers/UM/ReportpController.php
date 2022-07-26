@@ -9,6 +9,7 @@ class ReportpController extends Controller
 {
     public function index()
     {
+        // return response()->json('s');
         return view('UM.reportp');
     }
 }

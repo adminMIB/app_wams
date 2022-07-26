@@ -22,6 +22,11 @@ class PermissionSeeder extends Seeder
             "name" => "read data",
             "guard_name" => "web"
         ]);
+
+        Permission::create([
+            "name" => "create data",
+            "guard_name" => "web"
+        ]);
         
 
         Permission::create([
