@@ -13,12 +13,12 @@
                   {{-- name --}}
                 <div class="form-group">
                   <label>name</label>
-                  <input type="text" name="name" class="form-control" placeholder="{{$getid->name}}" autofocus>
+                  <input type="text" name="name" class="form-control" value="{{$getid->name}}" autofocus>
                 </div>
                 {{-- email --}}
                 <div class="form-group">
                   <label>email</label>
-                  <input type="email" name="email" class="form-control" placeholder="{{$getid->email}}">
+                  <input type="email" name="email" class="form-control" value="{{$getid->email}}">
                 </div>
                 {{-- password--}}
                 <div class="form-group">

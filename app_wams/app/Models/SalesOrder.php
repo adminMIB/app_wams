@@ -11,5 +11,5 @@ class SalesOrder extends Model
 
     protected $fillable = [
         "no_so","kode_project","institusi", "project", "hps", "file_quotation", "file_po", "file_spk", "file_dokumen", "jenis_dok", "status"
-    ];
+];
 }

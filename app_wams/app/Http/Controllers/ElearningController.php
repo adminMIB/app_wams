@@ -12,7 +12,7 @@ class ElearningController extends Controller
         if($request->has('cari')){
             $ele=Elearning::where('principle','LIKE','%'.$request->cari.'%')->get();
         }else{
-        $ele = Elearning::paginate(5);
+        $ele = Elearning::paginate();
         }
         return view('elearning.index', compact('ele'));
     }
