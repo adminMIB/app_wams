@@ -6,7 +6,7 @@
           <h1>Tambah Sales Order</h1>
       </div>
       <div class="card-body">
-          <form action="{{route('simpan-data')}}" method="POST" enctype="multipart/form-data">
+          <form action="{{route('Ssimpan-data')}}" method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <div class="row">
                   <div class="column col-4">

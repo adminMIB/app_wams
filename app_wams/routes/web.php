@@ -101,9 +101,9 @@ Route::group(['middleware'], function()
 
   Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
   Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');
-  route::post('/simpan-data', [SalesOrderController::class, 'store'])->name('simpan-data');
+  route::post('/Ssimpan-data', [SalesOrderController::class, 'store'])->name('Ssimpan-data');
   route::put('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
-  route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
+  route::get('/Sedit/{id}', [SalesOrderController::class, 'edit'])->name('Sedit');
   route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
   Route::get('/order-export', [SalesOrderController::class,'export'])->name('order-export');
 });
