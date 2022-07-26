@@ -20,86 +20,86 @@ class UserSeeder extends Seeder
         // !buat akun 
         // user admin
         $admin = User::create([
-            'name' => "admin",
-            'email' => 'admin@gmail.com',
+            'name' => "Nazwa Alifia Utami",
+            'email' => 'nazwa@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         // kita asiggin rolenya
-        $admin->assignRole('Super Admin');
+        $admin->assignRole('AM/Sales');
 
         //!/ user Managemnt
-        $user = User::create([
-            'name' => "arizd",
-            'email' => 'arizd@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-        // kita asiggin rolenya
-        $user->assignRole('Management');
+        // $user = User::create([
+        //     'name' => "arizd",
+        //     'email' => 'arizd@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('password'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
+        // // kita asiggin rolenya
+        // $user->assignRole('Management');
 
-        //!/ user AM SALES
-        $user = User::create([
-            'name' => "arizd",
-            'email' => 'arizd@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-        // kita asiggin rolenya
-        $user->assignRole('AM/Sales');
+        // //!/ user AM SALES
+        // $user = User::create([
+        //     'name' => "arizd",
+        //     'email' => 'arizd@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('password'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
+        // // kita asiggin rolenya
+        // $user->assignRole('AM/Sales');
 
-        //!/ user PM
-        $user = User::create([
-            'name' => "arizd",
-            'email' => 'arizd@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-        // kita asiggin rolenya
-        $user->assignRole('PM');
+        // //!/ user PM
+        // $user = User::create([
+        //     'name' => "arizd",
+        //     'email' => 'arizd@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('password'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
+        // // kita asiggin rolenya
+        // $user->assignRole('PM');
 
-         //!/ user Technikal
-        $user = User::create([
-            'name' => "arizd",
-            'email' => 'arizd@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-        // kita asiggin rolenya
-        $user->assignRole('Technikal');
+        //  //!/ user Technikal
+        // $user = User::create([
+        //     'name' => "arizd",
+        //     'email' => 'arizd@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('password'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
+        // // kita asiggin rolenya
+        // $user->assignRole('Technikal');
 
-         //!/ user Finance
-        $user = User::create([
-            'name' => "arizd",
-            'email' => 'arizd@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-        // kita asiggin rolenya
-        $user->assignRole('Finance');
+        //  //!/ user Finance
+        // $user = User::create([
+        //     'name' => "arizd",
+        //     'email' => 'arizd@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('password'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
+        // // kita asiggin rolenya
+        // $user->assignRole('Finance');
 
-         //!/ user PM Lead
-        $user = User::create([
-            'name' => "arizd",
-            'email' => 'arizd@gmail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-        // kita asiggin rolenya
-        $user->assignRole('PM Lead');
+        //  //!/ user PM Lead
+        // $user = User::create([
+        //     'name' => "arizd",
+        //     'email' => 'arizd@gmail.com',
+        //     'email_verified_at' => now(),
+        //     'password' => Hash::make('password'),
+        //     'created_at' => Carbon::now(),
+        //     'updated_at' => Carbon::now(),
+        // ]);
+        // // kita asiggin rolenya
+        // $user->assignRole('PM Lead');
     }
 }
