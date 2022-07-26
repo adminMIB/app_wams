@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
+use App\Http\Controllers\UM\ReportpController;
 use App\Http\Controllers\UM\UmDashboardController;
 use App\Http\Controllers\viewControlerrSuperAdmin\AuthControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\PermisiionControlerr;
@@ -102,7 +103,7 @@ Route::group(['middleware'  => ['role:Management']], function()
   Route::get('/um/dashboard', [UmDashboardController::class,'index']);
   Route::get('/approval', [ApprovalController::class,'index']);
   Route::get('/detailapproval/{id}', [ApprovalController::class,'show']);
-  Route::get('/reportp', [ReportController::class,'index']);
+  Route::get('/reportp', [ReportpController::class,'index']);
   Route::get('/inputwo', [InputwoController::class,'index']);
   Route::get('/listd', [ListdController::class,'index']);
 });

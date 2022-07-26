@@ -28,17 +28,16 @@
                       <td >{{$d->name}}</td>
                       @foreach ($d->permissions as $item) 
                       <td colspan="3" class="d-flex flex-col mt-2">
-                      <p class="text-danger">{{$item->name}}</p>
-                    </td>
+                        <p class="text-danger">{{$item->name}}</p>
+                      </td>
                       @endforeach
+                      <td></td>
                   
                         <td  colspan="4">
                           <a href="{{url('/edit',$d->id)}}">Edit</a> |
                           <a href="{{url('/dashboard/deleteRole',$d->id)}}">Delete</a>
                         </td>
-                        {{-- <td>
-                          <a href="">Detail</a>
-                        </td> --}}
+                    
                       </tr>
 
                   </tbody>
