@@ -40,7 +40,7 @@ Auth::routes();
 
 
 // ! Routing dashboard Super Admin
-Route::group(['middleware' => ['role:Super Admin']] , function() 
+Route::group(['middleware' ] , function() 
 {
   Route::get('/dashboardSuperAdmin', [DashboardAdminController::class,'index'])->name('/dashboardSuperAdmin');
   
@@ -92,7 +92,7 @@ Route::group(['middleware' => ['role:Super Admin']] , function()
 });
 
 //! Routing dashboard AM/Sales
-Route::group(['middleware' => ['role:AM/Sales']], function() 
+Route::group(['middleware'], function() 
 {
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class,'index'])->name('/dashboardAmSales');
 
@@ -108,7 +108,7 @@ Route::group(['middleware' => ['role:AM/Sales']], function()
 });
 
 //teknikal
-Route::group(['middleware' => ['role:Technikal']], function() 
+Route::group(['middleware'], function() 
 {
 
   Route::get('/dashboardTeknikal',[DashboardController::class, 'index'])->name('dashboard');

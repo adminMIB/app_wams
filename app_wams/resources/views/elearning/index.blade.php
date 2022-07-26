@@ -15,7 +15,7 @@
         <div class="card-header">
           <a href="{{route ('create-elearning')}}"> <button type="submit" class="btn btn-primary btn-sm">Create</button></a>
           <div class="card-header-action">
-            <form method="GET" action="/elearning">
+            <form method="GET" action="/telearning">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="cari">
                 <div class="input-group-btn">
@@ -61,7 +61,7 @@
               </tbody>
               @endforeach
             </table>
-            {!! $ele->links() !!}
+         
           </div>
         </div>
       </div>
