@@ -20,17 +20,21 @@ class UserSeeder extends Seeder
         // !buat akun 
         // user admin
         $admin = User::create([
-            'name' => "admin",
-            'email' => 'admin@gmail.com',
+            'name' => "godz",
+            'email' => 'godz@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         // kita asiggin rolenya
-        $admin->assignRole('Super Admin');
+        $admin->assignRole('Technikal');
 
+<<<<<<< HEAD
         // //!/ user Managemnt
+=======
+        //!/ user Managemnt
+>>>>>>> 656a0c8dd8d4bfc529c2bdc2c0a3a5c2bfa0b05e
         // $user = User::create([
         //     'name' => "arizd",
         //     'email' => 'arizd@gmail.com',

@@ -26,36 +26,38 @@ class ElearningController extends Controller
                 "principle"=>"required|string|max:50",
                 "deskripsi"=>"required|string|max:255",
                 "implementasi"=>"required|string|max:255",
-                "upload"=>"required",
+                "upload" => "mimes:doc,docx,xls,pdf,ppt",
                
             ],[
                 'produk.required'=> 'Field tidak boleh kosong!',
                 'principle.required'=> 'Field tidak boleh kosong!',
                 'deskripsi.required'=>'Field tidak boleh kosong!',
                 'implementasi.required'=>'Field tidak boleh kosong!',
-                'upload.required'=> 'Field tidak boleh kosong'
+                
             ]);
 
             if ($validate->fails()){
                 return response()->json($validate->errors());
             }
       
-         $nm= $request->upload;
-         $fileName = $nm->getClientOriginalName();
-         $nm->move(public_path().'/dokumen',$fileName);
-        
-          $response= Elearning::create([
-            "produk"=>$request->produk,
-            "principle"=>$request->principle,
-            "deskripsi"=>$request->deskripsi,
-            "implementasi"=>$request->implementasi,
-            "upload"=>$request->upload= $fileName,
+            $file_dokumen = $request->file('upload');
+
+            $file_dokumen_ext = $file_dokumen->getClientOriginalName();
+                $file_dokumen_name = time(). $file_dokumen_ext;
+                $file_dokumen_path = public_path('dokumen/');
+                $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
+            Elearning::create([
+                "produk" => $request->produk,
+                "principle" => $request->principle,
+                "deskripsi" => $request->deskripsi,
+                "implementasi" => $request->implementasi,
+                "upload" => $file_dokumen_name,
            
          ]);
          return response()->json([
             'success'=>true,
             'message'=>"Data berhasil disimpan",
-            'data'=>$response
+            'data'=>$file_dokumen
          ]);
         }catch (\Exception $e){
             return response()->json(
@@ -81,23 +83,42 @@ class ElearningController extends Controller
                 "principle"=>"required|string|max:50",
                 "deskripsi"=>"required|string|max:255",
                 "implementasi"=>"required|string|max:255",
-                "upload"=>"required",
+                "upload" => "mimes: doc,docx,pdf,xls",
                
             ],[
                 'produk.required'=> 'Field tidak boleh kosong!',
                 'principle.required'=> 'Field tidak boleh kosong!',
                 'deskripsi.required'=>'Field tidak boleh kosong!',
                 'implementasi.required'=>'Field tidak boleh kosong!',
-                'upload.required'=> 'Field tidak boleh kosong'
+               
             ]);
 
 
             if ($validate->fails()){
                 return response()->json($validate->errors(),422);
             }
-            $nm= $request->upload;
-            $fileName = $nm->getClientOriginalName();
-            $nm->move(public_path().'/docnew',$fileName);
+            $ele = Elearning::find($id);
+     
+      
+            $file_dokumen = $request->file('upload');
+            
+            if(!empty($file_dokumen))
+            {
+                // dokumen
+                $file_dokumen_ext = $file_dokumen->getClientOriginalName();
+                $file_dokumen_name = time(). $file_dokumen_ext;
+                $file_dokumen_path = public_path('dokumen/');
+                $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
+                if(!empty($ele->upload))
+                {
+                    unlink('dokumen/'.$ele->upload);
+                }
+            }
+            else
+            {
+                $file_dokumen_name=$ele->upload;
+            }
+    
            
 
             $ele->update([
@@ -105,7 +126,7 @@ class ElearningController extends Controller
                 "principle"=>$request->principle,
                 "deskripsi"=>$request->deskripsi,
                 "implementasi"=>$request->implementasi,
-                "upload"=>$request->upload= $fileName,
+                "upload" => $file_dokumen_name,
             ]);
 
             return response()->json([

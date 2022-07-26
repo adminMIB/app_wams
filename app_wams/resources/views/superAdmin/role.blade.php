@@ -34,7 +34,7 @@
                       <td></td>
                   
                         <td  colspan="4">
-                          <a href="{{url('/edit',$d->id)}}">Edit</a> |
+                          <a href="{{url('/editRole',$d->id)}}">Edit</a> |
                           <a href="{{url('/dashboard/deleteRole',$d->id)}}">Delete</a>
                         </td>
                     

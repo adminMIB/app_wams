@@ -82,9 +82,7 @@ class LoginController extends Controller
         //! ini pengecekan role Technikal
         else if (Auth::user()->hasRole('Technikal')) {
             // jika role super Technikal  -> arahkan ke dashboard Technikal
-            return response()->json([
-                "message " => 'ini dashboard Technikal'
-            ]);
+            return redirect()->intended('dashboardTeknikal');
         } 
 
         //! ini pengecekan role Pm Lead

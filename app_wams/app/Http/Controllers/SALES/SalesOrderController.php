@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\SALES;
 
 use App\Exports\SoExport;
 use App\Http\Controllers\Controller;
 use App\Models\SalesOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -14,32 +15,26 @@ class SalesOrderController extends Controller
 {
     public function index()
     {
-        $data = SalesOrder::orderBy("created_at", "ASC")->paginate(10);
-        return response()->json([
-            "status" => true,
-            "data" => $data
-        ]);
+        $odr = SalesOrder::orderBy("created_at", "ASC")->paginate(10);
+        return view('SALES.slsorder', compact('odr'));
     }
 
     public function create()
     {
-        // $q = DB::table('sales_orders')->select(DB::raw('MAX(RIGHT(no_so,3)) as kode'));
-        // $dd = "";
-        // if ($q->count()>0)
-        // {
-        //     foreach ($q->get() as $k) {
-        //         $tmp = ((int)$k->kode)+1;
-        //         $dd = sprintf("%03s", $tmp);
-        //     }
-        // } else
-        // {
-        //     $dd = "001";
-        // }
-        $data = SalesOrder::all();
-        return response()->json([
-            "status" => true,
-            "data" => $data
-        ]);
+        $q = DB::table('sales_orders')->select(DB::raw('MAX(RIGHT(no_so,3)) as kode'));
+        $dd = "";
+        if ($q->count()>0)
+        {
+            foreach ($q->get() as $k) {
+                $tmp = ((int)$k->kode)+1;
+                $dd = sprintf("%03s", $tmp);
+            }
+        } else
+        {
+            $dd = "001";
+        }
+        $odr = SalesOrder::all();
+        return view('SALES.create', compact('odr', 'dd')); //, compact('kd')
     }
 
     public function store(Request $request)
@@ -54,6 +49,7 @@ class SalesOrderController extends Controller
                 "file_spk" => "required|mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
                 "file_dokumen" => "required|mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
                 "hps" => "required|string|max:30",
+                // "no_doc" => "required|string|max:30|unique:sales_orders"
             ]);
 
         if ($validate->fails()) {
@@ -84,10 +80,14 @@ class SalesOrderController extends Controller
         $file_dokumen_path = public_path('/files/dokumen');
         $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
         
+ 
+
         $so = new SalesOrder;
         $angka = $so->no_so = $request->no_so;
         $s = substr($angka, 11);
-        // $so->name_user = Auth::user()->name;
+        
+        // dd($s);
+        $so->name_user = Auth::user()->name;
         $so->no_so = $request->no_so;
         $so->kode_project = $s;
         $so->institusi = $request->institusi;
@@ -99,11 +99,37 @@ class SalesOrderController extends Controller
         $so->jenis_dok = $request->jenis_dok;
         $so->file_dokumen = $file_dokumen_name;
         $so->save();
+    
         
-        return response()->json([
-            "status" => true,
-            "message" => "berhasil dibuat"
-        ]);
+        // $nmq = $request->file_quotation;
+        // $file_quotation = time().$nmq->getClientOriginalName();
+        // $nmq->move(public_path().'/files/quota', $file_quotation);
+
+        // $nmp = $request->file_po;
+        // $file_po = time().$nmp->getClientOriginalName();
+        // $nmp->move(public_path().'/files/po', $file_po);
+
+        // $nms = $request->file_spk;
+        // $file_spk = time().$nms->getClientOriginalName();
+        // $nms->move(public_path().'/files/spk', $file_spk);
+        
+        // $nmd = $request->file_dokumen;
+        // $file_dokumen = time().$nmd->getClientOriginalName();
+        // $nmd->move(public_path().'/files/dokumen', $file_dokumen);
+        
+        // SalesOrder::create([
+        //     "institusi" => $request->institusi,
+        //     "project" => $request->project,
+        //     "hps" => $request->hps,
+        //     "file_quotation" => $request->upload = $file_quotation,
+        //     "file_po" => $request->upload = $file_po,
+        //     "file_spk" => $request->upload = $file_spk,
+        //     "file_dokumen" => $request->upload = $file_dokumen,
+        //     "status" => $request->status,
+        //     // "no_doc" => $request->no_doc
+        // ]);
+
+        return redirect('slsorder');
 
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -112,21 +138,19 @@ class SalesOrderController extends Controller
 
     public function export()
     {
-        return Excel::download(new SoExport, 'salesOrder.xlsx');
+        // return Excel::download(new SoExport, 'salesOrder.xlsx');
     }
 
     public function edit($id)
     {
         $getOneById = SalesOrder::find($id);
 
-        return response()->json([
-            "status" => true,
-            "data" => $getOneById
-        ]);
+        return view('SALES.edit', compact('getOneById'));
     }
 
     public function update(Request $request, $id)
     {
+        // $so = SalesOrder::findOrFail($id);
         $update=SalesOrder::find($id);
         try {
             $validate = Validator::make($request->all(), [
@@ -138,6 +162,7 @@ class SalesOrderController extends Controller
                 "file_spk" => "mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
                 "file_dokumen" => "mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
                 "hps" => "required|string|max:30",
+                // "no_doc" => "required|string|max:30|unique:sales_orders"
             ]);
 
         if ($validate->fails()) {
@@ -158,6 +183,14 @@ class SalesOrderController extends Controller
             {
                 unlink('files/quota/'.$update->file_quotation);
             }
+            // $salt_image = bin2hex(openssl_random_pseudo_bytes(22));
+            // $get_image_name = $salt_image.'.'.$file_quotation->getClientOriginalExtension();
+            // $uplode_image_path = 'upload_file_path';
+            // $file_quotation->move($uplode_image_path, $get_image_name);
+            // if(!empty($update->filename))
+            // {
+            //     unlink('upload_file_path/'.$update->filename);
+            // }
         }
         else
         {
@@ -232,10 +265,49 @@ class SalesOrderController extends Controller
         $update->file_dokumen = $file_dokumen_name;
         $update->update();
 
-        return response()->json([
-            "status" => true,
-            "message" => "berhasil dibuat"
-        ]);
+        
+
+        // $fileName = time().$request->file('file_quotation')->getClientOriginalName();
+        // $file_quotation = $request->file('file_quotation')->store(substr('public/file/quotadisti', 22));
+        // $file_po = $request->file('file_po')->store(substr('public/file/po', 14));
+        // $file_spk = $request->file('file_spk')->store(substr('public/file/spk', 15));
+        
+        // $nmq = $request->file_quotation;
+        // $file_quotation = time().$nmq->getClientOriginalName();
+        // $nmq->move(public_path().'/files/quota', $file_quotation);
+
+        // $nmp = $request->file_po;
+        // $file_po = time().$nmp->getClientOriginalName();
+        // $nmp->move(public_path().'/files/po', $file_po);
+
+        // $nms = $request->file_spk;
+        // $file_spk = time().$nms->getClientOriginalName();
+        // $nms->move(public_path().'/files/spk', $file_spk);
+        
+        // $nmd = $request->file_dokumen;
+        // $file_dokumen = time().$nmd->getClientOriginalName();
+        // $nmd->move(public_path().'/files/dokumen', $file_dokumen);
+
+        // if ($request->hasFile('file_quotation')) {
+        //     unlink($file_quotation);
+
+        //     $nmq = $request->file_quotation;
+        //     $file_quotation = time().$nmq->getClientOriginalName();
+        //     $nmq->move(public_path().'/files/quota', $file_quotation);
+        // }
+
+        // $so->update([
+        //     "institusi" => $request->institusi,
+        //     "project" => $request->project,
+        //     "hps" => $request->hps,
+        //     "file_quotation" => $request->upload = $file_quotation,
+        //     "file_po" => $request->upload = $file_po,
+        //     "file_spk" => $request->upload = $file_spk,
+        //     "status" => $request->status,
+        //     // "no_doc" => $request->no_doc
+        // ]);
+
+        return redirect('slsorder');
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
@@ -259,9 +331,6 @@ class SalesOrderController extends Controller
 
         $so -> delete();
 
-        return response()->json([
-            "status" => true,
-            "data" => "data berhasil dihapus"
-        ]);
+        return redirect('slsorder');
     }
 }
