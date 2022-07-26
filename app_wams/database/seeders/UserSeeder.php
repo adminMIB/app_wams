@@ -30,11 +30,7 @@ class UserSeeder extends Seeder
         // kita asiggin rolenya
         $admin->assignRole('Technikal');
 
-<<<<<<< HEAD
         // //!/ user Managemnt
-=======
-        //!/ user Managemnt
->>>>>>> 656a0c8dd8d4bfc529c2bdc2c0a3a5c2bfa0b05e
         // $user = User::create([
         //     'name' => "arizd",
         //     'email' => 'arizd@gmail.com',
