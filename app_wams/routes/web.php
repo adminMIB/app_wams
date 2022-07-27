@@ -138,7 +138,7 @@ Route::group(['middleware'], function()
   Route::get('/dashboardTeknikal',[DashboardController::class, 'index'])->name('dashboard');
   Route::get('/telearning',[ControllersElearningController::class,'index'])->name('elearning');
   Route::get('/create-elearning',[ControllersElearningController::class,'create'])->name('create-elearning');
-  Route::post('/simpan-data',[ControllersElearningController::class,'store'])->name('simpan-data');
+  Route::post('/Esimpan-data',[ControllersElearningController::class,'store'])->name('Esimpan-data');
   Route::get('/edit/{id}',[ControllersElearningController::class,'edit'])->name('edit');
   Route::get('/delete/{id}',[ControllersElearningController::class,'destroy']);
   Route::post('/update-data/{id}',[ControllersElearningController::class,'update'])->name('update-data');

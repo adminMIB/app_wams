@@ -104,7 +104,7 @@ class UserSeeder extends Seeder
 
         //  //!/ user Finance
         // $user = User::create([
-        //     'name' => "arizd",
+        //     'name' => "arizd",   
         //     'email' => 'arizd@gmail.com',
         //     'email_verified_at' => now(),
         //     'password' => Hash::make('password'),
