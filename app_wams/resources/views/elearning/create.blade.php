@@ -8,7 +8,7 @@
   <hr>
   <div class="card">
     <div class="card-body">
-      <form action="{{route('simpan-data')}}" method="POST" enctype="multipart/form-data">
+      <form action="{{route('Esimpan-data')}}" method="POST" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="row mb-3">
           <label for="" class="col-sm-3 col-form-label text-dark">Solusi / Produk</label>
