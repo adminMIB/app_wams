@@ -29,7 +29,7 @@
                       <td>B{{$item->kode_project}}</td>
                       <td>{{$item->institusi}}</td>
                       <td>{{$item->project}}</td>
-                      <td></td>
+                      <td>{{$item->name_user}}</td>
                       <td>{{$item->hps}}</td>
                       <td>{{$item->status}}</td>
                       <td><a href="{{url('/detailapproval', $item->id)}}">Detail</a></td>

@@ -145,7 +145,7 @@ class SalesOrderController extends Controller
     {
         $getOneById = SalesOrder::find($id);
 
-        return view('SALES.edit', compact('getOneById'));
+        return view('SALES.SOedit', compact('getOneById'));
     }
 
     public function update(Request $request, $id)

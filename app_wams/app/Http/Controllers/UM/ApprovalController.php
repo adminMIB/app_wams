@@ -10,8 +10,9 @@ class ApprovalController extends Controller
 {
     public function index()
     {
+        $datas = SalesOrder::all()->count();
         $data = SalesOrder::all();
-        return view('UM.approval', compact('data'));
+        return view('UM.approval', compact('datas', 'data'));
     }
 
     public function show($id)

@@ -71,6 +71,7 @@ Route::apiResource('salesopty','\App\Http\Controllers\API\SalesOptyController', 
     "only" => ["store", "update", "index", "edit", "destroy"]
 ]);
 
+
 // route relasi timeline
 Route::apiResource('timeline','\App\Http\Controllers\API\TimelineController', [
     "only" => ["store", "index"]

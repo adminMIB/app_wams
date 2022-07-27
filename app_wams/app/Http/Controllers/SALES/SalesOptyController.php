@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\viewControlerrSuperAdmin;
+namespace App\Http\Controllers\SALES;
 
+use App\Exports\SalesOptyExport;
 use App\Http\Controllers\Controller;
 use App\Models\Elearning;
-use App\Models\SalesOpty;
 use Carbon\Carbon;
+use App\Models\SalesOpty;
 use Illuminate\Http\Request;
 
-class SalesControllerM extends Controller
+class SalesOptyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +24,7 @@ class SalesControllerM extends Controller
       }else{
         $sales = SalesOpty::paginate(5);
     }
-        return view('superAdmin.salesMonitoring.dashboardSalesOpty', compact('sales'));
+        return view('SALES.index', compact('sales'));
     }
 
     //public function salesoptyexport(){

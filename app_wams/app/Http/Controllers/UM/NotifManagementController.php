@@ -10,8 +10,8 @@ class NotifManagementController extends Controller
 {
     public function index()
     {
-        $datas = SalesOrder::all();
-        return view('partials.navbar', compact('datas'));
+            // $datas = SalesOrder::all();
+            // return view('partials.navbarManagement', compact('datas'));
     }
 
     public function show($id)

@@ -23,10 +23,13 @@
 
     <div class="main-wrapper" style="background-color: white">
       <div class="navbar-bg bg-transparent"></div>
-      
-      @include('partials.navbar')
-      
 
+      @if (Auth::user()->hasRole('Management'))
+          @include('partials.navbarManagement')
+      @else
+          @include('partials.navbar')
+      @endif
+      
       @include('partials.sidebar')
      
       

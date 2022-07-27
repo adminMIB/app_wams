@@ -7,12 +7,15 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardViewController;
 use App\Http\Controllers\ElearningController as ControllersElearningController;
 use App\Http\Controllers\SALES\ElearningController;
+use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
+use App\Http\Controllers\UM\NotifManagementController;
 use App\Http\Controllers\UM\ReportpController;
 use App\Http\Controllers\UM\UmDashboardController;
 use App\Http\Controllers\viewControlerrSuperAdmin\AuthControllerM;
@@ -72,19 +75,28 @@ Route::group(['middleware' ] , function()
 
   //! Route Sales opty & order
   // sales opty
-  Route::get('/dashboard/salesOpty', [SalesControllerM  ::class,'index'])->name('/dashboard/salesOpty');
-  Route::get('/dashboard/salesOptyadd', [SalesControllerM::class,'create'])->name('/dashboard/salesOptyadd');
-  Route::post('/dashboard/saveSalesOpty', [SalesControllerM::class,'store'])->name('/dashboard/saveSalesOpty');
-  Route::get('/delete/{id}', [SalesControllerM::class,'destroy']);
-
+  
+  Route::get('/dashboardAdminSales',[SalesOptyController::class,'index'])->name('/dashboardAdminSales');
+  Route::get('/inputsales',[SalesOptyController::class,'create'])->name('inputsales');
+  Route::post('/simpan-data',[SalesOptyController::class,'store'])->name('simpan-data');
+  Route::get('/filter',[SalesOptyController::class,'filter'])->name('salesopty.filter');
+  Route::get('/detail/{id}',[SalesOptyController::class,'show'])->name('detail');
+  Route::get('/delete/{id}', [SalesOptyController::class, 'destroy'])->name('delete');
+  Route::get('/exportsalesopty', [SalesOptyController::class, 'export'])->name('exportsalesopty');
+  Route::get('/edit/{id}', [SalesOptyController::class,'edit'])->name('edit');
+  Route::post('/simpan/{id}', [SalesOptyController::class,'update'])->name('simpan');
+  Route::get('/elearning',[ElearningController::class,'index'])->name('elearning');
+  Route::get('/cetak', [SalesOptyController::class,'cetak'])->name('cetak');
+  Route::get('/home',[DashboardViewController::class,'index'])->name('home');
+  
 
   // sales order
-  Route::get('/dashboard/salesOrder', [SalesOrderControllerM  ::class,'index'])->name('/dashboard/salesOrder');
+  Route::get('/dashboard/salesOrder', [SalesOrderControllerM::class,'index'])->name('/dashboard/salesOrder');
   Route::get('/dashboard/addSalesOrder', [SalesOrderControllerM::class,'create'])->name('/dashboard/addSalesOrder');
-  route::post('/saOrder/saveData', [SalesOrderController::class, 'store'])->name('saOrder/saveData');
-  route::post('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
-  route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
-  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  route::post('/saOrder/saveData', [SalesOrderControllerM::class, 'store'])->name('saOrder/saveData');
+  route::post('/update-data/{id}', [SalesOrderControllerM::class, 'update'])->name('update-data');
+  route::get('/edit/{id}', [SalesOrderControllerM::class, 'edit'])->name('edit');
+  route::get('/del/{id}', [SalesOrderControllerM::class, 'destroy'])->name('del');
 
   //! Route Project Timline
   Route::get('/dashboard/projectTimeline', [ProjectTimelineControllerM  ::class,'index'])->name('/dashboard/projectTimeline');
@@ -106,6 +118,17 @@ Route::group(['middleware'], function()
   route::get('/Sedit/{id}', [SalesOrderController::class, 'edit'])->name('Sedit');
   route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
   Route::get('/order-export', [SalesOrderController::class,'export'])->name('order-export');
+  // sales opty
+  Route::get('/index-sales',[SalesOptyController::class,'index'])->name('index-sales');
+  Route::get('/inputsales',[SalesOptyController::class,'create'])->name('inputsales');
+  Route::post('/Ysimpan-data',[SalesOptyController::class,'store'])->name('Ysimpan-data');
+  Route::get('/Yfilter',[SalesOptyController::class,'filter'])->name('salesopty.filter');
+  Route::get('/Ydetail/{id}',[SalesOptyController::class,'show'])->name('Ydetail');
+  Route::get('/Ydelete/{id}', [SalesOptyController::class, 'destroy'])->name('Ydelete');
+  Route::get('/exportsalesopty', [SalesOptyController::class, 'export'])->name('exportsalesopty');
+  Route::get('/Yedit/{id}', [SalesOptyController::class,'edit'])->name('Yedit');
+  Route::post('/Ysimpan/{id}', [SalesOptyController::class,'update'])->name('Ysimpan');
+  Route::get('/Ycetak', [SalesOptyController::class,'cetak'])->name('Ycetak');
 });
 
 //teknikal
@@ -126,6 +149,7 @@ Route::group(['middleware'], function()
 Route::group(['middleware'], function() 
 {
   Route::get('/um/dashboard', [UmDashboardController::class,'index']);
+  // Route::get('/um', [NotifManagementController::class,'index']);
   Route::get('/approval', [ApprovalController::class,'index']);
   Route::get('/detailapproval/{id}', [ApprovalController::class,'show']);
   Route::get('/reportp', [ReportpController::class,'index']);
