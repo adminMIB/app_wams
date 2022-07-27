@@ -7,8 +7,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardViewController;
 use App\Http\Controllers\ElearningController as ControllersElearningController;
 use App\Http\Controllers\SALES\ElearningController;
+use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
@@ -72,11 +74,20 @@ Route::group(['middleware' ] , function()
 
   //! Route Sales opty & order
   // sales opty
-  Route::get('/dashboard/salesOpty', [SalesControllerM  ::class,'index'])->name('/dashboard/salesOpty');
-  Route::get('/dashboard/salesOptyadd', [SalesControllerM::class,'create'])->name('/dashboard/salesOptyadd');
-  Route::post('/dashboard/saveSalesOpty', [SalesControllerM::class,'store'])->name('/dashboard/saveSalesOpty');
-  Route::get('/delete/{id}', [SalesControllerM::class,'destroy']);
-
+  
+  Route::get('/index-sales',[SalesViewController::class,'index'])->name('index-sales');
+  Route::get('/inputsales',[SalesViewController::class,'create'])->name('inputsales');
+  Route::post('/simpan-data',[SalesViewController::class,'store'])->name('simpan-data');
+  Route::get('/filter',[SalesViewController::class,'filter'])->name('salesopty.filter');
+  Route::get('/detail/{id}',[SalesViewController::class,'show'])->name('detail');
+  Route::get('/delete/{id}', [SalesViewController::class, 'destroy'])->name('delete');
+  Route::get('/exportsalesopty', [SalesViewController::class, 'export'])->name('exportsalesopty');
+  Route::get('/edit/{id}', [SalesViewController::class,'edit'])->name('edit');
+  Route::post('/simpan/{id}', [SalesViewController::class,'update'])->name('simpan');
+  Route::get('/elearning',[ElearningController::class,'index'])->name('elearning');
+  Route::get('/cetak', [SalesViewController::class,'cetak'])->name('cetak');
+  Route::get('/home',[DashboardViewController::class,'index'])->name('home');
+  
 
   // sales order
   Route::get('/dashboard/salesOrder', [SalesOrderControllerM  ::class,'index'])->name('/dashboard/salesOrder');
@@ -101,11 +112,22 @@ Route::group(['middleware'], function()
 
   Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
   Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');
-  route::post('/simpan-data', [SalesOrderController::class, 'store'])->name('simpan-data');
+  route::post('/Ssimpan-data', [SalesOrderController::class, 'store'])->name('Ssimpan-data');
   route::put('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
-  route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
+  route::get('/Sedit/{id}', [SalesOrderController::class, 'edit'])->name('Sedit');
   route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
   Route::get('/order-export', [SalesOrderController::class,'export'])->name('order-export');
+  // sales opty
+  Route::get('/index-sales',[SalesOptyController::class,'index'])->name('index-sales');
+  Route::get('/inputsales',[SalesOptyController::class,'create'])->name('inputsales');
+  Route::post('/Ysimpan-data',[SalesOptyController::class,'store'])->name('Ysimpan-data');
+  Route::get('/Yfilter',[SalesOptyController::class,'filter'])->name('salesopty.filter');
+  Route::get('/Ydetail/{id}',[SalesOptyController::class,'show'])->name('Ydetail');
+  Route::get('/Ydelete/{id}', [SalesOptyController::class, 'destroy'])->name('Ydelete');
+  Route::get('/exportsalesopty', [SalesOptyController::class, 'export'])->name('exportsalesopty');
+  Route::get('/Yedit/{id}', [SalesOptyController::class,'edit'])->name('Yedit');
+  Route::post('/Ysimpan/{id}', [SalesOptyController::class,'update'])->name('Ysimpan');
+  Route::get('/Ycetak', [SalesOptyController::class,'cetak'])->name('Ycetak');
 });
 
 //teknikal

@@ -30,8 +30,8 @@ class UserSeeder extends Seeder
         // kita asiggin rolenya
         $admin->assignRole('Super Admin');
 
-        // //!/ user Managemnt
-        $arizd = User::create([
+        //!/ user Managemnt
+        $user = User::create([
             'name' => "arizd",
             'email' => 'arizd@gmail.com',
             'email_verified_at' => now(),
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
         // kita asiggin rolenya
-        $arizd->assignRole('Management');
+        $user->assignRole('Management');
 
         //!/ user AM SALES
         // sales order

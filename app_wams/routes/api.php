@@ -55,8 +55,10 @@ Route::apiResource('upload','\App\Http\Controllers\API\UploadController',[
 ]);
 // route salesorder 
 route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
-    "only" => ["store", "index"]
+    "only" => ["store", "index", "edit", "destroy", "show"]
 ]);
+
+Route::post('salesorder/{id}', [SalesOrderController::class, 'update'])->name('up');
 
 // route up dok
 
@@ -68,6 +70,7 @@ route::apiResource('updoc', '\App\Http\Controllers\API\UploadDocumentController'
 Route::apiResource('salesopty','\App\Http\Controllers\API\SalesOptyController', [
     "only" => ["store", "update", "index", "edit", "destroy"]
 ]);
+
 
 // route relasi timeline
 Route::apiResource('timeline','\App\Http\Controllers\API\TimelineController', [
