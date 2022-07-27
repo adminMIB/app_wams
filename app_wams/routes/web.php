@@ -23,6 +23,7 @@ use App\Http\Controllers\viewControlerrSuperAdmin\ProjectTimelineControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
+use App\Http\Controllers\WeeklyReportController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\SalesOpty;
 use Illuminate\Support\Facades\Auth;
@@ -141,6 +142,16 @@ Route::group(['middleware'], function()
   Route::get('/edit/{id}',[ControllersElearningController::class,'edit'])->name('edit');
   Route::get('/delete/{id}',[ControllersElearningController::class,'destroy']);
   Route::post('/update-data/{id}',[ControllersElearningController::class,'update'])->name('update-data');
+
+  Route::get('/dashboard',[DashboardController::class,'index']);
+  Route::get('/report',[WeeklyReportController::class,'index']);
+  Route::get('/create',[WeeklyReportController::class,'create'])->name('create');
+  Route::post('/save-data',[WeeklyReportController::class,'store'])->name('save-data');
+  Route::get('/edit/{id}', [WeeklyReportController::class, 'edit'])->name('edit');
+  Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
+  Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
+  Route::get('/change-status/{id}',[WeeklyReportController::class,'changestatus']);
+
 });
 
 

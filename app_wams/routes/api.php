@@ -30,11 +30,7 @@ Route::apiResource('roles','\App\Http\Controllers\API\RoleController', [
 Route::post( '/logout',[\App\Http\Controllers\API\AuthController::class,'logout']);
 
 //Technical
-Route::apiResource('reports','\App\Http\Controllers\API\ReportController', [
-    "only" => ["store","index","edit","update","destroy"]
-]);
-
-Route::apiResource('createweeklies','\App\Http\Controllers\API\CreateWeekliesController', [
+Route::apiResource('weekly_reports','\App\Http\Controllers\API\WeeklyReportController', [
     "only" => ["store","index","edit","update","destroy"]
 ]);
 

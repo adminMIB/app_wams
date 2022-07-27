@@ -33,7 +33,7 @@
                   <h4>News</h4>
                 </div>
                 <div class="card-body">
-                  {{$qq}}
+                  5
                 </div>
               </div>
             </div>
