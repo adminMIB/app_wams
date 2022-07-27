@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\SALES;
 
 use App\Http\Controllers\Controller;
+use App\Models\Elearning;
 use Illuminate\Http\Request;
 
 class ElearningController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('SALES.elearning');
+        if($request->has('cari')){
+            $ele=Elearning::where('principle','LIKE','%'.$request->cari.'%')->get();
+        }else{
+        $ele = Elearning::paginate();
+        }
+        return view('SALES.elearning', compact('ele'));
     }
 }
