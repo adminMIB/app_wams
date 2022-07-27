@@ -123,7 +123,7 @@ Route::group(['middleware'], function()
 
 
 //! Routing dashboard Management
-Route::group(['middleware'  => ['role:Management']], function() 
+Route::group(['middleware'], function() 
 {
   Route::get('/um/dashboard', [UmDashboardController::class,'index']);
   Route::get('/approval', [ApprovalController::class,'index']);

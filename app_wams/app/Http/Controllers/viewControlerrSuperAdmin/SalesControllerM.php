@@ -12,6 +12,7 @@ class SalesControllerM extends Controller
 {
     public function index()
     {
+        
         $sales= SalesOpty::all();
         return view('superAdmin.salesMonitoring.dashboardSalesOpty', compact('sales'));
     }
