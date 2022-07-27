@@ -33,11 +33,7 @@
                   <h4>News</h4>
                 </div>
                 <div class="card-body">
-<<<<<<< HEAD
-                  5
-=======
-                  
->>>>>>> 3e1caf5644f3f3187aa3660260dd041587338b79
+
                 </div>
               </div>
             </div>
