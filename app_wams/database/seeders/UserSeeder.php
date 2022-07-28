@@ -67,16 +67,16 @@ class UserSeeder extends Seeder
         // kita asiggin rolenya
         $najwa->assignRole('AM/Sales');
 
-        // //!/ user PM
+        // // //!/ user PM
         $adit = User::create([
-            'name' => "adit",
-            'email' => 'adit@gmail.com',
+            'name' => "Adhit",
+            'email' => 'adhit@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        // kita asiggin rolenya
+        // // kita asiggin rolenya
         $adit->assignRole('PM');
 
         //  //!/ user Technikal
@@ -102,7 +102,7 @@ class UserSeeder extends Seeder
         // kita asiggin rolenya
         $fadli->assignRole('Technikal');
 
-        //  //!/ user Finance
+         //!/ user Finance
         // $user = User::create([
         //     'name' => "arizd",   
         //     'email' => 'arizd@gmail.com',

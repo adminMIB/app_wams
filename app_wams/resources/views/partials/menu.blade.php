@@ -89,10 +89,20 @@
 
 {{-- ! PM --}}
 @if (Auth::user()->hasRole('PM'))
+<ul class="sidebar-menu">
+    <li class="menu-header">Dashboard</li>
+    <li class="nav-item ">
+      <a href="{{url ('dashboardpm')}}" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="{{url ('timeline')}}"><img src="image/Akar.png" alt=""> <span>Time Line</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="{{url ('listproject')}}"><img src="image/Line.png" alt=""> <span>List Project Technikal</span></a></li>
+
   <form action="/logout" method="POST">
     @csrf
     <button class="btn btn-danger">Logout</button>
 </form>
+
+</ul>
 @endif
 
 {{-- ! PMLead --}}

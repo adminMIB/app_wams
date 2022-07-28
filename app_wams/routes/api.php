@@ -88,5 +88,11 @@ Route::apiResource('listprojectpm','\App\Http\Controllers\API\ListProjectPmContr
     "only" => ["store", "index", "edit", "destroy", "update"]    
 ]);
 
+
+Route::apiResource('coba','\App\Http\Controllers\API\CobaController',[
+    "only"=> ["store"]
+]);
+
+
 // Route::group(['middleware' => ['auth:sanctum']],function() {
 // });

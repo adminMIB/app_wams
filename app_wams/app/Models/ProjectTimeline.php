@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectTimeline extends Model
 {
     use HasFactory;
-    protected $fillable = ["nama_institusi", "nama_project", "nama_sales", "project_timeline", "start_date", "finish_date", "sign_to", "sign_to_pm"];
+    protected $fillable = ["nama_technical", "start_date", "finish_date", "jenis_pekerjaan"];
+
+    public function list_project_teches()
+    {
+        return $this->belongsTo(ListProjectTech::class,'project_id');
+    }
 }
