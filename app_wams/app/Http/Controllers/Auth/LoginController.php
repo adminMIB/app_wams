@@ -67,9 +67,7 @@ class LoginController extends Controller
         //! ini pengecekan role Pm
         else if (Auth::user()->hasRole('PM')) {
             // jika role super PM  -> arahkan ke dashboard Pm
-            return response()->json([
-                "message " => 'ini dashboard PM'
-            ]);
+            return redirect()->intended('dashboardpm');
         } 
 
         //! ini pengecekan role management
