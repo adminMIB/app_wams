@@ -99,27 +99,46 @@
 @if (Auth::user()->hasRole('PM Lead'))
   <form action="/logout" method="POST">
     @csrf
+    <ul class="sidebar-menu">
+    <li class="menu-header">Dashboard Monitoring</li>
+    <li class="nav-item ">
+      <a href="{{url ('/dashboardlead')}}" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
+    </li>
+   <!--  <li class="nav-item"><a class="nav-link" href="{{url ('index')}}"><img src="image/Akar.png" alt=""> <span>Time Line</span></a></li> -->
+    <li class="nav-item"><a class="nav-link" href="{{url ('list')}}"><img src="image/Line.png" alt=""> <span>List View Order</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="{{url ('listprojectpm')}}"><img src="image/Line.png" alt=""> <span>List Project</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="{{url ('task')}}"><img src="image/Line.png" alt=""> <span>Task Progress Report</span></a></li>
+
+    <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
+    </div>
+</ul>
     <button class="btn btn-danger">Logout</button>
 </form>
 @endif
 
 {{-- ! Technikal --}}
 @if (Auth::user()->hasRole('Technikal'))
-  <form action="/logout" method="POST">
-    @csrf
-    <ul class="sidebar-menu">
+<ul class="sidebar-menu">
     <li class="menu-header">Management Tools</li>
     <li class="nav-item ">
-      <a href="/dashboardTeknikal" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
+      <a href="/dashboardTeknikal" class="nav-link "><i class="fa-solid fa-gauge-high" style="color: white;"></i><span>Dashboard</span></a>
     </li>
-    <li class="nav-item"><a class="nav-link" href="/dashboardTeknikal"><img src="image/Akar.png" alt=""> <span>Report Progress</span></a></li>
-    <li class="nav-item"><a class="nav-link" href="/create"><img src="image/Line.png" alt=""> <span>Create Weekly Report</span></a></li>
-    <li class="nav-item"><a class="nav-link" href="/telearning"><img src="image/Line.png" alt=""> <span>Form Elearning</span></a></li>
+
+    <li class="nav-item"><a class="nav-link" href="/report"><i class="fa-solid fa-clipboard-check" style="color: white"></i><span>Report Progress</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/create"><i class="fa-solid fa-clipboard-list" style="color: white"></i><span>Create Weekly Report</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/telearning"><i class="fa-solid fa-book" style="color: white"></i><span>Form Elearning</span></a></li>
+
+   
+
     <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
-     
+  <form action="/logout" method="POST">
+    @csrf
+   
     </div>
 </ul>
-    <button class="btn btn-danger">Logout</button>
+
+    <button class="btn btn-danger" style="margin-top: -10em; margin-left:5em; border-radius:10px; width:12em">Logout</button>
+
 </form>
 @endif
 

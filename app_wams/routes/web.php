@@ -7,11 +7,15 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardleadController;
 use App\Http\Controllers\DashboardViewController;
 use App\Http\Controllers\ElearningController;
+use App\Http\Controllers\ListController;
+use App\Http\Controllers\ListProjectPmController;
 use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\SALES\SElearningController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
@@ -23,6 +27,7 @@ use App\Http\Controllers\viewControlerrSuperAdmin\ProjectTimelineControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
+use App\Http\Controllers\WeeklyReportController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\SalesOpty;
 use Illuminate\Support\Facades\Auth;
@@ -75,16 +80,16 @@ Route::group(['middleware' ] , function()
   //! Route Sales opty & order
   // sales opty
   
-  Route::get('/index-sales',[SalesViewController::class,'index'])->name('index-sales');
-  Route::get('/inputsales',[SalesViewController::class,'create'])->name('inputsales');
-  Route::post('/simpan-data',[SalesViewController::class,'store'])->name('simpan-data');
-  Route::get('/filter',[SalesViewController::class,'filter'])->name('salesopty.filter');
-  Route::get('/detail/{id}',[SalesViewController::class,'show'])->name('detail');
-  Route::get('/delete/{id}', [SalesViewController::class, 'destroy'])->name('delete');
-  Route::get('/exportsalesopty', [SalesViewController::class, 'export'])->name('exportsalesopty');
-  Route::get('/edit/{id}', [SalesViewController::class,'edit'])->name('edit');
-  Route::post('/simpan/{id}', [SalesViewController::class,'update'])->name('simpan');
-  Route::get('/cetak', [SalesViewController::class,'cetak'])->name('cetak');
+  Route::get('/index-sales',[SalesControllerM::class,'index'])->name('index-sales');
+  Route::get('/inputsales',[SalesControllerM::class,'create'])->name('inputsales');
+  Route::post('/simpan-data',[SalesControllerM::class,'store'])->name('simpan-data');
+  Route::get('/filter',[SalesControllerM::class,'filter'])->name('salesopty.filter');
+  Route::get('/detail/{id}',[SalesControllerM::class,'show'])->name('detail');
+  Route::get('/delete/{id}', [SalesControllerM::class, 'destroy'])->name('delete');
+  Route::get('/exportsalesopty', [SalesControllerM::class, 'export'])->name('exportsalesopty');
+  Route::get('/edit/{id}', [SalesControllerM::class,'edit'])->name('edit');
+  Route::post('/simpan/{id}', [SalesControllerM::class,'update'])->name('simpan');
+  Route::get('/cetak', [SalesControllerM::class,'cetak'])->name('cetak');
   Route::get('/home',[DashboardViewController::class,'index'])->name('home');
   
 
@@ -157,6 +162,27 @@ Route::group(['middleware'  => ['role:Management']], function()
 //! Routing dashboard Finance
 // Route::group(['middleware' => ['role:Finance']], function() 
 // {
+
+
+  Route::group(['middleware' ], function() 
+  {
+    
+  Route::get('/task',[TaskController::class,'index'])->name('task');
+  Route::get('/exporttask',[TaskController::class,'export'])->name('exporttask');
+  // Route::post('/task',[TaskController::class,'index'])->name('task');
+  
+  Route::post('/listprojectpm', [ListProjectPmController::class, 'listprojectpm']);
+  
+  Route::get('/listprojectpm',[ListProjectPmController::class,'index'])->name('listprojectpm');
+  Route::post('/simpan-dok',[ListProjectPmController::class,'store'])->name('simpan-dok');
+  
+  Route::get('/list',[ListController::class,'index'])->name('list');
+  Auth::routes();
+  Route::get('/dashboardlead',[DashboardleadController::class,'index'])->name('dashboardlead');
+  
+  });
+  
+
 
 // });
 
