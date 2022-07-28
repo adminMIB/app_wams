@@ -12,6 +12,6 @@ class ProjectTimeline extends Model
 
     public function list_project_teches()
     {
-        return $this->belongsTo(ListProjectTech::class,'task_id');
+        return $this->belongsTo(ListProjectTech::class,'project_id');
     }
 }

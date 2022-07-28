@@ -14,18 +14,18 @@
 
     <form class="row g-5" action="{{route('simpan-data')}}" method="POST">
       {{csrf_field()}}
-      <!-- <div class="col-md-6">
+     <div class="col-md-6">
         @foreach($time as $l)
-        <label for="" class="form-label">Nama Client</label>
-        <input type="text" class="form-control" id="" value="{{$l->tasks->code}}" >
+        <label for="" class="form-label">Nama Institusi</label>
+        <input type="text" class="form-control" id="" value="{{$l->projects->institusi}}" >
       
       </div>
       <div class="col-6">
     
         <label for="" class="form-label">Nama Project</label>
-        <input type="text" class="form-control" id="" placeholder="" value="{{$l->tasks->institusi}}">
+        <input type="text" class="form-control" id="" placeholder="" value="{{$l->projects->project}}">
         @endforeach
-      </div> -->
+      </div> 
 
 
       <div class="col-md-3">

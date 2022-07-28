@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Coba;
 use Illuminate\Http\Request;
 use App\Models\ListProjectTech;
+use App\Models\SalesOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -19,7 +20,7 @@ class ListProjectTechController extends Controller
     public function index()
     {
 
-        $list = Coba::all();
+        $list = SalesOrder::all();
         $user =Role::with('users')->where('name','Technikal')->get();
         return view('list_technical.listproject',compact('list','user'));
     }
@@ -45,14 +46,14 @@ class ListProjectTechController extends Controller
 
         $request->validate([
 
-            "cobas_id" =>"required",
+            "project_id" =>"required",
             "jenis_dokumen" => "required",
             "upload_dokumen" => "required",
             "user_id" => "required"
 
         ], [
 
-            'cobas_id.required'=>'Field tidak boleh kosong',
+            'project_id.required'=>'Field tidak boleh kosong',
             'jenis_dokumen.required' => 'Field tidak boleh kosong',
             'upload_dokumen.required' => 'Field tidak boleh kosong',
             'user_id.required' => 'Field tidak boleh kosong',
@@ -69,7 +70,7 @@ class ListProjectTechController extends Controller
 
 
         $data['user_id'] = implode(",", $request->user_id);
-        $data['cobas_id'] =$request->cobas_id;
+        $data['project_id'] =$request->project_id;
         $data['jenis_dokumen'] = $request->jenis_dokumen;
         $data['upload_dokumen'] = $request->upload_dokumen = $name;
         $post = ListProjectTech::create($data);
@@ -126,7 +127,7 @@ class ListProjectTechController extends Controller
     public function work(Request $request)
     {
         $id = $request->id;
-        $data = Coba::find($id);
+        $data = SalesOrder::find($id);
         return response()->json($data);
     }
 }

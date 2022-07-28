@@ -10,48 +10,45 @@
     </div>
   <div class="card">
     <div class="card-body">
-    <form action="{{route ('simpan-dok')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route ('simpan-list')}}" method="POST" enctype="multipart/form-data">
     {{csrf_field()}}
     <div class="row">
       <div class="col">
         <label for="id" class="form-label" style="font-weight: bold; color:black">ID</label>
-        <select id="id" class="form-control" name="cobas_id" >
+        <select id="id" class="form-control" name="project_id" >
           @foreach($list as $v)
           <option value="{{$v->id}}">{{$v->id}}</option>
           @endforeach
         </select>
-        @error('cobas_id')
+        @error('project_id')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
       </div>
 
       
       <div class="col-sm-3">
-        <label for="code" class="form-label" style="font-weight: bold; color:black">Nama Client</label>
-        <input type="text" id="code" class="form-control @error('nama_sales') is-invalid @enderror" readonly required>
-        @error('nama_sales')
+        <label for="code" class="form-label" style="font-weight: bold; color:black">Nama Institusi</label>
+        <input type="text" id="institusi" class="form-control @error('institusi') is-invalid @enderror" readonly required>
+        @error('institusi')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
       </div>
 
       <div class="col-sm-3">
         <label for="institusi" class="form-label" style="font-weight: bold; color:black">Nama Sales</label>
-        <input type="text"  id="institusi" class="form-control @error('nama_sales') is-invalid @enderror" readonly required>
-        @error('nama_sales')
+        <input type="text"  id="name_user" class="form-control @error('name_user') is-invalid @enderror" readonly required>
+        @error('name_user')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
       </div>
     </div>
     <br>
-  
-
+   
     <div class="row g-3">
-    
-
       <div class="col-sm-6">
         <label for="project" class="form-label" style="font-weight: bold; color:black">Nama Project</label>
-        <input type="text" id="project" class="form-control @error('nama_project') is-invalid @enderror" readonly required>
-        @error('nama_project')
+        <input type="text" id="project" class="form-control @error('project') is-invalid @enderror" readonly required>
+        @error('project')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
       </div>
@@ -80,7 +77,15 @@
     </div>
 
     <br>
-    
+    <div class="row g-3">
+      <div class="col-sm-6">
+        <label for="project" class="form-label" style="font-weight: bold; color:black">HPS</label>
+        <input type="text" id="hps" class="form-control @error('hps') is-invalid @enderror" readonly required>
+        @error('hps')
+        <div class="invalid-feedback">{{$message}}</div>
+        @enderror
+      </div>
+
 
       <div class="col-sm-5">
         <label for="id_label_multiple" class="form-label">Sign Tecnikal</label>
@@ -95,7 +100,8 @@
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
       </div>
-      <br>
+    </div>
+    <br>
       <button type="submit" class="btn btn-primary btn-sm">Save</button>
     </div>
     
@@ -126,9 +132,10 @@
         },
         url: "/work_order"
       }).done(function(res) {
-        $("#code").val(res.code)
         $("#institusi").val(res.institusi)
         $("#project").val(res.project)
+        $("#name_user").val(res.name_user)
+        $("#hps").val(res.hps)
       })
     });
   </script>

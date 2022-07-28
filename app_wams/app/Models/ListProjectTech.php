@@ -17,7 +17,7 @@ class ListProjectTech extends Model
         "jenis_dokumen",
         "upload_dokumen",
         "user_id",
-        "cobas_id"
+        "project_id"
     ];
 
     public function users()
@@ -25,9 +25,9 @@ class ListProjectTech extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function tasks()
+    public function projects()
     {
-        return $this->belongsTo(Task::class, 'cobas_id');
+        return $this->belongsTo(SalesOrder::class, 'project_id');
     }
     
 }

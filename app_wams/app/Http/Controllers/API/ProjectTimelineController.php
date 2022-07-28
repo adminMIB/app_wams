@@ -43,13 +43,10 @@ class ProjectTimelineController extends Controller
         
         try {
             $validate = Validator::make($request->all(), [
-                "nama_institusi" => "required",
-                "nama_project" => "required",
-                "nama_sales" => "required",
-                "project_timeline" => "required",
+                "nama_technical" => "required",
+                "jenis_pekerjaan" => "required",
                 "start_date" => "required",
                 "finish_date" => "required",
-                "sign_to" => "required"
             ]);
     
             if($validate->fails()) {
@@ -57,18 +54,15 @@ class ProjectTimelineController extends Controller
             }
     
             ProjectTimeline::create([
-                "nama_institusi" => $request->nama_institusi,
-                "nama_project" => $request->nama_project,
-                "nama_sales" => $request->nama_sales,
-                "project_timeline" => $request->project_timeline,
+                "nama_technical" => $request->nama_technical,
+                "jenis_pekerjaan" => $request->jenis_pekerjaan,
                 "start_date" => $request->start_date,
                 "finish_date" => $request->finish_date,
-                "sign_to" => $request->sign_to
             ]);
     
             return response()->json([
                 "status" =>true,
-                "message" => "project timeline berhasil dibuat berhasil dibuat" 
+                "message" => "Project timeline berhasil dibuat berhasil dibuat" 
             ]);
         } catch(\Exception $e) {
             return response()->json($e->getMessage());
@@ -83,7 +77,7 @@ class ProjectTimelineController extends Controller
         return response()->json([
 
        "status" => true,
-       "data" => $id
+       "data" => $getOneById
 
         ]);
     }
@@ -103,13 +97,10 @@ class ProjectTimelineController extends Controller
         
         $validate = validator::make($request->all(), [
 
-            "nama_institusi" => "required",
-            "nama_project" => "required",
-            "nama_sales" => "required",
-            "project_timeline" => "required",
+            "nama_technical" => "required",
+            "jenis_pekerjaan" => "required",
             "start_date" => "required",
             "finish_date" => "required",
-            "sign_to" => "required"
         
         ]);
 
@@ -118,13 +109,10 @@ class ProjectTimelineController extends Controller
         }
 
         $wams->update([
-            "nama_institusi" => $request->nama_institusi,
-                "nama_project" => $request->nama_project,
-                "nama_sales" => $request->nama_sales,
-                "project_timeline" => $request->project_timeline,
+            "nama_technical" => $request->nama_technical,
+                "jenis_pekerjaan" => $request->jenis_pekerjaan,
                 "start_date" => $request->start_date,
                 "finish_date" => $request->finish_date,
-                "sign_to" => $request->sign_to
         ]);
         
         return response()->json([
