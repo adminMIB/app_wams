@@ -7,11 +7,15 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardleadController;
 use App\Http\Controllers\DashboardViewController;
 use App\Http\Controllers\ElearningController as ControllersElearningController;
+use App\Http\Controllers\ListController;
+use App\Http\Controllers\ListProjectPmController;
 use App\Http\Controllers\SALES\ElearningController;
 use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
@@ -169,6 +173,27 @@ Route::group(['middleware'  => ['role:Management']], function()
 //! Routing dashboard Finance
 // Route::group(['middleware' => ['role:Finance']], function() 
 // {
+
+
+  Route::group(['middleware' ], function() 
+  {
+    
+  Route::get('/task',[TaskController::class,'index'])->name('task');
+  Route::get('/exporttask',[TaskController::class,'export'])->name('exporttask');
+  // Route::post('/task',[TaskController::class,'index'])->name('task');
+  
+  Route::post('/listprojectpm', [ListProjectPmController::class, 'listprojectpm']);
+  
+  Route::get('/listprojectpm',[ListProjectPmController::class,'index'])->name('listprojectpm');
+  Route::post('/simpan-dok',[ListProjectPmController::class,'store'])->name('simpan-dok');
+  
+  Route::get('/list',[ListController::class,'index'])->name('list');
+  Auth::routes();
+  Route::get('/dashboardlead',[DashboardleadController::class,'index'])->name('dashboardlead');
+  
+  });
+  
+
 
 // });
 
