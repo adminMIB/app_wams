@@ -80,5 +80,11 @@ Route::apiResource('manager','\App\Http\Controllers\API\managerController',[
 ]);
 
 
+// List Project Pm Lead
+
+Route::apiResource('listprojectpm','\App\Http\Controllers\API\ListProjectPmController',[
+    "only" => ["store", "index", "edit", "destroy", "update"]    
+]);
+
 // Route::group(['middleware' => ['auth:sanctum']],function() {
 // });
