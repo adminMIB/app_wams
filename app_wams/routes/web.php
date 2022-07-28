@@ -8,10 +8,10 @@ use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardViewController;
-use App\Http\Controllers\ElearningController as ControllersElearningController;
-use App\Http\Controllers\SALES\ElearningController;
+use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
+use App\Http\Controllers\SALES\SElearningController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
@@ -84,7 +84,6 @@ Route::group(['middleware' ] , function()
   Route::get('/exportsalesopty', [SalesViewController::class, 'export'])->name('exportsalesopty');
   Route::get('/edit/{id}', [SalesViewController::class,'edit'])->name('edit');
   Route::post('/simpan/{id}', [SalesViewController::class,'update'])->name('simpan');
-  Route::get('/elearning',[ElearningController::class,'index'])->name('elearning');
   Route::get('/cetak', [SalesViewController::class,'cetak'])->name('cetak');
   Route::get('/home',[DashboardViewController::class,'index'])->name('home');
   
@@ -108,7 +107,7 @@ Route::group(['middleware'], function()
 {
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class,'index'])->name('/dashboardAmSales');
 
-  Route::get('/elearning', [ElearningController::class,'index']);
+  Route::get('/selearning', [SElearningController::class,'index']);
 
   Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
   Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');
@@ -135,12 +134,12 @@ Route::group(['middleware'], function()
 {
 
   Route::get('/dashboardTeknikal',[DashboardController::class, 'index'])->name('dashboard');
-  Route::get('/telearning',[ControllersElearningController::class,'index'])->name('elearning');
-  Route::get('/create-elearning',[ControllersElearningController::class,'create'])->name('create-elearning');
-  Route::post('/Esimpan-data',[ControllersElearningController::class,'store'])->name('Esimpan-data');
-  Route::get('/edit/{id}',[ControllersElearningController::class,'edit'])->name('edit');
-  Route::get('/delete/{id}',[ControllersElearningController::class,'destroy']);
-  Route::post('/update-data/{id}',[ControllersElearningController::class,'update'])->name('update-data');
+  Route::get('/telearning',[ElearningController::class,'index'])->name('elearning');
+  Route::get('/create-elearning',[ElearningController::class,'create'])->name('create-elearning');
+  Route::post('/Esimpan-data',[ElearningController::class,'store'])->name('Esimpan-data');
+  Route::get('/edit/{id}',[ElearningController::class,'edit'])->name('edit');
+  Route::get('/delete/{id}',[ElearningController::class,'destroy']);
+  Route::post('/update-data/{id}',[ElearningController::class,'update'])->name('update-data');
 });
 
 
