@@ -1,10 +1,10 @@
 @extends('layouts.main')
 @section('content')
   <section class="section">
+      <div class="section-header">
+        <h1>Sales Order</h1>
+      </div>
       <div class="card">
-        <div class="card-header">
-          <h1>Sales Order</h1>
-        </div>
         <div class="card-body">
           {{-- <div class="text-right mb-2">
             <a href="{{route('createodr')}}" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Tambah Sales Order</a>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\ElearningController;
+use App\Http\Controllers\API\SalesOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

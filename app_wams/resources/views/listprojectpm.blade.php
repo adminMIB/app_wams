@@ -78,7 +78,7 @@
           @endforeach
         </select>
         @error('sign_pm_lead')
-        <div class="invalid-feedback">{{$message}}</div>
+        <div class="invalid-feedback">{{$message}}</ div>
         @enderror
       </div>
     </div>

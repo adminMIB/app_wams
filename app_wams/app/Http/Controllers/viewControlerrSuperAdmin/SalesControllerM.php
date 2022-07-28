@@ -10,24 +10,44 @@ use Illuminate\Http\Request;
 
 class SalesControllerM extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sales= SalesOpty::all();
-        return view('superAdmin.salesMonitoring.dashboardSalesOpty', compact('sales'));
+       $sales = SalesOpty::all();
+      if($request->has('cari')) {
+        $sales=SalesOpty::where('Date', 'LIKE', '%'.$request->cari. '%')->get();
+      }else{
+        $sales = SalesOpty::paginate(5);
     }
-    
+        return view('SALES.index', compact('sales'));
+    }
 
+    //public function salesoptyexport(){
+        //return Excel::download(new SalesOptyExport, 'salesopty.xlsx'());
+    //}
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
-        $ele= Elearning::all();
-        return view('superAdmin.salesMonitoring.addSalesOpty', compact('ele') ); //, compact('kd')   
+        $ele = Elearning::all();
+        
+        return view('SALES.inputsales',compact('ele'));
     }
 
+  
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
       
-            $request->validate([
+           $request->validate([
             "NamaClient" => "required|string",
             "NamaProject" => "required|string",
             "Timeline" => "required|string",
@@ -37,7 +57,7 @@ class SalesControllerM extends Controller
             "Note" => "required|string",
             "elearning_id" => "required"
 
-            ],[
+           ],[
 
             'NamaClient.required'=> 'Nama Client tidak boleh kosong!',
             'NamaProject.required'=> 'Nama Project tidak boleh kosong!',
@@ -62,7 +82,7 @@ class SalesControllerM extends Controller
                 "elearning_id" => $request->elearning_id
             ]);
 
-            return redirect('/dashboard/salesOpty');
+            return redirect('index-sales');
 
      
     }
@@ -82,7 +102,7 @@ class SalesControllerM extends Controller
                 $sales =  SalesOpty::orderBy('created_at', 'desc')->paginate(10);
             }
 
-            return view('salesopty.index', compact('sales'));
+            return view('SALES.index', compact('sales'));
         } catch (\Throwable $th) {
             return response()->json([
                 "status" => false,
@@ -101,16 +121,69 @@ class SalesControllerM extends Controller
     public function show($id)
     {
         $detail = SalesOpty::with('elearnings')->find($id);
-        return view('salesopty.detail', compact('detail'));
+        return view('SALES.detail', compact('detail'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $ele = Elearning::all();
+         $edit = SalesOpty::find($id);
+         return view('SALES.edit', compact('edit','ele'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $sales = SalesOpty::find($id);
+
+        $sales->update([
+            "NamaClient" => $request->NamaClient,
+            "NamaProject" => $request->NamaProject,
+            "Timeline" => $request->Timeline,
+            "Date" => $request->Date,
+            "Angka" => $request->Angka,
+            "Status" => $request->Status,
+            "Note" => $request->Note,
+            "elearning_id" => $request->elearning_id
+        ]);
+
+        return redirect('index-sales');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
-        $deletData = SalesOpty::find($id);
-        $deletData->delete();
-        $sales= SalesOpty::all();
-        return view('superAdmin.salesMonitoring.dashboardSalesOpty', compact('sales'));
+        $sales = SalesOpty::find($id);
+        $sales -> delete();
+        return back();
+    }
 
+    public function export() 
+    {
+        // return Excel::download(new SalesOptyExport, 'salesopty.xlsx');
+    }
+
+    public function cetak()
+    {
+        $sales = SalesOpty::all();
+        return view('SALES.cetak', compact('sales'));
     }
 
 }

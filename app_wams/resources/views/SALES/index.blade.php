@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+<section></section>
     <div class="title">
         <h1 style="color: black; margin-left: 9px; margin-top:20px">List Sales Opty</h1>
      </div> 
