@@ -53,7 +53,7 @@
                       ...
                     </a>
                     <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
-                      <a href="{{url ('edit', $item->id)}}" style="color: black;"><button type="submit" class="btn btn-primary btn-sm"> <i class="fas fa-pen nav-icon"></i></button> </a>
+                      <a href="{{url ('editt', $item->id)}}" style="color: black;"><button type="submit" class="btn btn-primary btn-sm"> <i class="fas fa-pen nav-icon"></i></button> </a>
                       <a href="{{url ('delete', $item->id)}}" style="color: black ;"><button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash nav-icon"></i></button></a>
                       <a href="dokumen/{{$item->upload}}"><button type="submit" class="btn btn-warning btn-sm"><i class="fas fa-download nav-icon"></i></button></a>
 

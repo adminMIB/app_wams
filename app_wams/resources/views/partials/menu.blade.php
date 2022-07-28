@@ -115,7 +115,7 @@
     <li class="nav-item"><a class="nav-link" href="/create"><i class="fa-solid fa-clipboard-list" style="color: white"></i><span>Create Weekly Report</span></a></li>
     <li class="nav-item"><a class="nav-link" href="/telearning"><i class="fa-solid fa-book" style="color: white"></i><span>Form Elearning</span></a></li>
 
-    
+   
 
     <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
   <form action="/logout" method="POST">

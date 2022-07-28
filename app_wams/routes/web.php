@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes(); 
 
 
 // ! Routing dashboard Super Admin
@@ -139,7 +139,7 @@ Route::group(['middleware'], function()
   Route::get('/telearning',[ControllersElearningController::class,'index'])->name('elearning');
   Route::get('/create-elearning',[ControllersElearningController::class,'create'])->name('create-elearning');
   Route::post('/Esimpan-data',[ControllersElearningController::class,'store'])->name('Esimpan-data');
-  Route::get('/edit/{id}',[ControllersElearningController::class,'edit'])->name('edit');
+  Route::get('/editt/{id}',[ControllersElearningController::class,'edit'])->name('editt');
   Route::get('/delete/{id}',[ControllersElearningController::class,'destroy']);
   Route::post('/update-data/{id}',[ControllersElearningController::class,'update'])->name('update-data');
 
