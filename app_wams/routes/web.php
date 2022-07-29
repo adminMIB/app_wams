@@ -4,14 +4,22 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CobaController;
 use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\DashboardAmSalesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardleadController;
+use App\Http\Controllers\DashboardPmController;
 use App\Http\Controllers\DashboardViewController;
-use App\Http\Controllers\ElearningController as ControllersElearningController;
-use App\Http\Controllers\SALES\ElearningController;
+use App\Http\Controllers\ElearningController;
+use App\Http\Controllers\ListController;
+use App\Http\Controllers\ListProjectPmController;
+use App\Http\Controllers\ListProjectTechController;
 use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
+use App\Http\Controllers\SALES\SElearningController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TimeLineController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
@@ -24,6 +32,7 @@ use App\Http\Controllers\viewControlerrSuperAdmin\ProjectTimelineControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
+use App\Http\Controllers\WeeklyReportController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\SalesOpty;
 use Illuminate\Support\Facades\Auth;
@@ -98,18 +107,30 @@ Route::group(['middleware' ] , function()
   route::get('/edit/{id}', [SalesOrderControllerM::class, 'edit'])->name('edit');
   route::get('/del/{id}', [SalesOrderControllerM::class, 'destroy'])->name('del');
 
-  //! Route Project Timline
-  Route::get('/dashboard/projectTimeline', [ProjectTimelineControllerM  ::class,'index'])->name('/dashboard/projectTimeline');
-  Route::get('/dashboard/ProjectTimeline', [ProjectTimelineControllerM::class,'create'])->name('/dashboard/ProjectTimeline');
-  Route::post('/dashboard/addProjectTimeline', [ProjectTimelineControllerM::class,'store'])->name('/dashboard/addProjectTimeline');
+  //! Route PM
+  Route::get('/dashboardpm',[DashboardPmController::class,'index'])->name('dasboardpm');
+
+  
+  Route::get('/listproject',[ListProjectTechController::class,'index'])->name('listproject');
+  Route::post('/simpan-list',[ListProjectTechController::class,'store'])->name('simpan-list');
+  Route::post('/work_order',[ListProjectTechController::class,'work']);
+  
+ 
+  Route::get('/timeline',[TimeLineController::class,'index'])->name('timeline');
+  Route::get('/input',[TimeLineController::class,'create'])->name('input');
+  Route::post('/simpan-data',[TimeLineController::class,'store'])->name('simpan-data');
+  
+  Route::get('/task',[CobaController::class,'index']);
+  Route::post('/simpan-task',[CobaController::class,'store'])->name('simpan-task');
 });
+
 
 //! Routing dashboard AM/Sales
 Route::group(['middleware'], function() 
 {
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class,'index'])->name('/dashboardAmSales');
 
-  Route::get('/elearning', [ElearningController::class,'index']);
+   Route::get('/selearning', [SElearningController::class,'index']);
 
   Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
   Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');
@@ -136,12 +157,12 @@ Route::group(['middleware'], function()
 {
 
   Route::get('/dashboardTeknikal',[DashboardController::class, 'index'])->name('dashboard');
-  Route::get('/telearning',[ControllersElearningController::class,'index'])->name('elearning');
-  Route::get('/create-elearning',[ControllersElearningController::class,'create'])->name('create-elearning');
-  Route::post('/Esimpan-data',[ControllersElearningController::class,'store'])->name('Esimpan-data');
-  Route::get('/edit/{id}',[ControllersElearningController::class,'edit'])->name('edit');
-  Route::get('/delete/{id}',[ControllersElearningController::class,'destroy']);
-  Route::post('/update-data/{id}',[ControllersElearningController::class,'update'])->name('update-data');
+  Route::get('/telearning',[ElearningController::class,'index'])->name('elearning');
+  Route::get('/create-elearning',[ElearningController::class,'create'])->name('create-elearning');
+  Route::post('/Esimpan-data',[ElearningController::class,'store'])->name('Esimpan-data');
+  Route::get('/edit/{id}',[ElearningController::class,'edit'])->name('edit');
+  Route::get('/delete/{id}',[ElearningController::class,'destroy']);
+  Route::post('/update-data/{id}',[ElearningController::class,'update'])->name('update-data');
 });
 
 
@@ -157,13 +178,37 @@ Route::group(['middleware'], function()
   // 
   route::put('/updateStatusApproval/{id}', [ApprovalController::class, 'update'])->name('updateStatusApproval');
   Route::get('/reportp', [ReportpController::class,'index']);
-  Route::get('/inputwo', [InputwoController::class,'index']);
+  Route::get('/inputWorkOrder/{id}', [InputwoController::class,'show'])->name('inputWorkOrder');
+  Route::get('/inputTwo', [InputwoController::class,'index']);
+  Route::post('/inputWo/sendPmLead', [InputwoController::class,'store'])->name('/inputWo/sendPmLead');
+
   Route::get('/listd', [ListdController::class,'index']);
 });
 
 //! Routing dashboard Finance
 // Route::group(['middleware' => ['role:Finance']], function() 
 // {
+
+
+  Route::group(['middleware' ], function() 
+  {
+    
+  Route::get('/task',[TaskController::class,'index'])->name('task');
+  Route::get('/exporttask',[TaskController::class,'export'])->name('exporttask');
+  // Route::post('/task',[TaskController::class,'index'])->name('task');
+  
+  Route::post('/listprojectpm', [ListProjectPmController::class, 'listprojectpm']);
+  
+  Route::get('/listprojectpm',[ListProjectPmController::class,'index'])->name('listprojectpm');
+  Route::post('/simpan-dok',[ListProjectPmController::class,'store'])->name('simpan-dok');
+  
+  Route::get('/list',[ListController::class,'index'])->name('list');
+  Auth::routes();
+  Route::get('/dashboardlead',[DashboardleadController::class,'index'])->name('dashboardlead');
+  
+  });
+  
+
 
 // });
 

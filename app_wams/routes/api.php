@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\ElearningController;
+use App\Http\Controllers\API\SalesOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,11 +32,7 @@ Route::apiResource('roles','\App\Http\Controllers\API\RoleController', [
 Route::post( '/logout',[\App\Http\Controllers\API\AuthController::class,'logout']);
 
 //Technical
-Route::apiResource('reports','\App\Http\Controllers\API\ReportController', [
-    "only" => ["store","index","edit","update","destroy"]
-]);
-
-Route::apiResource('createweeklies','\App\Http\Controllers\API\CreateWeekliesController', [
+Route::apiResource('weekly_reports','\App\Http\Controllers\API\WeeklyReportController', [
     "only" => ["store","index","edit","update","destroy"]
 ]);
 
@@ -81,6 +79,18 @@ Route::apiResource('timeline','\App\Http\Controllers\API\TimelineController', [
 //manager route
 Route::apiResource('manager','\App\Http\Controllers\API\managerController',[
     "only" => ["store", "index", "edit", "destroy", "update"]    
+]);
+
+
+// List Project Pm Lead
+
+Route::apiResource('listprojectpm','\App\Http\Controllers\API\ListProjectPmController',[
+    "only" => ["store", "index", "edit", "destroy", "update"]    
+]);
+
+
+Route::apiResource('coba','\App\Http\Controllers\API\CobaController',[
+    "only"=> ["store"]
 ]);
 
 

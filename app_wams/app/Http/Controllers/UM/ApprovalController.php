@@ -13,6 +13,7 @@ class ApprovalController extends Controller
     {
         $datas = SalesOrder::all()->count();
         $data = SalesOrder::all();
+
         return view('UM.approval', compact('datas', 'data'));
     }
 
@@ -28,8 +29,9 @@ class ApprovalController extends Controller
     {
         $detailId = SalesOrder::find($id);
         $datas = SalesOrder::all()->count();
+        $data = SalesOrder::all();
 
-        return view('UM.inputwo', compact('detailId', 'datas'));
+        return view('UM.inputwo', compact('detailId', 'datas', 'data'));
     }
 
     public function edit($id)

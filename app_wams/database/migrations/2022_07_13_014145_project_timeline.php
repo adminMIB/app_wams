@@ -15,13 +15,11 @@ return new class extends Migration
     {
         Schema::create('project_timelines', function (Blueprint $table) {
             $table->id();
-            $table->string("nama_institusi");
-            $table->string("nama_project");
-            $table->string("nama_sales");
-            $table->string("project_timeline");
+          
+            $table->string("nama_technical");
             $table->string("start_date");
             $table->string("finish_date");
-            $table->string("sign_to");
+            $table->string("jenis_pekerjaan");
             $table->timestamps();
         });
     }
