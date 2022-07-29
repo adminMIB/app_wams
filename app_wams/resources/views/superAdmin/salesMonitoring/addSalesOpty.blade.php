@@ -6,7 +6,7 @@
      </div> 
        <div class="card">
         <div class="card-body">
-        <form action="/dashboard/saveSalesOpty" method="POST" enctype="multipart/form-data">
+        <form action="{{route('Msimpan-data')}}" method="POST" enctype="multipart/form-data">
             {{csrf_field()}}
         
                 <div class="mb-3 row">

@@ -17,7 +17,7 @@
   <li class="dropdown">
     <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Sales Monitoring</span></a>
     <ul class="dropdown-menu" style="display: none;">
-      <li><a class="nav-link" href="{{route('/dashboardAdminSales')}}">Sales Opty</a></li>
+      <li><a class="nav-link" href="{{route('/dashboard/salesOpty')}}">Sales Opty</a></li>
       <li><a class="nav-link" href="{{route('/dashboard/salesOrder')}}">Sales Order</a></li>
     </ul>
   </li>

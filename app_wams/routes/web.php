@@ -76,17 +76,17 @@ Route::group(['middleware' ] , function()
   //! Route Sales opty & order
   // sales opty
   
-  Route::get('/dashboardAdminSales',[SalesOptyController::class,'index'])->name('/dashboardAdminSales');
-  Route::get('/inputsales',[SalesOptyController::class,'create'])->name('inputsales');
-  Route::post('/simpan-data',[SalesOptyController::class,'store'])->name('simpan-data');
-  Route::get('/filter',[SalesOptyController::class,'filter'])->name('salesopty.filter');
-  Route::get('/detail/{id}',[SalesOptyController::class,'show'])->name('detail');
-  Route::get('/delete/{id}', [SalesOptyController::class, 'destroy'])->name('delete');
-  Route::get('/exportsalesopty', [SalesOptyController::class, 'export'])->name('exportsalesopty');
-  Route::get('/edit/{id}', [SalesOptyController::class,'edit'])->name('edit');
-  Route::post('/simpan/{id}', [SalesOptyController::class,'update'])->name('simpan');
+  Route::get('/dashboard/salesOpty',[ SalesControllerM::class,'index'])->name('/dashboard/salesOpty');
+  Route::get('/Minputsales',[ SalesControllerM::class,'create'])->name('Minputsales');
+  Route::post('/Msimpan-data',[ SalesControllerM::class,'store'])->name('Msimpan-data');
+  Route::get('/filter',[ SalesControllerM::class,'filter'])->name('salesopty.filter');
+  Route::get('/Mdetail/{id}',[ SalesControllerM::class,'show'])->name('Mdetail');
+  Route::get('/Mdelete/{id}', [ SalesControllerM::class, 'destroy'])->name('Mdelete');
+  Route::get('/exportsalesopty', [ SalesControllerM::class, 'export'])->name('exportsalesopty');
+  Route::get('/Medit/{id}', [ SalesControllerM::class,'edit'])->name('Medit');
+  Route::post('/Msimpan/{id}', [ SalesControllerM::class,'update'])->name('Msimpan');
   Route::get('/elearning',[ElearningController::class,'index'])->name('elearning');
-  Route::get('/cetak', [SalesOptyController::class,'cetak'])->name('cetak');
+  Route::get('/Mcetak', [ SalesControllerM::class,'cetak'])->name('cetak');
   Route::get('/home',[DashboardViewController::class,'index'])->name('home');
   
 
@@ -152,6 +152,10 @@ Route::group(['middleware'], function()
   // Route::get('/um', [NotifManagementController::class,'index']);
   Route::get('/approval', [ApprovalController::class,'index']);
   Route::get('/detailapproval/{id}', [ApprovalController::class,'show']);
+  // !
+  Route::get('/inputWorkOrder/{id}', [ApprovalController::class,'inputWo']);
+  // 
+  route::put('/updateStatusApproval/{id}', [ApprovalController::class, 'update'])->name('updateStatusApproval');
   Route::get('/reportp', [ReportpController::class,'index']);
   Route::get('/inputwo', [InputwoController::class,'index']);
   Route::get('/listd', [ListdController::class,'index']);

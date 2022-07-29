@@ -32,7 +32,11 @@
                       <td>{{$item->name_user}}</td>
                       <td>{{$item->hps}}</td>
                       <td>{{$item->status}}</td>
+                      @if ($item->status !== 'Pending')
+                      <td><a href="{{url('/inputWorkOrder', $item->id)}}">Input Wo</a></td>
+                      @elseif($item->status !== 'Approve ')
                       <td><a href="{{url('/detailapproval', $item->id)}}">Detail</a></td>
+                      @endif
                     </tr>
                     @endforeach
                   </tbody>

@@ -14,11 +14,11 @@ class NotifManagementController extends Controller
             // return view('partials.navbarManagement', compact('datas'));
     }
 
-    public function show($id)
-    {
-        $detailId = SalesOrder::find($id);
+    // public function show($id)
+    // {
+    //     $detailId = SalesOrder::find($id);
 
-        return view('UM.detailapproval', compact('detailId'));
-    }
+    //     return view('UM.detailapproval', compact('detailId'));
+    // }
     
 }

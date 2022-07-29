@@ -10,7 +10,11 @@ class InputwoController extends Controller
 {
     public function index()
     {
+        $data = SalesOrder::all();
         $datas = SalesOrder::all()->count();
-        return view('UM.inputwo', compact('datas'));
+
+      
+
+        return view('UM.inputwo', compact('data', 'datas'));
     }
 }

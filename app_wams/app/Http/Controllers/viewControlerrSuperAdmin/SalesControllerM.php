@@ -51,6 +51,7 @@ class SalesControllerM extends Controller
      */
     public function store(Request $request)
     {
+        dd('ok');
       
            $request->validate([
             "NamaClient" => "required|string",
@@ -87,7 +88,7 @@ class SalesControllerM extends Controller
                 "elearning_id" => $request->elearning_id
             ]);
 
-            return redirect('index-sales');
+            return redirect('superAdmin.salesMonitoring.dashboardSalesOpty');
 
      
     }
