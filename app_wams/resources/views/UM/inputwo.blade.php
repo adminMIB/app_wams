@@ -69,7 +69,7 @@
               <option></option>
               @foreach ($user as $item)
                   @foreach ($item->users as $user)
-                  <option class="" name="sign_pm_lead" value="{{$user->name }}">{{$user->name }}</option>
+                  <option class="" name="sign_pm_lead" value="{{$user->id}}">{{$user->name }}</option>
                   @endforeach
               @endforeach
              

@@ -14,8 +14,10 @@ class ApprovalController extends Controller
     {
         $datas = SalesOrder::all()->count();
         $data = SalesOrder::all();
+        $cekPmLead = ListProjectPm::all();
+        // return $cekPmLead;
 
-        return view('UM.approval', compact('datas', 'data'));
+        return view('UM.approval', compact('datas', 'data', 'cekPmLead'));
     }
 
     public function show($id)

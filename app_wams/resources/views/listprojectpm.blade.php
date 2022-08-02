@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@andsection
+@endsection
 @section('content')
 
 <section class="section">
@@ -25,7 +25,7 @@
 
       <div class="col">
         <label for="no_sales" class="form-label" style="font-weight: bold; color:black">No Sales Order</label>
-        <input type="text" name="no_sales" id="no_sales" class="form-control">
+        <input type="text" name="no_sales" id="no_sales" class="form-control" readonly>
         @error('no_sales')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -34,7 +34,7 @@
 
       <div class="col-sm-6">
         <label for="tgl_sales" class="form-label" style="font-weight: bold; color:black">Tanggal Sales Order</label>
-        <input type="text" name="tgl_sales" id="tgl_sales" class="form-control">
+        <input type="text" name="tgl_sales" id="tgl_sales" class="form-control" readonly>
         @error('tgl_sales')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -45,7 +45,7 @@
     <div class="row g-3">
       <div class="col-sm-6">
         <label for="nama_sales" class="form-label" style="font-weight: bold; color:black">Nama Sales</label>
-        <input type="text" name="nama_sales" id="nama_sales" class="form-control">
+        <input type="text" name="nama_sales" id="nama_sales" class="form-control" readonly>
         @error('nama_sales')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -53,7 +53,7 @@
 
       <div class="col-sm-6">
         <label for="nama_institusi" class="form-label" style="font-weight: bold; color:black">Nama Institusi</label>
-        <input type="text" name="nama_institusi" id="nama_institusi" class="form-control">
+        <input type="text" name="nama_institusi" id="nama_institusi" class="form-control" readonly>
         @error('nama_institusi')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -61,15 +61,15 @@
 
       <div class="col-sm-6">
         <label for="nama_project" class="form-label" style="font-weight: bold; color:black">Nama project</label>
-        <input type="text" name="nama_project" id="nama_project" class="form-control">
+        <input type="text" name="nama_project" id="nama_project" class="form-control" readonly>
         @error('nama_project')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
       </div>
 
       <div class="col-sm-6">
-        <label for="sign_pm_lead" class="form-label" style="font-weight: bold; color:black">Sign To Pm</label>
-        <select name="sign_pm_lead" id="sign_pm_lead" class="form-control">
+        <label for="sign_pm" class="form-label" style="font-weight: bold; color:black">Sign To Pm</label>
+        <select name="sign_pm" id="sign_pm" class="form-control">
           <option selected>Pilih Pm</option>
           @foreach($user as $c)
           @foreach($c->users as $a)
@@ -87,7 +87,7 @@
     <div class="row">
       <div class="col-sm-6">
         <label for="hps" class="form-label" style="font-weight: bold; color:black">Hps</label>
-        <input type="text" name="hps" id="hps" class="form-control">
+        <input type="text" name="hps" id="hps" class="form-control" readonly>
         @error('hps')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
