@@ -1,5 +1,4 @@
 
-
 @if (Auth::user()->hasRole('Super Admin'))
 <ul class="sidebar-menu">
   <li class="menu-header">Management Tools</li>
@@ -61,6 +60,25 @@
     <button class="btn btn-danger">Logout</button>
 </form>
   </div>
+</ul>
+@endif
+
+
+{{-- !Project Admin --}}
+@if (Auth::user()->hasRole('Project Admin'))
+<ul class="sidebar-menu">
+  <li class="menu-header">admin Tools</li>
+  <li class="nav-item ">
+    <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+  </li>
+  <li class="nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class="">SalesOpty</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/reportp"><i class="fas fa-file-alt"></i> <span>List Project</span></a></li>
+  <li class="nav-item mt-3 d-block  ">
+    <form action="/logout" method="POST">
+      @csrf
+      <button class="btn btn-danger">Logout</button>
+    </form>
+  </li>
 </ul>
 @endif
 

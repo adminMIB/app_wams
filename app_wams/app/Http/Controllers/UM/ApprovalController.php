@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UM;
 
 use App\Http\Controllers\Controller;
+use App\Models\ListProjectPm;
 use App\Models\SalesOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,8 +14,10 @@ class ApprovalController extends Controller
     {
         $datas = SalesOrder::all()->count();
         $data = SalesOrder::all();
+        $cekPmLead = ListProjectPm::all();
+        // return $cekPmLead;
 
-        return view('UM.approval', compact('datas', 'data'));
+        return view('UM.approval', compact('datas', 'data', 'cekPmLead'));
     }
 
     public function show($id)

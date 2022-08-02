@@ -70,6 +70,15 @@ class LoginController extends Controller
             return redirect()->intended('dashboardpm');
         } 
 
+        //! ini pengecekan admin project
+        if ( Auth::user()->hasRole('Project Admin')) {
+            // jika role super admin  -> arahkan ke dashboard super admin
+            return redirect()->intended('adminproject');
+            // return response()->json([
+            //     "status" => 'ok'
+            // ]);
+        } 
+
         //! ini pengecekan role management
         else if (Auth::user()->hasRole('Management')) {
             // jika role super Management  -> arahkan ke dashboard Management
