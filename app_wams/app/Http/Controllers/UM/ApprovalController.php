@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UM;
 
 use App\Http\Controllers\Controller;
+use App\Models\ListProjectPm;
 use App\Models\SalesOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -30,6 +31,7 @@ class ApprovalController extends Controller
         $detailId = SalesOrder::find($id);
         $datas = SalesOrder::all()->count();
         $data = SalesOrder::all();
+        // $listPm = ListProjectPm::all();
 
         return view('UM.inputwo', compact('detailId', 'datas', 'data'));
     }
@@ -155,7 +157,6 @@ class ApprovalController extends Controller
         $update->file_quotation = $file_quotation_name;
         $update->file_po = $file_po_name;
         $update->file_spk = $file_spk_name;
-        $update->jenis_dok = $request->jenis_dok;
         $update->file_dokumen = $file_dokumen_name;
         $update->update();
 

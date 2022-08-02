@@ -17,19 +17,21 @@ class InputwoController extends Controller
         $data = SalesOrder::all();
         $datas = SalesOrder::all()->count();
         $detailId =  SalesOrder::all();
-
-
-        return view('UM.indexInputWorkOder', compact('data', 'datas'));
-    }
-
-    public function show($id)
-    {
-        $detailId = SalesOrder::find($id);
-        $datas = SalesOrder::all()->count();
         $user = Role::with('users')->where("name", "PM Lead")->get();
+        $listPm = ListProjectPm::all();
 
-        return view('UM.inputwo', compact('detailId', 'datas', 'user'));
+
+        return view('UM.inputwo', compact('data', 'datas','user', 'listPm'));
     }
+
+    // public function show($id)
+    // {
+    //     $detailId = SalesOrder::find($id);
+    //     $datas = SalesOrder::all()->count();
+    //     $user = Role::with('users')->where("name", "PM Lead")->get();
+
+    //     return view('UM.inputwo', compact('detailId', 'datas', 'user'));
+    // }
 
     public function  store(Request $request)
     {   
@@ -65,5 +67,12 @@ class InputwoController extends Controller
         } catch (\Throwable $th) {
             return response()->json($th->getMessage());
         }
+    }
+
+    public function iwo(Request $request)
+    {
+        $id = $request->id;
+        $data = SalesOrder::find($id);
+        return response()->json($data);
     }
 }

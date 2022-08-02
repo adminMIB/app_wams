@@ -175,10 +175,11 @@ Route::group(['middleware'], function()
   Route::get('/detailapproval/{id}', [ApprovalController::class,'show']);
   // !
   Route::get('/inputWorkOrder/{id}', [ApprovalController::class,'inputWo']);
+  Route::post('/input_wo',[InputwoController::class,'iwo']);
   // 
   route::put('/updateStatusApproval/{id}', [ApprovalController::class, 'update'])->name('updateStatusApproval');
   Route::get('/reportp', [ReportpController::class,'index']);
-  Route::get('/inputWorkOrder/{id}', [InputwoController::class,'show'])->name('inputWorkOrder');
+  // Route::get('/inputWorkOrder/{id}', [InputwoController::class,'show'])->name('inputWorkOrder');
   Route::get('/inputTwo', [InputwoController::class,'index']);
   Route::post('/inputWo/sendPmLead', [InputwoController::class,'store'])->name('/inputWo/sendPmLead');
 

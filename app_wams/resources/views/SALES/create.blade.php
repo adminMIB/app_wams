@@ -10,7 +10,7 @@
               {{csrf_field()}}
               <div class="row">
                   <div class="column col-4">
-                      <input type="hidden" class="form-control" name="no_so" value="{{date('d/m/Y').'/'.$dd}}" id="exampleInputEmail1" readonly>
+                      <input type="text" class="form-control" name="no_so" value="{{date('d/m/Y').'/'.$dd}}" id="exampleInputEmail1" readonly>
                       {{-- <div class="form-group">
                           <label for="exampleInputEmail1">No Sales Order</label>
                       </div> --}}

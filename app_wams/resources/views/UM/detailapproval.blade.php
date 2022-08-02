@@ -14,32 +14,32 @@
                   {{-- no_so --}}
                 <div class="form-group">
                   <label>No So</label>
-                  <input type="text" name="no_so" class="form-control" value="B{{$detailId->no_so}}" autofocus>
+                  <input type="text" name="no_so" class="form-control" value="{{$detailId->no_so}}" readonly>
                 </div>
                   {{-- kode project --}}
                 <div class="form-group">
                   <label>Kode Project</label>
-                  <input type="text" name="kode_project" class="form-control" value="B{{$detailId->kode_project}}" autofocus>
+                  <input type="text" name="kode_project" class="form-control" value="B{{$detailId->kode_project}}" readonly>
                 </div>
                 {{-- nama institusi --}}
                 <div class="form-group">
                   <label>Nama Insitusi</label>
-                  <input type="text" name="institusi" class="form-control" value="{{$detailId->institusi}}">
+                  <input type="text" name="institusi" class="form-control" value="{{$detailId->institusi}}" readonly>
                 </div>
                 {{-- nama project--}}
                 <div class="form-group">
                   <label>Nama project</label>
-                  <input type="text" name="project" class="form-control" value="{{$detailId->project}}">
+                  <input type="text" name="project" class="form-control" value="{{$detailId->project}}" readonly>
                 </div>
                 {{-- nama AM--}}
                 <div class="form-group">
                   <label>Nama AM</label>
-                  <input type="text" name="name_user" class="form-control" value="{{$detailId->name_user}}">
+                  <input type="text" name="name_user" class="form-control" value="{{$detailId->name_user}}" readonly>
                 </div>
                 {{-- HPS--}}
                 <div class="form-group">
                   <label>HPS</label>
-                  <input type="text" name="hps" class="form-control" value="{{$detailId->hps}}">
+                  <input type="text" name="hps" class="form-control" value="{{$detailId->hps}}" readonly>
                 </div>
                 {{-- status approve--}}
                 {{-- <div class="form-group">
@@ -49,7 +49,7 @@
                 <div class="form-group row">
                   <div class="col-sm-9">
                     <p class="text-danger">Status : {{$detailId->status}}</p>
-                    <select class="form-control select2" style="width: 100%;" name="status" id="inputEmail5">
+                    <select class="form-control select2" style="width: 100%;" name="status" id="inputEmail5" autofocus>
                       <option></option>
                       <option>Approve</option>
                       <option>Reject</option>
