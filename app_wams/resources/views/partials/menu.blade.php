@@ -104,8 +104,8 @@
   <li class="nav-item ">
     <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
   </li>
-  <li class="nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class="">SalesOpty</span></a></li>
-  <li class="nav-item"><a class="nav-link" href="/reportp"><i class="fas fa-file-alt"></i> <span>List Project</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class="">list Project admin</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/adminproject/sales"><i class="fas fa-file-alt"></i> <span>List Sales Opty</span></a></li>
   <li class="nav-item mt-3 d-block  ">
     <form action="/logout" method="POST">
       @csrf
@@ -126,7 +126,7 @@
     <li class="nav-item"><a class="nav-link" href="/slsorder"><i class="fas fa-keyboard"></i> <span>Sales Order</span></a></li>
     <li class="nav-item"><a class="nav-link" href="/index-sales"><i class="fas fa-file-invoice-dollar"></i> <span>Sales Opty</span></a></li>
     <li class="nav-item"><a class="nav-link" href="/selearning"><i class="fab fa-readme"></i> <span>Elearning</span></a></li>
-    {{-- <li class="nav-item"><a class="nav-link" href="/updoc"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
+    <li class="nav-item"><a class="nav-link" href="/slistpa"><i class="fas fa-file-upload"></i> <span>List Project Admin</span></a></li>
     {{-- <li class="nav-item"><a class="nav-link" href="/upload"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
     <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
       <form action="/logout" method="POST">

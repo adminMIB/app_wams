@@ -17,6 +17,7 @@ class CreateListProjectAdminsTable extends Migration
             $table->id();
             $table->string('NamaClient');
             $table->string('NamaProject');
+            $table->string('UploadDocument');
             $table->date('Date');
             $table->string('Angka');
             $table->string('Status')->comment('Tender', 'Menang', 'Kalah');

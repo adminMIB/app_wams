@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\sales\AmSalesController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\RoleController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\ListProjectPmController;
 use App\Http\Controllers\ListProjectTechController;
+use App\Http\Controllers\SALES\ListPAController;
 use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\SALES\SElearningController;
@@ -133,6 +135,7 @@ Route::group(['middleware'], function()
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class,'index'])->name('/dashboardAmSales');
 
    Route::get('/selearning', [SElearningController::class,'index']);
+   Route::get('/slistpa', [ListPAController::class,'index']);
 
   Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
   Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');
@@ -165,6 +168,15 @@ Route::group(['middleware'], function()
   Route::get('/edit/{id}',[ElearningController::class,'edit'])->name('edit');
   Route::get('/delete/{id}',[ElearningController::class,'destroy']);
   Route::post('/update-data/{id}',[ElearningController::class,'update'])->name('update-data');
+
+  Route::get('/dashboard',[DashboardController::class,'index']);
+  Route::get('/report',[WeeklyReportController::class,'index']);
+  Route::get('/create',[WeeklyReportController::class,'create'])->name('create');
+  Route::post('/save-data',[WeeklyReportController::class,'store'])->name('save-data');
+  Route::get('/edit/{id}', [WeeklyReportController::class, 'edit'])->name('edit');
+  Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
+  Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
+  Route::get('/change-status/{id}',[WeeklyReportController::class,'changestatus']);
 });
 
 
@@ -224,8 +236,14 @@ Route::group(['middleware'], function()
   Route::get('/adminproject', [AdminController::class,'index'])->name('/adminproject');
   Route::get('/adminproject/create', [AdminController::class,'create'])->name('/adminproject/create');
   Route::post('/adminproject/store', [AdminController::class,'store'])->name('/adminproject/store');
+  Route::get('/adminprojectShow/{id}', [AdminController::class,'show'])->name('/adminprojectShow');
+  Route::get('/adminprojecDelete/{id}', [AdminController::class,'destroy'])->name('/adminprojecDelete');
+
   // Route::get('/um', [NotifManagementController::class,'index']);
- 
+  // sales
+  Route::get('/adminproject/sales', [AmSalesController::class,'index'])->name('/adminproject/sales');
+  Route::get('/adminproject/salesCreate', [AmSalesController::class,'create'])->name('/adminproject/salesCreate');
+
 
 });
 

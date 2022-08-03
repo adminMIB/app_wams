@@ -17,6 +17,7 @@
       <div class="col">
         <label for="id" class="form-label" style="font-weight: bold; color:black">ID Project</label>
         <select name="" id="id" class="form-control">
+          <option value=""></option>
           @foreach($cb as $t)
           <option value="{{$t->id}}">{{$t->id}}</option>
           @endforeach
@@ -71,10 +72,10 @@
         <label for="sign_pm" class="form-label" style="font-weight: bold; color:black">Sign To Pm</label>
         <select name="sign_pm" id="sign_pm" class="form-control">
           <option selected>Pilih Pm</option>
-          @foreach($user as $c)
-          @foreach($c->users as $a)
-          <option value="{{$c->id}}">{{$a->name}}</option>
-          @endforeach
+          @foreach ($user as $item)
+            @foreach ($item->users as $user)
+            <option class="" value="{{$user->id}}">{{$user->name }}</option>
+            @endforeach
           @endforeach
         </select>
         @error('sign_pm_lead')

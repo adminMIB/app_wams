@@ -1,5 +1,6 @@
 @extends('layouts.main')
-@section('content')
+@section('content')  
+@include('sweetalert::alert')
     <section class="section">
       <h1 style="color: black; margin-left: 10px; margin-top:20px"></h1>
     </section>

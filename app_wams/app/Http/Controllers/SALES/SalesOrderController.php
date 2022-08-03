@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SALES;
 
 use App\Exports\SoExport;
 use App\Http\Controllers\Controller;
+use App\Models\ListProjectAdmin;
 use App\Models\SalesOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,8 @@ class SalesOrderController extends Controller
             $dd = "001";
         }
         $odr = SalesOrder::all();
-        return view('SALES.create', compact('odr', 'dd')); //, compact('kd')
+        $lpa = ListProjectAdmin::all();
+        return view('SALES.create', compact('odr', 'dd', 'lpa')); //, compact('kd')
     }
 
     public function store(Request $request)
@@ -93,6 +95,7 @@ class SalesOrderController extends Controller
         $so->institusi = $request->institusi;
         $so->project = $request->project;
         $so->hps = $request->hps;
+        $so->listpa_id = $request->listpa_id;
         $so->file_quotation = $file_quotation_name;
         $so->file_po = $file_po_name;
         $so->file_spk = $file_spk_name;

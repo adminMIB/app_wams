@@ -36,16 +36,34 @@
       </div>
 
 
-
-      <div class="col-md-3">
-        <label for="" class="form-label">Star Date</label>
-        <input type="date" class="form-control" name="start_date[]">
+      <div class="container mt-5 mb-3">
+        <div class="row">
+          <div class="col-6 col-sm-4">
+            <label for="" class="">Star Date</label>
+            <input type="date" class="form-control" name="start_date[]"> 
+          </div>
+          <div class="col-6 col-sm-4">
+            <label for="" class="">Finis Date</label>
+            <input type="date" class="form-control" name="finish_date[]">
+          </div>
+          <div class="w-100 d-none d-md-block"></div>
+          <div class="col-6 col-sm-4">
+            <label for="" class="">Jenis Pekerjaan</label>
+            <input type="text" class="form-control" name="jenis_pekerjaan[]">
+          </div>
+          <div class="col-6 col-sm-4">
+            <label for="" class="">Nama Technical</label>
+            <select name="nama_technical[]" id="" class="form-control">
+              @foreach($b as $t)
+              <option value="{{$t->name}}">{{$t->name}}</option>
+              @endforeach
+            </select>
+          </form>
+          </div>
+        </div>
       </div>
-      <div class="col-md-3">
-        <label for="" class="form-label">Finis Date</label>
-        <input type="date" class="form-control" name="finish_date[]">
-      </div>
 
+<<<<<<< HEAD
       <div class="col-md-3">
         <label for="" class="form-label">Jenis Pekerjaan</label>
         <input type="text" class="form-control" name="jenis_pekerjaan[]">
@@ -58,6 +76,11 @@
           <option value="{{$t->name}}">{{$t->name}}</option>
           @endforeach
         </select>
+=======
+      
+
+
+>>>>>>> aa51d63bbb733ed368e091025fd38d7ee566a458
       </div>
       <div class="technical"></div>
   </div>
@@ -70,6 +93,9 @@
 </div>
 
 </form>
+
+
+
 
 <br>
 <a href="#"><button class="addtechnical btn btn-success btn-sm" style="float:right ;">Tambah</button></a>
@@ -88,7 +114,11 @@
   });
 
   function addtechnical() {
+<<<<<<< HEAD
     var technical = '<div class="col-md-12"><label for="" class="">Star Date</label><input type="date" class="form-control" name="start_date[]"> </div> <div class="col-md-12"> <label for="" class="">Finis Date</label><input type="date" class="form-control" name="finish_date[]"></div> <div class="col-md-12"><label for="" class="">Jenis Pekerjaan</label><input type="text" class="form-control" name="jenis_pekerjaan[]"></div><div class="col-md-12"><label for="" class="">Nama Technical</label><select name="nama_technical[]" id="" class="form-control">@foreach($b as $t)<option value="{{$t->name}}">{{$t->name}}</option>@endforeach</select>';
+=======
+    var technical = '<div class="container"><div class="row"><div class="col-6 col-sm-4"><label for="" class="">Star Date</label><input type="date" class="form-control" name="start_date[]"> </div><div class="col-6 col-sm-4"><label for="" class="">Finis Date</label><input type="date" class="form-control" name="finish_date[]"></div><div class="w-100 d-none d-md-block"></div><div class="col-6 col-sm-4"><label for="" class="">Jenis Pekerjaan</label><input type="text" class="form-control" name="jenis_pekerjaan[]"></div><div class="col-6 col-sm-4"><label for="" class="">Nama Technical</label><select name="nama_technical[]" id="" class="form-control">@foreach($b as $t)<option value="{{$t->name}}">{{$t->name}}</option>@endforeach</select></form></div></div></div>';
+>>>>>>> aa51d63bbb733ed368e091025fd38d7ee566a458
     $('.technical').append(technical);
   };
   $('.remove').live('click', function() {

@@ -14,7 +14,7 @@ class SalesOrderController extends Controller
 {
     public function index()
     {
-        $data = SalesOrder::orderBy("created_at", "ASC")->paginate(10);
+        $data = SalesOrder::with('listpadmin')->orderBy("created_at", "ASC")->paginate(10);
         return response()->json([
             "status" => true,
             "data" => $data
