@@ -165,6 +165,15 @@ Route::group(['middleware'], function()
   Route::get('/edit/{id}',[ElearningController::class,'edit'])->name('edit');
   Route::get('/delete/{id}',[ElearningController::class,'destroy']);
   Route::post('/update-data/{id}',[ElearningController::class,'update'])->name('update-data');
+
+  Route::get('/dashboard',[DashboardController::class,'index']);
+  Route::get('/report',[WeeklyReportController::class,'index']);
+  Route::get('/create',[WeeklyReportController::class,'create'])->name('create');
+  Route::post('/save-data',[WeeklyReportController::class,'store'])->name('save-data');
+  Route::get('/edit/{id}', [WeeklyReportController::class, 'edit'])->name('edit');
+  Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
+  Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
+  Route::get('/change-status/{id}',[WeeklyReportController::class,'changestatus']);
 });
 
 
@@ -177,10 +186,11 @@ Route::group(['middleware'], function()
   Route::get('/detailapproval/{id}', [ApprovalController::class,'show']);
   // !
   Route::get('/inputWorkOrder/{id}', [ApprovalController::class,'inputWo']);
+  Route::post('/input_wo',[InputwoController::class,'iwo']);
   // 
   route::put('/updateStatusApproval/{id}', [ApprovalController::class, 'update'])->name('updateStatusApproval');
   Route::get('/reportp', [ReportpController::class,'index']);
-  Route::get('/inputWorkOrder/{id}', [InputwoController::class,'show'])->name('inputWorkOrder');
+  // Route::get('/inputWorkOrder/{id}', [InputwoController::class,'show'])->name('inputWorkOrder');
   Route::get('/inputTwo', [InputwoController::class,'index']);
   Route::post('/inputWo/sendPmLead', [InputwoController::class,'store'])->name('/inputWo/sendPmLead');
 
