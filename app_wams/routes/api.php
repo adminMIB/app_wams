@@ -55,9 +55,9 @@ use Illuminate\Support\Facades\Route;
 //     "only" => ["index", "store","destroy"]    
 // ]);
 // // route salesorder 
-// route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
-//     "only" => ["store", "index", "edit", "destroy", "show"]
-// ]);
+route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
+    "only" => ["store", "index", "edit", "destroy", "show"]
+]);
 
 // Route::post('salesorder/{id}', [SalesOrderController::class, 'update'])->name('up');
 

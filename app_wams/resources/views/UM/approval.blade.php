@@ -33,11 +33,7 @@
                       <td>{{$item->hps}}</td>
                       <td>{{$item->status}}</td>
                       @if ($item->status !== 'Pending')
-<<<<<<< HEAD
-                      <td><a href="{{url('/inputWorkOrder', $item->id)}}">Input Wo</a></td>
-=======
                       <td></td>
->>>>>>> 31cd12743c320c4ca93b30705d19361ebb94781c
                       @elseif($item->status !== 'Approve ')
                       <td><a href="{{url('/detailapproval', $item->id)}}">Detail</a></td>
                       @elseif($item->status !== 'Approve ')

@@ -17,7 +17,7 @@
   <tbody>
     
     @foreach ($cb as $item)
-    @if (Auth::user()->name == $item->sign_pm_lead)
+    @if (Auth::user()->id == $item->sign_pm_lead)
     <tr>
       <td>{{$item->no_sales}}</td>
       <td>{{$item->tgl_sales}}</td>

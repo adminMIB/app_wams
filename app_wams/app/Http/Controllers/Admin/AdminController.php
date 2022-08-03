@@ -98,7 +98,7 @@ class AdminController extends Controller
             foreach ($data as $dokumen) {
                 $fileName = $dokumen->getClientOriginalName();
                 $dokumen->move(public_path() . '/admins', $fileName);
-                $name = $name . $fileName;
+                $name = $name . $fileName . "|";
             }
 
         ListProjectAdmin::create([
