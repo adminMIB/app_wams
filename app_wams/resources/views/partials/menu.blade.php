@@ -126,7 +126,7 @@
     <li class="nav-item"><a class="nav-link" href="/slsorder"><i class="fas fa-keyboard"></i> <span>Sales Order</span></a></li>
     <li class="nav-item"><a class="nav-link" href="/index-sales"><i class="fas fa-file-invoice-dollar"></i> <span>Sales Opty</span></a></li>
     <li class="nav-item"><a class="nav-link" href="/selearning"><i class="fab fa-readme"></i> <span>Elearning</span></a></li>
-    {{-- <li class="nav-item"><a class="nav-link" href="/updoc"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
+    <li class="nav-item"><a class="nav-link" href="/slistpa"><i class="fas fa-file-upload"></i> <span>List Project Admin</span></a></li>
     {{-- <li class="nav-item"><a class="nav-link" href="/upload"><i class="fas fa-file-upload"></i> <span>Upload Document</span></a></li> --}}
     <div class="mt-4 mb-4 p-4 hide-sidebar-mini">
       <form action="/logout" method="POST">

@@ -17,6 +17,7 @@ use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\ListProjectPmController;
 use App\Http\Controllers\ListProjectTechController;
+use App\Http\Controllers\SALES\ListPAController;
 use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\SALES\SElearningController;
@@ -133,6 +134,7 @@ Route::group(['middleware'], function()
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class,'index'])->name('/dashboardAmSales');
 
    Route::get('/selearning', [SElearningController::class,'index']);
+   Route::get('/slistpa', [ListPAController::class,'index']);
 
   Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
   Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');

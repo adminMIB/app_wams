@@ -16,6 +16,7 @@
       <div class="col">
         <label for="id" class="form-label" style="font-weight: bold; color:black">ID</label>
         <select id="id" class="form-control" name="project_id" >
+          <option value="">pilih</option>
           @foreach($list as $v)
           <option value="{{$v->id}}">{{$v->id}}</option>
           @endforeach
