@@ -71,8 +71,8 @@
   <li class="nav-item ">
     <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
   </li>
-  <li class="nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class="">SalesOpty</span></a></li>
-  <li class="nav-item"><a class="nav-link" href="/reportp"><i class="fas fa-file-alt"></i> <span>List Project</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class="">list Project admin</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/adminproject/sales"><i class="fas fa-file-alt"></i> <span>List Sales Opty</span></a></li>
   <li class="nav-item mt-3 d-block  ">
     <form action="/logout" method="POST">
       @csrf

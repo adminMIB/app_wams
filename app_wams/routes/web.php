@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\sales\AmSalesController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\RoleController;
@@ -222,8 +223,14 @@ Route::group(['middleware'], function()
   Route::get('/adminproject', [AdminController::class,'index'])->name('/adminproject');
   Route::get('/adminproject/create', [AdminController::class,'create'])->name('/adminproject/create');
   Route::post('/adminproject/store', [AdminController::class,'store'])->name('/adminproject/store');
+  Route::get('/adminprojectShow/{id}', [AdminController::class,'show'])->name('/adminprojectShow');
+  Route::get('/adminprojecDelete/{id}', [AdminController::class,'destroy'])->name('/adminprojecDelete');
+
   // Route::get('/um', [NotifManagementController::class,'index']);
- 
+  // sales
+  Route::get('/adminproject/sales', [AmSalesController::class,'index'])->name('/adminproject/sales');
+  Route::get('/adminproject/salesCreate', [AmSalesController::class,'create'])->name('/adminproject/salesCreate');
+
 
 });
 
