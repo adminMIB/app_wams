@@ -164,6 +164,15 @@ Route::group(['middleware'], function()
   Route::get('/edit/{id}',[ElearningController::class,'edit'])->name('edit');
   Route::get('/delete/{id}',[ElearningController::class,'destroy']);
   Route::post('/update-data/{id}',[ElearningController::class,'update'])->name('update-data');
+
+  Route::get('/dashboard',[DashboardController::class,'index']);
+  Route::get('/report',[WeeklyReportController::class,'index']);
+  Route::get('/create',[WeeklyReportController::class,'create'])->name('create');
+  Route::post('/save-data',[WeeklyReportController::class,'store'])->name('save-data');
+  Route::get('/edit/{id}', [WeeklyReportController::class, 'edit'])->name('edit');
+  Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
+  Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
+  Route::get('/change-status/{id}',[WeeklyReportController::class,'changestatus']);
 });
 
 
