@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRelationshipsListProjectTechesToSalesOrdersTable extends Migration
+class AddRelationshipsProjectTimelinesToListProjetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddRelationshipsListProjectTechesToSalesOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::table('list_project_teches', function (Blueprint $table) {
-            $table->foreignId('project_id');
+        Schema::table('project_timelines', function (Blueprint $table) {
+            $table->foreignId('list_id');
         });
     }
 
@@ -25,8 +25,8 @@ class AddRelationshipsListProjectTechesToSalesOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::table('list_project_teches', function (Blueprint $table) {
-            $table->dropForeign(['project_id']);
+        Schema::table('project_timelines', function (Blueprint $table) {
+            $table->dropForeign(['list_id']);
         });
     }
 }

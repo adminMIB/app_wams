@@ -3,7 +3,7 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
 @section('content')
-
+@include('sweetalert::alert')
 <section class="section">
 <div class="section-header">
         <h1>List Project Technikal</h1>
@@ -14,8 +14,9 @@
     {{csrf_field()}}
     <div class="row">
       <div class="col">
-        <label for="id" class="form-label" style="font-weight: bold; color:black">ID</label>
+        <label for="id" class="form-label" style="font-weight: bold; color:black">Project ID</label>
         <select id="id" class="form-control" name="project_id" >
+          <option value="">-- Project ID --</option>
           @foreach($list as $v)
           <option value="{{$v->id}}">{{$v->id}}</option>
           @endforeach
@@ -28,7 +29,7 @@
       
       <div class="col-sm-3">
         <label for="code" class="form-label" style="font-weight: bold; color:black">Nama Institusi</label>
-        <input type="text" id="institusi" class="form-control @error('institusi') is-invalid @enderror" readonly required>
+        <input type="text" id="institusi" name="institusi" class="form-control @error('institusi') is-invalid @enderror" readonly required>
         @error('institusi')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -36,7 +37,7 @@
 
       <div class="col-sm-3">
         <label for="institusi" class="form-label" style="font-weight: bold; color:black">Nama Sales</label>
-        <input type="text"  id="name_user" class="form-control @error('name_user') is-invalid @enderror" readonly required>
+        <input type="text"  id="name_user" name="nama_sales" class="form-control @error('name_user') is-invalid @enderror" readonly required>
         @error('name_user')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -47,7 +48,7 @@
     <div class="row g-3">
       <div class="col-sm-6">
         <label for="project" class="form-label" style="font-weight: bold; color:black">Nama Project</label>
-        <input type="text" id="project" class="form-control @error('project') is-invalid @enderror" readonly required>
+        <input type="text" id="project" name="project" class="form-control @error('project') is-invalid @enderror" readonly required>
         @error('project')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -80,7 +81,7 @@
     <div class="row g-3">
       <div class="col-sm-6">
         <label for="project" class="form-label" style="font-weight: bold; color:black">HPS</label>
-        <input type="text" id="hps" class="form-control @error('hps') is-invalid @enderror" readonly required>
+        <input type="text" id="hps" name="hps" class="form-control @error('hps') is-invalid @enderror" readonly required>
         @error('hps')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -102,10 +103,9 @@
       </div>
     </div>
     <br>
-      <button type="submit" class="btn btn-primary btn-sm">Save</button>
+    
+      <button type="submit" class="btn btn-primary">Save</button>
     </div>
-    
-    
   </form>
     </div>
   </div>

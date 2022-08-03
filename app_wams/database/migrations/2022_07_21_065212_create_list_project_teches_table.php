@@ -15,8 +15,13 @@ return new class extends Migration
     {
         Schema::create('list_project_teches', function (Blueprint $table) {
             $table->id();
+            $table->string("institusi");
+            $table->string("project");
+            $table->string("hps");
+            $table->string("nama_sales");
             $table->string("jenis_dokumen");
             $table->string("upload_dokumen");
+            $table->string("sign_pm")->nullable();
             $table->timestamps();
         });
     }

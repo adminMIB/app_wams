@@ -109,20 +109,21 @@ Route::group(['middleware' ] , function()
   route::get('/del/{id}', [SalesOrderControllerM::class, 'destroy'])->name('del');
 
   //! Route PM
-  Route::get('/dashboardpm',[DashboardPmController::class,'index'])->name('dasboardpm');
+  Route::get('/dashboardpm', [DashboardPmController::class, 'index'])->name('dasboardpm');
 
-  
-  Route::get('/listproject',[ListProjectTechController::class,'index'])->name('listproject');
-  Route::post('/simpan-list',[ListProjectTechController::class,'store'])->name('simpan-list');
-  Route::post('/work_order',[ListProjectTechController::class,'work']);
-  
- 
-  Route::get('/timeline',[TimeLineController::class,'index'])->name('timeline');
-  Route::get('/input',[TimeLineController::class,'create'])->name('input');
-  Route::post('/simpan-data',[TimeLineController::class,'store'])->name('simpan-data');
-  
-  // Route::get('/task',[CobaController::class,'index']);
-  // Route::post('/simpan-task',[CobaController::class,'store'])->name('simpan-task');
+
+  Route::get('/listproject', [ListProjectTechController::class, 'index'])->name('listproject');
+  Route::post('/simpan-list', [ListProjectTechController::class, 'store'])->name('simpan-list');
+  Route::post('/work_order', [ListProjectTechController::class, 'work']);
+
+
+  Route::get('/timeline', [TimeLineController::class, 'index'])->name('timeline');
+  Route::get('/input', [TimeLineController::class, 'create'])->name('input');
+  Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data');
+  Route::post('/list-project', [TimeLineController::class, 'list'])->name('list');
+  Route::get('/detail_timeline/{id}', [TimeLineController::class, 'show'])->name('detail_timeline');
+
+  Route::get('/list_project', [ListProjectController::class, 'index'])->name('list_project');
 });
 
 

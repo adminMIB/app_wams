@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateListProjetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_timelines', function (Blueprint $table) {
+        Schema::create('list_projets', function (Blueprint $table) {
             $table->id();
-            $table->string("nama_technical");
-            $table->string("start_date");
-            $table->string("finish_date");
-            $table->string("jenis_pekerjaan");
+            $table->string('institusi');
+            $table->string('project');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_timelines');
+        Schema::dropIfExists('list_projets');
     }
-};
+}

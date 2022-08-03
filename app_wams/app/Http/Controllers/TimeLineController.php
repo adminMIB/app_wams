@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ListProject;
 use App\Models\ListProjectTech;
+use App\Models\ListProjet;
 use App\Models\ProjectTimeline;
 use App\Models\User;
 use Illuminate\Http\Request;
-
 class TimeLineController extends Controller
 {
     /**
@@ -17,7 +16,7 @@ class TimeLineController extends Controller
      */
     public function index()
     {
-        $data = ProjectTimeline::with('list_project_teches')->get();
+        $data = ProjectTimeline::all();
         return view('timeline.timeline', compact('data'));
     }
 
@@ -46,15 +45,15 @@ class TimeLineController extends Controller
         $data = $request->all();
         // dd($data);
 
-        // $time = new ProjectTimeline;
-        // $time->start_date = $data['start_date'];
-        // $time->finish_date = $data['finish_date'];
-        // $time->jenis_pekerjaan = $data['jenis_pekerjaan'];
-        // $time->nama_technical = $data['nama_tecnical'];
+        $time = new ListProjet;
+        $time->institusi = $data['institusi'];
+        $time->project = $data['project'];
+        $time->save();
 
         if (count($data['nama_technical'])) {
             foreach ($data['start_date'] as $item => $value) {
                 $data2 = array(
+                    'list_id' => $time->id,
                     'start_date' => $data['start_date'][$item],
                     'finish_date' => $data['finish_date'][$item],
                     'jenis_pekerjaan' => $data['jenis_pekerjaan'][$item],
@@ -63,8 +62,9 @@ class TimeLineController extends Controller
 
                 ProjectTimeline::create($data2);
             }
-        }
+        
         return redirect('input');
+        }
     }
 
     /**
@@ -75,7 +75,8 @@ class TimeLineController extends Controller
      */
     public function show($id)
     {
-        //
+        $time = ProjectTimeline::findOrFail($id);
+        return view('timeline.detail_timeline', compact('time'));
     }
 
     /**
@@ -110,5 +111,12 @@ class TimeLineController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function list(Request $request)
+    {
+        $id = $request->id;
+        $data = ListProjectTech::find($id);
+        return response()->json($data);
     }
 }
