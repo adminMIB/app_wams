@@ -27,22 +27,14 @@ class PermisiionControlerr extends Controller
     public function  store(Request $request, User $user)
     {   
 
-        $validator = Validator::make($request->all(),[
+        $request->validate([
             'name' => 'required',
-        ]);    
-        
-        if($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validator->errors()
-            ], 442);
-        }
-
+        ]);
+    
 
         try {
         // kita buat role nya
-        $role = Permission::create([
+        Permission::create([
             "name" => $request->name,
             "guard_name" => "web" 
             

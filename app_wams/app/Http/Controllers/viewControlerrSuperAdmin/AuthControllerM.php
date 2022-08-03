@@ -40,19 +40,28 @@ class AuthControllerM extends Controller
     {        
         try {
             DB::beginTransaction();
-            $validator = Validator::make($request->all(),[
+            // $validator = Validator::make($request->all(),[
+            //     'name' => 'required|string|max:30',
+            //     'email' => 'required|unique:users|email',
+            //     'password' => 'required|min:6',
+            // ]);  
+            
+            // if($validator->fails()) {
+            //     return response()->json([
+            //         'status' => false,
+            //         'message' => 'validation error',
+            //         'errors' => $validator->errors()
+            //     ], 442);
+            // }
+
+            $request->validate([
                 'name' => 'required|string|max:30',
                 'email' => 'required|unique:users|email',
                 'password' => 'required|min:6',
-            ]);    
+                'names' => 'required'
+            ]);
             
-            if($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validator->errors()
-                ], 442);
-            }
+            
 
             $user = User::create([
                 'name' => $request->name,
@@ -67,6 +76,7 @@ class AuthControllerM extends Controller
             // tampung dulu rolenya
             $role = $request->names;
             // lalu kasihkan rolenya
+ 
             $user->assignRole($role);
 
             $token = $user->createToken('wams')->plainTextToken;

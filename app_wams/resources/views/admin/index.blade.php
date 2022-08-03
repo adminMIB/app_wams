@@ -19,6 +19,7 @@
           <table class="table table-bordered table-md">
             <tbody>
             <tr class="text-center">
+              <th>No</th>
               <th>Nama Client</th>
               <th>Nama Project</th>
               <th>Date</th>
@@ -31,6 +32,7 @@
             </tr>
             @foreach ($admin as $item)
             <tr class="text-center">
+              <td>{{$loop->iteration}}</td>
               <td>{{$item->NamaClient }}</td>
               <td>{{$item->NamaProject }}</td>
               <td>{{$item->Date}}</td>

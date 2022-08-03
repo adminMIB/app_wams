@@ -20,10 +20,14 @@
                 <form action="{{route('/dashboard/savePermission')}}" method="POST" enctype="multipart/form-data">
                   {{csrf_field()}}
 
-                {{-- <div class="form-group"> --}}
+                <div class="form-group">
                   <label>New Permission</label>
-                  <input type="text" name="name" class="form-control">
-              {{-- </div> --}}
+                  <input class=" @error('name') is-invalid @enderror form-control" type="text" name="name" class="form-control">
+
+                  @error('name')
+                    <div class="invalid-feedback">{{$message}}</div>
+                  @enderror
+              </div>
                 
                 <button class="btn btn-primary mt-5 d-flex flex-end">Kirim</button>
                 </form>

@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use ZipArchive;
+use File;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
@@ -43,6 +46,26 @@ class AdminController extends Controller
         return view('admin.create', compact('admin', 'pmLead', 'TechnikelLead', 'sales'));
     }
 
+    // function dwonload document bentuk zip
+    public function downZip(Request $request)
+    {
+        if($request->has('download')) {
+            $zip      = new ZipArchive;
+            $fileName = 'document.zip';
+            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
+                $files = File::files(public_path('/admins'));
+                foreach ($files as $key => $value) {
+                    $relativeName = basename($value);
+                    $zip->addFile($value, $relativeName);
+                }
+                $zip->close();
+            }
+            return response()->download(public_path($fileName));
+        }
+
+    
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -51,16 +74,31 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'NamaClient' => 'required',
+            'NamaProject' => 'required',
+            'UploadDocument' => 'required',
+            'Date' => 'required',
+            'Angka' => 'required',
+            'Status' => 'required',
+            'Note' => 'required',
+            'signPm_lead' => 'required',
+            'signTechnikel_lead' => 'required',
+            'signAmSales_id' => 'required'
+
+        ]);
+
+
         // upload dokumen
         // ambil data nya lalu simpan di divariabel data
         $data = $request->UploadDocument;
-
         // buat name kosoingnya
-        $name = '';
+        $name ='';
             foreach ($data as $dokumen) {
                 $fileName = $dokumen->getClientOriginalName();
                 $dokumen->move(public_path() . '/admins', $fileName);
-                $name = $name . $fileName . ".";
+                $name = $name . $fileName;
             }
 
         ListProjectAdmin::create([
@@ -89,6 +127,9 @@ class AdminController extends Controller
     public function show($id)
     {
         $detailId = ListProjectAdmin::find($id);
+
+        // return $detailId;
+
         return view('admin.show', compact('detailId'));
 
     }

@@ -60,9 +60,11 @@
                 {{-- upload Document --}}
                 <div class="form-group">
                   <label>Upload Document</label>
+                
+                      
+                  <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download Document</a></p>
+             
                   {{-- <input type="text" name="UploadDocument" class="form-control" value="{{$detailId->UploadDocument}}" readonly> --}}
-                  <p><a href="/admins/{{$detailId->UploadDocument}}">{{$detailId->UploadDocument}}</a></p>
-                  {{-- <td><a href="/files/dokumen/{{$item->file_dokumen}}">{{$item->file_dokumen}}</a></td> --}}
 
 
                 </div>
