@@ -128,7 +128,7 @@ class SalesOrderControllerM extends Controller
         //     // "no_doc" => $request->no_doc
         // ]);
 
-        return redirect('/saOrder/saveData');
+        return redirect('/dashboard/salesOrder');
 
         } catch (\Exception $e) {
             return response()->json($e->getMessage());

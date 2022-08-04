@@ -2,11 +2,11 @@
 @section('content')
     <section class="section">
     <div class="title">
-        <h1 style="color: black; margin-left: 9px; margin-top:20px">Input Sales</h1>
+        <h1 style="color: black; margin-left: 9px; margin-top:20px">Input Project</h1>
      </div> 
        <div class="card">
         <div class="card-body">
-        <form action="{{route('Msimpan-data')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('/adminproject/store')}}" method="POST" enctype="multipart/form-data">
             {{csrf_field()}}
         
                 <div class="mb-3 row">
@@ -28,44 +28,16 @@
                     @enderror
                     </div>
                 </div>
-
+                
                 <div class="mb-2 row">
-                    <label for="inputTimeline" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Produk / Solusi</label>
+                    <label for="inputNamaProject" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Upload Dokumen</label>
                     <div class="col-sm-10">
-                       
-                    <select name="elearning_id" class="@error('elearning_id') is-invalid @enderror form-control">
-                        <option value="">-- Produk / Solusi --</option>
-                        @foreach($ele as $item)
-                        <option value="{{$item->principle}}">{{$item->principle}}</option>
-                        @endforeach
-                    </select>
-                    
-                     @error('elearning_id')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
-                  
+                    <input type="file" class=" @error('NamaProject') is-invalid @enderror form-control" name="UploadDocument[]" multiple placeholder="Nama Project" id="inputNamaProject">
+                    @error('NamaProject')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
                     </div>
                 </div>
-        
-
-        
-                <div class="mb-2 row">
-                    <label for="inputTimeline" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Timeline</label>
-                    <div class="col-sm-10">
-                    <select name="Timeline" class="@error('Timeline') is-invalid @enderror form-control">
-                        <option value="">-- Timeline Dropdown Q1, Q2, Q3, Q4 --</option>
-                        <option value="Q1"> Q1</option>
-                        <option value="Q2"> Q2</option>
-                        <option value="Q3"> Q3</option>
-                        <option value="Q4"> Q4</option>
-                       
-                    </select>
-                    @error('Timeline')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
-                    </div>
-                </div>
-        
 
                 <div class="mb-2 row">
                     <label class="col-sm-2 co
@@ -114,17 +86,72 @@
                     @enderror
                     </div>
                 </div>
-                <div style="text-align:right;">
-                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
-                </div>
-        </form>
-       
-        <a href="#"><button type="submit" class="btn btn-danger btn-sm">Back</button></a> 
-       
-        </div>
-       </div>
+                {{-- pm lead --}}
+                <div class="mb-2 row">
+                    <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sign Pm Lead</label>
+                    <div class="col-sm-10">
+                    <select class="@error('signPm_lead') is-invalid @enderror form-control" name="signPm_lead">
 
-      
-    
+                    <option value=""></option>
+                        @foreach ($pmLead as $item)
+                            @foreach ($item->users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
+                            @endforeach
+                        @endforeach
+
+                </select>
+                    @error('signPm_lead')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- pm lead --}}
+            <div class="mb-2 row">
+                <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Technikal Lead</label>
+                <div class="col-sm-10">
+                <select class="@error('Technikal_lead') is-invalid @enderror form-control" name="signTechnikel_lead">
+
+                    <option value=""></option>
+                        @foreach ($TechnikelLead as $item)
+                            @foreach ($item->users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
+                            @endforeach
+                        @endforeach
+                    
+                </select>
+                @error('Technikal_lead')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- sales --}}
+            <div class="mb-2 row">
+                <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sales</label>
+                <div class="col-sm-10">
+                <select class="@error('signAmSales_id') is-invalid @enderror form-control" name="signAmSales_id">
+
+                <option value=""></option>
+                    @foreach ($sales as $item)
+                        @foreach ($item->users as $user)
+                            <option value="{{$user->id}}">{{$user->name}}</option>
+                        @endforeach
+                    @endforeach
+
+            </select>
+                @error('signAmSales_id')
+                <div class="invalid-feedback">{{$message}}</div>
+                @enderror
+            </div>
+        </div>
+
+            <div style="text-align:right;">
+                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+            </div>
+        </form>
+            <a href="/adminproject"><button type="submit" class="btn btn-danger btn-sm">Back</button></a> 
+            </div>
+        </div>
     </section>
 @endsection

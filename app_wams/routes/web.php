@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\sales\AmSalesController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\RoleController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\ElearningController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\ListProjectPmController;
 use App\Http\Controllers\ListProjectTechController;
+use App\Http\Controllers\SALES\ListPAController;
 use App\Http\Controllers\SALES\SalesOptyController;
 use App\Http\Controllers\SALES\SalesOrderController;
 use App\Http\Controllers\SALES\SElearningController;
@@ -23,6 +26,7 @@ use App\Http\Controllers\TimeLineController;
 use App\Http\Controllers\UM\InputwoController;
 use App\Http\Controllers\UM\ListdController;
 use App\Http\Controllers\UM\ApprovalController;
+use App\Http\Controllers\UM\NotifManagementController;
 use App\Http\Controllers\UM\ReportpController;
 use App\Http\Controllers\UM\UmDashboardController;
 use App\Http\Controllers\viewControlerrSuperAdmin\AuthControllerM;
@@ -84,26 +88,27 @@ Route::group(['middleware' ] , function()
   //! Route Sales opty & order
   // sales opty
   
-  Route::get('/index-sales',[SalesControllerM::class,'index'])->name('index-sales');
-  Route::get('/inputsales',[SalesControllerM::class,'create'])->name('inputsales');
-  Route::post('/simpan-data',[SalesControllerM::class,'store'])->name('simpan-data');
-  Route::get('/filter',[SalesControllerM::class,'filter'])->name('salesopty.filter');
-  Route::get('/detail/{id}',[SalesControllerM::class,'show'])->name('detail');
-  Route::get('/delete/{id}', [SalesControllerM::class, 'destroy'])->name('delete');
-  Route::get('/exportsalesopty', [SalesControllerM::class, 'export'])->name('exportsalesopty');
-  Route::get('/edit/{id}', [SalesControllerM::class,'edit'])->name('edit');
-  Route::post('/simpan/{id}', [SalesControllerM::class,'update'])->name('simpan');
-  Route::get('/cetak', [SalesControllerM::class,'cetak'])->name('cetak');
+  Route::get('/dashboard/salesOpty',[ SalesControllerM::class,'index'])->name('/dashboard/salesOpty');
+  Route::get('/Minputsales',[ SalesControllerM::class,'create'])->name('Minputsales');
+  Route::post('/Msimpan-data',[ SalesControllerM::class,'store'])->name('Msimpan-data');
+  Route::get('/filter',[ SalesControllerM::class,'filter'])->name('salesopty.filter');
+  Route::get('/Mdetail/{id}',[ SalesControllerM::class,'show'])->name('Mdetail');
+  Route::get('/Mdelete/{id}', [ SalesControllerM::class, 'destroy'])->name('Mdelete');
+  Route::get('/exportsalesopty', [ SalesControllerM::class, 'export'])->name('exportsalesopty');
+  Route::get('/Medit/{id}', [ SalesControllerM::class,'edit'])->name('Medit');
+  Route::post('/Msimpan/{id}', [ SalesControllerM::class,'update'])->name('Msimpan');
+  Route::get('/elearning',[ElearningController::class,'index'])->name('elearning');
+  Route::get('/Mcetak', [ SalesControllerM::class,'cetak'])->name('cetak');
   Route::get('/home',[DashboardViewController::class,'index'])->name('home');
   
 
   // sales order
-  Route::get('/dashboard/salesOrder', [SalesOrderControllerM  ::class,'index'])->name('/dashboard/salesOrder');
+  Route::get('/dashboard/salesOrder', [SalesOrderControllerM::class,'index'])->name('/dashboard/salesOrder');
   Route::get('/dashboard/addSalesOrder', [SalesOrderControllerM::class,'create'])->name('/dashboard/addSalesOrder');
-  route::post('/saOrder/saveData', [SalesOrderController::class, 'store'])->name('saOrder/saveData');
-  route::post('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
-  route::get('/edit/{id}', [SalesOrderController::class, 'edit'])->name('edit');
-  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  route::post('/saOrder/saveData', [SalesOrderControllerM::class, 'store'])->name('saOrder/saveData');
+  route::post('/update-data/{id}', [SalesOrderControllerM::class, 'update'])->name('update-data');
+  route::get('/edit/{id}', [SalesOrderControllerM::class, 'edit'])->name('edit');
+  route::get('/del/{id}', [SalesOrderControllerM::class, 'destroy'])->name('del');
 
   //! Route PM
   Route::get('/dashboardpm',[DashboardPmController::class,'index'])->name('dasboardpm');
@@ -118,8 +123,8 @@ Route::group(['middleware' ] , function()
   Route::get('/input',[TimeLineController::class,'create'])->name('input');
   Route::post('/simpan-data',[TimeLineController::class,'store'])->name('simpan-data');
   
-  Route::get('/task',[CobaController::class,'index']);
-  Route::post('/simpan-task',[CobaController::class,'store'])->name('simpan-task');
+  // Route::get('/task',[CobaController::class,'index']);
+  // Route::post('/simpan-task',[CobaController::class,'store'])->name('simpan-task');
 });
 
 
@@ -129,6 +134,7 @@ Route::group(['middleware'], function()
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class,'index'])->name('/dashboardAmSales');
 
    Route::get('/selearning', [SElearningController::class,'index']);
+   Route::get('/slistpa', [ListPAController::class,'index']);
 
   Route::get('/slsorder', [SalesOrderController::class,'index'])->name('slsorder');
   Route::get('/createodr', [SalesOrderController::class,'create'])->name('createodr');
@@ -170,18 +176,26 @@ Route::group(['middleware'], function()
   Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
   Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
   Route::get('/change-status/{id}',[WeeklyReportController::class,'changestatus']);
-
 });
 
 
 //! Routing dashboard Management
-Route::group(['middleware'  => ['role:Management']], function() 
+Route::group(['middleware'], function() 
 {
   Route::get('/um/dashboard', [UmDashboardController::class,'index']);
+  // Route::get('/um', [NotifManagementController::class,'index']);
   Route::get('/approval', [ApprovalController::class,'index']);
   Route::get('/detailapproval/{id}', [ApprovalController::class,'show']);
+  // !
+  Route::get('/inputWorkOrder/{id}', [ApprovalController::class,'inputWo']);
+  Route::post('/input_wo',[InputwoController::class,'iwo']);
+  // 
+  route::put('/updateStatusApproval/{id}', [ApprovalController::class, 'update'])->name('updateStatusApproval');
   Route::get('/reportp', [ReportpController::class,'index']);
-  Route::get('/inputwo', [InputwoController::class,'index']);
+  // Route::get('/inputWorkOrder/{id}', [InputwoController::class,'show'])->name('inputWorkOrder');
+  Route::get('/inputTwo', [InputwoController::class,'index']);
+  Route::post('/inputWo/sendPmLead', [InputwoController::class,'store'])->name('/inputWo/sendPmLead');
+
   Route::get('/listd', [ListdController::class,'index']);
 });
 
@@ -215,6 +229,22 @@ Route::group(['middleware'  => ['role:Management']], function()
 
 // });
 
+//! Routing dashboard Admin
+Route::group(['middleware'], function() 
+{
+  Route::get('/adminproject', [AdminController::class,'index'])->name('/adminproject');
+  Route::get('/adminproject/create', [AdminController::class,'create'])->name('/adminproject/create');
+  Route::post('/adminproject/store', [AdminController::class,'store'])->name('/adminproject/store');
+  Route::get('/adminprojectShow/{id}', [AdminController::class,'show'])->name('/adminprojectShow');
+  Route::get('/adminprojecDelete/{id}', [AdminController::class,'destroy'])->name('/adminprojecDelete');
+
+  // Route::get('/um', [NotifManagementController::class,'index']);
+  // sales
+  Route::get('/adminproject/sales', [AmSalesController::class,'index'])->name('/adminproject/sales');
+  Route::get('/adminproject/salesCreate', [AmSalesController::class,'create'])->name('/adminproject/salesCreate');
+
+
+});
 
 
 

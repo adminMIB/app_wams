@@ -69,7 +69,7 @@ class WeeklyReportController extends Controller
             ]);
     
             if ($validate->fails()) {
-                return redirect('create')->with('toast_error','The column is still empty');
+                return redirect('create')->with('error','The column is still empty');
             }
     
             WeeklyReport::create([
@@ -84,9 +84,9 @@ class WeeklyReportController extends Controller
             ]);
     
             
-            return redirect('report')->with('toast_success','The Weekly Report has been added');
+            return redirect('report')->with('success','The Weekly Report has been added');
         } catch (\Exception $r) {
-            return redirect('report')->with('toast_success','The Weekly Report has been added');
+            return redirect('report')->with('success','The Weekly Report has been added');
         }
     }
 
@@ -127,7 +127,7 @@ class WeeklyReportController extends Controller
     {
         $weekly_reports = WeeklyReport::find($id);
         $weekly_reports->update($request->all());
-        return redirect('report')->with('toast_success','The Weekly Report has been updated');
+        return redirect('report')->with('success','The Weekly Report has been updated');
        
     }
 
@@ -141,7 +141,7 @@ class WeeklyReportController extends Controller
     {
         $weekly_reports = WeeklyReport::find($id);
         $weekly_reports->delete();
-        return redirect('report')->with('toast_success','The Weekly Report has been deleted');
+        return redirect('report')->with('success','The Weekly Report has been deleted');
     }
 
     public function changeStatus($id)

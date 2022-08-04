@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class SalesControllerM extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
        $sales = SalesOpty::all();
@@ -18,7 +23,7 @@ class SalesControllerM extends Controller
       }else{
         $sales = SalesOpty::paginate(5);
     }
-        return view('SALES.index', compact('sales'));
+        return view('superAdmin.salesMonitoring.dashboardSalesOpty', compact('sales'));
     }
 
     //public function salesoptyexport(){
@@ -46,6 +51,7 @@ class SalesControllerM extends Controller
      */
     public function store(Request $request)
     {
+        dd('ok');
       
            $request->validate([
             "NamaClient" => "required|string",
@@ -82,7 +88,7 @@ class SalesControllerM extends Controller
                 "elearning_id" => $request->elearning_id
             ]);
 
-            return redirect('index-sales');
+            return redirect('superAdmin.salesMonitoring.dashboardSalesOpty');
 
      
     }
@@ -185,5 +191,6 @@ class SalesControllerM extends Controller
         $sales = SalesOpty::all();
         return view('SALES.cetak', compact('sales'));
     }
+
 
 }

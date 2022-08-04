@@ -1,11 +1,12 @@
 @extends('layouts.main')
 @section('content')
+<section></section>
     <div class="title">
         <h1 style="color: black; margin-left: 9px; margin-top:20px">List Sales Opty</h1>
      </div> 
        <div class="card">
         <div class="card-body ">
-          <a href="{{route('Minputsales')}}"><button type="submit" class="btn btn-primary btn-sm" style="margin-bottom:1%;">Create</button></a>
+          <a href="{{route('inputsales')}}"><button type="submit" class="btn btn-primary btn-sm" style="margin-bottom:1%;">Create</button></a>
           <div class="text-right">
           <button type="button" class="btn btn-primary" style="margin-right: 810px;" data-toggle="modal" data-target="#exampleModal">
             Filter Data
@@ -76,9 +77,9 @@
                             ...
                         </a>
                         <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
-                        <a href="{{url ('Mdetail', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
-                        <a href="{{url ('Medit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
-                         <a href="{{url ('Mdelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
+                        <a href="{{url ('Ydetail', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
+                        <a href="{{url ('Yedit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
+                         <a href="{{url ('Ydelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
                         </div>
                     </td>
                     </div>

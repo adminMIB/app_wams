@@ -26,6 +26,9 @@
               {{-- </div> --}}
               
               {{-- read data --}}
+              <div class="card-header -ml-2">
+                <h4>Add Permissions</h4>
+              </div>
               <div class="form-check mt-3 ">
                 @foreach ($permisions as $permision)
                   <div class="mb-1">

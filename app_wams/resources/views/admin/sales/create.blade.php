@@ -6,7 +6,7 @@
      </div> 
        <div class="card">
         <div class="card-body">
-        <form action="{{route('Msimpan-data')}}" method="POST" enctype="multipart/form-data">
+        <form action="#" method="POST" enctype="multipart/form-data">
             {{csrf_field()}}
         
                 <div class="mb-3 row">
@@ -32,21 +32,18 @@
                 <div class="mb-2 row">
                     <label for="inputTimeline" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Produk / Solusi</label>
                     <div class="col-sm-10">
-                       
-                    <select name="elearning_id" class="@error('elearning_id') is-invalid @enderror form-control">
-                        <option value="">-- Produk / Solusi --</option>
-                        @foreach($ele as $item)
+                        <select name="elearning_id" class="@error('elearning_id') is-invalid @enderror form-control">
+                            <option value="">-- Produk / Solusi --</option>
+                            @foreach($ele as $item)
                         <option value="{{$item->principle}}">{{$item->principle}}</option>
                         @endforeach
+                       
                     </select>
-                    
                      @error('elearning_id')
                         <div class="invalid-feedback">{{$message}}</div>
                         @enderror
-                  
                     </div>
                 </div>
-        
 
         
                 <div class="mb-2 row">
@@ -68,8 +65,7 @@
         
 
                 <div class="mb-2 row">
-                    <label class="col-sm-2 co
-                    l-form-label" style="color:black;font-weight:bold">Date</label>
+                    <label class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Date</label>
                     <div class="col-sm-10">
                     <input type="date" class="@error('Date') is-invalid @enderror form-control date" name="Date">
                     @error('Date')
@@ -119,7 +115,7 @@
                 </div>
         </form>
        
-        <a href="#"><button type="submit" class="btn btn-danger btn-sm">Back</button></a> 
+        <a href="{{url ('index-sales')}}"><button type="submit" class="btn btn-danger btn-sm">Back</button></a> 
        
         </div>
        </div>

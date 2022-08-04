@@ -38,10 +38,10 @@ class User extends Authenticatable
 
     // buat relasi ke roles
 
-    // public function roles()
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
+    public function listAdmin()
+    {
+        return $this->belongsTo(ListProjectAdmin::class);
+    }
 
     /**
      * The attributes that should be cast.

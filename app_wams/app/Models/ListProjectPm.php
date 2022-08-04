@@ -18,4 +18,10 @@ class ListProjectPm extends Model
         "hps",
         "sign_pm_lead"
     ];
+
+    // relasi ke category
+    public function users()
+    {
+        return $this->belongsTo(User::class, "sign_pm_lead");
+    }
 }

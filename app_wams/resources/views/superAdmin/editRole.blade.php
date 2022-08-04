@@ -16,7 +16,7 @@
                   {{csrf_field()}}
                 <div class="form-group mb-2">
                       <label>Edit Role</label>
-                      <input type="text" name="name" class="form-control" placeholder="{{$getid->name}}">
+                      <input type="text" name="name" class="form-control" value="{{$getid->name}}">
                       {{-- permissions --}}
                       <p class="text-danger mt-2">Old permissions:</p>
                     <div class="form-group">

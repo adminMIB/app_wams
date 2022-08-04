@@ -19,6 +19,17 @@ class UserSeeder extends Seeder
     {
         // !buat akun 
         // user admin
+        $Superadmin = User::create([
+            'name' => "superadmin",
+            'email' => 'superadmin@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        // kita asiggin rolenya
+        $Superadmin->assignRole('Super Admin');
+
         $admin = User::create([
             'name' => "admin",
             'email' => 'admin@gmail.com',
@@ -28,7 +39,19 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
         // kita asiggin rolenya
-        $admin->assignRole('Super Admin');
+        $admin->assignRole('Project Admin');
+        
+
+        $techLead = User::create([
+            'name' => "lead123",
+            'email' => 'lead@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        // kita asiggin rolenya
+        $techLead->assignRole('Technikal Lead');
 
         // //!/ user Managemnt
         $user = User::create([

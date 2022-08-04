@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\API\ElearningController;
 use App\Http\Controllers\API\SalesOrderController;
 use Illuminate\Http\Request;
@@ -16,83 +17,82 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post( '/register',[\App\Http\Controllers\API\AuthController::class,'register']);
-Route::post( '/loginApp',[\App\Http\Controllers\API\AuthController::class,'login']);
+// Route::post( '/register',[\App\Http\Controllers\API\AuthController::class,'register']);
+// Route::post( '/loginApp',[\App\Http\Controllers\API\AuthController::class,'login']);
 
-// route user login /show data login
-Route::get('/user',[\App\Http\Controllers\API\AuthController::class, 'index']);
+// // route user login /show data login
+// Route::get('/user',[\App\Http\Controllers\API\AuthController::class, 'index']);
+
+// Route::get('/adminproject', [\App\Http\Controllers\Admin\AdminController::class,'index']);
 
 
 
-// rooute roles
-Route::apiResource('roles','\App\Http\Controllers\API\RoleController', [
-    "only" => ["store","update","index","edit","destroy"]
-]);
+// // rooute roles
+// Route::apiResource('roles','\App\Http\Controllers\API\RoleController', [
+//     "only" => ["store","update","index","edit","destroy"]
+// ]);
 
-Route::post( '/logout',[\App\Http\Controllers\API\AuthController::class,'logout']);
+// Route::post( '/logout',[\App\Http\Controllers\API\AuthController::class,'logout']);
 
-//Technical
-Route::apiResource('weekly_reports','\App\Http\Controllers\API\WeeklyReportController', [
-    "only" => ["store","index","edit","update","destroy"]
-]);
+// //Technical
+// Route::apiResource('weekly_reports','\App\Http\Controllers\API\WeeklyReportController', [
+//     "only" => ["store","index","edit","update","destroy"]
+// ]);
 
-Route::apiResource('elearning','App\Http\Controllers\API\ElearningController', [
-    "only" => ["store","index","edit","destroy"]
-   ]);
-   Route::post('elearning/{id}',[ElearningController::class,'update'])->name('elearnings.update');      
+// Route::apiResource('elearning','App\Http\Controllers\API\ElearningController', [
+//     "only" => ["store","index","edit","destroy"]
+//    ]);
+//    Route::post('elearning/{id}',[ElearningController::class,'update'])->name('elearnings.update');      
 
-   // route project timeline
-Route::apiResource('ProjectTimeline','\App\Http\Controllers\API\ProjectTimelineController',[
-    "only" => ["index", "store", "edit", "update", "destroy"]    
-]);
+//    // route project timeline
+// Route::apiResource('ProjectTimeline','\App\Http\Controllers\API\ProjectTimelineController',[
+//     "only" => ["index", "store", "edit", "update", "destroy"]    
+// ]);
    
-// route upload dokumen
+// // route upload dokumen
 
-Route::apiResource('upload','\App\Http\Controllers\API\UploadController',[
-    "only" => ["index", "store","destroy"]    
-]);
-// route salesorder 
+// Route::apiResource('upload','\App\Http\Controllers\API\UploadController',[
+//     "only" => ["index", "store","destroy"]    
+// ]);
+// // route salesorder 
 route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
     "only" => ["store", "index", "edit", "destroy", "show"]
 ]);
 
-Route::post('salesorder/{id}', [SalesOrderController::class, 'update'])->name('up');
+// Route::post('salesorder/{id}', [SalesOrderController::class, 'update'])->name('up');
 
-// route up dok
+// // route up dok
 
-route::apiResource('updoc', '\App\Http\Controllers\API\UploadDocumentController', [
-    "only" => ["store", "index"]
-]);
+// route::apiResource('updoc', '\App\Http\Controllers\API\UploadDocumentController', [
+//     "only" => ["store", "index"]
+// ]);
 
-// route salesopty
-Route::apiResource('salesopty','\App\Http\Controllers\API\SalesOptyController', [
-    "only" => ["store", "update", "index", "edit", "destroy"]
-]);
-
-
-// route relasi timeline
-Route::apiResource('timeline','\App\Http\Controllers\API\TimelineController', [
-    "only" => ["store", "index"]
-]);
+// // route salesopty
+// Route::apiResource('salesopty','\App\Http\Controllers\API\SalesOptyController', [
+//     "only" => ["store", "update", "index", "edit", "destroy"]
+// ]);
 
 
-//manager route
-Route::apiResource('manager','\App\Http\Controllers\API\managerController',[
-    "only" => ["store", "index", "edit", "destroy", "update"]    
-]);
+// // route relasi timeline
+// Route::apiResource('timeline','\App\Http\Controllers\API\TimelineController', [
+//     "only" => ["store", "index"]
+// ]);
 
 
-// List Project Pm Lead
-
-Route::apiResource('listprojectpm','\App\Http\Controllers\API\ListProjectPmController',[
-    "only" => ["store", "index", "edit", "destroy", "update"]    
-]);
-
-
-Route::apiResource('coba','\App\Http\Controllers\API\CobaController',[
-    "only"=> ["store"]
-]);
+// //manager route
+// Route::apiResource('manager','\App\Http\Controllers\API\managerController',[
+//     "only" => ["store", "index", "edit", "destroy", "update"]    
+// ]);
 
 
-// Route::group(['middleware' => ['auth:sanctum']],function() {
-// });
+// // List Project Pm Lead
+
+// Route::apiResource('listprojectpm','\App\Http\Controllers\API\ListProjectPmController',[
+//     "only" => ["store", "index", "edit", "destroy", "update"]    
+// ]);
+
+
+
+
+// // Route::group(['middleware' => ['auth:sanctum']],function() {
+// // });

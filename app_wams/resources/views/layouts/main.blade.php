@@ -26,11 +26,16 @@
 
     <div class="main-wrapper" style="background-color: white">
       <div class="navbar-bg bg-transparent"></div>
-      
-      @include('partials.navbar')
-      
 
-      @include('partials.sidebar')
+      @if (!Auth::user()->hasRole('Management'))
+        @include('partials.navbar')
+      @else
+        @include('partials.navbarManagement')
+      @endif
+
+
+          @include('partials.sidebar')
+      
      
       
 
