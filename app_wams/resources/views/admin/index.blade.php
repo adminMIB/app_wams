@@ -11,14 +11,14 @@
           {{-- <button type="button" class="btn btn-primary" style="margin-right: 810px;" data-toggle="modal" data-target="#exampleModal">
             Filter Data
           </button>  --}}
-            <div class="mb-3">
+            {{-- <div class="mb-3">
               <a href="#" class="btn btn-warning" target="_blank" rel="noopener noreferrer">Cetak</a>
               <a href="#" class="btn btn-success"target="_blank" rel="noopener noreferrer">Export</a>
-            </div>
+            </div> --}}
           </div>
           <table class="table table-bordered table-md">
             <tbody>
-            <tr class="text-center">
+            <tr class="text-center ">
               <th>No</th>
               <th>Nama Client</th>
               <th>Nama Project</th>
@@ -31,6 +31,42 @@
               <th>Action</th>
             </tr>
             @foreach ($admin as $item)
+            @if ($loop->iteration % 2 === 0 )
+            <tr class="text-center bg-\ text-dark">
+              <td>{{$loop->iteration}}</td>
+              <td>{{$item->NamaClient }}</td>
+              <td>{{$item->NamaProject }}</td>
+              <td>{{$item->Date}}</td>
+              <td>{{$item->Angka}}</td>
+              {{-- <td><a href="/files/dokumen/{{$item->Status}}">{{$item->Status}}</a></td> --}}
+              
+              @if ($item->Status === 'Menang')
+                <td class="text-success">{{$item->Status}}</td>
+              @endif
+              @if ($item->Status === 'Kalah')
+                <td class="text-danger">{{$item->Status}}</td>
+              @endif
+              @if ($item->Status === 'Tender')
+                <td class="text-warning">{{$item->Status}}</td>
+              @endif
+              <td>{{$item->signPm_lead}}</td>
+              <td>{{$item->signTechnikel_lead}}</td>
+              <td>{{$item->signAmSales_id}}</td>
+              <td class="d-flex">
+                <div class="mr-2">
+                  {{-- detail --}}
+                  <a target="" href="{{url('/adminprojectShow', $item->id)}}" class="btn btn-info">
+                    <i class="far fa-edit"></i>
+                  </a>
+                </div>
+                {{-- delete --}}
+                <a href="{{url('/adminprojecDelete', $item->id)}}" class="btn btn-danger">
+                  <i class="fas fa-times"></i>
+                </a>
+              </td>
+            </tr>
+            @else
+                
             <tr class="text-center">
               <td>{{$loop->iteration}}</td>
               <td>{{$item->NamaClient }}</td>
@@ -38,23 +74,33 @@
               <td>{{$item->Date}}</td>
               <td>{{$item->Angka}}</td>
               {{-- <td><a href="/files/dokumen/{{$item->Status}}">{{$item->Status}}</a></td> --}}
-              <td>{{$item->Status}}</td>
+              
+              @if ($item->Status === 'Menang')
+                <td class="text-success">{{$item->Status}}</td>
+              @endif
+              @if ($item->Status === 'Kalah')
+                <td class="text-danger">{{$item->Status}}</td>
+              @endif
+              @if ($item->Status === 'Tender')
+                <td class="text-warning">{{$item->Status}}</td>
+              @endif
               <td>{{$item->signPm_lead}}</td>
               <td>{{$item->signTechnikel_lead}}</td>
               <td>{{$item->signAmSales_id}}</td>
               <td class="d-flex">
                 <div class="mr-2">
                   {{-- detail --}}
-                  <a href="{{url('/adminprojectShow', $item->id)}}" class="btn btn-info">
+                  <a target="" href="{{url('/adminprojectShow', $item->id)}}" class="btn btn-info">
                     <i class="far fa-edit"></i>
                   </a>
                 </div>
                 {{-- delete --}}
-                <a href="{{url('/adminprojecDelete', $item->id)}}" class="btn btn-secondary">
+                <a href="{{url('/adminprojecDelete', $item->id)}}" class="btn btn-danger">
                   <i class="fas fa-times"></i>
                 </a>
               </td>
             </tr>
+            @endif
             @endforeach
           </tbody>
           </table>

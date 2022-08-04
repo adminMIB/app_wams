@@ -43,6 +43,8 @@ class RoleControllerM extends Controller
             "guard_name" => "web" 
             
         ]);
+
+        
         // lalu kasih permision berdasarakn user select
         $inputPermision0 = $request->input('names');
         $role->givePermissionTo($inputPermision0);
