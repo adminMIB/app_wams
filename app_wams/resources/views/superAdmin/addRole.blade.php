@@ -22,12 +22,17 @@
 
                 {{-- <div class="form-group"> --}}
                   <label>New Role</label>
-                  <input type="text" name="name" class="form-control">
+                  <input type="text" name="name" class="form-control  @error('name') is-invalid @enderror">
+
+                  @error('name')
+                    <div class="invalid-feedback">{{$message}}</div>
+                  @enderror
               {{-- </div> --}}
               
               {{-- read data --}}
               <div class="card-header -ml-2">
                 <h4>Add Permissions</h4>
+                
               </div>
               <div class="form-check mt-3 ">
                 @foreach ($permisions as $permision)
