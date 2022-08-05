@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Adits;
+use App\Models\Reports;
 use App\Models\WeeklyReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,15 +18,16 @@ class WeeklyReportController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('search')){
-            $weekly_reports = WeeklyReport::where('start_date','LIKE','%' .$request->search.'%')->paginate(5); 
+        $adits = Adits::all();
+        $data = WeeklyReport::with('adits')->orderBy('created_at', 'ASC')->paginate();
+        if ($request->has('search')) {
+            $weekly_reports = WeeklyReport::where('start_date', 'LIKE', '%' . $request->search . '%')->paginate(5);
         } else {
             $weekly_reports = WeeklyReport::paginate(5);
         }
 
 
-        return view('report.report_progres',compact('weekly_reports'));
-  
+        return view('report.report_progres', compact('weekly_reports', 'adits', 'data'));
     }
 
 
@@ -35,8 +38,9 @@ class WeeklyReportController extends Controller
      */
     public function create()
     {
+        $adits = Adits::all();
         $weekly_reports = WeeklyReport::all();
-        return view('report.create',compact('weekly_reports'));
+        return view('report.create', compact('weekly_reports', 'adits'));
     }
 
     /**
@@ -47,18 +51,18 @@ class WeeklyReportController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $validate = Validator::make($request->all(),[
+        try {
+            $validate = Validator::make($request->all(), [
                 "name_client" => "required|string|max:100",
                 "name_project" => "required|string|max:200",
                 "job_essay" => "required|string|max:200",
                 "start_date" => "required|date",
                 "end_date" => "required|date",
                 "status" => "required|string|max:200",
-                "note" => "required|string|max:1000",      
-            ],[
-          
-           
+                "note" => "required|string|max:1000",
+            ], [
+
+
                 "name_client.required" => "Kode Project harus sesuai!",
                 "name_project.required" => "Nama Institusi harus sesuai!",
                 "job_essay.required" => "Nama Project harus sesuai!",
@@ -67,13 +71,13 @@ class WeeklyReportController extends Controller
                 "status.required" => "Approve harus sesuai!",
                 "note.required" => "Approve harus sesuai!",
             ]);
-    
+
             if ($validate->fails()) {
-                return redirect('create')->with('error','The column is still empty');
+                return redirect('create')->with('error', 'The column is still empty');
             }
-    
+
             WeeklyReport::create([
-      
+
                 "name_client" => $request->name_client,
                 "name_project" => $request->name_project,
                 "job_essay" => $request->job_essay,
@@ -81,12 +85,13 @@ class WeeklyReportController extends Controller
                 "end_date" => $request->end_date,
                 "status" => $request->status,
                 "note" => $request->note,
+                "adits_id" => $request->adits_id,
             ]);
-    
-            
-            return redirect('report')->with('success','The Weekly Report has been added');
+
+
+            return redirect('report')->with('success', 'The Weekly Report has been added');
         } catch (\Exception $r) {
-            return redirect('report')->with('success','The Weekly Report has been added');
+            return redirect('report')->with('success', 'The Weekly Report has been added');
         }
     }
 
@@ -98,9 +103,9 @@ class WeeklyReportController extends Controller
      */
     public function show($id)
     {
-    //   $weekly_reports = WeeklyReport::find($id);
+        //   $weekly_reports = WeeklyReport::find($id);
 
-    //     return view('report.detail_page', compact('weekly_reports'));
+        //     return view('report.detail_page', compact('weekly_reports'));
     }
 
     /**
@@ -113,7 +118,7 @@ class WeeklyReportController extends Controller
     {
         $getOneById = WeeklyReport::find($id);
         // dd($getOneById);
-         return view('report.edit', compact('getOneById'));
+        return view('report.edit', compact('getOneById'));
     }
 
     /**
@@ -127,8 +132,7 @@ class WeeklyReportController extends Controller
     {
         $weekly_reports = WeeklyReport::find($id);
         $weekly_reports->update($request->all());
-        return redirect('report')->with('success','The Weekly Report has been updated');
-       
+        return redirect('report')->with('success', 'The Weekly Report has been updated');
     }
 
     /**
@@ -141,13 +145,13 @@ class WeeklyReportController extends Controller
     {
         $weekly_reports = WeeklyReport::find($id);
         $weekly_reports->delete();
-        return redirect('report')->with('success','The Weekly Report has been deleted');
+        return redirect('report')->with('success', 'The Weekly Report has been deleted');
     }
 
     public function changeStatus($id)
     {
-        $getStatus = WeeklyReport::select('status')->where('id',$id)->first();
-        if($getStatus->status == 'done  '){
+        $getStatus = WeeklyReport::select('status')->where('id', $id)->first();
+        if ($getStatus->status == 'done  ') {
             $status = 'done';
         } elseif ('issue') {
             $status = 'issue';
@@ -155,8 +159,14 @@ class WeeklyReportController extends Controller
             $status = 'onprogress';
         }
 
-        WeeklyReport::where('id',$id)->update(['status'=>$status]);
+        WeeklyReport::where('id', $id)->update(['status' => $status]);
         return redirect()->back();
     }
 
+    public function getOneAdit(Request $request)
+    {
+        $id = $request->id;
+        $data = Adits::find($id);
+        return response()->json($data);
+    }
 }

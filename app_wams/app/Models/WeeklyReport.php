@@ -17,5 +17,11 @@ class WeeklyReport extends Model
         "end_date",
         "status",
         "note",
+        "adits_id",
     ];
+
+    public function Adits()
+    {
+        return $this->belongsTo(Adits::class,'adits_id');
+    }
 }

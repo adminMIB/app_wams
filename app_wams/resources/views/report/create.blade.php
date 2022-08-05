@@ -23,6 +23,14 @@
                 <div class="col-6">
                   <div class="form-group p-3">
                     <label for="name_client">Nama Client</label>
+                    <select class="selectric-wrapper form-control selectric-selectric selectric-below selectric-open" style="width: 23rem;  margin-bottom:25px;" id="id" name="adits_id">
+                      <div class="selectric-hide-select">
+                        @foreach ($adits as $value)
+                        <option value="{{ $value->id }}" class="form-control selectric">{{ $value->name_client }}</option>  
+                        @endforeach  
+                      </div>
+                    </select>
+                    <label for="name_client">Nama Institusi</label>
                     <input type="text" id="name_client" name="name_client" class="form-control" style="width: 23rem; margin-bottom:25px;">
                     <label for="name_project">Nama Project</label>
                     <input type="text" id="name_project" name="name_project" class="form-control" style="width: 23rem; margin-bottom:25px;">
@@ -63,4 +71,30 @@
       </div>
       <!-- Akhir Table Report -->
     </form>
+@endsection
+
+@section('js')
+
+<script>
+   //change to two ? how?
+
+ $('#id').change(function(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+      method: "POST",
+      type: "JSON",
+      data: { id : this.value },
+      url: "/get_one_adit"
+    }).done(function(res) {
+      $("#name_client").val(res.name_client)
+      $("#name_project").val(res.name_project)
+      $("#adits_id").val(res.id)
+    })
+ });
+</script>
+    
 @endsection
