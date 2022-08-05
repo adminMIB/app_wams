@@ -245,6 +245,8 @@ Route::group(['middleware'], function()
   // sales
   Route::get('/adminproject/sales', [AmSalesController::class,'index'])->name('/adminproject/sales');
   Route::get('/adminproject/salesCreate', [AmSalesController::class,'create'])->name('/adminproject/salesCreate');
+  Route::get('/adminShowSales/{id}', [AmSalesController::class,'show'])->name('/adminShowSales');
+
 
 
 });

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use ZipArchive;
 use File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -52,8 +53,8 @@ class AdminController extends Controller
         if($request->has('download')) {
             $zip      = new ZipArchive;
             $fileName = 'document.zip';
-            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === TRUE) {
-                $files = File::files(public_path('/admins'));
+            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === FALSE) {
+                $files = File::files(public_path('\admin'));
                 foreach ($files as $key => $value) {
                     $relativeName = basename($value);
                     $zip->addFile($value, $relativeName);
@@ -92,14 +93,15 @@ class AdminController extends Controller
 
         // upload dokumen
         // ambil data nya lalu simpan di divariabel data
-        $data = $request->UploadDocument;
+        $data = $request->UploadDocument ;
         // buat name kosoingnya
-        $name ='';
+        $name = '';
             foreach ($data as $dokumen) {
                 $fileName = $dokumen->getClientOriginalName();
-                $dokumen->move(public_path() . '/admins', $fileName);
-                $name = $name . $fileName . "|";
+                $dokumen->move(public_path() . '\admin', $fileName);
+                $name = $name . $fileName ;
             }
+
 
         ListProjectAdmin::create([
             "NamaClient" => $request->NamaClient,
@@ -172,7 +174,13 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $deletData = ListProjectAdmin::find($id);
-        $deletData->delete();
+        // File::delete($updateData->image) 
+        if ($deletData) {
+            Storage::delete(public_path('files\admin'));
+            $deletData->delete();
+        }
+
+
 
         return back();
 

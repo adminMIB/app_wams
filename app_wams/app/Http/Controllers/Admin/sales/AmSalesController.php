@@ -26,4 +26,10 @@ class AmSalesController extends Controller
         
         return view('SALES.inputsales',compact('ele'));
     }
+
+    public function show($id)
+    {
+        $detail = SalesOpty::with('elearnings')->find($id);
+        return view('admin.sales.show', compact('detail'));
+    }
 }
