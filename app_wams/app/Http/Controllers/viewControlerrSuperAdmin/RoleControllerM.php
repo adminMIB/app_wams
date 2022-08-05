@@ -31,17 +31,9 @@ class RoleControllerM extends Controller
     public function  store(Request $request, User $user)
     {   
 
-        $validator = Validator::make($request->all(),[
+        $request->validate([
             'name' => 'required',
-        ]);    
-        
-        if($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validator->errors()
-            ], 442);
-        }
+        ]);
 
 
         try {
@@ -51,6 +43,8 @@ class RoleControllerM extends Controller
             "guard_name" => "web" 
             
         ]);
+
+        
         // lalu kasih permision berdasarakn user select
         $inputPermision0 = $request->input('names');
         $role->givePermissionTo($inputPermision0);

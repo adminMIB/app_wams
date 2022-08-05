@@ -21,17 +21,29 @@
                   {{-- name --}}
                 <div class="form-group">
                   <label>name</label>
-                  <input type="text" name="name" class="form-control">
+                  <input type="text" name="name" class="form-control @error('name') is-invalid @enderror">
+
+                  @error('name')
+                    <div class="invalid-feedback">{{$message}}</div>
+                  @enderror
                 </div>
                 {{-- email --}}
                 <div class="form-group">
                   <label>email</label>
-                  <input type="email" name="email" class="form-control">
+                  <input type="email" name="email" class="form-control @error('email') is-invalid @enderror">
+
+                  @error('email')
+                    <div class="invalid-feedback">{{$message}}</div>
+                  @enderror
                 </div>
                 {{-- password--}}
                 <div class="form-group">
                   <label>password</label>
-                  <input type="password" name="password" class="form-control">
+                  <input type="password" name="password" class="form-control @error('password') is-invalid @enderror">
+
+                  @error('password')
+                    <div class="invalid-feedback">{{$message}}</div>
+                  @enderror
                 </div>
                 {{-- role --}}
                 <div class="form-group">

@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            {{-- pm lead --}}
+            {{-- signTechnikel_lead --}}
             <div class="mb-2 row">
                 <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Technikal Lead</label>
                 <div class="col-sm-10">
@@ -147,11 +147,12 @@
         </div>
 
             <div style="text-align:right;">
-                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                <button type="submit" class="btn btn-primary btn-md">Send</button>
             </div>
+
         </form>
-            <a href="/adminproject"><button type="submit" class="btn btn-danger btn-sm">Back</button></a> 
-            </div>
-        </div>
+        <a href="/adminproject"><button type="submit" class="btn btn-secondary btn-sm">Back</button></a> 
+    </div>
+    </div>
     </section>
 @endsection

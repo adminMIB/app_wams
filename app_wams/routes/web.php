@@ -237,10 +237,17 @@ Route::group(['middleware'], function () {
   Route::get('/adminprojectShow/{id}', [AdminController::class, 'show'])->name('/adminprojectShow');
   Route::get('/adminprojecDelete/{id}', [AdminController::class, 'destroy'])->name('/adminprojecDelete');
 
+  Route::get('zip-download', [AdminController::class,'downZip'])->name('zip-download');
+
+
   // Route::get('/um', [NotifManagementController::class,'index']);
   // sales
-  Route::get('/adminproject/sales', [AmSalesController::class, 'index'])->name('/adminproject/sales');
-  Route::get('/adminproject/salesCreate', [AmSalesController::class, 'create'])->name('/adminproject/salesCreate');
+  Route::get('/adminproject/sales', [AmSalesController::class,'index'])->name('/adminproject/sales');
+  Route::get('/adminproject/salesCreate', [AmSalesController::class,'create'])->name('/adminproject/salesCreate');
+  Route::get('/adminShowSales/{id}', [AmSalesController::class,'show'])->name('/adminShowSales');
+
+
+
 });
 
 
