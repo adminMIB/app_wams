@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ListProjectPm;
+use App\Models\ListToPm;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Notifications\ListprojectpmNotification;
@@ -19,9 +20,9 @@ class ListProjectPmController extends Controller
     public function index()
     {
         $cb = ListProjectPm::all();
-        $user=Role::with('users')->where('name', 'PM')->get();
-      
-         return view('listprojectpm', compact('cb','user'));
+        $user = Role::with('users')->where('name', 'PM')->get();
+
+        return view('listprojectpm', compact('cb', 'user'));
     }
 
     /**
@@ -43,17 +44,18 @@ class ListProjectPmController extends Controller
     public function store(Request $request)
     {
 
-        ListProjectPm::create([
+        ListToPm::create([
 
             "no_sales"  => $request->no_sales,
             "tgl_sales"  => $request->tgl_sales,
+            "kode_project"=>$request->kode_project,
             "nama_sales"  => $request->nama_sales,
             "nama_institusi"  => $request->nama_institusi,
             "nama_project"  => $request->nama_project,
             "hps"  => $request->hps,
-            "sign_pm_lead" => $request->sign_pm_lead,
+            "sign_pm" => $request->sign_pm
         ]);
-   
+
         return redirect('listprojectpm')->with('success', 'Task Created Successfully!');
     }
 

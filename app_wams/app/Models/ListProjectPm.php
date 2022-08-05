@@ -10,6 +10,7 @@ class ListProjectPm extends Model
     use HasFactory;
     protected $fillable =[
         "no_sales",
+        "kode_project",
         "tgl_sales",
         "nama_sales",
         "nama_institusi",
