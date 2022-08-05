@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Adits;
-use App\Models\Reports;
+use App\Models\ListProjet;
+use App\Models\ProjectTimeline;
 use App\Models\WeeklyReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +18,8 @@ class WeeklyReportController extends Controller
      */
     public function index(Request $request)
     {
-        $adits = Adits::all();
-        $data = WeeklyReport::with('adits')->orderBy('created_at', 'ASC')->paginate();
+        $listp = ListProjet::all();
+        $data = WeeklyReport::with('listp')->orderBy('created_at', 'ASC')->paginate();
         if ($request->has('search')) {
             $weekly_reports = WeeklyReport::where('start_date', 'LIKE', '%' . $request->search . '%')->paginate(5);
         } else {
@@ -27,7 +27,7 @@ class WeeklyReportController extends Controller
         }
 
 
-        return view('report.report_progres', compact('weekly_reports', 'adits', 'data'));
+        return view('report.report_progres', compact('weekly_reports', 'data', 'listp'));
     }
 
 
@@ -38,9 +38,9 @@ class WeeklyReportController extends Controller
      */
     public function create()
     {
-        $adits = Adits::all();
+        $listp = ListProjet::all();
         $weekly_reports = WeeklyReport::all();
-        return view('report.create', compact('weekly_reports', 'adits'));
+        return view('report.create', compact('weekly_reports', 'listp'));
     }
 
     /**
@@ -60,6 +60,7 @@ class WeeklyReportController extends Controller
                 "end_date" => "required|date",
                 "status" => "required|string|max:200",
                 "note" => "required|string|max:1000",
+        
             ], [
 
 
@@ -70,6 +71,7 @@ class WeeklyReportController extends Controller
                 "end_date.required" => "HPS harus sesuai!",
                 "status.required" => "Approve harus sesuai!",
                 "note.required" => "Approve harus sesuai!",
+          
             ]);
 
             if ($validate->fails()) {
@@ -85,7 +87,7 @@ class WeeklyReportController extends Controller
                 "end_date" => $request->end_date,
                 "status" => $request->status,
                 "note" => $request->note,
-                "adits_id" => $request->adits_id,
+                "listp_id" => $request->listp_id,
             ]);
 
 
@@ -163,10 +165,16 @@ class WeeklyReportController extends Controller
         return redirect()->back();
     }
 
-    public function getOneAdit(Request $request)
+    public function view()
+    {
+        $lt = ProjectTimeline::all();
+        return view('report.viewproject', compact('lt'));
+    }
+
+    public function getOnePm(Request $request)
     {
         $id = $request->id;
-        $data = Adits::find($id);
+        $data = ListProjet::find($id);
         return response()->json($data);
     }
 }

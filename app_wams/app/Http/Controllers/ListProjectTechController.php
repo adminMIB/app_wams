@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coba;
 use Illuminate\Http\Request;
 use App\Models\ListProjectTech;
+use App\Models\ListToPm;
 use App\Models\SalesOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +20,9 @@ class ListProjectTechController extends Controller
     public function index()
     {
 
-        $list = SalesOrder::all();
-        $user =Role::with('users')->where('name','Technikal')->get();
-        return view('list_technical.listproject',compact('list','user'));
+        $list = ListToPm::all();
+        $user = Role::with('users')->where('name', 'Technikal')->get();
+        return view('list_technical.listproject', compact('list', 'user'));
     }
 
     /**
@@ -45,15 +45,12 @@ class ListProjectTechController extends Controller
     {
 
         $request->validate([
-
-            "project_id" =>"required",
             "jenis_dokumen" => "required",
             "upload_dokumen" => "required",
             "user_id" => "required"
 
         ], [
 
-            'project_id.required'=>'Field tidak boleh kosong',
             'jenis_dokumen.required' => 'Field tidak boleh kosong',
             'upload_dokumen.required' => 'Field tidak boleh kosong',
             'user_id.required' => 'Field tidak boleh kosong',
@@ -62,19 +59,25 @@ class ListProjectTechController extends Controller
 
         $data = $request->upload_dokumen;
         $name = '';
-            foreach ($data as $dokumen) {
-                $fileName = $dokumen->getClientOriginalName();
-                $dokumen->move(public_path() . '/upload_dokumen', $fileName);
-                $name = $name . $fileName . ".";
-            }
+        foreach ($data as $dokumen) {
+            $fileName = $dokumen->getClientOriginalName();
+            $dokumen->move(public_path() . '/upload_dokumen', $fileName);
+            $name = $name . $fileName . ".";
+        }
 
 
         $data['user_id'] = implode(",", $request->user_id);
-        $data['project_id'] =$request->project_id;
+        $data['no_sales'] =$request->nama_sales;
+        $data['tgl_sales']=$request->tgl_sales;
+        $data['kode_project']=$request->kode_project;
+        $data['nama_institusi'] = $request->nama_institusi;
+        $data['nama_project'] = $request->nama_project;
+        $data['hps'] = $request->hps;
+        $data['nama_sales'] = $request->nama_sales;
         $data['jenis_dokumen'] = $request->jenis_dokumen;
         $data['upload_dokumen'] = $request->upload_dokumen = $name;
         $post = ListProjectTech::create($data);
-        return redirect('listproject');
+        return redirect('listproject')->with('success', 'Adit');
     }
 
     /**
@@ -94,6 +97,7 @@ class ListProjectTechController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
         //
@@ -121,13 +125,10 @@ class ListProjectTechController extends Controller
     {
         //
     }
-
-    
-
     public function work(Request $request)
     {
         $id = $request->id;
-        $data = SalesOrder::find($id);
+        $data = ListToPm::find($id);
         return response()->json($data);
     }
 }

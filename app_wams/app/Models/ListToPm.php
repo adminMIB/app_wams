@@ -5,24 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ListProjectPm extends Model
+class ListToPm extends Model
 {
     use HasFactory;
-    protected $fillable =[
+
+    protected $fillable=[
         "no_sales",
-        "kode_project",
         "tgl_sales",
+        "kode_project",
         "nama_sales",
         "nama_institusi",
         "nama_project",
         "quantity",
         "hps",
-        "sign_pm_lead"
+        "sign_pm"
     ];
-
-    // relasi ke category
-    public function users()
-    {
-        return $this->belongsTo(User::class, "sign_pm_lead");
-    }
 }

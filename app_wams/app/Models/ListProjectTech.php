@@ -9,25 +9,22 @@ class ListProjectTech extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
-        "nama_client",
+    protected $fillable = [
+        "nama_institusi",
+        "kode_project",
+        "no_sales",
+        "tgl_sales",
         "nama_project",
         "hps",
         "nama_sales",
         "jenis_dokumen",
         "upload_dokumen",
         "user_id",
-        "project_id"
+
     ];
 
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function projects()
-    {
-        return $this->belongsTo(SalesOrder::class, 'project_id');
-    }
-    
 }

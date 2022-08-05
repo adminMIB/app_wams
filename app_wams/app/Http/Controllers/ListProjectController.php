@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ListProjectPm;
 use App\Models\ListToPm;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Notifications\ListprojectpmNotification;
-use Illuminate\Support\Facades\Notification;
-use Spatie\Permission\Models\Role;
 
-class ListProjectPmController extends Controller
+class ListProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +14,8 @@ class ListProjectPmController extends Controller
      */
     public function index()
     {
-        $cb = ListProjectPm::all();
-        $user = Role::with('users')->where('name', 'PM')->get();
-
-        return view('listprojectpm', compact('cb', 'user'));
+        $cb = ListToPm::all();
+        return view('listviewproject.list_project',compact('cb'));
     }
 
     /**
@@ -43,20 +36,7 @@ class ListProjectPmController extends Controller
      */
     public function store(Request $request)
     {
-
-        ListToPm::create([
-
-            "no_sales"  => $request->no_sales,
-            "tgl_sales"  => $request->tgl_sales,
-            "kode_project"=>$request->kode_project,
-            "nama_sales"  => $request->nama_sales,
-            "nama_institusi"  => $request->nama_institusi,
-            "nama_project"  => $request->nama_project,
-            "hps"  => $request->hps,
-            "sign_pm" => $request->sign_pm
-        ]);
-
-        return redirect('listprojectpm')->with('success', 'Task Created Successfully!');
+        //
     }
 
     /**
@@ -102,12 +82,5 @@ class ListProjectPmController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function listprojectpm(Request $request)
-    {
-        $id = $request->id;
-        $data = ListProjectPm::find($id);
-        return response()->json($data);
     }
 }

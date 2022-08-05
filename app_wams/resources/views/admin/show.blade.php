@@ -38,10 +38,10 @@
                   <input type="text" name="Status" class="form-control" value="{{$detailId->Status}}" readonly>
                 </div>
                 {{-- Note --}}
-                <div class="form-group">
+                {{-- <div class="form-group">
                   <label>Note</label>
-                  <input type="text" name="Note" class="form-control" value="{{$detailId->Note}}" readonly>
-                </div>
+                  <textarea type="text" name="Note" class="form-control" value="{{$detailId->Note}}" readonly ></textarea>
+                </div> --}}
                 {{-- sign Pm Lead --}}
                 <div class="form-group">
                   <label>Sign Pm Lead</label>
@@ -62,7 +62,8 @@
                   <label>Upload Document</label>
                 
                       
-                  <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download Document</a></p>
+                  <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download zip</a></p>
+                  <a href="/admin/{{$detailId->UploadDocument}}">{{$detailId->UploadDocument}}</a>
              
                   {{-- <input type="text" name="UploadDocument" class="form-control" value="{{$detailId->UploadDocument}}" readonly> --}}
 
@@ -71,7 +72,7 @@
                 {{-- Note --}}
                 <div class="form-group">
                   <label>Note</label>
-                  <input type="text" name="Note" class="form-control" value="{{$detailId->Note}}" readonly>
+                  <textarea type="text" name="Note" class="form-control" value="{{$detailId->Note}}" readonly>{{$detailId->Note}}</textarea>
                 </div>
                 
                 

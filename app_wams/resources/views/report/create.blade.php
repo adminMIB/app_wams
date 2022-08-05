@@ -22,18 +22,18 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group p-3">
-                    <label for="name_client">Nama Client</label>
-                    <select class="selectric-wrapper form-control selectric-selectric selectric-below selectric-open" style="width: 23rem;  margin-bottom:25px;" id="id" name="adits_id">
+                    <label for="name_institusi">Nama Client</label>
+                    <select class="selectric-wrapper form-control selectric-selectric selectric-below selectric-open" style="width: 23rem;  margin-bottom:25px;" id="id" name="listp_id">
                       <div class="selectric-hide-select">
-                        @foreach ($adits as $value)
-                        <option value="{{ $value->id }}" class="form-control selectric">{{ $value->name_client }}</option>  
+                        @foreach ($listp as $value)
+                        <option value="{{ $value->id }}" class="form-control selectric">{{ $value->nama_institusi }}</option>  
                         @endforeach  
                       </div>
                     </select>
-                    <label for="name_client">Nama Institusi</label>
-                    <input type="text" id="name_client" name="name_client" class="form-control" style="width: 23rem; margin-bottom:25px;">
+                    <label for="name_institusi">Nama Institusi</label>
+                    <input type="text" id="nama_institusi" name="name_client" class="form-control" style="width: 23rem; margin-bottom:25px;">
                     <label for="name_project">Nama Project</label>
-                    <input type="text" id="name_project" name="name_project" class="form-control" style="width: 23rem; margin-bottom:25px;">
+                    <input type="text" id="nama_project" name="name_project" class="form-control" style="width: 23rem; margin-bottom:25px;">
                       <label for="job_essay">Uraian Pekerjaan</label>
                       <textarea class="form-control" id="job_essay" name="job_essay" style="height: 37px; width:23rem;"></textarea>              
                   </div>
@@ -88,11 +88,11 @@
       method: "POST",
       type: "JSON",
       data: { id : this.value },
-      url: "/get_one_adit"
+      url: "/get_one_pm"
     }).done(function(res) {
-      $("#name_client").val(res.name_client)
-      $("#name_project").val(res.name_project)
-      $("#adits_id").val(res.id)
+      $("#nama_institusi").val(res.nama_institusi)
+      $("#nama_project").val(res.nama_project)
+      $("#listp_id").val(res.id)
     })
  });
 </script>

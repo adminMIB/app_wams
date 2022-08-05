@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRelationshipWeeklyReportToAditTable extends Migration
+class AddRelationshipWeeklyReportToListprojetTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddRelationshipWeeklyReportToAditTable extends Migration
     public function up()
     {
         Schema::table('weekly_reports', function (Blueprint $table) {
-            $table->foreignId('adits_id')->constrained('adits');
+            $table->foreignId('listp_id')->constrained('list_projets');
         });
     }
 

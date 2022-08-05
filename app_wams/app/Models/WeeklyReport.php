@@ -17,11 +17,11 @@ class WeeklyReport extends Model
         "end_date",
         "status",
         "note",
-        "adits_id",
+        "listp_id",
     ];
 
-    public function Adits()
+    public function listp()
     {
-        return $this->belongsTo(Adits::class,'adits_id');
+        return $this->belongsTo(ListProjet::class,'listp_id');
     }
 }

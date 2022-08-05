@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\sales\AmSalesController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ReportController;
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\TimelineController as APITimelineController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CobaController;
 use App\Http\Controllers\DashboardAdminController;
@@ -35,9 +36,11 @@ use App\Http\Controllers\viewControlerrSuperAdmin\ProjectTimelineControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
+use App\Http\Controllers\ListProjectController;
 use App\Http\Controllers\WeeklyReportController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\SalesOpty;
+use Illuminate\Routing\Route as RoutingRoute;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -121,9 +124,11 @@ Route::group(['middleware'], function () {
   Route::get('/timeline', [TimeLineController::class, 'index'])->name('timeline');
   Route::get('/input', [TimeLineController::class, 'create'])->name('input');
   Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data');
+  Route::get('/edittml/{id}', [TimeLineController::class, 'edit'])->name('edittml');
+  Route::post('/list-project', [TimeLineController::class, 'list'])->name('list');
+  Route::get('/detail_timeline/{id}', [TimeLineController::class, 'show'])->name('detail_timeline');
 
-  // Route::get('/task',[CobaController::class,'index']);
-  // Route::post('/simpan-task',[CobaController::class,'store'])->name('simpan-task');
+  Route::get('/list_project', [ListProjectController::class, 'index'])->name('list_project');
 });
 
 
@@ -169,11 +174,12 @@ Route::group(['middleware'], function () {
   Route::get('/report', [WeeklyReportController::class, 'index']);
   Route::get('/create', [WeeklyReportController::class, 'create'])->name('create');
   Route::post('/save-data', [WeeklyReportController::class, 'store'])->name('save-data');
+  Route::get('/viewproject', [WeeklyReportController::class, 'view'])->name('viewproject');
   Route::get('/edit/{id}', [WeeklyReportController::class, 'edit'])->name('edit');
   Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
   Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
   Route::get('/change-status/{id}', [WeeklyReportController::class, 'changestatus']);
-  Route::post('/get_one_adit', [WeeklyReportController::class, 'getOneAdit']);
+  Route::post('/get_one_pm', [WeeklyReportController::class, 'getOnePm']);
 });
 
 
@@ -239,6 +245,7 @@ Route::group(['middleware'], function () {
   // sales
   Route::get('/adminproject/sales', [AmSalesController::class, 'index'])->name('/adminproject/sales');
   Route::get('/adminproject/salesCreate', [AmSalesController::class, 'create'])->name('/adminproject/salesCreate');
+  Route::get('/adminShowSales/{id}', [AmSalesController::class, 'show'])->name('/adminShowSales');
 });
 
 
