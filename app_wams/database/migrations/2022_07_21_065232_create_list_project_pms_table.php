@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("no_sales");
             $table->string("tgl_sales");
+            $table->string("kode_project");
             $table->string("nama_sales");
             $table->string("nama_institusi");
             $table->string("nama_project");

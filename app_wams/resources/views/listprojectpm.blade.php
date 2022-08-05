@@ -13,6 +13,8 @@
   <form action="{{route ('simpan-dok')}}" method="POST" enctype="multipart/form-data">
     {{csrf_field()}}
 
+    <input type="hidden" name="kode_project" id="kode_project" class="form-control" readonly>
+
     <div class="row">
       <div class="col">
         <label for="id" class="form-label" style="font-weight: bold; color:black">ID Project</label>
@@ -41,6 +43,7 @@
         @enderror
       </div>
     </div>
+
     <br>
 
     <div class="row g-3">
@@ -73,9 +76,9 @@
         <select name="sign_pm" id="sign_pm" class="form-control">
           <option selected>Pilih Pm</option>
           @foreach ($user as $item)
-            @foreach ($item->users as $user)
-            <option class="" value="{{$user->id}}">{{$user->name }}</option>
-            @endforeach
+          @foreach ($item->users as $user)
+          <option class="" value="{{$user->id}}">{{$user->name }}</option>
+          @endforeach
           @endforeach
         </select>
         @error('sign_pm_lead')
@@ -94,6 +97,10 @@
         @enderror
       </div>
     </div>
+
+
+
+
     <br /> <br />
     <button type="submit" class="btn btn-primary btn-sm">Save</button>
   </form>
@@ -123,6 +130,7 @@
         $("#tgl_sales").val(res.tgl_sales)
         $("#nama_institusi").val(res.nama_institusi)
         $("#nama_project").val(res.nama_project)
+        $("#kode_project").val(res.kode_project)
         $("#hps").val(res.hps)
       })
     });

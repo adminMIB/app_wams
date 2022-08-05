@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coba;
 use Illuminate\Http\Request;
 use App\Models\ListProjectTech;
+use App\Models\ListToPm;
 use App\Models\SalesOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +20,7 @@ class ListProjectTechController extends Controller
     public function index()
     {
 
-        $list = SalesOrder::all();
+        $list = ListToPm::all();
         $user = Role::with('users')->where('name', 'Technikal')->get();
         return view('list_technical.listproject', compact('list', 'user'));
     }
@@ -45,21 +45,12 @@ class ListProjectTechController extends Controller
     {
 
         $request->validate([
-
-            "institusi" => "required",
-            "project" => "required",
-            "hps" => "required",
-            "nama_sales" => "required",
             "jenis_dokumen" => "required",
             "upload_dokumen" => "required",
             "user_id" => "required"
 
         ], [
 
-            'institusi.required' => 'Field tidak boleh kosong',
-            'project.required' => 'Field tidak boleh kosong',
-            'hps.required' => 'Field tidak boleh kosong',
-            'nama_sales.required' => 'Field tidak boleh kosong',
             'jenis_dokumen.required' => 'Field tidak boleh kosong',
             'upload_dokumen.required' => 'Field tidak boleh kosong',
             'user_id.required' => 'Field tidak boleh kosong',
@@ -76,8 +67,11 @@ class ListProjectTechController extends Controller
 
 
         $data['user_id'] = implode(",", $request->user_id);
-        $data['institusi'] = $request->institusi;
-        $data['project'] = $request->project;
+        $data['no_sales'] =$request->nama_sales;
+        $data['tgl_sales']=$request->tgl_sales;
+        $data['kode_project']=$request->kode_project;
+        $data['nama_institusi'] = $request->nama_institusi;
+        $data['nama_project'] = $request->nama_project;
         $data['hps'] = $request->hps;
         $data['nama_sales'] = $request->nama_sales;
         $data['jenis_dokumen'] = $request->jenis_dokumen;
@@ -134,7 +128,7 @@ class ListProjectTechController extends Controller
     public function work(Request $request)
     {
         $id = $request->id;
-        $data = SalesOrder::find($id);
+        $data = ListToPm::find($id);
         return response()->json($data);
     }
 }

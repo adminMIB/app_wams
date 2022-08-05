@@ -2,7 +2,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>List Project Timeline</h1>
+        <h2>List Project Timeline</h2>
     </div>
     <div class="card">
         <div class="card-body">
@@ -26,13 +26,13 @@
                     @foreach ($data as $id)
                     <tr align="center">
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{$id->lists->institusi}}</td>
-                        <td>{{$id->lists->project}}</td>
+                        <td>{{$id->lists->nama_institusi}}</td>
+                        <td>{{$id->lists->nama_project}}</td>
                         <td>{{$id->start_date}} - {{$id->finish_date}}</td>
                         <td>{{ $id->nama_technical }}</td>
                         <td>
                             <a href="{{route('detail_timeline',$id->id)}}"><button type="submit" class="btn btn-warning ">Detail</button></a>
-                            <button type="submit" class="btn btn-primary ">Edit</button>
+                            <a href="{{route('edittml', $id->id)}}"><button type="submit" class="btn btn-primary ">Edit</button></a>
                         </td>
 
                     </tr>

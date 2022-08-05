@@ -10,6 +10,6 @@ class ListProjet extends Model
     use HasFactory;
 
     protected $fillable =[
-        "institusi","project"
+        "nama_institusi","nama_project","no_sales","tgl_sales","kode_project","hps","nama_sales"
     ];
 }

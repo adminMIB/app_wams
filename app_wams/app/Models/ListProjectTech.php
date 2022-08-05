@@ -10,8 +10,11 @@ class ListProjectTech extends Model
     use HasFactory;
 
     protected $fillable = [
-        "institusi",
-        "project",
+        "nama_institusi",
+        "kode_project",
+        "no_sales",
+        "tgl_sales",
+        "nama_project",
         "hps",
         "nama_sales",
         "jenis_dokumen",

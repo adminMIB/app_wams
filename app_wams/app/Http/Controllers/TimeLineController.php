@@ -46,8 +46,13 @@ class TimeLineController extends Controller
         // dd($data);
 
         $time = new ListProjet;
-        $time->institusi = $data['institusi'];
-        $time->project = $data['project'];
+        $time->no_sales=$data['nama_sales'];
+        $time->tgl_sales=$data['tgl_sales'];
+        $time->nama_sales=$data['nama_sales'];
+        $time->kode_project=$data['kode_project'];
+        $time->hps=$data['hps'];
+        $time->nama_institusi = $data['nama_institusi'];
+        $time->nama_project = $data['nama_project'];
         $time->save();
 
         if (count($data['nama_technical'])) {
@@ -87,7 +92,8 @@ class TimeLineController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = ProjectTimeline::find($id);
+        return view('timeline.edittml', compact('data'));
     }
 
     /**

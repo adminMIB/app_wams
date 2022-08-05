@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ListToPm;
 use Illuminate\Http\Request;
 
 class ListProjectController extends Controller
@@ -13,7 +14,8 @@ class ListProjectController extends Controller
      */
     public function index()
     {
-        return view('listviewproject.list_project');
+        $cb = ListToPm::all();
+        return view('listviewproject.list_project',compact('cb'));
     }
 
     /**
