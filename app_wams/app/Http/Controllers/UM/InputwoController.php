@@ -21,7 +21,7 @@ class InputwoController extends Controller
         $listPm = ListProjectPm::all();
 
 
-        return view('UM.inputwo', compact('data', 'datas','user', 'listPm'));
+        return view('UM.inputwo', compact('data', 'datas', 'user', 'listPm'));
     }
 
     // public function show($id)
@@ -34,13 +34,13 @@ class InputwoController extends Controller
     // }
 
     public function  store(Request $request)
-    {   
+    {
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'sign_pm_lead' => 'required',
-        ]);    
-        
-        if($validator->fails()) {
+        ]);
+
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => 'validation error',
@@ -51,19 +51,20 @@ class InputwoController extends Controller
 
 
         try {
-        // kita buat role nya
-         ListProjectPm::create([
-        "no_sales" => $request->no_sales,
-        "tgl_sales" => $request->tgl_sales,
-        "nama_sales" => $request->nama_sales,
-        "nama_institusi" => $request->nama_institusi,
-        "nama_project" => $request->nama_project,
-        "hps" => $request->hps,
-        "sign_pm_lead" => $request->sign_pm_lead,
-        ]);
-        // lalu kasih permision berdasarakn user select
+            // kita buat role nya
+            ListProjectPm::create([
+                "no_sales" => $request->no_sales,
+                "tgl_sales" => $request->tgl_sales,
+                "kode_project" => $request->kode_project,
+                "nama_sales" => $request->nama_sales,
+                "nama_institusi" => $request->nama_institusi,
+                "nama_project" => $request->nama_project,
+                "hps" => $request->hps,
+                "sign_pm_lead" => $request->sign_pm_lead,
+            ]);
+            // lalu kasih permision berdasarakn user select
 
-        return redirect('/approval');
+            return redirect('/approval');
         } catch (\Throwable $th) {
             return response()->json($th->getMessage());
         }
