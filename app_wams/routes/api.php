@@ -91,7 +91,9 @@ route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController
 //     "only" => ["store", "index", "edit", "destroy", "update"]    
 // ]);
 
-
+route::apiResource('adits', '\App\Http\Controllers\API\AditController', [
+    "only" => ["store", "index", "edit", "destroy", "show"]
+]);
 
 
 // // Route::group(['middleware' => ['auth:sanctum']],function() {

@@ -17,5 +17,11 @@ class WeeklyReport extends Model
         "end_date",
         "status",
         "note",
+        "listp_id",
     ];
+
+    public function listp()
+    {
+        return $this->belongsTo(ListProjet::class,'listp_id');
+    }
 }

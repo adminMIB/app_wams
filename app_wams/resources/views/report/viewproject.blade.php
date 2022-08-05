@@ -16,31 +16,32 @@
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-striped">
-                <tbody>
+                <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Client</th>
+                        <th>Kode Project</th>
+                        <th>Nama Institusi</th>
                         <th>Nama Project</th>
-                        <th>Uraian Pekerjaan</th>
-
-                        <th>Start Date</th>
-                        <th>End Date</th>
-
+                        <th>Nama AM</th>
+                        <th>HPS</th>
+  
+                        
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach ($lt as $item)
+                    @if (Auth::user()->name == $item->nama_technical)
                     <tr>
-                        @foreach ($lt as $item)
-                        @if (Auth::user()->name == $item->nama_technical)
                         <td>{{$loop->iteration}}</td>
+                        <td>B{{$item->lists->kode_project}}</td>
                         <td>{{$item->lists->nama_institusi}}</td>
                         <td>{{$item->lists->nama_project}}</td>
-                        <td>{{$item->jenis_pekerjaan}}</td>
-
-                        <td>{{$item->start_date}}</td>
-                        <td>{{$item->finish_date}}</td>
-                        @endif
-                        @endforeach
+                        <td>{{$item->lists->nama_sales}}</td>
+                        <td>{{$item->lists->hps}}</td>
+             
                     </tr>
-
+                    @endif
+                    @endforeach
                 </tbody>
             </table>
         </div>

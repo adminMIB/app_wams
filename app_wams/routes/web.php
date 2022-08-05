@@ -179,6 +179,7 @@ Route::group(['middleware'], function () {
   Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
   Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
   Route::get('/change-status/{id}', [WeeklyReportController::class, 'changestatus']);
+  Route::post('/get_one_pm', [WeeklyReportController::class, 'getOnePm']);
 });
 
 
@@ -237,17 +238,14 @@ Route::group(['middleware'], function () {
   Route::get('/adminprojectShow/{id}', [AdminController::class, 'show'])->name('/adminprojectShow');
   Route::get('/adminprojecDelete/{id}', [AdminController::class, 'destroy'])->name('/adminprojecDelete');
 
-  Route::get('zip-download', [AdminController::class,'downZip'])->name('zip-download');
+  Route::get('zip-download', [AdminController::class, 'downZip'])->name('zip-download');
 
 
   // Route::get('/um', [NotifManagementController::class,'index']);
   // sales
-  Route::get('/adminproject/sales', [AmSalesController::class,'index'])->name('/adminproject/sales');
-  Route::get('/adminproject/salesCreate', [AmSalesController::class,'create'])->name('/adminproject/salesCreate');
-  Route::get('/adminShowSales/{id}', [AmSalesController::class,'show'])->name('/adminShowSales');
-
-
-
+  Route::get('/adminproject/sales', [AmSalesController::class, 'index'])->name('/adminproject/sales');
+  Route::get('/adminproject/salesCreate', [AmSalesController::class, 'create'])->name('/adminproject/salesCreate');
+  Route::get('/adminShowSales/{id}', [AmSalesController::class, 'show'])->name('/adminShowSales');
 });
 
 

@@ -12,4 +12,9 @@ class ListProjet extends Model
     protected $fillable =[
         "nama_institusi","nama_project","no_sales","tgl_sales","kode_project","hps","nama_sales"
     ];
+
+    public function weeklyreport()
+    {
+        return $this->hasMany(WeeklyReport::class);
+    }
 }
