@@ -73,14 +73,15 @@
                     </td>
                     <td></td>
                     <td>
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown"  href="">
+                      <a href="{{url ('/adminShowSales', $opty->id)}}" class="btn btn-primary btn-sm">Assign To</a>
+                        {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown"  href="">
                             ...
                         </a>
                         <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
                         <a href="{{url ('/adminShowSales', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
                         <a href="{{url ('Yedit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
                          <a href="{{url ('Ydelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
-                        </div>
+                        </div> --}}
                     </td>
                     </div>
                 </tr>

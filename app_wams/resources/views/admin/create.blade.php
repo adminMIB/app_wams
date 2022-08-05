@@ -33,10 +33,12 @@
                     <label for="inputNamaProject" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Upload Dokumen</label>
                     <div class="col-sm-10">
                     <input type="file" class=" @error('NamaProject') is-invalid @enderror form-control" name="UploadDocument[]" multiple placeholder="Nama Project" id="inputNamaProject">
+
                     @error('NamaProject')
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
                     </div>
+                    <p></p>
                 </div>
 
                 <div class="mb-2 row">

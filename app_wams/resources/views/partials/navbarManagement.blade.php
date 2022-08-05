@@ -12,7 +12,7 @@
     </ul>
     <div class="search-element">
       <input class="form-control"  type="search" placeholder="Search" aria-label="Search" data-width="500" style="border-radius: 1em; border-color:rgba(208, 208, 208, 0.947)">
-      <button class="btn" type="submit" style="margin-left: 20px; border-radius:1em; background-color:rgba(208, 208, 208, 0.947); color:white">Seasssrch</button>
+      <button class="btn" type="submit" style="margin-left: 20px; border-radius:1em; background-color:rgba(208, 208, 208, 0.947); color:white">Search</button>
     </div>
   </form>
   <ul class="navbar-nav navbar-right">

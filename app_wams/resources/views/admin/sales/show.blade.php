@@ -64,6 +64,27 @@
                     </div>
                 </div>
 
+                <div class="mb-3 row">
+                    <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sign Pm </label>
+                    <div class="col-sm-10">
+                    <select class="@error('signPm_lead') is-invalid @enderror form-control" name="signPm_lead">
+
+                    <option value=""></option>
+                        {{-- @foreach ($pmLead as $item)
+                            @foreach ($item->users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
+                            @endforeach
+                        @endforeach --}}
+                        <option value=""></option>
+
+
+                </select>
+                    @error('signPm_lead')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
+                </div>
+            </div>
+
                 <a href="/adminproject/sales" class="btn btn-primary">Back</a>
         </div>
        </div>

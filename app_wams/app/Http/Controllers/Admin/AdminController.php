@@ -50,20 +50,22 @@ class AdminController extends Controller
     // function dwonload document bentuk zip
     public function downZip(Request $request)
     {
+
         if($request->has('download')) {
             $zip      = new ZipArchive;
             $fileName = 'document.zip';
-            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === FALSE) {
-                $files = File::files(public_path('\admin'));
+            if ($zip->open(public_path(!$fileName), ZipArchive::CREATE) === TRUE) {
+                $files = File::files(public_path('/admin'));
+                // return $files;
                 foreach ($files as $key => $value) {
                     $relativeName = basename($value);
-                    $zip->addFile($value, $relativeName);
+                      $zip->addFile($value, $relativeName);
                 }
-                $zip->close();
+                // $zip->close();
             }
+            // dd($fileName);
             return response()->download(public_path($fileName));
         }
-
     
     }
 
@@ -96,12 +98,13 @@ class AdminController extends Controller
         $data = $request->UploadDocument ;
         // buat name kosoingnya
         $name = '';
-            foreach ($data as $dokumen) {
-                $fileName = $dokumen->getClientOriginalName();
-                $dokumen->move(public_path() . '\admin', $fileName);
-                $name = $name . $fileName ;
-            }
+        foreach ($data as $dokumen) {
+            $fileName = $dokumen->getClientOriginalName();
+            $dokumen->move(public_path() . '\admin', $fileName);
+            $name = $name . $fileName . "\n"  ;
+        }
 
+        // //   $s =  explode(" ",$request->UploadDocument = $name);
 
         ListProjectAdmin::create([
             "NamaClient" => $request->NamaClient,
@@ -174,12 +177,12 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $deletData = ListProjectAdmin::find($id);
+        
         // File::delete($updateData->image) 
         if ($deletData) {
             Storage::delete(public_path('files\admin'));
             $deletData->delete();
         }
-
 
 
         return back();

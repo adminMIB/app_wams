@@ -95,7 +95,7 @@
                   </a>
                 </div>
                 {{-- delete --}}
-                <a href="{{url('/adminprojecDelete', $item->id)}}" class="btn btn-danger">
+                <a href="{{url('/adminprojecDelete', $item->id)}}"  class="btn btn-danger">
                   <i class="fas fa-times"></i>
                 </a>
               </td>

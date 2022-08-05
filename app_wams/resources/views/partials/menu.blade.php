@@ -3,11 +3,11 @@
 <ul class="sidebar-menu">
   <li class="menu-header">Management Tools</li>
   <li class="nav-item ">
-    <a href="#" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+    <a href="#" class="nav-link "><span>Dashboard</span></a>
   </li>
 
   <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User Managements</a>
+      <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-user"></i>User Managements</a>
       <div class="dropdown-menu" aria-labelledby="dropdown01">
       <a class="nav-link" href="{{route('/dashboard/role')}}">Role</a>
       <a class="nav-link" href="{{route('/dashboardPermision')}}">permision</a>
@@ -16,7 +16,8 @@
 </li>
 
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sales Monitoring</a>
+  <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-th"></i>Sales Monitoring</a>
+  
     <div class="dropdown-menu" aria-labelledby="dropdown01">
     <a class="nav-link" href="{{route('/dashboard/salesOpty')}}">Sales Opty</a>
     <a class="nav-link" href="{{route('/dashboard/salesOrder')}}">Sales Order</a>
@@ -24,7 +25,7 @@
 </li>
 
 <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project Management</a>
+  <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chart-pie"></i>Project Management</a>
   <div class="dropdown-menu" aria-labelledby="dropdown01">
     <a class="nav-link" href="">Project Timeline</a>
 </div>

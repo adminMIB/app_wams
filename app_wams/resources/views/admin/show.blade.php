@@ -63,8 +63,8 @@
                 
                       
                   <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download zip</a></p>
+                      
                   <a href="/admin/{{$detailId->UploadDocument}}">{{$detailId->UploadDocument}}</a>
-             
                   {{-- <input type="text" name="UploadDocument" class="form-control" value="{{$detailId->UploadDocument}}" readonly> --}}
 
 
