@@ -144,8 +144,10 @@ Route::group(['middleware'], function () {
   route::post('/Ssimpan-data', [SalesOrderController::class, 'store'])->name('Ssimpan-data');
   route::put('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
   route::get('/Sedit/{id}', [SalesOrderController::class, 'edit'])->name('Sedit');
-  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  route::DELETE('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
   Route::get('/order-export', [SalesOrderController::class, 'export'])->name('order-export');
+  Route::post('/add_so', [SalesOrderController::class, 'addso']);
+  Route::post('/store/media', [SalesOrderController::class, 'storeMedia'])->name('storeMedia');
   // sales opty
   Route::get('/index-sales', [SalesOptyController::class, 'index'])->name('index-sales');
   Route::get('/inputsales', [SalesOptyController::class, 'create'])->name('inputsales');
