@@ -95,10 +95,10 @@
 <ul class="sidebar-menu">
   <li class="menu-header">admin Tools</li>
   <li class="nav-item ">
-    <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+  <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
   </li>
-  <li class="nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class="">list Project admin</span></a></li>
-  <li class="nav-item"><a class="nav-link" href="/adminproject/sales"><i class="fas fa-file-alt"></i> <span>List Sales Opty</span></a></li>
+  <li class=" nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class=" list-admin ">list Project admin</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/adminproject/sales"><i class="fas fa-file-alt"></i> <span class="list-sales-admin">List Sales Opty</span></a></li>
   <li class="nav-item mt-3 d-block  ">
     <form action="/logout" method="POST">
       @csrf
@@ -139,7 +139,7 @@
   </li>
   <li class="nav-item"><a class="nav-link" href="/approval"><i class="fas fa-clipboard-check"></i> <span class="">Approval SO</span></a></li>
   <li class="nav-item"><a class="nav-link" href="/reportp"><i class="fas fa-file-alt"></i> <span>Report Project</span></a></li>
-  <li class="nav-item"><a class="nav-link" href="/inputTwo"><i class="fas fa-edit"></i> <span>Input Work Order</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/inputTwo"><i class="fas fa-edit"></i> <span>List view aprove</span></a></li>
   <li class="nav-item"><a class="nav-link" href="/listd"><i class="fas fa-file-alt"></i> <span>List Document</span></a></li>
   <li class="nav-item mt-3 d-block  ">
     <form action="/logout" method="POST">
@@ -148,10 +148,6 @@
     </form>
   </li>
 </ul>
-
-
-
-
 @endif
 
 {{-- ! PM --}}
@@ -224,6 +220,27 @@
 </form>
 @endif
 
+
+{{-- !Technikal Lead --}}
+@if (Auth::user()->hasRole('Technikal Lead'))
+<ul class="sidebar-menu">
+  <li class="menu-header">Technikal Tools</li>
+  <li class="nav-item ">
+    <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+  </li>
+  <li class="nav-item"><a class="nav-link" href="/TechnikalLead"><i class="fas fa-clipboard-check"></i> <span class="">List Project Admin</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/report"><i class="fas fa-file-alt"></i> <span>Weekly Report</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/index-sales"><i class="fas fa-edit"></i> <span>View Sales Opty </span></a></li>
+  <li class="nav-item"><a class="nav-link" href="/inputTwo"><i class="fas fa-file-alt"></i> <span>View Wo</span></a></li>
+  <li class="nav-item mt-3 d-block  ">
+    <form action="/logout" method="POST">
+      @csrf
+      <button class="btn btn-danger">Logout</button>
+    </form>
+  </li>
+</ul>
+@endif
+
 {{-- ! Finance --}}
 @if (Auth::user()->hasRole('Finance'))
 <form action="/logout" method="POST">
@@ -231,3 +248,13 @@
   <button class="btn btn-danger">Logout</button>
 </form>
 @endif
+
+{{-- <script>
+  let admin = document.querySelector('.list-admin');
+  let salesOpty = document.querySelector('.list-sales-admin');
+
+  salesOpty.addEventListener('click', function () { 
+    admin.classList.remove(`text-primary`);    
+    salesOpty.classList.add(`text-primary`); 
+  })
+</script> --}}

@@ -15,6 +15,7 @@ class CreateListProjectAdminsTable extends Migration
     {
         Schema::create('list_project_admins', function (Blueprint $table) {
             $table->id();
+            $table->string('ID_project');
             $table->string('NamaClient');
             $table->string('NamaProject');
             $table->string('UploadDocument');

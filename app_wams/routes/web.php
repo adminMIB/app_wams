@@ -37,6 +37,7 @@ use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
 use App\Http\Controllers\ListProjectController;
+use App\Http\Controllers\TechnikalLeadController\TechnikalLeadController;
 use App\Http\Controllers\WeeklyReportController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\SalesOpty;
@@ -248,6 +249,12 @@ Route::group(['middleware'], function () {
   Route::get('/adminShowSales/{id}', [AmSalesController::class, 'show'])->name('/adminShowSales');
 });
 
+
+//! Routing dashboard Technikallead
+Route::group(['middleware'], function () {
+  Route::get('/TechnikalLead', [TechnikalLeadController::class, 'index'])->name('/TechnikalLead');
+  
+});
 
 
 

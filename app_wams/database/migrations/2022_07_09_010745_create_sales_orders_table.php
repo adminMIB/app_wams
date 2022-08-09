@@ -26,6 +26,7 @@ class CreateSalesOrdersTable extends Migration
             $table->string('jenis_dok')->nullable();
             $table->string('file_dokumen')->nullable();
             $table->string('status')->default('Pending');
+            $table->string('note')->nullable();
             $table->string('name_user')->nullable();
             $table->timestamps();
         });

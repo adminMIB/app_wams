@@ -20,12 +20,16 @@ class ApprovalController extends Controller
         return view('UM.approval', compact('datas', 'data', 'cekPmLead'));
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         $detailId = SalesOrder::find($id);
-        $datas = SalesOrder::all()->count();
+        $datas = SalesOrder::all()->count(); 
+
+       
 
         return view('UM.detailapproval', compact('detailId', 'datas'));
+        // return $detailId;
+
     }
 
     public function inputWo($id)
@@ -47,6 +51,7 @@ class ApprovalController extends Controller
 
     public function update(Request $request, $id)
     {
+
         // $so = SalesOrder::findOrFail($id);
         $update=SalesOrder::find($id);
         try {
@@ -156,6 +161,7 @@ class ApprovalController extends Controller
         $update->project = $request->project;
         $update->hps = $request->hps;
         $update->status = $request->status;
+        $update->note = $request->note;
         $update->file_quotation = $file_quotation_name;
         $update->file_po = $file_po_name;
         $update->file_spk = $file_spk_name;

@@ -17,14 +17,14 @@ class RoleAndPermissionSeeder extends Seeder
     {
 
         $role_user = Role::where('name', 'AM/Sales')->first();
-        $role_user->syncPermissions('read data');
-        $role_user->syncPermissions('detail data');
-        $role_user->syncPermissions('update data');
+        $role_user->givePermissionTo('read data');
+        $role_user->givePermissionTo('detail data');
+        $role_user->givePermissionTo('update data');
 
         $role_superAdmin = Role::where('name', 'Super Admin')->first();
-        $role_superAdmin->syncPermissions('read data');
-        $role_superAdmin->syncPermissions('detail data');
-        $role_superAdmin->syncPermissions('update data');
-        $role_superAdmin->syncPermissions('delete data');
+        $role_superAdmin->givePermissionTo('read data');
+        $role_superAdmin->givePermissionTo('detail data');
+        $role_superAdmin->givePermissionTo('update data');
+        $role_superAdmin->givePermissionTo('delete data');
     }
 }

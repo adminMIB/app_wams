@@ -9,7 +9,7 @@ class ListProjectAdmin extends Model
 {
     use HasFactory;
     protected $fillable =[
-        "NamaClient","NamaProject","UploadDocument","Date", "Angka","Status","Note", "signPm_lead", "signTechnikel_lead", "signAmSales_id"
+        "ID_project", "NamaClient","NamaProject","UploadDocument","Date", "Angka","Status","Note", "signPm_lead", "signTechnikel_lead", "signAmSales_id"
     ];
 
     public function setFilenamesAttribute($value)

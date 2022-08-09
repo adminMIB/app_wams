@@ -1,13 +1,24 @@
 @extends('layouts.main')
+
 @section('content')
     <section class="section">
     <div class="title">
         <h1 style="color: black; margin-left: 9px; margin-top:20px">Input Project</h1>
-     </div> 
-       <div class="card">
+    </div> 
+        <div class="card">
         <div class="card-body">
         <form action="{{route('/adminproject/store')}}" method="POST" enctype="multipart/form-data">
             {{csrf_field()}}
+
+                <div class="mb-3 row">
+                    <label for="inputID_project" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">ID Project</label>
+                    <div class="col-sm-10">
+                    <input type="text" class="@error('ID_project') is-invalid @enderror form-control" name="ID_project" placeholder="ID_project" id="inputID_project" value="{{$nomer}}" readonly>
+                    @error('ID_project')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
+                    </div>
+                </div>
         
                 <div class="mb-3 row">
                     <label for="inputNamaClient" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Nama Client</label>
@@ -29,7 +40,7 @@
                     </div>
                 </div>
                 
-                <div class="mb-2 row">
+                {{-- <div class="mb-2 row">
                     <label for="inputNamaProject" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Upload Dokumen</label>
                     <div class="col-sm-10">
                     <input type="file" class=" @error('NamaProject') is-invalid @enderror form-control" name="UploadDocument[]" multiple placeholder="Nama Project" id="inputNamaProject">
@@ -39,7 +50,7 @@
                     @enderror
                     </div>
                     <p></p>
-                </div>
+                </div> --}}
 
                 <div class="mb-2 row">
                     <label class="col-sm-2 co
@@ -52,10 +63,21 @@
                     </div>
                 </div>
 
+                {{-- uoload --}}
+                <div class="mb-2 row">
+                    <label for="inputNamaProject" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Upload Dokumen</label>
+                    <div class="col-sm-10">
+                    <input type="file" class=" @error('NamaProject') is-invalid @enderror form-control" name="UploadDocument[]" multiple placeholder="Nama Project" id="inputNamaProject">
+                    @error('NamaProject')
+                    <div class="invalid-feedback">{{$message}}</div>
+                    @enderror
+                    </div>
+                </div>
+
                 <div class="mb-2 row">
                     <label for="inputAngka" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Angka</label>
                     <div class="col-sm-10">
-                    <input type="number" class="@error('Angka') is-invalid @enderror form-control" name="Angka" placeholder="Angka" id="inputAngka">
+                    <input type="text" class="@error('Angka') is-invalid @enderror form-control" name="Angka" placeholder="Angka" id="inputAngka">
                     @error('Angka')
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
@@ -88,6 +110,7 @@
                     @enderror
                     </div>
                 </div>
+
                 {{-- pm lead --}}
                 <div class="mb-2 row">
                     <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sign Pm Lead</label>
@@ -154,7 +177,40 @@
 
         </form>
         <a href="/adminproject"><button type="submit" class="btn btn-secondary btn-sm">Back</button></a> 
+
+         
     </div>
     </div>
     </section>
+
+
 @endsection
+
+@section('jsAdmin')
+<script>
+    var harga = document.getElementById('inputAngka');
+    harga.addEventListener('keyup', function(e)
+    {
+        harga.value = formatRupiah(this.value, 'Rp. ');
+    });
+    
+    function formatRupiah(angka, prefix)
+    {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split    = number_string.split(','),
+            sisa     = split[0].length % 3,
+            rupiah     = split[0].substr(0, sisa),
+            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+            
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+    </script>
+@endsection
+
+

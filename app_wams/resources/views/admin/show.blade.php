@@ -11,6 +11,11 @@
           <form action="" method="POST" enctype="multipart/form-data"> 
                   @method('put')
                   {{csrf_field()}}
+                  {{-- ID Project --}}
+                <div class="form-group">
+                  <label>Id Project</label>
+                  <input type="text" name="namaClient" class="form-control" value="{{$detailId->ID_project}}" autofocus readonly>
+                </div>
                   {{-- nama client --}}
                 <div class="form-group">
                   <label>Nama Client</label>
@@ -43,19 +48,19 @@
                   <textarea type="text" name="Note" class="form-control" value="{{$detailId->Note}}" readonly ></textarea>
                 </div> --}}
                 {{-- sign Pm Lead --}}
-                <div class="form-group">
+                <div class="form-group mt-3">
                   <label>Sign Pm Lead</label>
-                  <input type="text" name="SignPm_lead" class="form-control" value="{{$detailId->signPm_lead}}" readonly>
+                  <input type="text" name="SignPm_lead" class="form-control" value="{{$detailId->pmLead->name}}" readonly>
                 </div>
                 {{-- sign Technikal Lead --}}
                 <div class="form-group">
                   <label>Sign Technikal Lead</label>
-                  <input type="text" name="signTechnikel_lead" class="form-control" value="{{$detailId->signTechnikel_lead}}" readonly>
+                  <input type="text" name="signTechnikel_lead" class="form-control" value="{{$detailId->technikelLead->name}}" readonly>
                 </div>
                 {{-- sign amSales Lead --}}
                 <div class="form-group">
                   <label>Sign Am Sales</label>
-                  <input type="text" name="signAmSales_id" class="form-control" value="{{$detailId->signAmSales_id}}" readonly>
+                  <input type="text" name="signAmSales_id" class="form-control" value="{{$detailId->sales->name}}" readonly>
                 </div>
                 {{-- upload Document --}}
                 <div class="form-group">

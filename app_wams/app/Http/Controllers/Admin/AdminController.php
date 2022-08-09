@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use ZipArchive;
 use File;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,8 +26,6 @@ class AdminController extends Controller
     {   
         $user = Auth::user();
         $admin = ListProjectAdmin::with('pmLead', 'technikelLead', 'sales')->orderBy("created_at", "DESC")->paginate(10);
-    //    $admin =  ListProjectAdmin::where("signPm_lead", $user->id )->with('pmLead', 'technikelLead')->orderBy("created_at", "DESC")->paginate(10); 
-        // $admin = User::with('listAdmin')->orderBy("created_at", "DESC")->paginate();
 
         return view('admin.index', compact('admin'));
     }
@@ -37,6 +37,19 @@ class AdminController extends Controller
      */
     public function create()
     {
+        // buat kode project
+        // AD202281001
+        $now =  Carbon::now();
+        $thBulan = $now->year . $now->month;
+        $tabelListProjectAdmin = ListProjectAdmin::count();
+        if ($tabelListProjectAdmin == 0) {
+            $urut = 1001;
+            $nomer = 'AD'. $thBulan. $urut;            
+        }  else {
+            $ambilLast = ListProjectAdmin::all()->last();
+            $urut = (int)substr($ambilLast->ID_project, -4) + 1;
+            $nomer = 'AD'. $thBulan. $urut;            
+        }
 
         $admin = ListProjectAdmin::orderBy('created_at', 'DESC')->paginate(10);
         $pmLead = Role::with('users')->where("name", "PM Lead")->get();
@@ -44,7 +57,7 @@ class AdminController extends Controller
         $sales = Role::with('users')->where("name", "AM/Sales")->get();
 
 
-        return view('admin.create', compact('admin', 'pmLead', 'TechnikelLead', 'sales'));
+        return view('admin.create', compact('admin', 'pmLead', 'TechnikelLead', 'sales', 'nomer'));
     }
 
     // function dwonload document bentuk zip
@@ -59,7 +72,7 @@ class AdminController extends Controller
                 // return $files;
                 foreach ($files as $key => $value) {
                     $relativeName = basename($value);
-                      $zip->addFile($value, $relativeName);
+                    $zip->addFile($value, $relativeName);
                 }
                 // $zip->close();
             }
@@ -77,11 +90,11 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $request->validate([
+            'UploadDocument' => 'required',
             'NamaClient' => 'required',
             'NamaProject' => 'required',
-            'UploadDocument' => 'required',
             'Date' => 'required',
             'Angka' => 'required',
             'Status' => 'required',
@@ -89,13 +102,31 @@ class AdminController extends Controller
             'signPm_lead' => 'required',
             'signTechnikel_lead' => 'required',
             'signAmSales_id' => 'required'
-
         ]);
 
+
+        // if ($request->hasFile('UploadDocument')) {
+        //     $file = $request->file('UploadDocument');
+        //     $fileName = $file->getClientOriginalName();
+        //     $folder = uniqid(). '_' . now()->timestamp;
+        //     $file->storeAs('UploadDocument/tmp'. $folder, $fileName);
+
+        //     return $folder;
+        // }
+        // return '';
+
+            // $file = $request->file('UploadDocument');
+            // $fileName = hexdec(uniqid()). '.' . $file->extension();
+            // $folder = uniqid(). '_' . now()->timestamp;
+            // $file->storeAs('admin/tmp'. $folder, $fileName);
+
+        
+        
 
         // upload dokumen
         // ambil data nya lalu simpan di divariabel data
         $data = $request->UploadDocument ;
+        // return $data;
         // buat name kosoingnya
         $name = '';
         foreach ($data as $dokumen) {
@@ -104,7 +135,7 @@ class AdminController extends Controller
             $name = $name . $fileName . "\n"  ;
         }
 
-        // //   $s =  explode(" ",$request->UploadDocument = $name);
+        // // //   $s =  explode(" ",$request->UploadDocument = $name);
 
         ListProjectAdmin::create([
             "NamaClient" => $request->NamaClient,
@@ -114,6 +145,7 @@ class AdminController extends Controller
             "Angka" => $request->Angka,
             "Status" => $request->Status,
             "Note" => $request->Note,
+            "ID_project" => $request->ID_project,
             "signPm_lead" => $request->signPm_lead,
             "signTechnikel_lead" => $request->signTechnikel_lead,
             "signAmSales_id" =>$request->signAmSales_id,
@@ -131,7 +163,8 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        $detailId = ListProjectAdmin::find($id);
+        $detailId = ListProjectAdmin::with('pmLead', 'technikelLead', 'sales')->find($id);
+        // $detailId = ListProjectAdmin::find($id);
 
         // return $detailId;
 
