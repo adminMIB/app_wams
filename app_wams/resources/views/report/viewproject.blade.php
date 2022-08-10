@@ -18,29 +18,28 @@
             <table class="table table-striped">
                 <tbody>
                     <tr>
-                        <th>No</th>
+                        <th>Kode Project</th>
+                        <th>Tanggal WO</th>
                         <th>Nama Client</th>
                         <th>Nama Project</th>
-                        <th>Uraian Pekerjaan</th>
-
-                        <th>Start Date</th>
-                        <th>End Date</th>
-
+                        <th>HPS</th>
+                        <th>AM</th>
+                        <th>PM</th>
                     </tr>
+                    @foreach ($lt as $item)
+                    @if (Auth::user()->name == $item->nama_technical)
                     <tr>
-                        @foreach ($lt as $item)
-                        @if (Auth::user()->name == $item->nama_technical)
-                        <td>{{$loop->iteration}}</td>
+                        <td>B{{$item->lists->kode_project}}</td>
+                        <td>{{$item->lists->tgl_sales}}</td>
                         <td>{{$item->lists->nama_institusi}}</td>
                         <td>{{$item->lists->nama_project}}</td>
-                        <td>{{$item->jenis_pekerjaan}}</td>
+                        <td>{{$item->lists->hps}}</td>
+                        <td>{{$item->lists->nama_sales}}</td>
+                        <td>{{$item->lists->nama_pm}}</td>
 
-                        <td>{{$item->start_date}}</td>
-                        <td>{{$item->finish_date}}</td>
-                        @endif
-                        @endforeach
                     </tr>
-
+                    @endif
+                    @endforeach
                 </tbody>
             </table>
         </div>

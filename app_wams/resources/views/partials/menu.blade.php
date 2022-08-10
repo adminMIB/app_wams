@@ -161,7 +161,7 @@
     <a href="{{url ('dashboardpm')}}" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
   </li>
   <li class="nav-item"><a class="nav-link" href="{{url ('list_project')}}"><img src="image/Line.png" alt=""> <span>List View Project</span></a></li>
-  <li class="nav-item"><a class="nav-link" href="{{url ('listproject')}}"><img src="image/Line.png" alt=""> <span>List Project Technikal</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="{{url ('index-list')}}"><img src="image/Line.png" alt=""> <span>List Project Technikal</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('timeline')}}"><img src="image/Akar.png" alt=""> <span>Create Project Timeline</span></a></li>
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ListProjectTech;
 use App\Models\ProjectTimeline;
 use App\Models\WeeklyReport;
 use Illuminate\Http\Request;

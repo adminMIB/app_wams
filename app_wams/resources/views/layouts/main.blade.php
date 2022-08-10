@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
@@ -28,30 +29,34 @@
       <div class="navbar-bg bg-transparent"></div>
 
       @if (!Auth::user()->hasRole('Management'))
-        @include('partials.navbar')
+      @include('partials.navbar')
       @else
-        @include('partials.navbarManagement')
+      @include('partials.navbarManagement')
+      @endif
+
+      @if (!Auth::user()->hasRole('PM'))
+      @include('partials.navbar')
+      @else
+      @include('partials.navbarPM')
       @endif
 
 
-          @include('partials.sidebar')
-      
-     
-      
+      @include('partials.sidebar')
+
 
       <!-- Main Content -->
       <div class="main-content" style="background-color: white">
         @yield('content')
       </div>
-      
+
       @yield('modal')
 
-      <footer class="main-footer" style="background-color: white; border:none">
-       
-        <div class="footer-right" >
-         
+      <!-- <footer class="main-footer" style="background-color: white; border:none">
+
+        <div class="footer-right">
+
         </div>
-      </footer>
+      </footer> -->
     </div>
 
   </div>
@@ -90,4 +95,5 @@
 {{-- <script>
   toastr.success('Have fun storming the castle!', 'Miracle Max Says')
 </script> --}}
+
 </html>

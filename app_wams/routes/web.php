@@ -115,9 +115,10 @@ Route::group(['middleware'], function () {
   //! Route PM
   Route::get('/dashboardpm', [DashboardPmController::class, 'index'])->name('dasboardpm');
 
-
-  Route::get('/listproject', [ListProjectTechController::class, 'index'])->name('listproject');
+  Route::get('/index-list',[ListProjectTechController::class,'index'])->name('index-list');
+  Route::get('/listproject', [ListProjectTechController::class, 'create'])->name('listproject');
   Route::post('/simpan-list', [ListProjectTechController::class, 'store'])->name('simpan-list');
+  Route::get('/list-delete/{id}',[ListProjectTechController::class,'destroy'])->name('list-delete');
   Route::post('/work_order', [ListProjectTechController::class, 'work']);
 
 
@@ -125,8 +126,10 @@ Route::group(['middleware'], function () {
   Route::get('/input', [TimeLineController::class, 'create'])->name('input');
   Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data');
   Route::get('/edittml/{id}', [TimeLineController::class, 'edit'])->name('edittml');
+  Route::post('/updatetml/{id}',[TimeLineController::class,'update'])->name('updatetml');
   Route::post('/list-project', [TimeLineController::class, 'list'])->name('list');
   Route::get('/detail_timeline/{id}', [TimeLineController::class, 'show'])->name('detail_timeline');
+
 
   Route::get('/list_project', [ListProjectController::class, 'index'])->name('list_project');
 });
@@ -237,17 +240,14 @@ Route::group(['middleware'], function () {
   Route::get('/adminprojectShow/{id}', [AdminController::class, 'show'])->name('/adminprojectShow');
   Route::get('/adminprojecDelete/{id}', [AdminController::class, 'destroy'])->name('/adminprojecDelete');
 
-  Route::get('zip-download', [AdminController::class,'downZip'])->name('zip-download');
+  Route::get('zip-download', [AdminController::class, 'downZip'])->name('zip-download');
 
 
   // Route::get('/um', [NotifManagementController::class,'index']);
   // sales
-  Route::get('/adminproject/sales', [AmSalesController::class,'index'])->name('/adminproject/sales');
-  Route::get('/adminproject/salesCreate', [AmSalesController::class,'create'])->name('/adminproject/salesCreate');
-  Route::get('/adminShowSales/{id}', [AmSalesController::class,'show'])->name('/adminShowSales');
-
-
-
+  Route::get('/adminproject/sales', [AmSalesController::class, 'index'])->name('/adminproject/sales');
+  Route::get('/adminproject/salesCreate', [AmSalesController::class, 'create'])->name('/adminproject/salesCreate');
+  Route::get('/adminShowSales/{id}', [AmSalesController::class, 'show'])->name('/adminShowSales');
 });
 
 

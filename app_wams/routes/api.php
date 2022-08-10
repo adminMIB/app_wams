@@ -48,16 +48,16 @@ use Illuminate\Support\Facades\Route;
 // Route::apiResource('ProjectTimeline','\App\Http\Controllers\API\ProjectTimelineController',[
 //     "only" => ["index", "store", "edit", "update", "destroy"]    
 // ]);
-   
+
 // // route upload dokumen
 
 // Route::apiResource('upload','\App\Http\Controllers\API\UploadController',[
 //     "only" => ["index", "store","destroy"]    
 // ]);
 // // route salesorder 
-route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
-    "only" => ["store", "index", "edit", "destroy", "show"]
-]);
+// route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController', [
+//     "only" => ["store", "index", "edit", "destroy", "show"]
+// ]);
 
 // Route::post('salesorder/{id}', [SalesOrderController::class, 'update'])->name('up');
 
@@ -92,7 +92,13 @@ route::apiResource('salesorder', '\App\Http\Controllers\API\SalesOrderController
 // ]);
 
 
+route::apiResource('listprojecttech', '\App\Http\Controllers\API\ListProjectTechController', [
+    "only" => ["store", "index", "edit", "destroy", "show"]
+]);
 
+route::apiResource('projecttimeline', '\App\Http\Controllers\API\ProjectTimelineController', [
+    "only" => ["store", "index", "edit", "destroy", "show"]
+]);
 
 // // Route::group(['middleware' => ['auth:sanctum']],function() {
 // // });
