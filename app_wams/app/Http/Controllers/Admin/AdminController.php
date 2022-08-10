@@ -172,7 +172,7 @@ class AdminController extends Controller
     public function show($id)
     {
         $angka = ListProjectAdmin::all()->count();
-        $detailId = ListProjectAdmin::with('pmLead', 'technikelLead', 'sales')->find($id);
+        $detailId = ListProjectAdmin::find($id);
         // $detailId = ListProjectAdmin::find($id);
 
 
