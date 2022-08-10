@@ -46,45 +46,92 @@
          
          <tbody>
             @foreach ($sales as $opty)
-                <tr> 
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $opty->NamaClient }}</td>
-                    <td>{{ $opty->NamaProject }}</td>
-                    <td>{{ $opty->elearning_id}}</td>
-                    <td>
-                        @if ($opty->Timeline == 'Q1')
-                            {{ number_format($opty->Angka,0,',','.') }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($opty->Timeline == 'Q2')
-                            {{ number_format($opty->Angka,0,',','.') }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($opty->Timeline == 'Q3')
-                            {{ number_format($opty->Angka,0,',','.') }}
-                        @endif
-                    </td>
-                    <td>
-                        @if ($opty->Timeline == 'Q4')
-                            {{ number_format($opty->Angka,0,',','.') }}
-                        @endif
-                    </td>
-                    <td></td>
-                    <td>
-                      <a href="{{url ('/adminShowSales', $opty->id)}}" class="btn btn-primary btn-sm">Assign To</a>
-                        {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown"  href="">
-                            ...
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
-                        <a href="{{url ('/adminShowSales', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
-                        <a href="{{url ('Yedit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
-                         <a href="{{url ('Ydelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
-                        </div> --}}
-                    </td>
-                    </div>
-                </tr>
+            @if ($opty->pmLead_id)   
+            <tr> 
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $opty->NamaClient }}</td>
+                <td>{{ $opty->NamaProject }}</td>
+                <td>{{ $opty->elearning_id}}</td>
+                <td>
+                    @if ($opty->Timeline == 'Q1')
+                        {{ number_format($opty->Angka,0,',','.') }}
+                    @endif
+                </td>
+                <td>
+                    @if ($opty->Timeline == 'Q2')
+                        {{ number_format($opty->Angka,0,',','.') }}
+                    @endif
+                </td>
+                <td>
+                    @if ($opty->Timeline == 'Q3')
+                        {{ number_format($opty->Angka,0,',','.') }}
+                    @endif
+                </td>
+                <td>
+                    @if ($opty->Timeline == 'Q4')
+                        {{ number_format($opty->Angka,0,',','.') }}
+                    @endif
+                </td>
+                <td></td>
+                <td>
+                          
+                      <a href="{{url ('/adminShowSales', $opty->id)}}" class="btn btn-primary btn-sm">Done</a>
+                          
+                    {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown"  href="">
+                        ...
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
+                    <a href="{{url ('/adminShowSales', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
+                    <a href="{{url ('Yedit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
+                     <a href="{{url ('Ydelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
+                    </div> --}}
+                </td>
+                </div>
+            </tr>
+            @endif
+            @if (!$opty->pmLead_id)
+            <tr> 
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $opty->NamaClient }}</td>
+              <td>{{ $opty->NamaProject }}</td>
+              <td>{{ $opty->elearning_id}}</td>
+              <td>
+                  @if ($opty->Timeline == 'Q1')
+                      {{ number_format($opty->Angka,0,',','.') }}
+                  @endif
+              </td>
+              <td>
+                  @if ($opty->Timeline == 'Q2')
+                      {{ number_format($opty->Angka,0,',','.') }}
+                  @endif
+              </td>
+              <td>
+                  @if ($opty->Timeline == 'Q3')
+                      {{ number_format($opty->Angka,0,',','.') }}
+                  @endif
+              </td>
+              <td>
+                  @if ($opty->Timeline == 'Q4')
+                      {{ number_format($opty->Angka,0,',','.') }}
+                  @endif
+              </td>
+              <td></td>
+              <td>
+                        
+                    <a href="{{url ('/adminShowSales', $opty->id)}}" class="btn btn-primary btn-sm">Assign To</a>
+                        
+                  {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown"  href="">
+                      ...
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
+                  <a href="{{url ('/adminShowSales', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
+                  <a href="{{url ('Yedit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
+                   <a href="{{url ('Ydelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
+                  </div> --}}
+              </td>
+              </div>
+          </tr>
+            @endif
             @endforeach
          </tbody>
         </table>

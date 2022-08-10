@@ -5,30 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ListProjectAdmin extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+class ListProjectAdmin extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+
     protected $fillable =[
-        "ID_project", "NamaClient","NamaProject","UploadDocument","Date", "Angka","Status","Note", "signPm_lead", "signTechnikel_lead", "signAmSales_id"
+        "ID_project", "NamaClient","NamaProject","UploadDocument","Date", "Angka","Status","Note"
     ];
+
+    public function admin_upload()
+    {
+        return $this->morphMany(Media::class, 'model');
+    }
 
     public function setFilenamesAttribute($value)
     {
         $this->attributes['UploadDocument'] = json_encode($value);
     }
     
-    public function pmLead()
-    {
-        return $this->belongsTo(User::class, 'signPm_lead');
-    }
 
-    public function technikelLead()
-    {
-        return $this->belongsTo(User::class, 'signTechnikel_lead');
-    }
-
-    public function sales()
-    {
-        return $this->belongsTo(User::class, 'signAmSales_id');
-    }
 }

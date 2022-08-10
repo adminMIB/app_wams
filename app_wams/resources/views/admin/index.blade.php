@@ -25,9 +25,6 @@
               <th>Date</th>
               <th>Angka</th>
               <th>Status</th>
-              <th>Pm Lead ID</th>
-              <th>Technikal Lead ID</th>
-              <th>Sales ID</th>
               <th>Action</th>
             </tr>
             @foreach ($admin as $item)
@@ -51,9 +48,9 @@
                 <td class="text-warning">{{$item->Status}}</td>
               @endif
               {{-- <td>{{$item}}</td> --}}
-              <td>{{$item->pmLead->name}}</td>
+              {{-- <td>{{$item->pmLead->name}}</td>
               <td>{{$item->technikelLead->name}}</td>
-              <td>{{$item->sales->name}}</td>
+              <td>{{$item->sales->name}}</td> --}}
               <td class="d-flex">
                 <div class="mr-2">
                   {{-- detail --}}

@@ -1,5 +1,15 @@
 @extends('layouts.main')
+@section('css')
 
+    {{-- CSS assets in head section --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
+    <style>
+      .dz-image img {
+         width: 120px;
+         height: 120px;
+      }
+    </style>
+@endsection
 @section('content')
     <section class="section">
     <div class="title">
@@ -64,7 +74,7 @@
                 </div>
 
                 {{-- uoload --}}
-                <div class="mb-2 row">
+                {{-- <div class="mb-2 row">
                     <label for="inputNamaProject" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Upload Dokumen</label>
                     <div class="col-sm-10">
                     <input type="file" class=" @error('NamaProject') is-invalid @enderror form-control" name="UploadDocument[]" multiple placeholder="Nama Project" id="inputNamaProject">
@@ -72,7 +82,7 @@
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="mb-2 row">
                     <label for="inputAngka" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Angka</label>
@@ -112,7 +122,7 @@
                 </div>
 
                 {{-- pm lead --}}
-                <div class="mb-2 row">
+                {{-- <div class="mb-2 row">
                     <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sign Pm Lead</label>
                     <div class="col-sm-10">
                     <select class="@error('signPm_lead') is-invalid @enderror form-control" name="signPm_lead">
@@ -129,10 +139,10 @@
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
                 </div>
-            </div>
+            </div> --}}
 
             {{-- signTechnikel_lead --}}
-            <div class="mb-2 row">
+            {{-- <div class="mb-2 row">
                 <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Technikal Lead</label>
                 <div class="col-sm-10">
                 <select class="@error('Technikal_lead') is-invalid @enderror form-control" name="signTechnikel_lead">
@@ -149,10 +159,10 @@
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
                 </div>
-            </div>
+            </div> --}}
 
             {{-- sales --}}
-            <div class="mb-2 row">
+            {{-- <div class="mb-2 row">
                 <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sales</label>
                 <div class="col-sm-10">
                 <select class="@error('signAmSales_id') is-invalid @enderror form-control" name="signAmSales_id">
@@ -169,6 +179,13 @@
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
             </div>
+        </div> --}}
+
+        {{-- ! --}}
+        <div class="mb-3">
+            <label for="document">Upload File</label>
+            <div class="needsclick dropzone" id="document-dropzone">
+            </div>
         </div>
 
             <div style="text-align:right;">
@@ -176,19 +193,50 @@
             </div>
 
         </form>
-        <a href="/adminproject"><button type="submit" class="btn btn-secondary btn-sm">Back</button></a> 
-
-         
+        <a href="/adminproject"><button type="submit" class="btn btn-secondary btn-sm">Back</button>
+        </a> 
     </div>
     </div>
     </section>
 
 
 @endsection
-
-@section('jsAdmin')
+@push('script-internal')
+{{-- JS assets at the bottom --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{{-- ...Some more scripts... --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 <script>
-    var harga = document.getElementById('inputAngka');
+var uploadedDocumentMap = {}
+Dropzone.options.documentDropzone = {
+    url: '{{ route('admin/media') }}',
+    maxFilesize: 2, // MB
+    addRemoveLinks: true,
+    acceptedFiles: ".doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx",
+    headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    success: function(file, response) {
+        $('form').append('<input type="hidden" name="UploadDocument[]" value="' + response.name + '">')
+        uploadedDocumentMap[file.name] = response.name
+    },
+    removedfile: function(file) {
+        file.previewElement.remove()
+        var name = ''
+        if (typeof file.file_name !== 'undefined') {
+            name = file.file_name
+        } else {
+            name = uploadedDocumentMap[file.name]
+        }
+        $('form').find('input[name="UploadDocument[]"][value="' + name + '"]').remove()
+    }
+}
+
+
+var harga = document.getElementById('inputAngka');
     harga.addEventListener('keyup', function(e)
     {
         harga.value = formatRupiah(this.value, 'Rp. ');
@@ -210,7 +258,9 @@
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
-    </script>
-@endsection
+
+</script>
+@endpush
+
 
 
