@@ -33,17 +33,17 @@ class SalesOrderController extends Controller
 
     public function create()
     {
-        $q = DB::table('sales_orders')->select(DB::raw('MAX(RIGHT(no_so,3)) as kode'));
+        $q = DB::table('sales_orders')->select(DB::raw('MAX(RIGHT(no_so,5)) as kode'));
         $dd = "";
         if ($q->count()>0)
         {
             foreach ($q->get() as $k) {
                 $tmp = ((int)$k->kode)+1;
-                $dd = sprintf("%03s", $tmp);
+                $dd = sprintf("%05s", $tmp);
             }
         } else
         {
-            $dd = "001";
+            $dd = "SO001";
         }
         $pmLead = Role::with('users')->where("name", "PM Lead")->get();
         $TechnikelLead = Role::with('users')->where("name", "Technikal Lead")->get();
@@ -76,7 +76,7 @@ class SalesOrderController extends Controller
             'hps' => $request->hps,
             'tgl_so' => $request->tgl_so,
             'listpa_id' => $request->listpa_id,
-            'file_dokumen' => implode(",\n" , $request->file_dokumen),
+            'file_dokumen' => implode("," , $request->file_dokumen),
             'signPm_lead' => $request->signPm_lead,
             'signTeknikal_lead' => $request->signTeknikal_lead,
         ]);
@@ -190,14 +190,26 @@ class SalesOrderController extends Controller
         // $update=SalesOrder::find($id);
     }
 
+    // public function destroy($id)
+    // {
+    //     $so = SalesOrder::find($id);
+
+    //     $file_dokumen = public_path()."/tmp/uploads/".$so->file_dokumen;
+    //     unlink($file_dokumen);
+
+    //     $so -> delete();
+
+    //     return redirect('slsorder');
+    // }
+
     public function destroy($id)
     {
-        $so = SalesOrder::find($id);
+        $so = SalesOrder::find($id)->delete();
 
-        $file_dokumen = public_path().'/tmp/uploads/' . $so->file_dokumen;
-        unlink($file_dokumen);
+        // $file_dokumen = public_path().'/tmp/uploads/' . $so->file_dokumen;
+        // unlink($file_dokumen);
         
-        $so -> delete();
+        // $so -> delete();
 
         return redirect('slsorder');
     }

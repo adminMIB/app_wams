@@ -77,8 +77,8 @@
                             <input type="text" class="form-control" name="institusi" id="NamaClient" placeholder="Institusi" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="NamaClient">kode</label>
-                            <input type="text" class="form-control" name="kode_project" placeholder="kode">
+                            <label for="ID_project">Kode Project</label>
+                            <input type="text" class="form-control" id="ID_project" name="kode_project" placeholder="ID Project" readonly>
                         </div>
                         {{-- <div class="form-group">
                             <label>Upload File Document</label>
@@ -154,6 +154,7 @@ Dropzone.options.documentDropzone = {
       },
       url: "/add_so"
     }).done(function(res) {
+      $("#ID_project").val(res.ID_project)
       $("#NamaClient").val(res.NamaClient)
       $("#NamaProject").val(res.NamaProject)
       $("#Date").val(res.Date)

@@ -23,6 +23,7 @@ class CreateSalesOrdersTable extends Migration
             $table->string('hps');
             $table->string('file_dokumen');
             $table->string('status')->default('Pending');
+            $table->string('note')->nullable();
             $table->string('name_user');
             $table->timestamps();
         });

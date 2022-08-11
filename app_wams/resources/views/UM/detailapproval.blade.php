@@ -46,19 +46,58 @@
                   <label>Status Approve</label>
                   <input type="text" name="status_approve" class="form-control" value="{{$detailId->status}}">
                 </div> --}}
-                <div class="form-group row">
+                @if (Auth::user()->hasRole('Management'))
+                <div class="form-group row" onchange="">
                   <div class="col-sm-9">
                     <p class="text-danger">Status : {{$detailId->status}}</p>
-                    <select class="form-control select2" style="width: 100%;" name="status" id="inputEmail5" autofocus>
+                    <select class="form-control select2" style="width: 100%;" name="status" id="status" autofocus onchange="myFunction()">
                       <option></option>
-                      <option>Approve</option>
-                      <option>Reject</option>
+                      <option value="Approve">Approve</option>
+                      <option value="Reject">Reject</option>
                     </select>
                   </div>
                 </div>
-                <button class="btn btn-primary">Submit</button>
+                @endif
+                    
+
+                <div id="tes" class="tes form-group d-none" >                  
+                  <label>Note</label>
+                  <input type="text" name="note" class="form-control" value="">
+                </div>
+                    
+                <div class="d-flex justify-content-between mt-5">
+                  
+                  <a href="/inputTwo" class="btn btn-danger ">Back</a>
+                  @if (Auth::user()->hasRole('Management'))
+                  <button class="btn btn-primary d-flex">Submit</button>
+                  @endif
+
+                </div>
             </form>
               </div>
       </div>
     </section>
+
+    <script>
+      function myFunction() {
+        var x = document.getElementById("status").value;
+        if (x == 'Reject') {
+          // jika reject munculkam note
+          console.log(x);
+          var bukaNote = document.querySelector('.tes');
+          bukaNote.classList.add('d-block')          
+        }
+
+        // jika approve -> note hilangkan
+        if (x == 'Approve') {
+          var bukaNote = document.querySelector('.tes');
+            bukaNote.classList.remove('d-block')
+          }
+        // document.getElementById("demo").innerHTML = "You selected: " + x;
+      }
+      </script>
+
+      
+
+   
 @endsection

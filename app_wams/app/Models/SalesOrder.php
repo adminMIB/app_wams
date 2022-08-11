@@ -15,7 +15,7 @@ class SalesOrder extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
-        "no_so","kode_project","institusi", "project", "hps", "file_dokumen", "status", "signPm_lead", "signTeknikal_lead", "tgl_so", "name_user", "listpa_id"
+        "no_so","kode_project","institusi", "project", "hps", "file_dokumen", "status", "signPm_lead", "signTeknikal_lead", "tgl_so", "name_user", "listpa_id", "Note"
     ];
     public function listpadmin()
     {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRelationshipsSignPmLeadToListProjectAdmins extends Migration
+class AddRelationshipsTechnikalLeadToSalesOpties extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddRelationshipsSignPmLeadToListProjectAdmins extends Migration
      */
     public function up()
     {
-        Schema::table('list_project_admins', function (Blueprint $table) {
-            $table->foreignId('signPm_lead');
+        Schema::table('sales_opties', function (Blueprint $table) {
+            $table->foreignId('TechnikalLead_id')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddRelationshipsSignPmLeadToListProjectAdmins extends Migration
      */
     public function down()
     {
-        Schema::table('list_project_admins', function (Blueprint $table) {
-            $table->dropForeign(['signPm_lead']);
+        Schema::table('sales_opties', function (Blueprint $table) {
+            $table->dropForeign(['TechnikalLead_id']);
         });
     }
 }

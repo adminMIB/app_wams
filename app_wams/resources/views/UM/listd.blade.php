@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="text-right">
                 <a href="#" class="btn btn-info mr-2">Add New Document</a>
-                <a href="#" class="btn btn-info">Export Excel</a>
+                {{-- <a href="#" class="btn btn-info">Export Excel</a> --}}
             </div>
             <table class="table table-hover mt-2">
                 <thead style="background-color: #12406c;">

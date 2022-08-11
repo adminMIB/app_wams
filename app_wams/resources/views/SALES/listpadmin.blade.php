@@ -32,7 +32,11 @@
                 <td>{{$it->NamaClient}}</td>
                 <td>{{$it->NamaProject}}</td>
                 <td>{{$it->Date}}</td>
-                <td><a href="/admins/{{$it->UploadDocument}}">{{$it->UploadDocument}}</a></td>
+                <td>
+                  @foreach (explode(",", $it->UploadDocument) as $file)
+                    <a href="/tmp/uploads/{{$file}}">{{$file}}<br></a>
+                  @endforeach
+                </td>
                 <td>{{$it->Status}}</td>
             </tr>
             @endif
