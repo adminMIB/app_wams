@@ -18,8 +18,10 @@ class WeeklyReportController extends Controller
      */
     public function index(Request $request)
     {
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
         $listp = ListProjet::all();
-        $data = WeeklyReport::with('listp')->orderBy('created_at', 'ASC')->paginate();
+        $weekly = WeeklyReport::with('listp')->orderBy('created_at', 'ASC')->paginate();
         if ($request->has('search')) {
             $weekly_reports = WeeklyReport::where('start_date', 'LIKE', '%' . $request->search . '%')->paginate(5);
         } else {
@@ -27,7 +29,7 @@ class WeeklyReportController extends Controller
         }
 
 
-        return view('report.report_progres', compact('weekly_reports', 'data', 'listp'));
+        return view('report.report_progres', compact('weekly_reports', 'data', 'listp', 'weekly', 'datas'));
     }
 
 
@@ -38,9 +40,11 @@ class WeeklyReportController extends Controller
      */
     public function create()
     {
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
         $listp = ListProjet::all();
         $weekly_reports = WeeklyReport::all();
-        return view('report.create', compact('weekly_reports', 'listp'));
+        return view('report.create', compact('weekly_reports', 'listp', 'data', 'datas'));
     }
 
     /**
@@ -51,49 +55,30 @@ class WeeklyReportController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $validate = Validator::make($request->all(), [
-                "name_client" => "required|string|max:100",
-                "name_project" => "required|string|max:200",
-                "job_essay" => "required|string|max:200",
-                "start_date" => "required|date",
-                "end_date" => "required|date",
-                "status" => "required|string|max:200",
-                "note" => "required|string|max:1000",
-        
-            ], [
 
+        $weekly_reports = $request->all();
 
-                "name_client.required" => "Kode Project harus sesuai!",
-                "name_project.required" => "Nama Institusi harus sesuai!",
-                "job_essay.required" => "Nama Project harus sesuai!",
-                "start_date.required" => "Nama AM harus sesuai!",
-                "end_date.required" => "HPS harus sesuai!",
-                "status.required" => "Approve harus sesuai!",
-                "note.required" => "Approve harus sesuai!",
-          
-            ]);
+        // dd($weekly_reports);
 
-            if ($validate->fails()) {
-                return redirect('create')->with('error', 'The column is still empty');
+        // $weekly_reports = new WeeklyReport;
+
+        if (count($weekly_reports['name_client'])) {
+            foreach ($weekly_reports['start_date'] as $item => $value) {
+                $weekly_reports2 = array(
+                    'name_client' => $weekly_reports['name_client'][$item],
+                    'name_project' => $weekly_reports['name_project'][$item],
+                    'job_essay' => $weekly_reports['job_essay'][$item],
+                    'start_date' => $weekly_reports['start_date'][$item],
+                    'end_date' => $weekly_reports['end_date'][$item],
+                    'status' => $weekly_reports['status'][$item],
+                    'note' => $weekly_reports['note'][$item],
+                    'listp_id' => $weekly_reports['listp_id'][$item],
+                );
+
+                WeeklyReport::create($weekly_reports2);
             }
 
-            WeeklyReport::create([
-
-                "name_client" => $request->name_client,
-                "name_project" => $request->name_project,
-                "job_essay" => $request->job_essay,
-                "start_date" => $request->start_date,
-                "end_date" => $request->end_date,
-                "status" => $request->status,
-                "note" => $request->note,
-                "listp_id" => $request->listp_id,
-            ]);
-
-
-            return redirect('report')->with('success', 'The Weekly Report has been added');
-        } catch (\Exception $r) {
-            return redirect('report')->with('success', 'The Weekly Report has been added');
+            return redirect('report')->with('success', 'Weekly Report has been Added');
         }
     }
 
@@ -118,9 +103,11 @@ class WeeklyReportController extends Controller
      */
     public function edit($id)
     {
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
         $getOneById = WeeklyReport::find($id);
         // dd($getOneById);
-        return view('report.edit', compact('getOneById'));
+        return view('report.edit', compact('getOneById', 'data', 'datas'));
     }
 
     /**
@@ -167,8 +154,10 @@ class WeeklyReportController extends Controller
 
     public function view()
     {
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
         $lt = ProjectTimeline::all();
-        return view('report.viewproject', compact('lt'));
+        return view('report.viewproject', compact('lt', 'data', 'datas'));
     }
 
     public function getOnePm(Request $request)

@@ -37,15 +37,7 @@
             @enderror
           </div>
         </div>
-        <div class="row mb-3">
-          <label for="" class="col-sm-3 col-form-label text-dark">Pengalaman Implementasi</label>
-          <div class="col-sm-8">
-            <textarea name="implementasi" id="" cols="40" rows="20" class="form-control @error('implementasi') is-invalid @enderror" style="height:100px ;" placeholder="Pengalaman Implementasi Produk"></textarea>
-            @error('implementasi')
-            <div class="invalid-feedback">{{$message}}</div>
-            @enderror
-          </div>
-        </div>
+      
         <div class="row mb-5">
           <label for="" class="col-sm-3 col-form-label text-dark">Upload Dokumen</label>
           <div class="col-sm-8">
@@ -55,7 +47,42 @@
             @enderror
           </div>
         </div>
+        <div class="row mb-3">
+          <label for="" class="col-sm-3 col-form-label text-dark">Pengalaman Implementasi</label>
+          <div class="col-sm-8">
+            <textarea name="implementasi" id="" cols="40" rows="20" class="form-control @error('implementasi') is-invalid @enderror" style="height:100px ;" placeholder="Pengalaman Implementasi Produk"></textarea>
+            @error('implementasi')
+            <div class="invalid-feedback">{{$message}}</div>
+            @enderror
+          </div>
+        </div>
+        
         <button type="submit" class="btn btn-primary">Save</button>
+        
+       
+ 
       </form>
+      <br>
+      <div class="learn"></div>
+      <a href="#" class="addlearn btn btn-success btn-sm" style="float:right ;">Tambah</a>
+      
+    </div>
+  </div>
 </section>
+@endsection
+
+@section('js')
+<script type="text/javascript">
+  $('.addlearn').on('click', function() {
+    addlearn();
+  });
+
+  function addlearn() {
+    var learn = '<div class="row mb-3"><label for="" class="col-sm-3 col-form-label text-dark">Pengalaman Implementasi</label><div class="col-sm-8"><textarea name="implementasi" id="" cols="40" rows="20" class="form-control @error('implementasi') is-invalid @enderror" style="height:100px ;" placeholder="Pengalaman Implementasi Produk"></textarea> @error('implementasi')<div class="invalid-feedback">{{$message}}</div>@enderror </div></div>';
+    $('.learn').append(learn);
+  };
+  $('.remove').live('click', function() {
+    $(this).parent().parent().parent().remove();
+  });
+</script>
 @endsection

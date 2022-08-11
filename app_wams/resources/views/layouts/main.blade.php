@@ -32,6 +32,8 @@
       @else
         @include('partials.navbarManagement')
       @endif
+      
+
 
 
           @include('partials.sidebar')
@@ -66,6 +68,7 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <!-- JS Libraies -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="assets/js/page/bootstrap-modal.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.slim.js"

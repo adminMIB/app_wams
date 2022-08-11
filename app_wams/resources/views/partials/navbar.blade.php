@@ -17,11 +17,17 @@
   </form>
   <ul class="navbar-nav navbar-right">
     <li class="dropdown dropdown-list-toggle" style="margin-right:0.6em">
-      {{-- @foreach ($datas as $item)
-          
-      <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="fa fa-bell" style="color: rgb(27, 27, 27); ">{{$item->project}}</i>
+      <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep">
+        
+        <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
+          @if (!$datas)
+          <span></span>   
+          @else
+          <span>{{$datas}}</span>               
+          @endif
+        </i>
+        {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">{{$loop->iteration}}</i> --}}
       </a>
-      @endforeach --}}
       <div class="dropdown-menu dropdown-list dropdown-menu-right">
         <div class="dropdown-header">Notifications
           <div class="float-right">
@@ -41,16 +47,18 @@
             </div>
           </a>
       @endforeach --}}
-          <a href="#" class="dropdown-item">
-            <div class="dropdown-item-icon bg-info text-white">
-              <i class="far fa-user"></i>
-            </div>
-            <div class="dropdown-item-desc">
-              <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-              <div class="time">10 Hours Ago</div>
-            </div>
-          </a>
-          <a href="#" class="dropdown-item">
+      @foreach ($data as $d)
+      <a href="#" class="dropdown-item">
+        <div class="dropdown-item-icon bg-info text-white">
+          <i class="far fa-user"></i>
+        </div>
+        <div class="dropdown-item-desc">
+          <b>{{ $d->nama_institusi }}</b> and <b>{{ $d->nama_project }}</b>
+          <div class="time">{{ $d->nama_pm }}</div>
+        </div>
+      </a>
+      @endforeach
+          {{-- <a href="#" class="dropdown-item">
             <div class="dropdown-item-icon bg-success text-white">
               <i class="fas fa-check"></i>
             </div>
@@ -76,7 +84,7 @@
               Welcome to Stisla template!
               <div class="time">Yesterday</div>
             </div>
-          </a>
+          </a> --}}
         </div>
         <div class="dropdown-footer text-center">
           <a href="#">View All <i class="fas fa-chevron-right"></i></a>
