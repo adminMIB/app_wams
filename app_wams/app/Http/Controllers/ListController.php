@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Coba;
 use App\Models\ListProjectPm;
+use App\Models\SalesOrder;
 use App\Models\Tes;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -18,7 +19,7 @@ class ListController extends Controller
     public function index()
     {
         $user=Role::with('users')->where('name', 'PM')->get();
-        $cb = ListProjectPm::all();
+        $cb = SalesOrder::all();
         return view('list', compact('cb','user'));
     }
 

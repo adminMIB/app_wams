@@ -37,6 +37,8 @@ use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
 use App\Http\Controllers\ListProjectController;
+use App\Http\Controllers\TechnikalLeadController\TechnikalLeadController;
+use App\Http\Controllers\TechnikalLeadController\WeeklyReportControllerLead;
 use App\Http\Controllers\WeeklyReportController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\SalesOpty;
@@ -59,7 +61,7 @@ Auth::routes();
 
 
 // ! Routing dashboard Super Admin
-Route::group(['middleware'], function () {
+Route::group(['middleware' ], function () {
   Route::get('/dashboardSuperAdmin', [DashboardAdminController::class, 'index'])->name('/dashboardSuperAdmin');
 
   //! route role
@@ -115,9 +117,10 @@ Route::group(['middleware'], function () {
   //! Route PM
   Route::get('/dashboardpm', [DashboardPmController::class, 'index'])->name('dasboardpm');
 
-
-  Route::get('/listproject', [ListProjectTechController::class, 'index'])->name('listproject');
+  Route::get('/index-list',[ListProjectTechController::class,'index'])->name('index-list');
+  Route::get('/listproject', [ListProjectTechController::class, 'create'])->name('listproject');
   Route::post('/simpan-list', [ListProjectTechController::class, 'store'])->name('simpan-list');
+  Route::get('/list-delete/{id}',[ListProjectTechController::class,'destroy'])->name('list-delete');
   Route::post('/work_order', [ListProjectTechController::class, 'work']);
 
 
@@ -125,15 +128,17 @@ Route::group(['middleware'], function () {
   Route::get('/input', [TimeLineController::class, 'create'])->name('input');
   Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data');
   Route::get('/edittml/{id}', [TimeLineController::class, 'edit'])->name('edittml');
+  Route::post('/updatetml/{id}',[TimeLineController::class,'update'])->name('updatetml');
   Route::post('/list-project', [TimeLineController::class, 'list'])->name('list');
   Route::get('/detail_timeline/{id}', [TimeLineController::class, 'show'])->name('detail_timeline');
+
 
   Route::get('/list_project', [ListProjectController::class, 'index'])->name('list_project');
 });
 
 
 //! Routing dashboard AM/Sales
-Route::group(['middleware'], function () {
+Route::group(['middleware' => ['permission:read data AM/Sales']], function () {
   Route::get('/dashboardAmSales', [DashboardAmSalesController::class, 'index'])->name('/dashboardAmSales');
 
   Route::get('/selearning', [SElearningController::class, 'index']);
@@ -144,8 +149,10 @@ Route::group(['middleware'], function () {
   route::post('/Ssimpan-data', [SalesOrderController::class, 'store'])->name('Ssimpan-data');
   route::put('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
   route::get('/Sedit/{id}', [SalesOrderController::class, 'edit'])->name('Sedit');
-  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  route::DELETE('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
   Route::get('/order-export', [SalesOrderController::class, 'export'])->name('order-export');
+  Route::post('/add_so', [SalesOrderController::class, 'addso']);
+  Route::post('/store/media', [SalesOrderController::class, 'storeMedia'])->name('storeMedia');
   // sales opty
   Route::get('/index-sales', [SalesOptyController::class, 'index'])->name('index-sales');
   Route::get('/inputsales', [SalesOptyController::class, 'create'])->name('inputsales');
@@ -159,7 +166,7 @@ Route::group(['middleware'], function () {
   Route::get('/Ycetak', [SalesOptyController::class, 'cetak'])->name('Ycetak');
 });
 
-//teknikal
+//!teknikal
 Route::group(['middleware'], function () {
 
   Route::get('/dashboardTeknikal', [DashboardController::class, 'index'])->name('dashboard');
@@ -184,7 +191,7 @@ Route::group(['middleware'], function () {
 
 
 //! Routing dashboard Management
-Route::group(['middleware'], function () {
+Route::group(['middleware' => ['role:Management']], function () {
   Route::get('/um/dashboard', [UmDashboardController::class, 'index']);
   // Route::get('/um', [NotifManagementController::class,'index']);
   Route::get('/approval', [ApprovalController::class, 'index']);
@@ -224,19 +231,18 @@ Route::group(['middleware'], function () {
 });
 
 
-
-// });
-
-
-// });
-
 //! Routing dashboard Admin
-Route::group(['middleware'], function () {
+Route::group(['middleware'  => ['role:Project Admin']], function () {
   Route::get('/adminproject', [AdminController::class, 'index'])->name('/adminproject');
   Route::get('/adminproject/create', [AdminController::class, 'create'])->name('/adminproject/create');
   Route::post('/adminproject/store', [AdminController::class, 'store'])->name('/adminproject/store');
   Route::get('/adminprojectShow/{id}', [AdminController::class, 'show'])->name('/adminprojectShow');
   Route::get('/adminprojecDelete/{id}', [AdminController::class, 'destroy'])->name('/adminprojecDelete');
+
+
+  Route::post('/admin/media', [AdminController::class, 'storeMedia'])->name('admin/media');
+  // Route::get('/admin/donwload', [AdminController::class, 'download_local'])->name('/admin/donwload');
+
 
   Route::get('zip-download', [AdminController::class, 'downZip'])->name('zip-download');
 
@@ -246,8 +252,29 @@ Route::group(['middleware'], function () {
   Route::get('/adminproject/sales', [AmSalesController::class, 'index'])->name('/adminproject/sales');
   Route::get('/adminproject/salesCreate', [AmSalesController::class, 'create'])->name('/adminproject/salesCreate');
   Route::get('/adminShowSales/{id}', [AmSalesController::class, 'show'])->name('/adminShowSales');
+
+  Route::put('/adminShowSalesUpdate/{id}', [AmSalesController::class, 'update'])->name('/adminShowSalesUpdate');
 });
 
+
+//! Routing dashboard Technikallead
+Route::group(['middleware'  => ['role:Technikal Lead']], function () {
+  Route::get('/TechnikalLead', [TechnikalLeadController::class, 'index'])->name('/TechnikalLead');
+
+
+  Route::get('/inputTwos', [TechnikalLeadController::class, 'indexViewWo'])->name('/inputTwos');
+  Route::get('/leadViewsDetailapproval/{id}', [TechnikalLeadController::class, 'showViwWo'])->name('/leadViewsDetailapproval');
+
+  Route::get('/leadListSalesOpty', [TechnikalLeadController::class, 'indexSalesOpty'])->name('/leadListSalesOpty');
+  Route::get('/leadViewsDetailOpty/{id}', [TechnikalLeadController::class, 'showSalesOpty'])->name('/leadViewsDetailOpty');
+
+  // weekly
+  Route::get('/tlWeeklyReport', [WeeklyReportControllerLead::class, 'index'])->name('/tlWeeklyReport');
+  Route::get('/tlCretae', [WeeklyReportControllerLead::class, 'create'])->name('/tlCretae');
+  Route::post('/tlStore', [WeeklyReportControllerLead::class, 'store'])->name('/tlStore');
+
+
+});
 
 
 

@@ -18,6 +18,9 @@ class WeeklyReport extends Model
         "status",
         "note",
         "listp_id",
+        "name_technikal",
+        "name_sales",
+        "name_pm",
     ];
 
     public function listp()

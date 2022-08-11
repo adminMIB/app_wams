@@ -16,9 +16,9 @@ class ProjectTimelineController extends Controller
      */
     public function index()
     {
-        $data = ProjectTimeline::orderBy("created_at", "DESC")
-        ->paginate(perPage:10);
-        
+        $data = ProjectTimeline::with('lists')->orderBy("created_at", "DESC")
+            ->paginate(perPage: 10);
+
         return response()->json([
             "status" => true,
             "data"  => $data
@@ -30,7 +30,7 @@ class ProjectTimelineController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   
+
 
     /**
      * Store a newly created resource in storage.
@@ -40,44 +40,45 @@ class ProjectTimelineController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         try {
             $validate = Validator::make($request->all(), [
+                "list_id"=>"required",
                 "nama_technical" => "required",
                 "jenis_pekerjaan" => "required",
                 "start_date" => "required",
                 "finish_date" => "required",
             ]);
-    
-            if($validate->fails()) {
+
+            if ($validate->fails()) {
                 return response()->json($validate->errors());
             }
-    
+
             ProjectTimeline::create([
+                "list_id"=>$request->list_id,
                 "nama_technical" => $request->nama_technical,
                 "jenis_pekerjaan" => $request->jenis_pekerjaan,
                 "start_date" => $request->start_date,
                 "finish_date" => $request->finish_date,
             ]);
-    
+
             return response()->json([
-                "status" =>true,
-                "message" => "Project timeline berhasil dibuat berhasil dibuat" 
+                "status" => true,
+                "message" => "Project timeline berhasil dibuat berhasil dibuat"
             ]);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
-
     }
-    
+
     public function edit($id)
     {
         $getOneById = ProjectTimeline::find($id);
 
         return response()->json([
 
-       "status" => true,
-       "data" => $getOneById
+            "status" => true,
+            "data" => $getOneById
 
         ]);
     }
@@ -92,34 +93,33 @@ class ProjectTimelineController extends Controller
     public function update(Request $request, $id)
     {
         $wams = ProjectTimeline::findOrfail($id);
-        try
-        {
-        
-        $validate = validator::make($request->all(), [
+        try {
 
-            "nama_technical" => "required",
-            "jenis_pekerjaan" => "required",
-            "start_date" => "required",
-            "finish_date" => "required",
-        
-        ]);
+            $validate = validator::make($request->all(), [
 
-        if ($validate->fails()) {
-            return response()->json($validate->errors(), 442);
-        }
+                "nama_technical" => "required",
+                "jenis_pekerjaan" => "required",
+                "start_date" => "required",
+                "finish_date" => "required",
 
-        $wams->update([
-            "nama_technical" => $request->nama_technical,
+            ]);
+
+            if ($validate->fails()) {
+                return response()->json($validate->errors(), 442);
+            }
+
+            $wams->update([
+                "nama_technical" => $request->nama_technical,
                 "jenis_pekerjaan" => $request->jenis_pekerjaan,
                 "start_date" => $request->start_date,
                 "finish_date" => $request->finish_date,
-        ]);
-        
-        return response()->json([
-            "status" => true,
-            "message" => "data berhasil diubah"
-        ]);
-        } catch(\Exception $e) {
+            ]);
+
+            return response()->json([
+                "status" => true,
+                "message" => "data berhasil diubah"
+            ]);
+        } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
     }

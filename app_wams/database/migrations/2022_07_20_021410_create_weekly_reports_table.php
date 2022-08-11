@@ -22,6 +22,9 @@ class CreateWeeklyReportsTable extends Migration
             $table->date('end_date')->nullable();
             $table->string('status');
             $table->string('note');
+            $table->string('name_technikal');
+            $table->string('name_sales');
+            $table->string('name_pm');
             $table->timestamps();
         });
     }

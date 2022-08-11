@@ -15,12 +15,13 @@ class CreateListProjectAdminsTable extends Migration
     {
         Schema::create('list_project_admins', function (Blueprint $table) {
             $table->id();
+            $table->string('ID_project');
             $table->string('NamaClient');
             $table->string('NamaProject');
-            $table->string('UploadDocument');
             $table->date('Date');
             $table->string('Angka');
             $table->string('Status')->comment('Tender', 'Menang', 'Kalah');
+            $table->string('UploadDocument');
             $table->string('Note');
             $table->timestamps();
         });

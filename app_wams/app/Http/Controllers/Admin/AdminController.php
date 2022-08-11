@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use ZipArchive;
 use File;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+
+    private $mediaCollection = 'file_dokumen';
+
     /**
      * Display a listing of the resource.
      *
@@ -23,11 +28,15 @@ class AdminController extends Controller
     public function index()
     {   
         $user = Auth::user();
-        $admin = ListProjectAdmin::with('pmLead', 'technikelLead', 'sales')->orderBy("created_at", "DESC")->paginate(10);
-    //    $admin =  ListProjectAdmin::where("signPm_lead", $user->id )->with('pmLead', 'technikelLead')->orderBy("created_at", "DESC")->paginate(10); 
-        // $admin = User::with('listAdmin')->orderBy("created_at", "DESC")->paginate();
+        $admin = ListProjectAdmin::orderBy("created_at", "DESC")->paginate(10);
 
-        return view('admin.index', compact('admin'));
+        // $admin = ListProjectAdmin::all();
+        return view('admin.index', [
+            'admin' => $admin,
+            'mediaCollection' => $this->mediaCollection
+        ]);
+
+        // return view('admin.index', compact('admin'));
     }
 
     /**
@@ -37,6 +46,19 @@ class AdminController extends Controller
      */
     public function create()
     {
+        // buat kode project
+        // AD202281001
+        $now =  Carbon::now();
+        $thBulan = $now->year . $now->month;
+        $tabelListProjectAdmin = ListProjectAdmin::count();
+        if ($tabelListProjectAdmin == 0) {
+            $urut = 1001;
+            $nomer = 'AD'. $thBulan. $urut;            
+        }  else {
+            $ambilLast = ListProjectAdmin::all()->last();
+            $urut = (int)substr($ambilLast->ID_project, -4) + 1;
+            $nomer = 'AD'. $thBulan. $urut;            
+        }
 
         $admin = ListProjectAdmin::orderBy('created_at', 'DESC')->paginate(10);
         $pmLead = Role::with('users')->where("name", "PM Lead")->get();
@@ -44,26 +66,28 @@ class AdminController extends Controller
         $sales = Role::with('users')->where("name", "AM/Sales")->get();
 
 
-        return view('admin.create', compact('admin', 'pmLead', 'TechnikelLead', 'sales'));
+        return view('admin.create', compact('admin', 'pmLead', 'TechnikelLead', 'sales', 'nomer'));
     }
 
     // function dwonload document bentuk zip
     public function downZip(Request $request)
     {
+
         if($request->has('download')) {
             $zip      = new ZipArchive;
             $fileName = 'document.zip';
-            if ($zip->open(public_path($fileName), ZipArchive::CREATE) === FALSE) {
-                $files = File::files(public_path('\admin'));
+            if ($zip->open(public_path(!$fileName), ZipArchive::CREATE) === TRUE) {
+                $files = File::files(public_path('/storage'));
+                // return $files;
                 foreach ($files as $key => $value) {
                     $relativeName = basename($value);
                     $zip->addFile($value, $relativeName);
                 }
-                $zip->close();
+                // $zip->close();
             }
+            // dd($fileName);
             return response()->download(public_path($fileName));
         }
-
     
     }
 
@@ -75,50 +99,69 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $request->validate([
+            'UploadDocument' => 'required',
             'NamaClient' => 'required',
             'NamaProject' => 'required',
-            'UploadDocument' => 'required',
             'Date' => 'required',
             'Angka' => 'required',
             'Status' => 'required',
             'Note' => 'required',
-            'signPm_lead' => 'required',
-            'signTechnikel_lead' => 'required',
-            'signAmSales_id' => 'required'
-
+            // 'signPm_lead' => 'required',
+            // 'signTechnikel_lead' => 'required',
+            // 'signAmSales_id' => 'required'
         ]);
 
 
-        // upload dokumen
-        // ambil data nya lalu simpan di divariabel data
-        $data = $request->UploadDocument ;
-        // buat name kosoingnya
-        $name = '';
-            foreach ($data as $dokumen) {
-                $fileName = $dokumen->getClientOriginalName();
-                $dokumen->move(public_path() . '\admin', $fileName);
-                $name = $name . $fileName ;
-            }
-
-
-        ListProjectAdmin::create([
+        $admin = ListProjectAdmin::create([
             "NamaClient" => $request->NamaClient,
             "NamaProject" => $request->NamaProject,
-            "UploadDocument"=> $request->UploadDocument = $name,
+            "UploadDocument"=>  implode(",", $request->UploadDocument),
             "Date" => $request->Date,
             "Angka" => $request->Angka,
             "Status" => $request->Status,
             "Note" => $request->Note,
-            "signPm_lead" => $request->signPm_lead,
-            "signTechnikel_lead" => $request->signTechnikel_lead,
-            "signAmSales_id" =>$request->signAmSales_id,
+            "ID_project" => $request->ID_project,
+            // "signPm_lead" => $request->signPm_lead,
+            // "signTechnikel_lead" => $request->signTechnikel_lead,
+            // "signAmSales_id" =>$request->signAmSales_id,
         ]);
+
+        // foreach ($data as $dokumen) {
+        //     $fileName = $dokumen->getClientOriginalName();
+        //     $dokumen->move(public_path() . '\admin', $fileName);
+        //     $name = $name . $fileName ;
+        // }
+
+
+        foreach ($request->input('UploadDocument', []) as $file) {
+            $admin->addMedia(public_path('tmp/uploads' . $file));
+        }
 
         return redirect('adminproject');
 
     }
+
+
+    public function storeMedia(Request $request)
+    {
+        $path = public_path('tmp/uploads');
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $request->file('file');
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
+    }
+
 
     /**
      * Display the specified resource.
@@ -128,11 +171,12 @@ class AdminController extends Controller
      */
     public function show($id)
     {
+        $angka = ListProjectAdmin::all()->count();
         $detailId = ListProjectAdmin::find($id);
+        // $detailId = ListProjectAdmin::find($id);
 
-        // return $detailId;
 
-        return view('admin.show', compact('detailId'));
+        return view('admin.show', compact('detailId', 'angka' ));
 
     }
 
@@ -174,6 +218,7 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $deletData = ListProjectAdmin::find($id);
+        
         // File::delete($updateData->image) 
         if ($deletData) {
             Storage::delete(public_path('files\admin'));
@@ -181,8 +226,19 @@ class AdminController extends Controller
         }
 
 
-
         return back();
 
     }
+
+    // public function download_local(Request $request)
+    // {
+    //     if (Storage::disk('local')->exists("tmp/uploads/$request->UploadDocument")) {
+    //         $path = Storage::disk('local')->path("tmp/uploads/$request->UploadDocument");
+    //         $content = file_get_contents($path);
+    //         return response($content)->withHeaders([
+    //             'Content-Type' => mime_content_type($path)
+    //         ]);
+    //     }
+    //     // return redirect('/404');
+    // }
 }

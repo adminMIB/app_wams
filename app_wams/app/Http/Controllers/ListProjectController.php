@@ -14,8 +14,10 @@ class ListProjectController extends Controller
      */
     public function index()
     {
+        $datas = ListToPm::all()->count();
+        $data = ListToPm::all();
         $cb = ListToPm::all();
-        return view('listviewproject.list_project',compact('cb'));
+        return view('listviewproject.list_project',compact('cb','datas','data'));
     }
 
     /**

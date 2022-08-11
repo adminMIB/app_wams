@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Elearning;
 use App\Models\SalesOpty;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class AmSalesController extends Controller
 {
@@ -29,7 +30,26 @@ class AmSalesController extends Controller
 
     public function show($id)
     {
-        $detail = SalesOpty::with('elearnings')->find($id);
-        return view('admin.sales.show', compact('detail'));
+        $pmLead = Role::with('users')->where("name", "PM Lead")->get();
+        $technikalLead = Role::with('users')->where("name", "Technikal Lead")->get();
+
+        $detail = SalesOpty::with('elearnings', 'pmLead', 'technikelLead')->find($id);
+        // return $detail;
+        return view('admin.sales.show', compact('detail', 'pmLead', 'technikalLead'));
     }
+
+
+    public function update(Request $request, $id)
+    {
+        $sales = SalesOpty::find($id);
+
+        // return $request->signPm_lead;
+        $sales->update([
+            "pmLead_id" =>$request->pmLead_id,
+            "TechnikalLead_id"=> $request->TechnikalLead_id,
+        ]);
+
+        return redirect('adminproject/sales');
+    }
+
 }

@@ -11,7 +11,7 @@
       <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
     </ul>
     <div class="search-element">
-      <input class="form-control"  type="search" placeholder="Search" aria-label="Search" data-width="500" style="border-radius: 1em; border-color:rgba(208, 208, 208, 0.947)">
+      <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="500" style="border-radius: 1em; border-color:rgba(208, 208, 208, 0.947)">
       <button class="btn" type="submit" style="margin-left: 20px; border-radius:1em; background-color:rgba(208, 208, 208, 0.947); color:white">Search</button>
     </div>
   </form>
@@ -19,13 +19,13 @@
     <li class="dropdown dropdown-list-toggle" style="margin-right:0.6em">
       <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep">
         
-        <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
+        {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
           @if (!$datas)
           <span></span>   
           @else
           <span>{{$datas}}</span>               
           @endif
-        </i>
+        </i> --}}
         {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">{{$loop->iteration}}</i> --}}
       </a>
       <div class="dropdown-menu dropdown-list dropdown-menu-right">
@@ -47,7 +47,7 @@
             </div>
           </a>
       @endforeach --}}
-      @foreach ($data as $d)
+      {{-- @foreach ($data as $d)
       <a href="#" class="dropdown-item">
         <div class="dropdown-item-icon bg-info text-white">
           <i class="far fa-user"></i>
@@ -57,7 +57,7 @@
           <div class="time">{{ $d->nama_pm }}</div>
         </div>
       </a>
-      @endforeach
+      @endforeach --}}
           {{-- <a href="#" class="dropdown-item">
             <div class="dropdown-item-icon bg-success text-white">
               <i class="fas fa-check"></i>
@@ -94,35 +94,33 @@
 
     {{-- acount --}}
     @if (!Auth::user())
-        <p>none</p>
-     
-            
-        @else
-            
-        <div class="d-sm-none d-lg-inline-block" style="color: black; margin-right:0.6em">{{ Auth::user()->name}}</div></a>
+    <p>none</p>
+    @else
+
+    <div class="d-sm-none d-lg-inline-block" style="color: black; margin-right:0.6em">{{ Auth::user()->name}}</div></a>
     @endif
 
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-      <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-      <div class="dropdown-menu dropdown-menu-right">
-        <div class="dropdown-title">Logged in 5 min ago</div>
-        <a href="features-profile.html" class="dropdown-item has-icon">
-          <i class="far fa-user"></i> Profile
-        </a>
-        <a href="features-activities.html" class="dropdown-item has-icon">
-          <i class="fas fa-bolt"></i> Activities
-        </a>
-        <a href="features-settings.html" class="dropdown-item has-icon">
-          <i class="fas fa-cog"></i> Settings
-        </a>
-        <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item has-icon text-danger">
-          <form action="/logout" method="POST">
-            @csrf
-            <button class="btn btn-danger">Logout</button>
-          </form>
-        </a>
-      </div>
+        <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+        <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-title">Logged in 5 min ago</div>
+          <a href="features-profile.html" class="dropdown-item has-icon">
+            <i class="far fa-user"></i> Profile
+          </a>
+          <a href="features-activities.html" class="dropdown-item has-icon">
+            <i class="fas fa-bolt"></i> Activities
+          </a>
+          <a href="features-settings.html" class="dropdown-item has-icon">
+            <i class="fas fa-cog"></i> Settings
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item has-icon text-danger">
+            <form action="/logout" method="POST">
+              @csrf
+              <button class="btn btn-danger">Logout</button>
+            </form>
+          </a>
+        </div>
     </li>
   </ul>
 </nav>

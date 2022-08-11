@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\ListProjet;
 use App\Models\ProjectTimeline;
 use App\Models\WeeklyReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -73,6 +75,7 @@ class WeeklyReportController extends Controller
                     'status' => $weekly_reports['status'][$item],
                     'note' => $weekly_reports['note'][$item],
                     'listp_id' => $weekly_reports['listp_id'][$item],
+                    'name_technikal' => Auth::user()->name,
                 );
 
                 WeeklyReport::create($weekly_reports2);

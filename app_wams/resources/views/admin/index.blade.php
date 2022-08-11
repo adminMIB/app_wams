@@ -19,56 +19,19 @@
           <table class="table table-bordered table-md">
             <tbody>
             <tr class="text-center ">
-              <th>No</th>
+              <th>ID Project</th>
               <th>Nama Client</th>
               <th>Nama Project</th>
               <th>Date</th>
               <th>Angka</th>
               <th>Status</th>
-              <th>Pm Lead ID</th>
-              <th>Technikal Lead ID</th>
-              <th>Sales ID</th>
               <th>Action</th>
             </tr>
             @foreach ($admin as $item)
-            @if ($loop->iteration % 2 === 0 )
-            <tr class="text-center bg-\ text-dark">
-              <td>{{$loop->iteration}}</td>
-              <td>{{$item->NamaClient }}</td>
-              <td>{{$item->NamaProject }}</td>
-              <td>{{$item->Date}}</td>
-              <td>{{$item->Angka}}</td>
-              {{-- <td><a href="/files/dokumen/{{$item->Status}}">{{$item->Status}}</a></td> --}}
-              
-              @if ($item->Status === 'Menang')
-                <td class="text-success">{{$item->Status}}</td>
-              @endif
-              @if ($item->Status === 'Kalah')
-                <td class="text-danger">{{$item->Status}}</td>
-              @endif
-              @if ($item->Status === 'Tender')
-                <td class="text-warning">{{$item->Status}}</td>
-              @endif
-              <td>{{$item->signPm_lead}}</td>
-              <td>{{$item->signTechnikel_lead}}</td>
-              <td>{{$item->signAmSales_id}}</td>
-              <td class="d-flex">
-                <div class="mr-2">
-                  {{-- detail --}}
-                  <a target="" href="{{url('/adminprojectShow', $item->id)}}" class="btn btn-info">
-                    <i class="far fa-edit"></i>
-                  </a>
-                </div>
-                {{-- delete --}}
-                <a href="{{url('/adminprojecDelete', $item->id)}}" class="btn btn-danger">
-                  <i class="fas fa-times"></i>
-                </a>
-              </td>
-            </tr>
-            @else
+            
                 
             <tr class="text-center">
-              <td>{{$loop->iteration}}</td>
+              <td>{{$item->ID_project }}</td>
               <td>{{$item->NamaClient }}</td>
               <td>{{$item->NamaProject }}</td>
               <td>{{$item->Date}}</td>
@@ -84,9 +47,10 @@
               @if ($item->Status === 'Tender')
                 <td class="text-warning">{{$item->Status}}</td>
               @endif
-              <td>{{$item->signPm_lead}}</td>
-              <td>{{$item->signTechnikel_lead}}</td>
-              <td>{{$item->signAmSales_id}}</td>
+              {{-- <td>{{$item}}</td> --}}
+              {{-- <td>{{$item->pmLead->name}}</td>
+              <td>{{$item->technikelLead->name}}</td>
+              <td>{{$item->sales->name}}</td> --}}
               <td class="d-flex">
                 <div class="mr-2">
                   {{-- detail --}}
@@ -95,12 +59,11 @@
                   </a>
                 </div>
                 {{-- delete --}}
-                <a href="{{url('/adminprojecDelete', $item->id)}}" class="btn btn-danger">
+                <a href="{{url('/adminprojecDelete', $item->id)}}"  class="btn btn-danger">
                   <i class="fas fa-times"></i>
                 </a>
               </td>
             </tr>
-            @endif
             @endforeach
           </tbody>
           </table>

@@ -16,10 +16,18 @@ class AuthControllerM extends Controller
 {
     public function index()
     {
-        // $user = User::with('roles')->orderBy('created_at', 'DESC')->paginate(10);
         $user = User::with('roles')->orderBy('created_at', 'DESC')->paginate(10);
-        // dd($user);
-        return view('superAdmin.addUser.dashboard_Auth', compact('user'));
+        // $user = User::with('roles')->orderBy('created_at', 'DESC')->paginate(10);
+        $superAdmin = Role::with('users')->where('name', 'Super Admin')->get();
+        $admin = Role::with('users')->where('name', 'Project Admin')->get();
+        $management = Role::with('users')->where('name', 'Management')->get();
+        $amSales = Role::with('users')->where('name', "AM/Sales")->get();
+        $pm = Role::with('users')->where('name', "PM")->get();
+        $technikal = Role::with('users')->where('name', "Technikal")->get();
+        $technikalLead = Role::with('users')->where('name', "Technikal Lead")->get();
+        $pmLead = Role::with('users')->where('name', "PM Lead")->get();
+        
+        return view('superAdmin.addUser.dashboard_Auth', compact('user','superAdmin', 'admin', 'management', 'amSales', 'pm', 'technikal', 'technikalLead', 'pmLead'));
     }
 
     public function create() 

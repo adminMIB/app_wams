@@ -23,6 +23,7 @@ class CreateListToPmsTable extends Migration
             $table->string("nama_project");
             $table->string("quantity")->nullable();
             $table->string("hps");
+            $table->string("nama_pmlead")->nullable();
             $table->string("sign_pm");
             $table->timestamps();
         });

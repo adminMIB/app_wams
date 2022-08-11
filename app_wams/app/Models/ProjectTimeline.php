@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectTimeline extends Model
 {
     use HasFactory;
+    
     protected $fillable = ["nama_technical", "start_date", "finish_date", "jenis_pekerjaan","list_id"];
 
     public function lists()
