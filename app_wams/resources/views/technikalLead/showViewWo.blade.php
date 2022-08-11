@@ -67,37 +67,13 @@
                     
                 <div class="d-flex justify-content-between mt-5">
                   
-                  <a href="/inputTwo" class="btn btn-danger ">Back</a>
-                  @if (Auth::user()->hasRole('Management'))
-                  <button class="btn btn-primary d-flex">Submit</button>
-                  @endif
+                  <a href="/inputTwos" class="btn btn-danger ">Back</a>
 
                 </div>
             </form>
               </div>
       </div>
     </section>
-
-    <script>
-      function myFunction() {
-        var x = document.getElementById("status").value;
-        if (x == 'Reject') {
-          // jika reject munculkam note
-          console.log(x);
-          var bukaNote = document.querySelector('.tes');
-          bukaNote.classList.add('d-block')          
-        }
-
-        // jika approve -> note hilangkan
-        if (x == 'Approve') {
-          var bukaNote = document.querySelector('.tes');
-            bukaNote.classList.remove('d-block')
-          }
-        // document.getElementById("demo").innerHTML = "You selected: " + x;
-      }
-      </script>
-
-      
-
+    
    
 @endsection

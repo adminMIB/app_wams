@@ -33,7 +33,7 @@ class AmSalesController extends Controller
         $pmLead = Role::with('users')->where("name", "PM Lead")->get();
         $technikalLead = Role::with('users')->where("name", "Technikal Lead")->get();
 
-        $detail = SalesOpty::with('elearnings')->find($id);
+        $detail = SalesOpty::with('elearnings', 'pmLead', 'technikelLead')->find($id);
         // return $detail;
         return view('admin.sales.show', compact('detail', 'pmLead', 'technikalLead'));
     }

@@ -6,7 +6,7 @@
        <div class="card">
         <div class="card-body ">
          
-          <a href="{{route('/adminproject/create')}}"><button type="submit" class="btn btn-primary btn-sm" style="margin-bottom:1%;">Create</button></a>
+          {{-- <a href="{{route('/adminproject/create')}}"><button type="submit" class="btn btn-primary btn-sm" style="margin-bottom:1%;">Create</button></a> --}}
           <div class="text-right">
           {{-- <button type="button" class="btn btn-primary" style="margin-right: 810px;" data-toggle="modal" data-target="#exampleModal">
             Filter Data
@@ -25,9 +25,9 @@
               <th>Date</th>
               <th>Angka</th>
               <th>Status</th>
-              <th>Pm Lead ID</th>
+              {{-- <th>Pm Lead ID</th>
               <th>Technikal Lead ID</th>
-              <th>Sales ID</th>
+              <th>Sales ID</th> --}}
               <th>Action</th>
             </tr>
             @foreach ($admin as $item)
@@ -51,9 +51,9 @@
               @if ($item->Status === 'Tender')
                 <td class="text-warning">{{$item->Status}}</td>
               @endif
-              <td>{{$item->signPm_lead}}</td>
+              {{-- <td>{{$item->signPm_lead}}</td>
               <td>{{$item->signTechnikel_lead}}</td>
-              <td>{{$item->signAmSales_id}}</td>
+              <td>{{$item->signAmSales_id}}</td> --}}
               <td class="d-flex">
                 <div class="mr-2">
                   {{-- detail --}}
