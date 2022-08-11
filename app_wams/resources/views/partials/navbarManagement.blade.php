@@ -12,7 +12,7 @@
     </ul>
     <div class="search-element">
       <input class="form-control"  type="search" placeholder="Search" aria-label="Search" data-width="500" style="border-radius: 1em; border-color:rgba(208, 208, 208, 0.947)">
-      <button class="btn" type="submit" style="margin-left: 20px; border-radius:1em; background-color:rgba(208, 208, 208, 0.947); color:white">Seasssrch</button>
+      <button class="btn" type="submit" style="margin-left: 20px; border-radius:1em; background-color:rgba(208, 208, 208, 0.947); color:white">Search</button>
     </div>
   </form>
   <ul class="navbar-nav navbar-right">
@@ -48,15 +48,19 @@
           </a>
       @endforeach --}}
           <a href="#" class="dropdown-item">
+            
+            @if ($datas)
             <div class="dropdown-item-icon bg-info text-white">
               <i class="far fa-user"></i>
             </div>
             <div class="dropdown-item-desc">
-              <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-              <div class="time">10 Hours Ago</div>
+                <a href="/approval">Approval <span class="text-danger">{{$datas}}</span></a>
+                {{-- <b>You</b> and <b>Dedik Sugiharto</b> are now friends
+                  <div class="time">10 Hours Ago</div> --}}
             </div>
+                @endif
           </a>
-          <a href="#" class="dropdown-item">
+          {{-- <a href="#" class="dropdown-item">
             <div class="dropdown-item-icon bg-success text-white">
               <i class="fas fa-check"></i>
             </div>
@@ -82,7 +86,7 @@
               Welcome to Stisla template!
               <div class="time">Yesterday</div>
             </div>
-          </a>
+          </a> --}}
         </div>
         <div class="dropdown-footer text-center">
           <a href="#">View All <i class="fas fa-chevron-right"></i></a>

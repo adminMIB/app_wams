@@ -23,7 +23,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach ($data as $item)    
+                    @foreach ($data as $item)
+                    @if ($item->status == 'Pending' || $item->status == 'Reject')
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>B{{$item->kode_project}}</td>
@@ -31,14 +32,20 @@
                       <td>{{$item->project}}</td>
                       <td>{{$item->name_user}}</td>
                       <td>{{$item->hps}}</td>
-                      <td>{{$item->status}}</td>
-                      @if ($item->status !== 'Pending')
+                      <td class="text-danger">{{$item->status}}</td>
+                      <td><a href="{{url('/detailapproval', $item->id)}}">Detail</a></td>
+
+                      {{-- @if ($item->status !== 'Pending')
                       <td></td>
                       @elseif($item->status !== 'Approve ')
                       <td><a href="{{url('/detailapproval', $item->id)}}">Detail</a></td>
                       @elseif($item->status !== 'Approve ')
-                      @endif
+                      @endif --}}
                     </tr>
+                    @else
+                        
+                    @endif    
+                    
                     @endforeach
                   </tbody>
             </table>

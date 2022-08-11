@@ -1,7 +1,6 @@
 @extends('layouts.main')
 @section('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
 @endsection
 @section('content')
 @include('sweetalert::alert')
@@ -107,6 +106,10 @@
             @enderror
           </div>
         </div>
+        <!-- <br>
+        <div class="needsclick dropzone" id="document-dropzone">
+
+        </div> -->
         <br>
         <a href="{{url ('index-list')}}" class="btn btn-danger" style="border-radius: 3em;">Back</a>
         <button type="submit" class="btn btn-primary" style="border-radius: 3em;">Save</button>
@@ -116,11 +119,9 @@
   </div>
   </div>
   <!-- Nama CLient -->
-
-
   @endsection
-  @section('js')
 
+  @section('js')
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script>
     $('#id').change(function() {

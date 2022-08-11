@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ListProjectTech;
+
+use App\Models\ListProjet;
 use App\Models\ProjectTimeline;
 use App\Models\WeeklyReport;
 use Illuminate\Http\Request;
@@ -18,6 +19,8 @@ class WeeklyReportController extends Controller
      */
     public function index(Request $request)
     {
+        $listp = ListProjet::all();
+        $data = WeeklyReport::with('listp')->orderBy('created_at', 'ASC')->paginate();
         if ($request->has('search')) {
             $weekly_reports = WeeklyReport::where('start_date', 'LIKE', '%' . $request->search . '%')->paginate(5);
         } else {
@@ -25,7 +28,7 @@ class WeeklyReportController extends Controller
         }
 
 
-        return view('report.report_progres', compact('weekly_reports'));
+        return view('report.report_progres', compact('weekly_reports', 'data', 'listp'));
     }
 
 
@@ -36,8 +39,9 @@ class WeeklyReportController extends Controller
      */
     public function create()
     {
+        $listp = ListProjet::all();
         $weekly_reports = WeeklyReport::all();
-        return view('report.create', compact('weekly_reports'));
+        return view('report.create', compact('weekly_reports', 'listp'));
     }
 
     /**
@@ -57,6 +61,7 @@ class WeeklyReportController extends Controller
                 "end_date" => "required|date",
                 "status" => "required|string|max:200",
                 "note" => "required|string|max:1000",
+        
             ], [
 
 
@@ -67,6 +72,7 @@ class WeeklyReportController extends Controller
                 "end_date.required" => "HPS harus sesuai!",
                 "status.required" => "Approve harus sesuai!",
                 "note.required" => "Approve harus sesuai!",
+          
             ]);
 
             if ($validate->fails()) {
@@ -82,6 +88,7 @@ class WeeklyReportController extends Controller
                 "end_date" => $request->end_date,
                 "status" => $request->status,
                 "note" => $request->note,
+                "listp_id" => $request->listp_id,
             ]);
 
 
@@ -162,6 +169,13 @@ class WeeklyReportController extends Controller
     public function view()
     {
         $lt = ProjectTimeline::all();
-        return view('report.viewproject',compact('lt'));
+        return view('report.viewproject', compact('lt'));
+    }
+
+    public function getOnePm(Request $request)
+    {
+        $id = $request->id;
+        $data = ListProjet::find($id);
+        return response()->json($data);
     }
 }

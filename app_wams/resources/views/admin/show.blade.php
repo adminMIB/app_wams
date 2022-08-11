@@ -11,6 +11,11 @@
           <form action="" method="POST" enctype="multipart/form-data"> 
                   @method('put')
                   {{csrf_field()}}
+                  {{-- ID Project --}}
+                <div class="form-group">
+                  <label>Id Project</label>
+                  <input type="text" name="namaClient" class="form-control" value="{{$detailId->ID_project}}" autofocus readonly>
+                </div>
                   {{-- nama client --}}
                 <div class="form-group">
                   <label>Nama Client</label>
@@ -37,34 +42,16 @@
                   <label>Status</label>
                   <input type="text" name="Status" class="form-control" value="{{$detailId->Status}}" readonly>
                 </div>
-                {{-- Note --}}
-                {{-- <div class="form-group">
-                  <label>Note</label>
-                  <textarea type="text" name="Note" class="form-control" value="{{$detailId->Note}}" readonly ></textarea>
-                </div> --}}
-                {{-- sign Pm Lead --}}
-                <div class="form-group">
-                  <label>Sign Pm Lead</label>
-                  <input type="text" name="SignPm_lead" class="form-control" value="{{$detailId->signPm_lead}}" readonly>
-                </div>
-                {{-- sign Technikal Lead --}}
-                <div class="form-group">
-                  <label>Sign Technikal Lead</label>
-                  <input type="text" name="signTechnikel_lead" class="form-control" value="{{$detailId->signTechnikel_lead}}" readonly>
-                </div>
-                {{-- sign amSales Lead --}}
-                <div class="form-group">
-                  <label>Sign Am Sales</label>
-                  <input type="text" name="signAmSales_id" class="form-control" value="{{$detailId->signAmSales_id}}" readonly>
-                </div>
+
                 {{-- upload Document --}}
                 <div class="form-group">
                   <label>Upload Document</label>
                 
                       
                   <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download zip</a></p>
-                  <a href="/admin/{{$detailId->UploadDocument}}">{{$detailId->UploadDocument}}</a>
-             
+                      
+
+                <a href="/storage/{{$detailId->UploadDocument}}" target="_Blank">{{$detailId->UploadDocument}}</a>
                   {{-- <input type="text" name="UploadDocument" class="form-control" value="{{$detailId->UploadDocument}}" readonly> --}}
 
 
@@ -74,7 +61,6 @@
                   <label>Note</label>
                   <textarea type="text" name="Note" class="form-control" value="{{$detailId->Note}}" readonly>{{$detailId->Note}}</textarea>
                 </div>
-                
                 
                 <a href="/adminproject" class="btn btn-primary text-white">Back</a>
             </form> 

@@ -92,6 +92,7 @@ use Illuminate\Support\Facades\Route;
 // ]);
 
 
+
 route::apiResource('listprojecttech', '\App\Http\Controllers\API\ListProjectTechController', [
     "only" => ["store", "index", "edit", "destroy", "show"]
 ]);

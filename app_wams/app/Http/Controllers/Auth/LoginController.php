@@ -112,6 +112,12 @@ class LoginController extends Controller
             // jika role super Pm Lead  -> arahkan ke dashboard Pm Lead
             return redirect()->intended('dashboardlead');
         } 
+
+        else if (Auth::user()->hasRole('Technikal Lead')) {
+            // jika role super Pm Lead  -> arahkan ke dashboard Pm Lead
+            return redirect()->intended('TechnikalLead');
+        }
+        
         
                     
         }

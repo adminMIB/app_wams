@@ -30,7 +30,7 @@
         </div>
         <div class="dropdown-list-content dropdown-list-icons">
           @foreach ($data as $item)
-          <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal{{$item->id}}">
+          <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
             <div class="dropdown-item-icon bg-danger text-white">
               <i class="fas fa-file"></i>
             </div>
@@ -108,4 +108,4 @@
   </ul>
 </nav>
 
-@include('notificationsPM.detail_notif')
+<!-- @include('notificationsPM.detail_notif') -->

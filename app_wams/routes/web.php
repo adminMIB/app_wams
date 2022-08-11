@@ -37,6 +37,7 @@ use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
 use App\Http\Controllers\ListProjectController;
+use App\Http\Controllers\TechnikalLeadController\TechnikalLeadController;
 use App\Http\Controllers\WeeklyReportController;
 use App\Http\Middleware\IsAdmin;
 use App\Models\SalesOpty;
@@ -147,8 +148,10 @@ Route::group(['middleware'], function () {
   route::post('/Ssimpan-data', [SalesOrderController::class, 'store'])->name('Ssimpan-data');
   route::put('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data');
   route::get('/Sedit/{id}', [SalesOrderController::class, 'edit'])->name('Sedit');
-  route::get('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
+  route::DELETE('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del');
   Route::get('/order-export', [SalesOrderController::class, 'export'])->name('order-export');
+  Route::post('/add_so', [SalesOrderController::class, 'addso']);
+  Route::post('/store/media', [SalesOrderController::class, 'storeMedia'])->name('storeMedia');
   // sales opty
   Route::get('/index-sales', [SalesOptyController::class, 'index'])->name('index-sales');
   Route::get('/inputsales', [SalesOptyController::class, 'create'])->name('inputsales');
@@ -182,6 +185,7 @@ Route::group(['middleware'], function () {
   Route::post('/update/{id}', [WeeklyReportController::class, 'update'])->name('update');
   Route::get('/destroy/{id}', [WeeklyReportController::class, 'destroy'])->name('destroy');
   Route::get('/change-status/{id}', [WeeklyReportController::class, 'changestatus']);
+  Route::post('/get_one_pm', [WeeklyReportController::class, 'getOnePm']);
 });
 
 
@@ -240,6 +244,11 @@ Route::group(['middleware'], function () {
   Route::get('/adminprojectShow/{id}', [AdminController::class, 'show'])->name('/adminprojectShow');
   Route::get('/adminprojecDelete/{id}', [AdminController::class, 'destroy'])->name('/adminprojecDelete');
 
+
+  Route::post('/admin/media', [AdminController::class, 'storeMedia'])->name('admin/media');
+  // Route::get('/admin/donwload', [AdminController::class, 'download_local'])->name('/admin/donwload');
+
+
   Route::get('zip-download', [AdminController::class, 'downZip'])->name('zip-download');
 
 
@@ -248,8 +257,17 @@ Route::group(['middleware'], function () {
   Route::get('/adminproject/sales', [AmSalesController::class, 'index'])->name('/adminproject/sales');
   Route::get('/adminproject/salesCreate', [AmSalesController::class, 'create'])->name('/adminproject/salesCreate');
   Route::get('/adminShowSales/{id}', [AmSalesController::class, 'show'])->name('/adminShowSales');
+
+  Route::put('/adminShowSalesUpdate/{id}', [AmSalesController::class, 'update'])->name('/adminShowSalesUpdate');
 });
 
+
+//! Routing dashboard Technikallead
+Route::group(['middleware'], function () {
+  Route::get('/TechnikalLead', [TechnikalLeadController::class, 'index'])->name('/TechnikalLead');
+  
+
+});
 
 
 

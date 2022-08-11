@@ -13,6 +13,7 @@ class ListProjet extends Model
         "nama_institusi","nama_project","no_sales","tgl_sales","kode_project","hps","nama_sales"
     ];
 
+
     public function detail()
     {
         return $this->hasMany(ProjectTimeline::class,'list_id');
@@ -21,5 +22,11 @@ class ListProjet extends Model
     public function edit()
     {
         return $this->hasMany(ProjectTimeline::class,'list_id');
+
+    }
+    public function weeklyreport()
+    {
+        return $this->hasMany(WeeklyReport::class);
+
     }
 }
