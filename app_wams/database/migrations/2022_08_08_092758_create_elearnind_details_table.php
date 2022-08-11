@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateElearnindDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('elearnings', function (Blueprint $table) {
+        Schema::create('elearnind_details', function (Blueprint $table) {
             $table->id();
-            $table->string('implementasi',900);
+            $table->string('produk',50);
+            $table->string('principle',50);
+            $table->string('deskripsi',500);
+            $table->string('upload');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('elearnings');
+        Schema::dropIfExists('elearnind_details');
     }
-};
+}

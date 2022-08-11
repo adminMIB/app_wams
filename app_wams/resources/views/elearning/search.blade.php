@@ -12,6 +12,7 @@
   <div class="row">
     <div class="col-12">
       <div class="card">
+      <a href="{{route ('elearning')}}"> <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-arrow-left"></i> Back</button></a>
         <div class="card-header">
           <a href="{{route ('create-elearning')}}"> <button type="submit" class="btn btn-primary btn-sm">Create</button></a>
           <div class="card-header-action">
@@ -33,7 +34,6 @@
                   <th>Solusi/Produk</th>
                   <th>Principle</th>
                   <th>Deskripsi Produk</th>
-                  <th>Pengalaman</th>
                   <th>Dokumen Datasheet</th>
                   <th>Action</th>
                 </tr>
@@ -41,12 +41,12 @@
               @foreach($ele as $item)
               <tbody>
                 <tr>
-                  <th scope="row">{{$item->eles->produk}}</th>
-                  <td>{{$item->eles->principle}}</td>
-                  <td>{{$item->eles->deskripsi}}</td>
-                  <td>{{$item->implementasi}}</td>
+                  <th scope="row">{{$item->produk}}</th>
+                  <td>{{$item->principle}}</td>
+                  <td>{{$item->deskripsi}}</td>
+                
                   <td>
-                    <a href="dokumen/{{$item->eles->upload}}">{{$item->eles->upload}}</a>
+                    <a href="dokumen/{{$item->upload}}">{{$item->upload}}</a>
                   </td>
                   <td>
                     <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" href="#" role="button" data-toggle="dropdown">
@@ -54,7 +54,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
                       <a href="{{url ('edite', $item->id)}}" style="color: black;"><button type="submit" class="btn btn-primary btn-sm"> <i class="fas fa-pen nav-icon"></i></button> </a>
-                      <a href="{{url ('delete', $item->eles->id)}}" style="color: black ;"><button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash nav-icon"></i></button></a>
+                      <a href="{{url ('delete', $item->id)}}" style="color: black ;"><button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash nav-icon"></i></button></a>
                       <a href="dokumen/{{$item->upload}}"><button type="submit" class="btn btn-warning btn-sm"><i class="fas fa-download nav-icon"></i></button></a>
 
                 </tr>

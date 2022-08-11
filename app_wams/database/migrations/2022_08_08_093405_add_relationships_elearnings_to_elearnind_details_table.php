@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class AddRelationshipsElearningsToElearnindDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('elearnings', function (Blueprint $table) {
-            $table->id();
-            $table->string('implementasi',900);
-            $table->timestamps();
+        Schema::table('elearnings', function (Blueprint $table) {
+            $table->foreignId('ele_id');
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('elearnings');
+        Schema::table('elearnings', function (Blueprint $table) {
+            $table->dropForeign(['ele_id']);
+        });
     }
-};
+}

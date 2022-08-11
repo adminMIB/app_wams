@@ -164,9 +164,10 @@ Route::group(['middleware'], function () {
 
   Route::get('/dashboardTeknikal', [DashboardController::class, 'index'])->name('dashboard');
   Route::get('/telearning', [ElearningController::class, 'index'])->name('elearning');
+  Route::get('/search', [ElearningController::class, 'search'])->name('search');
   Route::get('/create-elearning', [ElearningController::class, 'create'])->name('create-elearning');
   Route::post('/Esimpan-data', [ElearningController::class, 'store'])->name('Esimpan-data');
-  Route::get('/edit/{id}', [ElearningController::class, 'edit'])->name('edit');
+  Route::get('/edite/{id}', [ElearningController::class, 'edit'])->name('edite');
   Route::get('/delete/{id}', [ElearningController::class, 'destroy']);
   Route::post('/update-data/{id}', [ElearningController::class, 'update'])->name('update-data');
 
