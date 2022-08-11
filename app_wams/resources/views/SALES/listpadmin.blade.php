@@ -26,6 +26,7 @@
          
          <tbody>
             @foreach ($ds as $it)
+            @if ($it->Status !== 'Kalah')
             <tr>
                 <td>{{$it->id}}</td>
                 <td>{{$it->NamaClient}}</td>
@@ -34,6 +35,7 @@
                 <td><a href="/admins/{{$it->UploadDocument}}">{{$it->UploadDocument}}</a></td>
                 <td>{{$it->Status}}</td>
             </tr>
+            @endif
             @endforeach
          </tbody>
         </table>

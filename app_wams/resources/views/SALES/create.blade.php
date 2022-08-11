@@ -1,8 +1,5 @@
 @extends('layouts.main')
 @section('css')
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {{-- CSS assets in head section --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     <style>
@@ -52,7 +49,7 @@
                             <select class="form-control select2" id="id" style="width: 100%;" name="listpa_id">
                             <option>Project</option>
                             @foreach ($lpa as $item)
-                            <option value="{{$item->id}}">{{$item->NamaClient}}</option>
+                            <option value="{{$item->id}}">{{$item->NamaProject}}</option>
                             @endforeach
                             </select>
                         </div>

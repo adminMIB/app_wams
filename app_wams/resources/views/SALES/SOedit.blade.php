@@ -1,8 +1,5 @@
 @extends('layouts.main')
 @section('css')
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {{-- CSS assets in head section --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     <style>
@@ -122,7 +119,7 @@
             height: 324
             }
             this.options.addedfile.call(this, file)
-            this.options.thumbnail.call(this, file, file.original_url)
+            // this.options.thumbnail.call(this, file, file.original_url)
             file.previewElement.classList.add('dz-complete')
             $('form').append('<input type="hidden" name="file_dokumen[]" value="' + file.file_name + '">')
             }
