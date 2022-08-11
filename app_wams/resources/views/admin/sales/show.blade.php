@@ -70,39 +70,49 @@
                   <div class="mb-3 row">
                       <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sign Pm Lead </label>
                       <div class="col-sm-10">
-                      <select class="@error('pmLead_id') is-invalid @enderror form-control" name="pmLead_id">
-     
-                      <option value=""></option>
-                          @foreach ($pmLead as $item)
-                              @foreach ($item->users as $user)
-                                  <option value="{{$user->id}}">{{$user->name}}</option>
-                              @endforeach
-                          @endforeach
-                          {{-- <option value=""></option> --}}
-     
-     
-                  </select>
+                          @if ($detail->pmLead_id)
+                          <input type="text" class="form-control" value="{{$detail->pmLead->name}}" readonly >
+                        </div>
+                              @else
+                              <select class="@error('pmLead_id') is-invalid @enderror form-control" name="pmLead_id">
+             
+                              <option value=""></option>
+                                  @foreach ($pmLead as $item)
+                                      @foreach ($item->users as $user)
+                                          <option value="{{$user->id}}">{{$user->name}}</option>
+                                      @endforeach
+                                  @endforeach
+                                  {{-- <option value=""></option> --}}
+             
+             
+                          </select>
+                          @endif
                       @error('pmLead_id')
                       <div class="invalid-feedback">{{$message}}</div>
                       @enderror
                   </div>
               </div>
      
-              <div class="mb-3 row">
+              <div class="mb-3 row p-4">
                   <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Sign Technikal Lead </label>
                   <div class="col-sm-10">
-                  <select class="@error('TechnikalLead_id') is-invalid @enderror form-control" name="TechnikalLead_id">
-     
-                  <option value=""></option>
-                      @foreach ($technikalLead as $item)
-                          @foreach ($item->users as $user)
-                              <option value="{{$user->id}}">{{$user->name}}</option>
+                      @if ($detail->TechnikalLead_id)
+                      <input type="text" class="form-control" value="{{$detail->technikelLead->name}}" readonly >
+                      @else
+                          
+                      <select class="@error('TechnikalLead_id') is-invalid @enderror form-control" name="TechnikalLead_id">
+         
+                      <option value=""></option>
+                          @foreach ($technikalLead as $item)
+                              @foreach ($item->users as $user)
+                                  <option value="{{$user->id}}">{{$user->name}}</option>
+                              @endforeach
                           @endforeach
-                      @endforeach
-                      {{-- <option value=""></option> --}}
-     
-     
-              </select>
+                          {{-- <option value=""></option> --}}
+         
+         
+                  </select>
+                      @endif
                   @error('TechnikalLead_id')
                   <div class="invalid-feedback">{{$message}}</div>
                   @enderror
@@ -112,8 +122,11 @@
           <div style="text-align:right;">
             <button type="submit" class="btn btn-danger btn-md">Send</button>
         </div>
+        <div style="text-align:left;">
+            <a href="/adminproject/sales" class="btn btn-primary m-2">Back</a>
+        </div>
      
-                  <a href="/adminproject/sales" class="btn btn-primary">Back</a>
+     
           </div>
          </div>
     </form> 

@@ -6,16 +6,6 @@
      </div> 
        <div class="card">
          <div class="card-body ">
-          @if (Auth::user()->hasRole('AM/Sales'))
-          <a href="{{route('inputsales')}}"><button type="submit" class="btn btn-primary btn-sm" style="margin-bottom:1%;">Create</button></a>
-          <div class="text-right">
-          <button type="button" class="btn btn-primary" style="margin-right: 810px;" data-toggle="modal" data-target="#exampleModal">
-            Filter Data
-          </button>        
-            <a href="{{ route('Ycetak') }}" class="btn btn-warning" target="_blank" rel="noopener noreferrer">Cetak</a>
-            <a href="{{ route('exportsalesopty') }}" class="btn btn-success"target="_blank" rel="noopener noreferrer">Export</a>
-          </div>
-          @endif
           <table class="table table-striped table-hover">
             <div class="card-header-action">
           </div>
@@ -79,12 +69,7 @@
                             ...
                         </a>
                         <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
-                        <a href="{{url ('Ydetail', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
-                        @if (Auth::user()->hasRole('AM/Sales'))
-                            
-                        <a href="{{url ('Yedit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
-                         <a href="{{url ('Ydelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
-                        @endif
+                        <a href="{{url ('leadViewsDetailOpty', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
                         </div>
                     </td>
                     </div>

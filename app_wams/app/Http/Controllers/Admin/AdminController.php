@@ -136,7 +136,7 @@ class AdminController extends Controller
 
 
         foreach ($request->input('UploadDocument', []) as $file) {
-            $admin->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
+            $admin->addMedia(public_path('tmp/uploads' . $file));
         }
 
         return redirect('adminproject');
@@ -146,7 +146,7 @@ class AdminController extends Controller
 
     public function storeMedia(Request $request)
     {
-        $path = storage_path('tmp/uploads');
+        $path = public_path('tmp/uploads');
 
         if (!file_exists($path)) {
             mkdir($path, 0777, true);

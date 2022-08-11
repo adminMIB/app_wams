@@ -15,6 +15,7 @@
                         <th>Nama Institusi</th>
                         <th>Nama Project</th>
                         <th>Nama Sales</th>
+                        <th>Nama PM Lead</th>
                         <th>HPS</th>
                     </tr>
                 </thead>
@@ -29,6 +30,7 @@
                         <td>{{$item->nama_institusi}}</td>
                         <td>{{$item->nama_project}}</td>
                         <td>{{$item->nama_sales}}</td>
+                        <td>{{$item->nama_pmlead}}</td>
                         <td>{{$item->hps}}</td>
                     </tr>
                     @endif

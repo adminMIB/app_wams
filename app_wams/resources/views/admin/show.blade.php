@@ -44,16 +44,16 @@
                 </div>
 
                 {{-- upload Document --}}
-                <div class="form-group">
-                  <label>Upload Document</label>
-                
+                <div class="form-group mt-3">
+                  <label>Download Document</label>
                       
-                  <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download zip</a></p>
-                      
+                  {{-- <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download zip</a></p> --}}
 
-                <a href="/storage/{{$detailId->UploadDocument}}" target="_Blank">{{$detailId->UploadDocument}}</a>
-                  {{-- <input type="text" name="UploadDocument" class="form-control" value="{{$detailId->UploadDocument}}" readonly> --}}
-
+                  <div>
+                    @foreach (explode(",", "$detailId->UploadDocument") as $d)
+                    <a href="tmp/uploads/{{$d}}">{{$d}}</a>
+                    @endforeach
+                  </div>
 
                 </div>
                 {{-- Note --}}
