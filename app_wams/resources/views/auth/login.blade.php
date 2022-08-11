@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="card-body">
+ 
     <form method="POST" class="needs-validation"  action="{{ route('login') }}">
         @csrf
       <div class="form-group">
@@ -25,9 +26,9 @@
         <div class="d-block">
             <label for="password" class="control-label">Password</label>
           <div class="float-right">
-            <a href="auth-forgot-password.html" class="text-small">
+            {{-- <a href="auth-forgot-password.html" class="text-small">
               Forgot Password?
-            </a>
+            </a> --}}
           </div>
         </div>
         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">

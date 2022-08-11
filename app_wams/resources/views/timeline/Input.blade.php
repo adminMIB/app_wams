@@ -57,6 +57,7 @@
             <div class="col-6 col-sm-4">
               <label for="" class="">Nama Technical</label>
               <select name="nama_technical[]" id="" class="form-control">
+                <option value=""></option>
                 @foreach($b as $t)
                 <option value="{{$t->name}}">{{$t->name}}</option>
                 @endforeach
@@ -64,25 +65,18 @@
 
             </div>
           </div>
+          <a href="#" class="addtechnical btn btn-success" style="float:right;"><i class="fa-fas fa-plus"></i> </a>
         </div>
-
-
         <div class="technical"></div>
     </div>
   </div>
-
-  <br>
   <div class="col-12">
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a href="{{route('timeline')}}" class="btn btn-danger">Back</a>
+    <a href="{{route('timeline')}}" class="btn btn-danger" style="border-radius:3em ;"> <i class="fas fa-arrow-left"></i> Back</a>
+    <button type="submit" class="btn btn-primary " style="border-radius: 3em;">Save</button>
+
   </div>
   </form>
 
-
-
-
-  <br>
-  <a href="#"><button class="addtechnical btn btn-success btn-sm" style="float:right ;">Tambah</button></a>
 </div>
 </div>
 </div>
@@ -90,9 +84,6 @@
 @endsection
 
 @section('js')
-
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 <script type="text/javascript">
   $('.addtechnical').on('click', function() {
@@ -100,11 +91,11 @@
   });
 
   function addtechnical() {
-    var technical = '<div class="container"><div class="row"><div class="col-6 col-sm-4"><label for="" class="">Star Date</label><input type="date" class="form-control" name="start_date[]"> </div><div class="col-6 col-sm-4"><label for="" class="">Finis Date</label><input type="date" class="form-control" name="finish_date[]"></div><div class="w-100 d-none d-md-block"></div><div class="col-6 col-sm-4"><label for="" class="">Jenis Pekerjaan</label><input type="text" class="form-control" name="jenis_pekerjaan[]"></div><div class="col-6 col-sm-4"><label for="" class="">Nama Technical</label><select name="nama_technical[]" id="" class="form-control">@foreach($b as $t)<option value="{{$t->name}}">{{$t->name}}</option>@endforeach</select></form></div></div></div>';
+    var technical = '<div class="container"><div class="row"><div class="col-6 col-sm-5"><label for="" class="">Start Date</label><input type="date" class="form-control" name="start_date[]"> </div><div class="col-6 col-sm-5"><label for="" class="">Finish Date</label><input type="date" class="form-control" name="finish_date[]"></div><div class="w-100 d-none d-md-block"></div><div class="col-6 col-sm-5"><label for="" class="">Jenis Pekerjaan</label><input type="text" class="form-control" name="jenis_pekerjaan[]"></div><div class="col-6 col-sm-5"><label for="" class="">Nama Technical</label><select name="nama_technical[]" id="" class="form-control"><option value=""></option>@foreach($b as $t)<option value="{{$t->name}}">{{$t->name}}</option>@endforeach</select><br><a href="#" class="remove btn btn-danger" style="float:right;"><i class="fas fa-trash"></i></a></form></div></div></div>';
     $('.technical').append(technical);
   };
   $('.remove').live('click', function() {
-    $(this).parent().parent().remove();
+    $(this).parent().parent().parent().remove();
   });
 </script>
 

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\ListProjectPm;
 use App\Models\ListToPm;
+use App\Models\SalesOrder;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Notifications\ListprojectpmNotification;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class ListProjectPmController extends Controller
 {
@@ -19,7 +21,7 @@ class ListProjectPmController extends Controller
      */
     public function index()
     {
-        $cb = ListProjectPm::all();
+        $cb = SalesOrder::all();
         $user = Role::with('users')->where('name', 'PM')->get();
 
         return view('listprojectpm', compact('cb', 'user'));
@@ -44,17 +46,20 @@ class ListProjectPmController extends Controller
     public function store(Request $request)
     {
 
-        ListToPm::create([
+        $data = $request->all();
+        // dd($data);
 
-            "no_sales"  => $request->no_sales,
-            "tgl_sales"  => $request->tgl_sales,
-            "kode_project"=>$request->kode_project,
-            "nama_sales"  => $request->nama_sales,
-            "nama_institusi"  => $request->nama_institusi,
-            "nama_project"  => $request->nama_project,
-            "hps"  => $request->hps,
-            "sign_pm" => $request->sign_pm
-        ]);
+        $time = new ListToPm;
+        $time->no_sales = $data['no_sales'];
+        $time->tgl_sales = $data['tgl_sales'];
+        $time->nama_sales = $data['nama_sales'];
+        $time->kode_project = $data['kode_project'];
+        $time->hps = $data['hps'];
+        $time->nama_institusi = $data['nama_institusi'];
+        $time->nama_project = $data['nama_project'];
+        $time->nama_pmlead = Auth::user()->name;
+        $time->sign_pm=$data['sign_pm'];
+        $time->save();
 
         return redirect('listprojectpm')->with('success', 'Task Created Successfully!');
     }
@@ -107,7 +112,7 @@ class ListProjectPmController extends Controller
     public function listprojectpm(Request $request)
     {
         $id = $request->id;
-        $data = ListProjectPm::find($id);
+        $data = SalesOrder::find($id);
         return response()->json($data);
     }
 }

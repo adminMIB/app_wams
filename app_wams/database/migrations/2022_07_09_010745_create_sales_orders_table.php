@@ -16,17 +16,15 @@ class CreateSalesOrdersTable extends Migration
         Schema::create('sales_orders', function (Blueprint $table) {
             $table->id();
             $table->string('no_so');
-            $table->string('kode_project')->nullable();
+            $table->string('kode_project');
             $table->string('institusi');
             $table->string('project');
+            $table->string('tgl_so');
             $table->string('hps');
-            $table->string('file_quotation');
-            $table->string('file_po');
-            $table->string('file_spk');
-            $table->string('jenis_dok')->nullable();
-            $table->string('file_dokumen')->nullable();
+            $table->string('file_dokumen');
             $table->string('status')->default('Pending');
-            $table->string('name_user')->nullable();
+            $table->string('note')->nullable();
+            $table->string('name_user');
             $table->timestamps();
         });
     }

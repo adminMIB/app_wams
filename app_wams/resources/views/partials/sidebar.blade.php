@@ -7,10 +7,9 @@
       <a href="index.html"><img src="image/Logo.png" width="30" height="30" alt=""></a>
     </div>
 
-    {{-- super admin --}}
+    
     @include('partials.menu')
 
-    {{--  --}}
-
+    
   </aside>
 </div>

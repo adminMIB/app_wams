@@ -63,6 +63,7 @@
                     <textarea class="form-control" name="Note"  readonly>{{$detail->Note}} </textarea>
                     </div>
                 </div>
+                <a href="/index-sales" class="btn btn-primary">Back</a>
         </div>
        </div>
 

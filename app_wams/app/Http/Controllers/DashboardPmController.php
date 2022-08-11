@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ListToPm;
 use Illuminate\Http\Request;
 
 class DashboardPmController extends Controller
 {
     public function index()
     {
-        return view('dashboardpm');
+        $datas = ListToPm::all()->count();
+        $data = ListToPm::all();
+        return view('dashboardpm',compact('datas','data'));
     }
+
 }

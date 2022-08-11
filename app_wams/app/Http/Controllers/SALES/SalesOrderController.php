@@ -11,13 +11,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 
 class SalesOrderController extends Controller
 {
+    private $mediaCollection = 'file_dokumen';
+    
     public function index()
     {
-        $odr = SalesOrder::orderBy("created_at", "ASC")->paginate(10);
-        return view('SALES.slsorder', compact('odr'));
+        // $products = SalesOrder::whereIn('id', explode(",", $products->user_id))->get();
+        $products = SalesOrder::all();
+        return view('SALES.slsorder', [
+            'products' => $products,
+            'mediaCollection' => $this->mediaCollection
+        ]);
+        // $odr = SalesOrder::orderBy("created_at", "ASC")->paginate(10);
+        // return view('SALES.slsorder', compact('odr'));
     }
 
     public function create()
@@ -34,9 +43,11 @@ class SalesOrderController extends Controller
         {
             $dd = "001";
         }
+        $pmLead = Role::with('users')->where("name", "PM Lead")->get();
+        $TechnikelLead = Role::with('users')->where("name", "Technikal Lead")->get();
         $odr = SalesOrder::all();
         $lpa = ListProjectAdmin::all();
-        return view('SALES.create', compact('odr', 'dd', 'lpa')); //, compact('kd')
+        return view('SALES.create', compact('odr', 'dd', 'lpa', 'pmLead', 'TechnikelLead')); //, compact('kd')
     }
 
     public function store(Request $request)
@@ -46,10 +57,6 @@ class SalesOrderController extends Controller
                 "no_so" => "required|string|unique:sales_orders",
                 "institusi" => "required|string|max:30",
                 "project" => "required|string|max:30",
-                "file_quotation" => "required|mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
-                "file_po" => "required|mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
-                "file_spk" => "required|mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
-                "file_dokumen" => "required|mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
                 "hps" => "required|string|max:30",
                 // "no_doc" => "required|string|max:30|unique:sales_orders"
             ]);
@@ -58,85 +65,60 @@ class SalesOrderController extends Controller
             return response()->json($validate->errors());
         }
 
-        $file_quotation = $request->file('file_quotation');
-        $file_quotation_ext = $file_quotation->getClientOriginalName();
-        $file_quotation_name = time(). $file_quotation_ext;
-        $file_quotation_path = public_path('/files/quota');
-        $file_quotation->move($file_quotation_path, $file_quotation_name);
-        
-        $file_po = $request->file('file_po');
-        $file_po_ext = $file_po->getClientOriginalName();
-        $file_po_name = time(). $file_po_ext;
-        $file_po_path = public_path('/files/po');
-        $file_po->move($file_po_path, $file_po_name);
-        
-        $file_spk = $request->file('file_spk');
-        $file_spk_ext = $file_spk->getClientOriginalName();
-        $file_spk_name = time(). $file_spk_ext;
-        $file_spk_path = public_path('/files/spk');
-        $file_spk->move($file_spk_path, $file_spk_name);
-        
-        $file_dokumen = $request->file('file_dokumen');
-        $file_dokumen_ext = $file_dokumen->getClientOriginalName();
-        $file_dokumen_name = time(). $file_dokumen_ext;
-        $file_dokumen_path = public_path('/files/dokumen');
-        $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
-        
- 
+        $product = SalesOrder::create([
+            'name_user' => Auth::user()->name,
+            'no_so' => $request->no_so,
+            'kode_project' => $request->kode_project,
+            'institusi' => $request->institusi,
+            'project' => $request->project,
+            'hps' => $request->hps,
+            'tgl_so' => $request->tgl_so,
+            'listpa_id' => $request->listpa_id,
+            'file_dokumen' => implode(",", $request->file_dokumen),
+            'signPm_lead' => $request->signPm_lead,
+            'signTeknikal_lead' => $request->signTeknikal_lead,
+        ]);
+        foreach ($request->input('file_dokumen', []) as $file) {
+            $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
+        }
 
-        $so = new SalesOrder;
-        $angka = $so->no_so = $request->no_so;
-        $s = substr($angka, 11);
-        
-        // dd($s);
-        $so->name_user = Auth::user()->name;
-        $so->no_so = $request->no_so;
-        $so->kode_project = $s;
-        $so->institusi = $request->institusi;
-        $so->project = $request->project;
-        $so->hps = $request->hps;
-        $so->listpa_id = $request->listpa_id;
-        $so->file_quotation = $file_quotation_name;
-        $so->file_po = $file_po_name;
-        $so->file_spk = $file_spk_name;
-        $so->jenis_dok = $request->jenis_dok;
-        $so->file_dokumen = $file_dokumen_name;
-        $so->save();
-    
-        
-        // $nmq = $request->file_quotation;
-        // $file_quotation = time().$nmq->getClientOriginalName();
-        // $nmq->move(public_path().'/files/quota', $file_quotation);
-
-        // $nmp = $request->file_po;
-        // $file_po = time().$nmp->getClientOriginalName();
-        // $nmp->move(public_path().'/files/po', $file_po);
-
-        // $nms = $request->file_spk;
-        // $file_spk = time().$nms->getClientOriginalName();
-        // $nms->move(public_path().'/files/spk', $file_spk);
-        
-        // $nmd = $request->file_dokumen;
-        // $file_dokumen = time().$nmd->getClientOriginalName();
-        // $nmd->move(public_path().'/files/dokumen', $file_dokumen);
-        
-        // SalesOrder::create([
-        //     "institusi" => $request->institusi,
-        //     "project" => $request->project,
-        //     "hps" => $request->hps,
-        //     "file_quotation" => $request->upload = $file_quotation,
-        //     "file_po" => $request->upload = $file_po,
-        //     "file_spk" => $request->upload = $file_spk,
-        //     "file_dokumen" => $request->upload = $file_dokumen,
-        //     "status" => $request->status,
-        //     // "no_doc" => $request->no_doc
-        // ]);
+        // $so = new SalesOrder;
+        // $so->name_user = Auth::user()->name;
+        // $so->no_so = $request->no_so;
+        // $so->kode_project = $request->kode_project;
+        // $so->institusi = $request->institusi;
+        // $so->project = $request->project;
+        // $so->hps = $request->hps;
+        // $so->tgl_so = $request->tgl_so;
+        // $so->listpa_id = $request->listpa_id;
+        // $so->file_dokumen = $request->file_dokumen = $name;
+        // $so->signPm_lead = $request->signPm_lead;
+        // $so->signTeknikal_lead = $request->signTeknikal_lead;
+        // $so->save();
 
         return redirect('slsorder');
 
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
+    }
+
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path('tmp/uploads');
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $request->file('file');
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
     }
 
     public function export()
@@ -146,24 +128,26 @@ class SalesOrderController extends Controller
 
     public function edit($id)
     {
-        $getOneById = SalesOrder::find($id);
-
-        return view('SALES.SOedit', compact('getOneById'));
+        $product = SalesOrder::with('pmLead', 'teknikalLead')->find($id);
+        // foreach ($product->pm_lead as $key => $value) {
+            
+        //     return $value;
+        // }
+        // return $product->pm_lead->name;
+        return view('SALES.SOedit', ['product' => $product, 'file_dokumens' => $product->getMedia($this->mediaCollection)]);
+        
+        // $getOneById = SalesOrder::find($id);
+        // return view('SALES.SOedit', compact('getOneById'));
     }
 
     public function update(Request $request, $id)
     {
-        // $so = SalesOrder::findOrFail($id);
-        $update=SalesOrder::find($id);
+        $product = SalesOrder::with('file_dokumens')->find($id);
         try {
             $validate = Validator::make($request->all(), [
                 "no_so" => "required|string",
                 "institusi" => "required|string|max:30",
                 "project" => "required|string|max:30",
-                "file_quotation" => "mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
-                "file_po" => "mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
-                "file_spk" => "mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
-                "file_dokumen" => "mimes:doc,docx,pdf,xls,xlsx,ppt,pptx",
                 "hps" => "required|string|max:30",
                 // "no_doc" => "required|string|max:30|unique:sales_orders"
             ]);
@@ -171,169 +155,49 @@ class SalesOrderController extends Controller
         if ($validate->fails()) {
             return response()->json($validate->errors());
         }
+        
+        $product->no_so = $request->no_so;
+        $product->institusi = $request->institusi;
+        $product->project = $request->project;
+        $product->hps = $request->hps;
+        $product->file_dokumen = implode(",", $request->file_dokumen);
+        $product->update();
 
         
-        $file_quotation = $request->file('file_quotation');
-        
-        if(!empty($file_quotation))
-        {
-            // quotation
-            $file_quotation_ext = $file_quotation->getClientOriginalName();
-            $file_quotation_name = time(). $file_quotation_ext;
-            $file_quotation_path = public_path('files/quota/');
-            $file_quotation->move($file_quotation_path, $file_quotation_name);
-            if(!empty($update->file_quotation))
-            {
-                unlink('files/quota/'.$update->file_quotation);
-            }
-            // $salt_image = bin2hex(openssl_random_pseudo_bytes(22));
-            // $get_image_name = $salt_image.'.'.$file_quotation->getClientOriginalExtension();
-            // $uplode_image_path = 'upload_file_path';
-            // $file_quotation->move($uplode_image_path, $get_image_name);
-            // if(!empty($update->filename))
-            // {
-            //     unlink('upload_file_path/'.$update->filename);
-            // }
-        }
-        else
-        {
-            $file_quotation_name=$update->file_quotation;
-        }
-
-        $file_po = $request->file('file_po');
-        
-        if(!empty($file_po))
-        {
-            // po
-            $file_po_ext = $file_po->getClientOriginalName();
-            $file_po_name = time(). $file_po_ext;
-            $file_po_path = public_path('files/po/');
-            $file_po->move($file_po_path, $file_po_name);
-            if(!empty($update->file_po))
-            {
-                unlink('files/po/'.$update->file_po);
+        if (count($product->file_dokumens) > 0) {
+            foreach ($product->file_dokumens as $media) {
+                if (!in_array($media->file_name, $request->input('file_dokumen', []))) {
+                    $media->delete();
+                }
             }
         }
-        else
-        {
-            $file_po_name=$update->file_po;
-        }
-
-        $file_spk = $request->file('file_spk');
         
-        if(!empty($file_spk))
-        {
-            // spk
-            $file_spk_ext = $file_spk->getClientOriginalName();
-            $file_spk_name = time(). $file_spk_ext;
-            $file_spk_path = public_path('files/spk/');
-            $file_spk->move($file_spk_path, $file_spk_name);
-            if(!empty($update->file_po))
-            {
-                unlink('files/spk/'.$update->file_spk);
+        $media = $product->file_dokumens->pluck('file_name')->toArray();
+        
+        foreach ($request->input('file_dokumen', []) as $file) {
+            if (count($media) === 0 || !in_array($file, $media)) {
+                $product->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
             }
         }
-        else
-        {
-            $file_spk_name=$update->file_spk;
-        }
         
-        $file_dokumen = $request->file('file_dokumen');
-        
-        if(!empty($file_dokumen))
-        {
-            // dokumen
-            $file_dokumen_ext = $file_dokumen->getClientOriginalName();
-            $file_dokumen_name = time(). $file_dokumen_ext;
-            $file_dokumen_path = public_path('files/dokumen/');
-            $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
-            if(!empty($update->file_po))
-            {
-                unlink('files/dokumen/'.$update->file_dokumen);
-            }
-        }
-        else
-        {
-            $file_dokumen_name=$update->file_dokumen;
-        }
-
-        $update->no_so = $request->no_so;
-        $update->institusi = $request->institusi;
-        $update->project = $request->project;
-        $update->hps = $request->hps;
-        $update->file_quotation = $file_quotation_name;
-        $update->file_po = $file_po_name;
-        $update->file_spk = $file_spk_name;
-        $update->jenis_dok = $request->jenis_dok;
-        $update->file_dokumen = $file_dokumen_name;
-        $update->update();
-
-        
-
-        // $fileName = time().$request->file('file_quotation')->getClientOriginalName();
-        // $file_quotation = $request->file('file_quotation')->store(substr('public/file/quotadisti', 22));
-        // $file_po = $request->file('file_po')->store(substr('public/file/po', 14));
-        // $file_spk = $request->file('file_spk')->store(substr('public/file/spk', 15));
-        
-        // $nmq = $request->file_quotation;
-        // $file_quotation = time().$nmq->getClientOriginalName();
-        // $nmq->move(public_path().'/files/quota', $file_quotation);
-
-        // $nmp = $request->file_po;
-        // $file_po = time().$nmp->getClientOriginalName();
-        // $nmp->move(public_path().'/files/po', $file_po);
-
-        // $nms = $request->file_spk;
-        // $file_spk = time().$nms->getClientOriginalName();
-        // $nms->move(public_path().'/files/spk', $file_spk);
-        
-        // $nmd = $request->file_dokumen;
-        // $file_dokumen = time().$nmd->getClientOriginalName();
-        // $nmd->move(public_path().'/files/dokumen', $file_dokumen);
-
-        // if ($request->hasFile('file_quotation')) {
-        //     unlink($file_quotation);
-
-        //     $nmq = $request->file_quotation;
-        //     $file_quotation = time().$nmq->getClientOriginalName();
-        //     $nmq->move(public_path().'/files/quota', $file_quotation);
-        // }
-
-        // $so->update([
-        //     "institusi" => $request->institusi,
-        //     "project" => $request->project,
-        //     "hps" => $request->hps,
-        //     "file_quotation" => $request->upload = $file_quotation,
-        //     "file_po" => $request->upload = $file_po,
-        //     "file_spk" => $request->upload = $file_spk,
-        //     "status" => $request->status,
-        //     // "no_doc" => $request->no_doc
-        // ]);
-
         return redirect('slsorder');
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
+        // return redirect()->route('products.index');
+        // $update=SalesOrder::find($id);
     }
 
     public function destroy($id)
     {
-        $so = SalesOrder::find($id);
-
-        $file_quotation = public_path()."/files/quota/".$so->file_quotation;
-        unlink($file_quotation);
-
-        $file_po = public_path()."/files/po/".$so->file_po;
-        unlink($file_po);
-
-        $file_spk = public_path()."/files/spk/".$so->file_spk;
-        unlink($file_spk);
-
-        $file_dokumen = public_path()."/files/dokumen/".$so->file_dokumen;
-        unlink($file_dokumen);
-
-        $so -> delete();
-
+        SalesOrder::find($id)->delete();
         return redirect('slsorder');
+    }
+
+    public function addso(Request $request)
+    {
+        $id = $request->id;
+        $data = ListProjectAdmin::find($id);
+        return response()->json($data);
     }
 }

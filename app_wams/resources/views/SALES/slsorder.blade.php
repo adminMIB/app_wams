@@ -28,20 +28,18 @@
                 <th>No Sales Order</th>
                 <th>TGL Project</th>
                 <th>Nama Institusi</th>
-                <th>Jenis Dokumen</th>
                 <th>File</th>
                 <th>Status</th>
                 <th>Editor</th>
                 <th>Action</th>
               </tr>
-              @foreach ($odr as $item)
+              @foreach ($products as $item)
               <tr class="text-center">
                 <td>{{$loop->iteration }}</td>
                 <td>{{$item->no_so }}</td>
                 <td>{{$item->created_at->format('d/m/Y')}}</td>
                 <td>{{$item->institusi}}</td>
-                <td>{{$item->jenis_dok}}</td>
-                <td><a href="/files/dokumen/{{$item->file_dokumen}}">{{$item->file_dokumen}}</a></td>
+                <td ><a href="storage/{{$item->file_dokumen}}">{{$item->file_dokumen}}</a></td>
                 <td>
                   @if ($item->status == 'Pending')
                   <div class="text-warning">{{$item->status}}</div>
@@ -53,8 +51,15 @@
                  </td>
                  <td>{{$item->name_user}}</td>
                 <td>
-                  <a href="{{url('/Sedit', $item->id)}}" class="btn btn-info"><i class="far fa-edit"></i></a>
-                  <a href="{{url('/del', $item->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                  <a href="{{ route('Sedit', ['id' => $item->id]) }}" class="btn btn-info">Edit</a>
+                  <form class="d-inline mx-1" action="{{ route('del', ['id' => $item->id]) }}"
+                     method="POST">
+                     @method('DELETE')
+                     @csrf
+                     <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  {{-- <a href="{{url('/Sedit', $item->id)}}" class="btn btn-info"><i class="far fa-edit"></i></a>
+                  <a href="{{url('/del', $item->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a> --}}
                 </td>
               </tr>
               @endforeach
@@ -62,9 +67,9 @@
             </table>
           </div>
         </div>
-        <div class="card-footer">
-          {{ $odr->links() }}
-        </div>
+        {{-- <div class="card-footer">
+          {{ $->links() }}
+        </div> --}}
       </div>
   </section>
 @endsection
