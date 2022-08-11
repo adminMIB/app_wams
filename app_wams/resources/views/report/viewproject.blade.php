@@ -24,8 +24,8 @@
                         <th>Nama Project</th>
                         <th>Nama AM</th>
                         <th>HPS</th>
-  
-                        
+
+
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +38,6 @@
                         <td>{{$item->lists->nama_project}}</td>
                         <td>{{$item->lists->nama_sales}}</td>
                         <td>{{$item->lists->hps}}</td>
-             
                     </tr>
                     @endif
                     @endforeach

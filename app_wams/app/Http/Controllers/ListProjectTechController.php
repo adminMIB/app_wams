@@ -19,10 +19,10 @@ class ListProjectTechController extends Controller
      */
     public function index()
     {
-
-        $list = ListToPm::all();
-        $user = Role::with('users')->where('name', 'Technikal')->get();
-        return view('list_technical.listproject', compact('list', 'user'));
+        $datas = ListToPm::all()->count();
+        $data = ListToPm::all();
+        $tk =ListProjectTech::all();
+        return view('list_technical.index-list',compact('data','datas','tk'));
     }
 
     /**
@@ -32,7 +32,13 @@ class ListProjectTechController extends Controller
      */
     public function create()
     {
-        //
+        
+        $datas = ListToPm::all()->count();
+        $data = ListToPm::all();
+        $list = ListToPm::all();
+        $user = Role::with('users')->where('name', 'Technikal')->get();
+        return view('list_technical.listproject', compact('list', 'user', 'data', 'datas'));
+        
     }
 
     /**
@@ -66,10 +72,11 @@ class ListProjectTechController extends Controller
         }
 
 
+
         $data['user_id'] = implode(",", $request->user_id);
-        $data['no_sales'] =$request->nama_sales;
-        $data['tgl_sales']=$request->tgl_sales;
-        $data['kode_project']=$request->kode_project;
+        $data['no_sales'] = $request->no_sales;
+        $data['tgl_sales'] = $request->tgl_sales;
+        $data['kode_project'] = $request->kode_project;
         $data['nama_institusi'] = $request->nama_institusi;
         $data['nama_project'] = $request->nama_project;
         $data['hps'] = $request->hps;
@@ -77,7 +84,7 @@ class ListProjectTechController extends Controller
         $data['jenis_dokumen'] = $request->jenis_dokumen;
         $data['upload_dokumen'] = $request->upload_dokumen = $name;
         $post = ListProjectTech::create($data);
-        return redirect('listproject')->with('success', 'Adit');
+        return redirect('index-list')->with('success', 'Data Berhasil Di Simpan');
     }
 
     /**
@@ -123,7 +130,9 @@ class ListProjectTechController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tk= ListProjectTech::find($id);
+        $tk->delete();
+        return back();
     }
     public function work(Request $request)
     {

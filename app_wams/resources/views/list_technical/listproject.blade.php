@@ -5,7 +5,7 @@
 @section('content')
 @include('sweetalert::alert')
 <section class="section">
-<div class="section-header">
+  <div class="section-header">
     <h2>List Project Technikal</h2>
   </div>
   <div class="card">
@@ -18,7 +18,7 @@
         <input type="hidden" name="no_sales" id="no_sales" class="form-control">
         <div class="row">
           <div class="col">
-            <label for="id" class="form-label" style="font-weight: bold; color:black">Project ID</label>
+            <label for="id" class="form-label">Project ID</label>
             <select id="id" class="form-control" name="project_id">
               <option value=""></option>
               @foreach($list as $v)
@@ -32,7 +32,7 @@
 
 
           <div class="col-sm-3">
-            <label for="code" class="form-label" style="font-weight: bold; color:black">Nama Institusi</label>
+            <label for="code" class="form-label">Nama Institusi</label>
             <input type="text" id="nama_institusi" name="nama_institusi" class="form-control @error('institusi') is-invalid @enderror" readonly required>
             @error('institusi')
             <div class="invalid-feedback">{{$message}}</div>
@@ -40,7 +40,7 @@
           </div>
 
           <div class="col-sm-3">
-            <label for="institusi" class="form-label" style="font-weight: bold; color:black">Nama Sales</label>
+            <label for="institusi" class="form-label">Nama Sales</label>
             <input type="text" id="nama_sales" name="nama_sales" class="form-control @error('name_user') is-invalid @enderror" readonly required>
             @error('name_user')
             <div class="invalid-feedback">{{$message}}</div>
@@ -51,7 +51,7 @@
 
         <div class="row g-3">
           <div class="col-sm-6">
-            <label for="project" class="form-label" style="font-weight: bold; color:black">Nama Project</label>
+            <label for="project" class="form-label">Nama Project</label>
             <input type="text" id="nama_project" name="nama_project" class="form-control @error('project') is-invalid @enderror" readonly required>
             @error('project')
             <div class="invalid-feedback">{{$message}}</div>
@@ -60,7 +60,7 @@
 
 
           <div class="col-sm-3">
-            <label for="jenis_dokumen" class="form-label" style="font-weight: bold; color:black">Jenis Dokumen</label>
+            <label for="jenis_dokumen" class="form-label">Jenis Dokumen</label>
             <select name="jenis_dokumen" id="jenis_dokumen" class="form-control @error('jenis_dokumen') is-invalid @enderror">
               <option selected>Pilih Dokumen</option>
               <option value="pdf">Pdf</option>
@@ -73,7 +73,7 @@
           </div>
 
           <div class="col-sm">
-            <label for="upload_dokumen" class="form-label" style="font-weight: bold; color:black">Upload Dokumen</label>
+            <label for="upload_dokumen" class="form-label">Upload Dokumen</label>
             <input type="file" name="upload_dokumen[]" multiple="multiple" class="form-control @error('upload_dokumen') is-invalid @enderror">
             @error('upload_dokumen')
             <div class="invalid-feedback">{{$message}}</div>
@@ -84,7 +84,7 @@
         <br>
         <div class="row g-3">
           <div class="col-sm-6">
-            <label for="project" class="form-label" style="font-weight: bold; color:black">HPS</label>
+            <label for="project" class="form-label">HPS</label>
             <input type="text" id="hps" name="hps" class="form-control @error('hps') is-invalid @enderror" readonly required>
             @error('hps')
             <div class="invalid-feedback">{{$message}}</div>
@@ -106,19 +106,22 @@
             @enderror
           </div>
         </div>
-        <br>
+        <!-- <br>
+        <div class="needsclick dropzone" id="document-dropzone">
 
-        <button type="submit" class="btn btn-primary">Save</button>
+        </div> -->
+        <br>
+        <a href="{{url ('index-list')}}" class="btn btn-danger" style="border-radius: 3em;">Back</a>
+        <button type="submit" class="btn btn-primary" style="border-radius: 3em;">Save</button>
+
     </div>
     </form>
   </div>
   </div>
   <!-- Nama CLient -->
-
-
   @endsection
-  @section('js')
 
+  @section('js')
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script>
     $('#id').change(function() {

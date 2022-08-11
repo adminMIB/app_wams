@@ -78,8 +78,7 @@
 {{-- JS assets at the bottom --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- Option 1: Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 {{-- ...Some more scripts... --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 <script>
@@ -100,29 +99,30 @@
             file.previewElement.remove()
             var name = ''
             if (typeof file.file_name !== 'undefined') {
-            name = file.file_name
+                name = file.file_name
             } else {
-            name = uploadedDocumentMap[file.name]
+                name = uploadedDocumentMap[file.name]
             }
             $('form').find('input[name="file_dokumen[]"][value="' + name + '"]').remove()
         },
         init: function() {
             @if (isset($file_dokumens))
-            var files =
-            {!! json_encode($file_dokumens) !!}
-            for (var i in files) {
-            var file = files[i]
-            console.log(file);
-            file = {
-            ...file,
-            width: 226,
-            height: 324
-            }
-            this.options.addedfile.call(this, file)
-            // this.options.thumbnail.call(this, file, file.original_url)
-            file.previewElement.classList.add('dz-complete')
-            $('form').append('<input type="hidden" name="file_dokumen[]" value="' + file.file_name + '">')
-            }
+                var files =
+                {!! json_encode($file_dokumens) !!}
+                for (var i in files) {
+                var file = files[i]
+                console.log(file);
+                file = {
+                ...file,
+                width: 226,
+                height: 324
+                }
+                this.options.addedfile.call(this, file)
+                this.options.thumbnail.call(this, file, file.original_url)
+                file.previewElement.classList.add('dz-complete')
+
+                $('form').append('<input type="hidden" name="file_dokumen[]" value="' + file.file_name + '">')
+                }
             @endif
         }
     }

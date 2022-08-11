@@ -21,7 +21,7 @@ class CreateListProjetsTable extends Migration
             $table->string("nama_sales");
             $table->string("nama_institusi");
             $table->string("nama_project");
-            $table->string("quantity")->nullable();
+            $table->string("nama_pm")->nullable();
             $table->string("hps");
             $table->timestamps();
         });

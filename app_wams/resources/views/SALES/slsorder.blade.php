@@ -40,8 +40,10 @@
                 <td>{{$item->created_at->format('d/m/Y')}}</td>
                 <td>{{$item->institusi}}</td>
                 <td>
-                  @foreach (explode(",", $item->file_dokumen) as $file)
-                  <a href="tmp/uploads/{{$file}}">{{$file}}<br></a>
+                  @foreach ($item->file_dokumens as $i)
+                  @foreach (explode("," , $i->file_name) as $a) 
+                  <a href="storage/{{$i->id}}/{{$a}}">{{$a}}<br></a>
+                  @endforeach
                   @endforeach
                 <td>
                   @if ($item->status == 'Pending')

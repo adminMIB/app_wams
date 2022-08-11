@@ -117,9 +117,10 @@ Route::group(['middleware' ], function () {
   //! Route PM
   Route::get('/dashboardpm', [DashboardPmController::class, 'index'])->name('dasboardpm');
 
-
-  Route::get('/listproject', [ListProjectTechController::class, 'index'])->name('listproject');
+  Route::get('/index-list',[ListProjectTechController::class,'index'])->name('index-list');
+  Route::get('/listproject', [ListProjectTechController::class, 'create'])->name('listproject');
   Route::post('/simpan-list', [ListProjectTechController::class, 'store'])->name('simpan-list');
+  Route::get('/list-delete/{id}',[ListProjectTechController::class,'destroy'])->name('list-delete');
   Route::post('/work_order', [ListProjectTechController::class, 'work']);
 
 
@@ -127,8 +128,10 @@ Route::group(['middleware' ], function () {
   Route::get('/input', [TimeLineController::class, 'create'])->name('input');
   Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data');
   Route::get('/edittml/{id}', [TimeLineController::class, 'edit'])->name('edittml');
+  Route::post('/updatetml/{id}',[TimeLineController::class,'update'])->name('updatetml');
   Route::post('/list-project', [TimeLineController::class, 'list'])->name('list');
   Route::get('/detail_timeline/{id}', [TimeLineController::class, 'show'])->name('detail_timeline');
+
 
   Route::get('/list_project', [ListProjectController::class, 'index'])->name('list_project');
 });
@@ -236,8 +239,10 @@ Route::group(['middleware'  => ['role:Project Admin']], function () {
   Route::get('/adminprojectShow/{id}', [AdminController::class, 'show'])->name('/adminprojectShow');
   Route::get('/adminprojecDelete/{id}', [AdminController::class, 'destroy'])->name('/adminprojecDelete');
 
+
   Route::post('/admin/media', [AdminController::class, 'storeMedia'])->name('admin/media');
   // Route::get('/admin/donwload', [AdminController::class, 'download_local'])->name('/admin/donwload');
+
 
   Route::get('zip-download', [AdminController::class, 'downZip'])->name('zip-download');
 
@@ -247,6 +252,7 @@ Route::group(['middleware'  => ['role:Project Admin']], function () {
   Route::get('/adminproject/sales', [AmSalesController::class, 'index'])->name('/adminproject/sales');
   Route::get('/adminproject/salesCreate', [AmSalesController::class, 'create'])->name('/adminproject/salesCreate');
   Route::get('/adminShowSales/{id}', [AmSalesController::class, 'show'])->name('/adminShowSales');
+
   Route::put('/adminShowSalesUpdate/{id}', [AmSalesController::class, 'update'])->name('/adminShowSalesUpdate');
 });
 
@@ -254,6 +260,7 @@ Route::group(['middleware'  => ['role:Project Admin']], function () {
 //! Routing dashboard Technikallead
 Route::group(['middleware'  => ['role:Technikal Lead']], function () {
   Route::get('/TechnikalLead', [TechnikalLeadController::class, 'index'])->name('/TechnikalLead');
+
 
   Route::get('/inputTwos', [TechnikalLeadController::class, 'indexViewWo'])->name('/inputTwos');
   Route::get('/leadViewsDetailapproval/{id}', [TechnikalLeadController::class, 'showViwWo'])->name('/leadViewsDetailapproval');
@@ -265,6 +272,7 @@ Route::group(['middleware'  => ['role:Technikal Lead']], function () {
   Route::get('/tlWeeklyReport', [WeeklyReportControllerLead::class, 'index'])->name('/tlWeeklyReport');
   Route::get('/tlCretae', [WeeklyReportControllerLead::class, 'create'])->name('/tlCretae');
   Route::post('/tlStore', [WeeklyReportControllerLead::class, 'store'])->name('/tlStore');
+
 
 });
 

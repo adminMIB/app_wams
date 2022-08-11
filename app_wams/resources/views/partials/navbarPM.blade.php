@@ -1,9 +1,3 @@
-{{-- @if (Auth::user()->hasRole('Management'))
-@endif
- --}}
-
-
-
 <nav class="navbar navbar-expand-lg main-navbar">
   <form class="form-inline mr-auto">
     <ul class="navbar-nav mr-3">
@@ -12,45 +6,41 @@
     </ul>
     <div class="search-element">
       <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="500" style="border-radius: 1em; border-color:rgba(208, 208, 208, 0.947)">
-      <button class="btn" type="submit" style="margin-left: 20px; border-radius:1em; background-color:rgba(208, 208, 208, 0.947); color:white">Search</button>
+      <button class="btn" type="submit" style="margin-left: 20px; border-radius:1em; background-color:rgba(208, 208, 208, 0.947); color:white">Seasssrch</button>
     </div>
   </form>
   <ul class="navbar-nav navbar-right">
     <li class="dropdown dropdown-list-toggle" style="margin-right:0.6em">
-      {{-- @foreach ($datas as $item)
-          
-      <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="fa fa-bell" style="color: rgb(27, 27, 27); ">{{$item->project}}</i>
+      <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep">
+
+        <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
+          @if (!$datas)
+          <span></span>
+          @else
+          <span>{{$datas}}</span>
+          @endif
+        </i>
+        {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); "></i> --}}
       </a>
-      @endforeach --}}
       <div class="dropdown-menu dropdown-list dropdown-menu-right">
         <div class="dropdown-header">Notifications
           <div class="float-right">
-            <a href="#">Mark All As Read</a>
+
           </div>
         </div>
         <div class="dropdown-list-content dropdown-list-icons">
-          {{-- @foreach ($datas as $item)
-
-          <a href="#" class="dropdown-item dropdown-item-unread">
-            <div class="dropdown-item-icon bg-primary text-white">
-              <i class="fas fa-code"></i>
+          @foreach ($data as $item)
+          <a class="dropdown-item" data-toggle="modal" data-target="#exampleModal">
+            <div class="dropdown-item-icon bg-danger text-white">
+              <i class="fas fa-file"></i>
             </div>
             <div class="dropdown-item-desc">
-              Template update is available now!
-              <div class="time text-primary">2 Min Ago</div>
+              <b>{{$item->nama_institusi}}</b> and <b>{{$item->nama_project}}</b>
+              <div class="time">{{$item->nama_sales}}</div>
             </div>
           </a>
-      @endforeach --}}
-          <a href="#" class="dropdown-item">
-            <div class="dropdown-item-icon bg-info text-white">
-              <i class="far fa-user"></i>
-            </div>
-            <div class="dropdown-item-desc">
-              <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-              <div class="time">10 Hours Ago</div>
-            </div>
-          </a>
-          <a href="#" class="dropdown-item">
+          @endforeach
+          <!-- <a href="#" class="dropdown-item">
             <div class="dropdown-item-icon bg-success text-white">
               <i class="fas fa-check"></i>
             </div>
@@ -76,21 +66,20 @@
               Welcome to Stisla template!
               <div class="time">Yesterday</div>
             </div>
-          </a>
+          </a> -->
         </div>
         <div class="dropdown-footer text-center">
-          <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+          <a href="{{route ('list_project')}}">View All <i class="fas fa-chevron-right"></i></a>
         </div>
       </div>
+
     </li>
 
     {{-- acount --}}
     @if (!Auth::user())
     <p>none</p>
-    @else
-
-    <div class="d-sm-none d-lg-inline-block" style="color: black; margin-right:0.6em">{{ Auth::user()->name}}</div></a>
     @endif
+    <div class="d-sm-none d-lg-inline-block" style="color: black; margin-right:0.6em">{{ Auth::user()->name}}</div></a>
 
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
         <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
@@ -111,8 +100,12 @@
               @csrf
               <button class="btn btn-danger">Logout</button>
             </form>
+
           </a>
+
         </div>
     </li>
   </ul>
 </nav>
+
+<!-- @include('notificationsPM.detail_notif') -->

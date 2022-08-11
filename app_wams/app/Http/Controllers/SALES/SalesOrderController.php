@@ -20,7 +20,13 @@ class SalesOrderController extends Controller
     public function index()
     {
         // $products = SalesOrder::whereIn('id', explode(",", $products->user_id))->get();
-        $products = SalesOrder::all();
+        $products = SalesOrder::with('file_dokumens')->get();
+        // foreach ($products as $key => $value) {
+        //     // dd($value->file_dokumens);
+        //     foreach ($value->file_dokumens as $key => $v) {
+        //         dd($v->id);
+        //     }
+        // }
         // $c = 'mmlmlml';
         // explode('', $c);
         return view('SALES.slsorder', [
@@ -33,17 +39,17 @@ class SalesOrderController extends Controller
 
     public function create()
     {
-        $q = DB::table('sales_orders')->select(DB::raw('MAX(RIGHT(no_so,5)) as kode'));
+        $q = DB::table('sales_orders')->select(DB::raw('MAX(RIGHT(no_so,3)) as kode'));
         $dd = "";
         if ($q->count()>0)
         {
             foreach ($q->get() as $k) {
                 $tmp = ((int)$k->kode)+1;
-                $dd = sprintf("%05s", $tmp);
+                $dd = sprintf("%03s", $tmp);
             }
         } else
         {
-            $dd = "SO001";
+            $dd = "001";
         }
         $pmLead = Role::with('users')->where("name", "PM Lead")->get();
         $TechnikelLead = Role::with('users')->where("name", "Technikal Lead")->get();
@@ -81,7 +87,7 @@ class SalesOrderController extends Controller
             'signTeknikal_lead' => $request->signTeknikal_lead,
         ]);
         foreach ($request->input('file_dokumen', []) as $file) {
-            $product->addMedia(public_path('tmp/uploads/' . $file));
+            $product->addMedia(public_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
         }
 
         // $so = new SalesOrder;
@@ -162,7 +168,7 @@ class SalesOrderController extends Controller
         $product->institusi = $request->institusi;
         $product->project = $request->project;
         $product->hps = $request->hps;
-        $product->file_dokumen = implode(",", $request->file_dokumen);
+        $product->file_dokumen = implode(",\n", $request->file_dokumen);
         $product->update();
 
         
@@ -181,7 +187,7 @@ class SalesOrderController extends Controller
                 $product->addMedia(public_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
             }
         }
-        
+        // ->toMediaCollection($this->mediaCollection)
         return redirect('slsorder');
         } catch (\Exception $e) {
             return response()->json($e->getMessage());

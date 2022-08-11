@@ -21,14 +21,16 @@
         <select name="" id="id" class="form-control">
           <option value=""></option>
           @foreach($cb as $t)
-          <option value="{{$t->id}}">{{$t->id}}</option>
+          @if($t->status =='Approve')
+            <option value="{{$t->id}}">{{$t->kode_project}}</option>
+          @endif
           @endforeach
         </select>
       </div>
 
       <div class="col">
         <label for="no_sales" class="form-label" style="font-weight: bold; color:black">No Sales Order</label>
-        <input type="text" name="no_sales" id="no_sales" class="form-control" readonly>
+        <input type="text" name="no_sales" id="no_so" class="form-control" readonly>
         @error('no_sales')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -37,7 +39,7 @@
 
       <div class="col-sm-6">
         <label for="tgl_sales" class="form-label" style="font-weight: bold; color:black">Tanggal Sales Order</label>
-        <input type="text" name="tgl_sales" id="tgl_sales" class="form-control" readonly>
+        <input type="text" name="tgl_sales" id="tgl_so" class="form-control" readonly>
         @error('tgl_sales')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -49,7 +51,7 @@
     <div class="row g-3">
       <div class="col-sm-6">
         <label for="nama_sales" class="form-label" style="font-weight: bold; color:black">Nama Sales</label>
-        <input type="text" name="nama_sales" id="nama_sales" class="form-control" readonly>
+        <input type="text" name="nama_sales" id="name_user" class="form-control" readonly>
         @error('nama_sales')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -57,7 +59,7 @@
 
       <div class="col-sm-6">
         <label for="nama_institusi" class="form-label" style="font-weight: bold; color:black">Nama Institusi</label>
-        <input type="text" name="nama_institusi" id="nama_institusi" class="form-control" readonly>
+        <input type="text" name="nama_institusi" id="institusi" class="form-control" readonly>
         @error('nama_institusi')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -65,7 +67,7 @@
 
       <div class="col-sm-6">
         <label for="nama_project" class="form-label" style="font-weight: bold; color:black">Nama project</label>
-        <input type="text" name="nama_project" id="nama_project" class="form-control" readonly>
+        <input type="text" name="nama_project" id="project" class="form-control" readonly>
         @error('nama_project')
         <div class="invalid-feedback">{{$message}}</div>
         @enderror
@@ -125,11 +127,11 @@
         },
         url: "/listprojectpm"
       }).done(function(res) {
-        $("#no_sales").val(res.no_sales)
-        $("#nama_sales").val(res.nama_sales)
-        $("#tgl_sales").val(res.tgl_sales)
-        $("#nama_institusi").val(res.nama_institusi)
-        $("#nama_project").val(res.nama_project)
+        $("#no_so").val(res.no_so)
+        $("#name_user").val(res.name_user)
+        $("#tgl_so").val(res.tgl_so)
+        $("#institusi").val(res.institusi)
+        $("#project").val(res.project)
         $("#kode_project").val(res.kode_project)
         $("#hps").val(res.hps)
       })
