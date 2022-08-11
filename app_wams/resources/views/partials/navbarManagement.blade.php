@@ -20,11 +20,11 @@
       <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep">
         
         <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
-          @if (!$datas)
-          <span></span>   
-          @else
-          <span>{{$datas}}</span>               
-          @endif
+            @if (!$datas)
+              <span></span>   
+              @else
+              <span>{{$datas}}</span>               
+              @endif
         </i>
         {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">{{$loop->iteration}}</i> --}}
       </a>
@@ -48,17 +48,16 @@
           </a>
       @endforeach --}}
           <a href="#" class="dropdown-item">
-            
-            @if ($datas)
-            <div class="dropdown-item-icon bg-info text-white">
-              <i class="far fa-user"></i>
-            </div>
-            <div class="dropdown-item-desc">
-                <a href="/approval">Approval <span class="text-danger">{{$datas}}</span></a>
-                {{-- <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                  <div class="time">10 Hours Ago</div> --}}
-            </div>
-                @endif
+              @if ($datas)
+              <div class="dropdown-item-icon bg-info text-white">
+                <i class="far fa-user"></i>
+              </div>
+              <div class="dropdown-item-desc">
+                  <a href="/approval">Approval <span class="text-danger">{{$datas}}</span></a>
+                  {{-- <b>You</b> and <b>Dedik Sugiharto</b> are now friends
+                    <div class="time">10 Hours Ago</div> --}}
+              </div>
+              @endif
           </a>
           {{-- <a href="#" class="dropdown-item">
             <div class="dropdown-item-icon bg-success text-white">

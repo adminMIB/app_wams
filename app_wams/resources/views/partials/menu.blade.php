@@ -2,7 +2,7 @@
 <ul class="sidebar-menu">
   <li class="menu-header">Management Tools</li>
   <li class="nav-item ">
-    <a href="#" class="nav-link "><span>Dashboard</span></a>
+    <a href="/dashboardSuperAdmin" class="nav-link "><span>Dashboard</span></a>
   </li>
 
   <li class="nav-item dropdown">
@@ -44,7 +44,7 @@
 
 
 {{-- !Project Admin --}}
-@if (Auth::user()->hasRole('Project Admin'))
+@if (Auth::user()->hasRole('Project Admins'))
 <ul class="sidebar-menu">
   <li class="menu-header">admin Tools</li>
   <li class="nav-item ">
