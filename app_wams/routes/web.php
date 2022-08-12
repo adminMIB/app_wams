@@ -176,7 +176,7 @@ Route::group(['middleware'], function () {
   Route::post('/Esimpan-data', [ElearningController::class, 'store'])->name('Esimpan-data');
   Route::get('/edite/{id}', [ElearningController::class, 'edit'])->name('edite');
   Route::get('/delete/{id}', [ElearningController::class, 'destroy']);
-  Route::post('/update-data/{id}', [ElearningController::class, 'update'])->name('update-data');
+  Route::put('/update-data/{id}', [ElearningController::class, 'update'])->name('update-data');
 
   Route::get('/dashboard', [DashboardController::class, 'index']);
   Route::get('/report', [WeeklyReportController::class, 'index']);

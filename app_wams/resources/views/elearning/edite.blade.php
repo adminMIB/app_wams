@@ -8,7 +8,9 @@
   <hr>
   <div class="card">
     <div class="card-body">
-      <form action="/update-data/{$elearning->id}" method="POST" enctype="multipart/form-data">
+    <!-- {{route('/dashboard/saveUser')}} -->
+      <form action="{{route('update-data', $ele->id)}}" method="POST" enctype="multipart/form-data">
+        @method('PUT')
         {{csrf_field()}}
         <div class="row mb-3">
           <label for="" class="col-sm-3 col-form-label text-dark">Solusi / Produk</label>
@@ -31,7 +33,7 @@
         <div class="row mb-3">
           <label for="" class="col-sm-3 col-form-label text-dark">Pengalaman Implementasi</label>
           <div class="col-sm-8">
-            <textarea name="implementasi[]" id="" cols="40" rows="20" class="form-control" style="height:100px ;">{{$ele->implementasi}}</textarea>
+            <textarea name="implementasi" id="" cols="40" rows="20" class="form-control" style="height:100px ;">{{$ele->implementasi}}</textarea>
           </div>
         </div>
         <div class="row mb-5">
@@ -46,18 +48,21 @@
             <input type="file" class="form-control" name="upload">
           </div>
         </div>
-        <div class="row mb-3">
+        <!-- <div class="row mb-3">
           <label for="" class="col-sm-3 col-form-label text-dark">Pengalaman Implementasi</label>
           <div class="col-sm-8">
             <textarea name="implementasi[]" id="" cols="40" rows="20" class="form-control" style="height:100px ;">{{$ele->implementasi}}</textarea>
+            <a href='#' class='remove btn btn-danger'style='float:right;'><i class='fas fa-trash'></i></a>
           </div>
-        </div>
+       
+        </div> -->
         <div class="learn"></div>
+   
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
       <br>
    
-   <a href="#"><button id="addlearn" type="submit" class="addlearn btn btn-success btn-sm" style="float:right ;">Tambah</button></a>
+  
    
 </section>
 @endsection
@@ -69,7 +74,7 @@
   });
 
   function addlearn() {
-    var learn = "<div class='row mb-3'><label for=''class='col-sm-3 col-form-label text-dark'>Pengalaman Implementasi</label><div class='col-sm-8'><textarea name='implementasi[]' id='' cols='40' rows='20' class='form-control @error('implementasi[]') is-invalid @enderror' style='height:100px ;' placeholder='Pengalaman Implementasi Produk'></textarea><a href='#' class='remove btn btn-danger'style='float:right;'><i class='fas fa-trash'></i></a></div></div>";
+    var learn = "<div class='row mb-3'><label for=''class='col-sm-3 col-form-label text-dark'>Pengalaman Implementasi</label><div class='col-sm-8'><textarea name='implementasi' id='' cols='40' rows='20' class='form-control @error('implementasi[]') is-invalid @enderror' style='height:100px ;' placeholder='Pengalaman Implementasi Produk'></textarea><a href='#' class='remove btn btn-danger'style='float:right;'><i class='fas fa-trash'></i></a></div></div>";
     $('.learn').append(learn);
   };
   $('.remove').live('click', function() {

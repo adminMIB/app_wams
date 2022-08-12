@@ -10,5 +10,6 @@ class ElearnindDetail extends Model
     protected $fillable=[
         "produk","principle","deskripsi","upload"
     ];
-    
+
+  
 }
