@@ -1,6 +1,6 @@
 @if (Auth::user()->hasRole('Super Admin'))
 <ul class="sidebar-menu">
-  <li class="menu-header">Management Tools</li>
+  <li class="menu-header">Suoper Admin Tools</li>
   <li class="nav-item ">
     <a href="/dashboardSuperAdmin" class="nav-link "><span>Dashboard</span></a>
   </li>
@@ -28,7 +28,7 @@
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chart-pie"></i>Project Management</a>
   <div class="dropdown-menu" aria-labelledby="dropdown01">
-    <a class="nav-link" href="">Project Timeline</a>
+    <a class="nav-link" href="/timeline">Project Timeline</a>
 </div>
 </li>
 
@@ -111,7 +111,7 @@
     <a href="{{url ('dashboardpm')}}" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
   </li>
   <li class="nav-item"><a class="nav-link" href="{{url ('list_project')}}"><img src="image/Line.png" alt=""> <span>List View Project</span></a></li>
-  <li class="nav-item"><a class="nav-link" href="{{url ('listproject')}}"><img src="image/Line.png" alt=""> <span>List Project Technikal</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="{{url ('index-list')}}"><img src="image/Line.png" alt=""> <span>List Project Technikal</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('timeline')}}"><img src="image/Akar.png" alt=""> <span>Create Project Timeline</span></a></li>
 
 

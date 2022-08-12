@@ -213,18 +213,25 @@ Route::group(['middleware'], function () {
 
   //! Route PM
 Route::group(['middleware'], function () {
-  Route::get('/dashboardpm', [DashboardPmController::class, 'index'])->name('dasboardpm')->middleware(['permission:read data PM']);
-  Route::get('/listproject', [ListProjectTechController::class, 'index'])->name('listproject')->middleware(['permission:read data PM']);
+
+  Route::get('/index-list',[ListProjectTechController::class,'index'])->name('index-list')->middleware(['permission:read data PM']);
+  Route::get('/listproject', [ListProjectTechController::class, 'create'])->name('listproject')->middleware(['permission:create data PM']);
   Route::post('/simpan-list', [ListProjectTechController::class, 'store'])->name('simpan-list')->middleware(['permission:create data PM']);
+  Route::get('/list-delete/{id}',[ListProjectTechController::class,'destroy'])->name('list-delete')->middleware(['permission:delete data PM']);
   Route::post('/work_order', [ListProjectTechController::class, 'work'])->middleware(['permission:create data PM']);
+
 
   Route::get('/timeline', [TimeLineController::class, 'index'])->name('timeline')->middleware(['permission:read data PM']);
   Route::get('/input', [TimeLineController::class, 'create'])->name('input')->middleware(['permission:read data PM']);
   Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data')->middleware(['permission:create data PM']);
   Route::get('/edittml/{id}', [TimeLineController::class, 'edit'])->name('edittml')->middleware(['permission:read data PM']);
+  Route::post('/updatetml/{id}',[TimeLineController::class,'update'])->name('updatetml')->middleware(['permission:create data PM']);
   Route::post('/list-project', [TimeLineController::class, 'list'])->name('list')->middleware(['permission:create data PM']);
   Route::get('/detail_timeline/{id}', [TimeLineController::class, 'show'])->name('detail_timeline')->middleware(['permission:read data PM']);
+
   Route::get('/list_project', [ListProjectController::class, 'index'])->name('list_project')->middleware(['permission:read data PM']);
+
+
 
 });
 
@@ -236,8 +243,10 @@ Route::group(['middleware'], function () {
   Route::get('/adminprojectShow/{id}', [AdminController::class, 'show'])->name('/adminprojectShow')->middleware(['permission:detail data Project Admins']);
   Route::get('/adminprojecDelete/{id}', [AdminController::class, 'destroy'])->name('/adminprojecDelete')->middleware(['permission:delete data Project Admins']);;
 
+
   Route::post('/admin/media', [AdminController::class, 'storeMedia'])->name('admin/media');
   // Route::get('/admin/donwload', [AdminController::class, 'download_local'])->name('/admin/donwload');
+
 
   Route::get('zip-download', [AdminController::class, 'downZip'])->name('zip-download');
 
@@ -265,6 +274,7 @@ Route::group(['middleware'], function () {
   Route::get('/tlWeeklyReport', [WeeklyReportControllerLead::class, 'index'])->name('/tlWeeklyReport')->middleware(['permission:read data Technikal Lead']);;
   Route::get('/tlCretae', [WeeklyReportControllerLead::class, 'create'])->name('/tlCretae')->middleware(['permission:read data Technikal Lead']);;
   Route::post('/tlStore', [WeeklyReportControllerLead::class, 'store'])->name('/tlStore')->middleware(['permission:create data Technikal Lead']);;
+
 
 });
 

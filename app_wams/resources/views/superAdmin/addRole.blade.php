@@ -34,19 +34,22 @@
                 <h4>Add Permissions</h4>
                 
               </div>
-              <div class="form-check mt-3 ">
+              <div class="form-check">
                 @foreach ($permisions as $permision)
                   <div class="mb-1">
                       <input type="checkbox" name="names[]" value="{{$permision->name}}">
-                      <label class="form-check-label" name="name" for="defaultCheck1" style="font-size: 12px">
+                      <label class="form-check-label " name="name" for="defaultCheck1" style="font-size: 12px">
                         {{$permision->name}}
                       </label>
                   </div>
                     @endforeach
               </div>
-                
-                <button class="btn btn-primary mt-5 d-flex flex-end">Kirim</button>
-                </form>
+              <button class="btn btn-primary mt-5 d-flex ">Kirim</button>
+            </form>
+            <div>
+
+              <a href="/dashboard/role" class="btn btn-secondary mt-5 d-block flex-end">Kembali</a>
+            </div>
               </div>
             </div>
           

@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\ListProjectTech;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+
 class ListProjectTechController extends Controller
 {
     public function index()
     {
-        $data = ListProjectTech::orderBy("created_at", "DESC")
+        $data = ListProjectTech::with('users')->orderBy("created_at", "DESC")
             ->paginate(10);
 
         return response()->json([
@@ -24,10 +25,16 @@ class ListProjectTechController extends Controller
     {
         try {
             $validate = Validator::make($request->all(), [
+                "no_sales" =>"required",
+                "tgl_sales"=>"required",
+                "kode_project"=>"required",
+                "nama_sales"=>"required",
+                "nama_institusi"=>"required",
+                "nama_project"=>"required",
+                "hps"=>"required",
                 "jenis_dokumen" => "required",
                 "upload_dokumen" => "required",
                 "user_id" => "required",
-                "project_id" => "required",
 
             ]);
 
@@ -44,14 +51,17 @@ class ListProjectTechController extends Controller
                 $name = $name . $fileName . ".";
             }
 
-            $data = ListProjectTech::create([
-
-                "jenis_dokumen" => $request->jenis_dokumen,
-                "user_id" => $request->user_id,
-                "project_id" => $request->project_id,
-                "upload_dokumen" => $request->upload_dokumen = $name,
-
-            ]);
+            $data['user_id'] = implode(",", $request->user_id);
+            $data['no_sales'] = $request->no_sales;
+            $data['tgl_sales'] = $request->tgl_sales;
+            $data['kode_project'] = $request->kode_project;
+            $data['nama_institusi'] = $request->nama_institusi;
+            $data['nama_project'] = $request->nama_project;
+            $data['hps'] = $request->hps;
+            $data['nama_sales'] = $request->nama_sales;
+            $data['jenis_dokumen'] = $request->jenis_dokumen;
+            $data['upload_dokumen'] = $request->upload_dokumen = $name;
+            $post = ListProjectTech::create($data);
 
             return response()->json([
                 "status" => true,
@@ -72,12 +82,12 @@ class ListProjectTechController extends Controller
     public function update(Request $request, $id)
     {
         $data = ListProjectTech::findOrFail($id);
-        if (File::exists('upload_dokumen/' . $ele->upload_dokumen)) {
-            File::delete('upload_dokumen/' . $ele->upload_dokumen);
+        if (File::exists('upload_dokumen/' . $data->upload_dokumen)) {
+            File::delete('upload_dokumen/' . $data->upload_dokumen);
         }
         try {
             $validate = Validator::make($request->all(), [
-               
+
                 "jenis_dokumen" => "required",
                 "upload_dokumen" => "required",
                 "user_id" => "required",
