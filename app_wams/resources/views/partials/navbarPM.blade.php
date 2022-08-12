@@ -108,4 +108,4 @@
   </ul>
 </nav>
 
-<!-- @include('notificationsPM.detail_notif') -->
+@include('notificationsPM.detail_notif')
