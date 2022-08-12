@@ -23,7 +23,7 @@
           <select name="" id="id" class="form-control">
             <option value=""></option>
             @foreach($time as $t)
-            <option value="{{$t->id}}">{{$t->id}}</option>
+            <option value="{{$t->id}}">{{$t->kode_project}}</option>
             @endforeach
           </select>
         </div>

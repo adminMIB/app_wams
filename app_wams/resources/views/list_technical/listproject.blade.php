@@ -22,7 +22,9 @@
             <select id="id" class="form-control" name="project_id">
               <option value=""></option>
               @foreach($list as $v)
-              <option value="{{$v->id}}">{{$v->id}}</option>
+              <!-- @if (Auth::user()->id == $v->sign_pm) -->
+              <option value="{{$v->id}}">{{$v->kode_project}}</option>
+              <!-- @endif -->
               @endforeach
             </select>
             @error('project_id')

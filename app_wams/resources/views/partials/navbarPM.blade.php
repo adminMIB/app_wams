@@ -20,7 +20,7 @@
           <span>{{$datas}}</span>
           @endif
         </i>
-        {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); "></i> --}}
+      <!-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); "></i> -->
       </a>
       <div class="dropdown-menu dropdown-list dropdown-menu-right">
         <div class="dropdown-header">Notifications

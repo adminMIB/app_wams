@@ -31,7 +31,7 @@
                     <tbody>
                         @foreach($tk as $t)
                         <tr align="center">
-                            <td>B{{$t->kode_project}}</td>
+                            <td>{{$t->kode_project}}</td>
                             <td>{{$t->nama_institusi}}</td>
                             <td>{{$t->nama_project}}</td>
                             <td>

@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label>Kode Project</label>
-                            <input type="text" class="form-control" value="B{{$item->kode_project}}">
+                            <input type="text" class="form-control" value="{{$item->kode_project}}">
                         </div>
                         <div class="form-group">
                             <label>Nama Institusi</label>

@@ -30,7 +30,7 @@
       @else
       @include('partials.navbarManagement')
       @endif
-      
+
 
 
       @if (!Auth::user()->hasRole('PM'))
@@ -38,13 +38,13 @@
       @else
       @include('partials.navbarPM')
       @endif
-      @include('partials.sidebar')
 
-      @if (!Auth::user()->hasRole('Technikal'))
+
+      <!-- @if (!Auth::user()->hasRole('Technikal'))
       @include('partials.navbar')
       @else
       @include('partials.navbarTeknikal')
-      @endif
+      @endif -->
       @include('partials.sidebar')
       <!-- Main Content -->
       <div class="main-content" style="background-color: white">
