@@ -38,7 +38,8 @@
                 <th>Action</th>
               </tr>
 
-              @foreach ($weekly_reports as $key => $w) 
+              @foreach ($weekly_reports as $key => $w)
+              @if (Auth::user()->name == $w->name_technikal)
               <tr>
                 <td>{{ $weekly_reports->firstItem() + $key }}</td>
                 <td>{{ $w->name_client }}</td>
@@ -50,6 +51,7 @@
                 <td>{{ $w->note }}</td>
                 <td><a href="/edit/{{ $w->id }}" class="btn btn-primary">Detail</a></td>
               </tr>
+              @endif
               @endforeach
             </tbody>
           </table>

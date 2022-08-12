@@ -26,14 +26,22 @@
          
          <tbody>
             @foreach ($ds as $it)
+            @if ($it->Status !== 'Kalah')
             <tr>
                 <td>{{$it->id}}</td>
                 <td>{{$it->NamaClient}}</td>
                 <td>{{$it->NamaProject}}</td>
                 <td>{{$it->Date}}</td>
-                <td><a href="/admins/{{$it->UploadDocument}}">{{$it->UploadDocument}}</a></td>
+                <td>
+                  @foreach ($it->admin_upload as $i)
+                    @foreach (explode("," , $i->file_name) as $a) 
+                    <a href="/storage/{{$i->id}}/{{$a}}">{{$a}}<br></a>
+                    @endforeach
+                  @endforeach
+                </td>
                 <td>{{$it->Status}}</td>
             </tr>
+            @endif
             @endforeach
          </tbody>
         </table>

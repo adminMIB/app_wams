@@ -39,7 +39,12 @@
                 <td>{{$item->no_so }}</td>
                 <td>{{$item->created_at->format('d/m/Y')}}</td>
                 <td>{{$item->institusi}}</td>
-                <td ><a href="storage/{{$item->file_dokumen}}">{{$item->file_dokumen}}</a></td>
+                <td>
+                  @foreach ($item->file_dokumens as $i)
+                  @foreach (explode("," , $i->file_name) as $a) 
+                  <a href="storage/{{$i->id}}/{{$a}}">{{$a}}<br></a>
+                  @endforeach
+                  @endforeach
                 <td>
                   @if ($item->status == 'Pending')
                   <div class="text-warning">{{$item->status}}</div>

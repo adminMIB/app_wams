@@ -37,6 +37,7 @@ use App\Http\Controllers\viewControlerrSuperAdmin\RoleControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesControllerM;
 use App\Http\Controllers\viewControlerrSuperAdmin\SalesOrderControllerM;
 use App\Http\Controllers\ListProjectController;
+use App\Http\Controllers\LpadminPmLeadController;
 use App\Http\Controllers\TechnikalLeadController\TechnikalLeadController;
 use App\Http\Controllers\TechnikalLeadController\WeeklyReportControllerLead;
 use App\Http\Controllers\WeeklyReportController;
@@ -219,6 +220,7 @@ Route::group(['middleware'], function () {
   Route::get('/task', [TaskController::class, 'index'])->name('task');
   Route::get('/exporttask', [TaskController::class, 'export'])->name('exporttask');
   // Route::post('/task',[TaskController::class,'index'])->name('task');
+  Route::get('/lpadminpmlead', [LpadminPmLeadController::class, 'index'])->name('lpadminpmlead');
 
   Route::post('/listprojectpm', [ListProjectPmController::class, 'listprojectpm']);
 

@@ -21,7 +21,9 @@
         <select name="" id="id" class="form-control">
           <option value=""></option>
           @foreach($cb as $t)
-          <option value="{{$t->id}}">{{$t->id}}</option>
+          @if($t->status =='Approve')
+            <option value="{{$t->id}}">{{$t->kode_project}}</option>
+          @endif
           @endforeach
         </select>
       </div>
@@ -74,7 +76,7 @@
       <div class="col-sm-6">
         <label for="sign_pm" class="form-label" style="font-weight: bold; color:black">Sign To Pm</label>
         <select name="sign_pm" id="sign_pm" class="form-control">
-          <option selected>Pilih Pm</option>
+          <option selected></option>
           @foreach ($user as $item)
           @foreach ($item->users as $user)
           <option class="" value="{{$user->id}}">{{$user->name }}</option>
