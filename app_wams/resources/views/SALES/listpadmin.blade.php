@@ -33,8 +33,10 @@
                 <td>{{$it->NamaProject}}</td>
                 <td>{{$it->Date}}</td>
                 <td>
-                  @foreach (explode(",", $it->UploadDocument) as $file)
-                    <a href="/tmp/uploads/{{$file}}">{{$file}}<br></a>
+                  @foreach ($it->admin_upload as $i)
+                    @foreach (explode("," , $i->file_name) as $a) 
+                    <a href="/storage/{{$i->id}}/{{$a}}">{{$a}}<br></a>
+                    @endforeach
                   @endforeach
                 </td>
                 <td>{{$it->Status}}</td>

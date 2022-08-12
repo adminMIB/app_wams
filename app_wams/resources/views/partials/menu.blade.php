@@ -134,7 +134,7 @@
   <li class="nav-item ">
     <a href="{{url ('/dashboardlead')}}" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
   </li>
-  <li class="nav-item"><a class="nav-link" href="#"><img src="image/Akar.png" alt=""> <span>List Project Admin</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="{{url ('lpadminpmlead')}}"><img src="image/Akar.png" alt=""> <span>List Project Admin</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('list')}}"><img src="image/Line.png" alt=""> <span>List View Order</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('listprojectpm')}}"><img src="image/Line.png" alt=""> <span>List Project</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('task')}}"><img src="image/Line.png" alt=""> <span>Task Progress Report</span></a></li>

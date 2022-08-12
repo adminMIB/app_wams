@@ -4,22 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Elearning;
+use App\Models\ListProjet;
 use Illuminate\Support\Facades\File;
+
 class ElearningController extends Controller
 {
     public function index(Request $request)
     {
-        if($request->has('cari')){
-            $ele=Elearning::where('principle','LIKE','%'.$request->cari.'%')->get();
-        }else{
-        $ele = Elearning::paginate();
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
+        if ($request->has('cari')) {
+            $ele = Elearning::where('principle', 'LIKE', '%' . $request->cari . '%')->get();
+        } else {
+            $ele = Elearning::paginate();
         }
-        return view('elearning.index', compact('ele'));
+        return view('elearning.index', compact('ele', 'data', 'datas'));
     }
 
     public function create()
     {
-        return view('elearning.create');
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
+        return view('elearning.create', compact('datas', 'data'));
     }
 
     public function store(Request $request)
@@ -37,15 +43,15 @@ class ElearningController extends Controller
             'principle.required' => 'Principle tidak boleh kosong!',
             'deskripsi.required' => 'Deskripsi tidak boleh kosong!',
             'implementasi.required' => 'Implementasi tidak boleh kosong!',
-            
+
         ]);
 
         $file_dokumen = $request->file('upload');
 
         $file_dokumen_ext = $file_dokumen->getClientOriginalName();
-            $file_dokumen_name = time(). $file_dokumen_ext;
-            $file_dokumen_path = public_path('dokumen/');
-            $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
+        $file_dokumen_name = time() . $file_dokumen_ext;
+        $file_dokumen_path = public_path('dokumen/');
+        $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
         Elearning::create([
             "produk" => $request->produk,
             "principle" => $request->principle,
@@ -59,32 +65,30 @@ class ElearningController extends Controller
 
     public function edit($id)
     {
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
         $ele = Elearning::find($id);
-        return view('elearning.edit', compact('ele'));
+        return view('elearning.edit', compact('ele', 'datas', 'data'));
     }
 
     public function update(Request $request, $id)
     {
         $ele = Elearning::find($id);
-     
-      
+
+
         $file_dokumen = $request->file('upload');
-        
-        if(!empty($file_dokumen))
-        {
+
+        if (!empty($file_dokumen)) {
             // dokumen
             $file_dokumen_ext = $file_dokumen->getClientOriginalName();
-            $file_dokumen_name = time(). $file_dokumen_ext;
+            $file_dokumen_name = time() . $file_dokumen_ext;
             $file_dokumen_path = public_path('dokumen/');
             $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
-            if(!empty($ele->upload))
-            {
-                unlink('dokumen/'.$ele->upload);
+            if (!empty($ele->upload)) {
+                unlink('dokumen/' . $ele->upload);
             }
-        }
-        else
-        {
-            $file_dokumen_name=$ele->upload;
+        } else {
+            $file_dokumen_name = $ele->upload;
         }
 
 
@@ -108,7 +112,9 @@ class ElearningController extends Controller
 
     public function show($id)
     {
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::all();
         $ele = Elearning::find($id);
-        return view('elearning.edit', compact('ele'));
+        return view('elearning.edit', compact('ele', 'datas', 'data'));
     }
 }

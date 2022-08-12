@@ -30,11 +30,20 @@
       @else
       @include('partials.navbarManagement')
       @endif
+      
+
 
       @if (!Auth::user()->hasRole('PM'))
       @include('partials.navbar')
       @else
       @include('partials.navbarPM')
+      @endif
+      @include('partials.sidebar')
+
+      @if (!Auth::user()->hasRole('Technikal'))
+      @include('partials.navbar')
+      @else
+      @include('partials.navbarTeknikal')
       @endif
       @include('partials.sidebar')
       <!-- Main Content -->
@@ -57,6 +66,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <!-- JS Libraies -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="assets/js/page/bootstrap-modal.js"></script>
   @yield('js')
   <script src="../assets/js/scripts.js"></script>

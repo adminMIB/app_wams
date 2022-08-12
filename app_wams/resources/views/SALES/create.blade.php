@@ -49,7 +49,9 @@
                             <select class="form-control select2" id="id" style="width: 100%;" name="listpa_id">
                             <option>Project</option>
                             @foreach ($lpa as $item)
+                            @if ($item->Status === 'Menang')
                             <option value="{{$item->id}}">{{$item->NamaProject}}</option>
+                            @endif
                             @endforeach
                             </select>
                         </div>
