@@ -21,7 +21,7 @@
     @if (Auth::user()->id == $item->signPm_lead)
     <tr>
       <td>{{$item->no_so}}</td>
-      <td>B{{$item->kode_project}}</td>
+      <td>{{$item->kode_project}}</td>
       <td>{{$item->tgl_so}}</td>
       <td>{{$item->institusi}}</td>
       <td>{{$item->project}}</td>

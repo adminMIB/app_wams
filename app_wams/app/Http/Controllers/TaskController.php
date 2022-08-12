@@ -8,6 +8,7 @@ use App\Models\Coba;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Models\WeeklyReport;
 
 class TaskController extends Controller
 {
@@ -25,7 +26,8 @@ class TaskController extends Controller
         // //else{
         // //      $cb = Coba::paginate(3);
         // //  }
-        return view('task');
+        $datas = WeeklyReport::with('listp')->orderBy('created_at', 'ASC')->paginate();
+        return view('task', compact('datas'));
     }
     /**
      * Show the form for creating a new resource.

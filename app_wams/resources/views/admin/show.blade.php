@@ -50,8 +50,13 @@
                   {{-- <p><a class="btn btn-primary" href="{{ route('zip-download',['download'=>'zip']) }}">Download zip</a></p> --}}
 
                   <div>
-                    @foreach (explode(",", "$detailId->UploadDocument") as $d)
-                    <a href="tmp/uploads/{{$d}}">{{$d}}</a>
+                    {{-- @foreach (explode(",", $detailId->UploadDocument) as $file)
+                    <a href="/tmp/uploads/{{$file}}">{{$file}}<br></a>
+                    @endforeach --}}
+                    @foreach ($detailId->admin_upload as $i)
+                    @foreach (explode("," , $i->file_name) as $a) 
+                    <a href="/storage/{{$i->id}}/{{$a}}">{{$a}}<br></a>
+                    @endforeach
                     @endforeach
                   </div>
 
