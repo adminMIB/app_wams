@@ -16,10 +16,7 @@
           <a href="{{route ('create-elearning')}}"> <button type="submit" class="btn btn-primary btn-sm">Create</button></a>
           <div class="card-header-action">
             <form method="GET" action="/search">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="cari">
-                <div class="input-group-btn">
-                  <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+             
                 </div>
               </div>
             </form>
@@ -61,7 +58,9 @@
               </tbody>
               @endforeach
             </table>
-         
+            <div class="card-footer d-flex justify-content-end">
+        {{ $ele->links() }}
+        </div>
           </div>
         </div>
       </div>

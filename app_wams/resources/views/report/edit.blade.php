@@ -40,9 +40,9 @@
                       <label for="status">Select</label>
                       <select class="form-control" id="status" name="status" style="width: 23rem; margin-bottom:25px;">
                         <option value="{{ $getOneById->status }}">{{ $getOneById->status }}</option>
-                        <option value="{{ $getOneById->status }}">Done</option>
-                        <option value="{{ $getOneById->status }}">On Progress</option>
-                        <option value="{{ $getOneById->status }}">Issue</option>
+                        <option value="Done">Done</option>
+                        <option value="On Progress">On Progress</option>
+                        <option value="Issue">Issue</option>
                       </select>
                     <label for="note">Note</label>
                     <input type="text" value="{{ $getOneById->note }}" class="form-control" id="note" name="note" style="width: 23rem; margin-bottom:25px;">

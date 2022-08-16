@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ElearnindDetail;
 use Illuminate\Http\Request;
 use App\Models\Elearning;
+use App\Models\ListProjet;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 class ElearningController extends Controller
@@ -12,25 +13,22 @@ class ElearningController extends Controller
     public function index(Request $request)
     {
       
-        $ele = Elearning::with('eles')->paginate();
+        $ele = Elearning::with('eles')->paginate(5);
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::with('detail')->get();
 
-        return view('elearning.index', compact('ele'));
+
+        return view('elearning.index', compact('ele', 'datas', 'data'));
     }
 
-    public function search(Request $request){
-        {
-            if($request->has('cari')){
-                $ele=ElearnindDetail::where('principle','LIKE','%'.$request->cari.'%')->get();
-            }else{
-            $ele = ElearnindDetail::paginate();
-            }
-            return view('elearning.search', compact('ele'));
-        }
-    }
+   
 
     public function create()
     {
-        return view('elearning.create');
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::with('detail')->get();
+
+        return view('elearning.create',  compact('datas', 'data'));
     }
 
     public function store(Request $request)
@@ -84,6 +82,8 @@ class ElearningController extends Controller
 }
     public function edit($id)
     {
+        $datas = ListProjet::all()->count();
+        $data = ListProjet::with('detail')->get();
         // $elearning = Elearning::where('id', $id)->first();
         // $ele = Elearning::with('eles')->where('ele_id', $id)->first();
         // return $ele;
@@ -92,12 +92,11 @@ class ElearningController extends Controller
         // foreach ($ele as $a) {
         //     return $a->id;
         // }
-        return view('elearning.edite', compact('ele'));
+        return view('elearning.edite', compact('ele', 'datas', 'data'));
     }
     
     public function update(Request $request, $id)
     {
-        
         
         $elearning = Elearning::with('eles')->find($id);
         // $elearning = Elearning::where('id', $id)->first();
@@ -137,11 +136,13 @@ class ElearningController extends Controller
     public function destroy($id)
     {
 
+        $ele = Elearning::find($id);    
+        $ele->delete();
 
-        $elearning = Elearning::with('eles')->find($id);    
-        $elearningDetail= ElearnindDetail::find($elearning->eles->id);
+        //$elearning = Elearning::with('eles')->find($id);    
+        //$elearningDetail= ElearnindDetail::find($elearning->eles->id);
 
-        return $elearning;
+
         //  DB::table("elearnings")->where("id", $id)->delete();
 
         // return $s;

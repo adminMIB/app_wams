@@ -71,7 +71,7 @@ class LoginController extends Controller
         } 
 
         //! ini pengecekan admin project
-        if ( Auth::user()->hasRole('Project Admin')) {
+        if ( Auth::user()->hasRole('Project Admins')) {
             // jika role super admin  -> arahkan ke dashboard super admin
             return redirect()->intended('adminproject');
             // return response()->json([
@@ -79,7 +79,7 @@ class LoginController extends Controller
             // ]);
         } 
 
-        //! ini pengecekan role management
+        //! ini pengecekan role 
         else if (Auth::user()->hasRole('Management')) {
             // jika role super Management  -> arahkan ke dashboard Management
             return redirect()->intended('um/dashboard');

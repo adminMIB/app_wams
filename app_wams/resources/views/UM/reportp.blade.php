@@ -23,16 +23,18 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach ($datas as $d) 
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>{{$d->listp->kode_project}}</td>
+                      <td>{{$d->name_client}}</td>
+                      <td>{{$d->name_project}}</td>
+                      <td>{{$d->listp->hps}}</td>
+                      <td>{{$d->listp->nama_sales}}</td>
+                      <td>{{$d->listp->nama_pm}}</td>
+                      <td>{{$d->name_technikal}}</td>
+                      <td>{{$d->status}}</td>
                     </tr>
+                    @endforeach
                   </tbody>
             </table>
         </div>

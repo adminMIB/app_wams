@@ -1,8 +1,8 @@
 @if (Auth::user()->hasRole('Super Admin'))
 <ul class="sidebar-menu">
-  <li class="menu-header">Management Tools</li>
+  <li class="menu-header">Suoper Admin Tools</li>
   <li class="nav-item ">
-    <a href="#" class="nav-link "><span>Dashboard</span></a>
+    <a href="/dashboardSuperAdmin" class="nav-link "><span>Dashboard</span></a>
   </li>
 
   <li class="nav-item dropdown">
@@ -28,7 +28,7 @@
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-chart-pie"></i>Project Management</a>
   <div class="dropdown-menu" aria-labelledby="dropdown01">
-    <a class="nav-link" href="">Project Timeline</a>
+    <a class="nav-link" href="/timeline">Project Timeline</a>
 </div>
 </li>
 
@@ -44,7 +44,7 @@
 
 
 {{-- !Project Admin --}}
-@if (Auth::user()->hasRole('Project Admin'))
+@if (Auth::user()->hasRole('Project Admins'))
 <ul class="sidebar-menu">
   <li class="menu-header">admin Tools</li>
   <li class="nav-item ">
@@ -134,7 +134,7 @@
   <li class="nav-item ">
     <a href="{{url ('/dashboardlead')}}" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
   </li>
-  <li class="nav-item"><a class="nav-link" href="#"><img src="image/Akar.png" alt=""> <span>List Project Admin</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="{{url ('lpadminpmlead')}}"><img src="image/Akar.png" alt=""> <span>List Project Admin</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('list')}}"><img src="image/Line.png" alt=""> <span>List View Order</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('listprojectpm')}}"><img src="image/Line.png" alt=""> <span>List Project</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('task')}}"><img src="image/Line.png" alt=""> <span>Task Progress Report</span></a></li>

@@ -1,8 +1,5 @@
 @extends('layouts.main')
 @section('css')
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {{-- CSS assets in head section --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     <style>
@@ -52,7 +49,9 @@
                             <select class="form-control select2" id="id" style="width: 100%;" name="listpa_id">
                             <option>Project</option>
                             @foreach ($lpa as $item)
-                            <option value="{{$item->id}}">{{$item->NamaClient}}</option>
+                            @if ($item->Status === 'Menang')
+                            <option value="{{$item->id}}">{{$item->NamaProject}}</option>
+                            @endif
                             @endforeach
                             </select>
                         </div>
@@ -80,8 +79,8 @@
                             <input type="text" class="form-control" name="institusi" id="NamaClient" placeholder="Institusi" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="NamaClient">kode</label>
-                            <input type="text" class="form-control" name="kode_project" placeholder="kode">
+                            <label for="ID_project">Kode Project</label>
+                            <input type="text" class="form-control" id="ID_project" name="kode_project" placeholder="ID Project" readonly>
                         </div>
                         {{-- <div class="form-group">
                             <label>Upload File Document</label>
@@ -157,6 +156,7 @@ Dropzone.options.documentDropzone = {
       },
       url: "/add_so"
     }).done(function(res) {
+      $("#ID_project").val(res.ID_project)
       $("#NamaClient").val(res.NamaClient)
       $("#NamaProject").val(res.NamaProject)
       $("#Date").val(res.Date)

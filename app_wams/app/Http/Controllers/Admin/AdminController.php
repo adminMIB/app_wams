@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Validator;
 class AdminController extends Controller
 {
 
-    private $mediaCollection = 'file_dokumen';
+    private $mediaCollection = 'UploadDocument';
 
     /**
      * Display a listing of the resource.
@@ -117,7 +117,7 @@ class AdminController extends Controller
         $admin = ListProjectAdmin::create([
             "NamaClient" => $request->NamaClient,
             "NamaProject" => $request->NamaProject,
-            "UploadDocument"=>  implode(",", $request->UploadDocument),
+            "UploadDocument"=>  implode("," , $request->UploadDocument),
             "Date" => $request->Date,
             "Angka" => $request->Angka,
             "Status" => $request->Status,
@@ -136,7 +136,7 @@ class AdminController extends Controller
 
 
         foreach ($request->input('UploadDocument', []) as $file) {
-            $admin->addMedia(public_path('tmp/uploads' . $file));
+            $admin->addMedia(public_path('tmp/uploads/' . $file))->toMediaCollection($this->mediaCollection);
         }
 
         return redirect('adminproject');

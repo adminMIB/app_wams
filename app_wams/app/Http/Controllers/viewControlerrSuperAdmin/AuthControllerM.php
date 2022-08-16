@@ -19,7 +19,7 @@ class AuthControllerM extends Controller
         $user = User::with('roles')->orderBy('created_at', 'DESC')->paginate(10);
         // $user = User::with('roles')->orderBy('created_at', 'DESC')->paginate(10);
         $superAdmin = Role::with('users')->where('name', 'Super Admin')->get();
-        $admin = Role::with('users')->where('name', 'Project Admin')->get();
+        $admin = Role::with('users')->where('name', 'Project Admins')->get();
         $management = Role::with('users')->where('name', 'Management')->get();
         $amSales = Role::with('users')->where('name', "AM/Sales")->get();
         $pm = Role::with('users')->where('name', "PM")->get();
