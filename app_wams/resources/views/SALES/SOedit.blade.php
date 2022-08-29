@@ -16,7 +16,7 @@
           <h1>Edit Sales Order</h1>
         </div>
         <div class="card-body">
-        <form action="{{url('update-data',$product->id)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{url('update-dataS',$product->id)}}" method="POST" enctype="multipart/form-data">
           {{csrf_field()}}
           @method('put')
             <div class="row">

@@ -2,119 +2,160 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ElearnindDetail;
 use Illuminate\Http\Request;
 use App\Models\Elearning;
 use App\Models\ListProjet;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-
 class ElearningController extends Controller
 {
     public function index(Request $request)
     {
+      
+        $ele = Elearning::with('eles')->paginate(5);
         $datas = ListProjet::all()->count();
-        $data = ListProjet::all();
-        if ($request->has('cari')) {
-            $ele = Elearning::where('principle', 'LIKE', '%' . $request->cari . '%')->get();
-        } else {
-            $ele = Elearning::paginate();
-        }
-        return view('elearning.index', compact('ele', 'data', 'datas'));
+        $data = ListProjet::with('detail')->get();
+
+
+        return view('elearning.index', compact('ele', 'datas', 'data'));
     }
+
+   
 
     public function create()
     {
         $datas = ListProjet::all()->count();
-        $data = ListProjet::all();
-        return view('elearning.create', compact('datas', 'data'));
+        $data = ListProjet::with('detail')->get();
+
+        return view('elearning.create',  compact('datas', 'data'));
     }
 
     public function store(Request $request)
     {
+        
 
         $request->validate([
             "produk" => "required|string|max:50",
             "principle" => "required|string|max:50",
             "deskripsi" => "required|string|max:255",
-            "implementasi" => "required|string|max:255",
+          
             "upload" => "mimes:doc,docx,xls,pdf,ppt",
 
         ], [
             'produk.required' => 'Produk tidak boleh kosong!',
             'principle.required' => 'Principle tidak boleh kosong!',
             'deskripsi.required' => 'Deskripsi tidak boleh kosong!',
-            'implementasi.required' => 'Implementasi tidak boleh kosong!',
-
+           
+            
         ]);
 
         $file_dokumen = $request->file('upload');
 
         $file_dokumen_ext = $file_dokumen->getClientOriginalName();
-        $file_dokumen_name = time() . $file_dokumen_ext;
-        $file_dokumen_path = public_path('dokumen/');
-        $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
-        Elearning::create([
-            "produk" => $request->produk,
-            "principle" => $request->principle,
-            "deskripsi" => $request->deskripsi,
-            "implementasi" => $request->implementasi,
-            "upload" => $file_dokumen_name,
+            $file_dokumen_name = time(). $file_dokumen_ext;
+            $file_dokumen_path = public_path('dokumen/');
+            $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
 
-        ]);
-        return redirect('telearning');
-    }
-
+            $data = $request->all();
+            // dd($data);
+    
+            $time = new ElearnindDetail;
+            $time->produk=$data['produk'];
+            $time->principle=$data['principle'];
+            $time->deskripsi=$data['deskripsi'];
+            $time->upload=$data['upload']=$file_dokumen_name;
+            $time->save();
+     
+      
+            foreach($data['implementasi'] as $item => $value) {
+              $data3 = array (
+                'ele_id' => $time->id,
+                'implementasi' => $request['implementasi'][$item],
+              );
+              Elearning::create($data3);
+        };
+       
+        
+        return redirect('telearning')->with('success', 'data berhasil di buat');
+    
+}
     public function edit($id)
     {
         $datas = ListProjet::all()->count();
-        $data = ListProjet::all();
-        $ele = Elearning::find($id);
-        return view('elearning.edit', compact('ele', 'datas', 'data'));
+        $data = ListProjet::with('detail')->get();
+        // $elearning = Elearning::where('id', $id)->first();
+        // $ele = Elearning::with('eles')->where('ele_id', $id)->first();
+        // return $ele;
+        $ele= Elearning::with('eles')->find($id);
+        // return $ele;
+        // foreach ($ele as $a) {
+        //     return $a->id;
+        // }
+        return view('elearning.edite', compact('ele', 'datas', 'data'));
     }
-
+    
     public function update(Request $request, $id)
     {
-        $ele = Elearning::find($id);
+        
+        $elearning = Elearning::with('eles')->find($id);
+        // $elearning = Elearning::where('id', $id)->first();
+        // $elearningDetail = ElearnindDetail::where('id', $id)->first();
+        
+        
+        $elearning->implementasi= $request->implementasi;
+        $elearning->save();
 
+        // return $elearning->eles->id;
+        // foreach ($elearning->elesas $key => $value) {
+            $file_dokumen = $request->file('upload');
 
-        $file_dokumen = $request->file('upload');
-
-        if (!empty($file_dokumen)) {
-            // dokumen
             $file_dokumen_ext = $file_dokumen->getClientOriginalName();
-            $file_dokumen_name = time() . $file_dokumen_ext;
-            $file_dokumen_path = public_path('dokumen/');
-            $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
-            if (!empty($ele->upload)) {
-                unlink('dokumen/' . $ele->upload);
-            }
-        } else {
-            $file_dokumen_name = $ele->upload;
-        }
+                $file_dokumen_name = time(). $file_dokumen_ext;
+                $file_dokumen_path = public_path('dokumen/');
+                $file_dokumen->move($file_dokumen_path, $file_dokumen_name);
+
+            $elearningDetail= ElearnindDetail::find($elearning->eles->id);
+            
+            $elearningDetail->produk =  $request->produk;
+            $elearningDetail->principle =  $request->principle;
+            $elearningDetail->deskripsi =  $request->deskripsi;
+            $elearningDetail->upload =  $request->upload=$file_dokumen_name;
+            $elearningDetail->save();
+        // }
 
 
-        $ele->update([
-            "produk" => $request->produk,
-            "principle" => $request->principle,
-            "deskripsi" => $request->deskripsi,
-            "implementasi" => $request->implementasi,
-            "upload" => $file_dokumen_name,
-        ]);
 
-        return redirect('telearning');
-    }
+    //    dd($elearning);
+        // $data->update($request->all());
+        // $elearning->update($request->all());
+        return redirect('telearning')->with('success', 'data berhasil di update');;
+     
+  }
 
     public function destroy($id)
     {
-        $ele = Elearning::find($id);
+
+        $ele = Elearning::find($id);    
         $ele->delete();
-        return back();
+
+        //$elearning = Elearning::with('eles')->find($id);    
+        //$elearningDetail= ElearnindDetail::find($elearning->eles->id);
+
+
+        //  DB::table("elearnings")->where("id", $id)->delete();
+
+        // return $s;
+        // $elearningDetail->delete();
+        //  $elearning->delete();   
+        //  $elearning->eles->id->delete();    
+ 
+        return back()->with('success', 'data berhasil di hapus');;
     }
 
-    public function show($id)
-    {
-        $datas = ListProjet::all()->count();
-        $data = ListProjet::all();
-        $ele = Elearning::find($id);
-        return view('elearning.edit', compact('ele', 'datas', 'data'));
-    }
+    // public function show($id)
+    // {
+    //     $ele = Elearning::find($id);
+    //     return view('elearning.edit', compact('ele'));
+    // }
 }

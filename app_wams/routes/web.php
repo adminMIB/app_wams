@@ -58,13 +58,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes(); 
 
 Route::post('logout', [LoginController::class, 'logout']);
 
 
 // ! Routing dashboard Super Admin
-Route::group(['middleware'  => ['role:Super Admin']], function () {
+Route::group(['middleware'], function () {
   Route::get('/dashboardSuperAdmin', [DashboardAdminController::class, 'index'])->name('/dashboardSuperAdmin');
 
   //! route role
@@ -129,12 +129,12 @@ Route::group(['middleware'], function () {
   Route::get('/slsorder', [SalesOrderController::class, 'index'])->name('slsorder')->middleware(['permission:read data AM/Sales']);
   Route::get('/createodr', [SalesOrderController::class, 'create'])->name('createodr')->middleware(['permission:create data AM/Sales']);
   route::post('/Ssimpan-data', [SalesOrderController::class, 'store'])->name('Ssimpan-data')->middleware(['permission:create data AM/Sales']);
-  route::put('/update-data/{id}', [SalesOrderController::class, 'update'])->name('update-data')->middleware(['permission:update data AM/Sales']);
+  route::put('/update-dataS/{id}', [SalesOrderController::class, 'update'])->name('update-dataS')->middleware(['permission:update data AM/Sales']);
   route::get('/Sedit/{id}', [SalesOrderController::class, 'edit'])->name('Sedit')->middleware(['permission:update data AM/Sales']);
   route::DELETE('/del/{id}', [SalesOrderController::class, 'destroy'])->name('del')->middleware(['permission:delete data AM/Sales']);
   Route::get('/order-export', [SalesOrderController::class, 'export'])->name('order-export')->middleware(['permission:read data AM/Sales']);
   Route::post('/add_so', [SalesOrderController::class, 'addso'])->middleware(['permission:create data AM/Sales']);
-  Route::post('/store/media', [SalesOrderController::class, 'storeMedia'])->name('storeMedia')->middleware(['permission:crate data AM/Sales']);
+  Route::post('/store/media', [SalesOrderController::class, 'storeMedia'])->name('storeMedia');
   // sales opty
   Route::get('/index-sales', [SalesOptyController::class, 'index'])->name('index-sales')->middleware(['permission:read data AM/Sales']);
   Route::get('/inputsales', [SalesOptyController::class, 'create'])->name('inputsales')->middleware(['permission:read data AM/Sales']);
@@ -151,6 +151,16 @@ Route::group(['middleware'], function () {
 //!teknikal
 Route::group(['middleware'], function () {
 
+
+  Route::get('/dashboardTeknikal', [DashboardController::class, 'index'])->name('dashboard');
+  Route::get('/telearning', [ElearningController::class, 'index'])->name('elearning');
+  Route::get('/search', [ElearningController::class, 'search'])->name('search');
+  Route::get('/create-elearning', [ElearningController::class, 'create'])->name('create-elearning');
+  Route::post('/Esimpan-data', [ElearningController::class, 'store'])->name('Esimpan-data');
+  Route::get('/edite/{id}', [ElearningController::class, 'edit'])->name('edite');
+  Route::get('/delete/{id}', [ElearningController::class, 'destroy']);
+  Route::put('/update-data/{id}', [ElearningController::class, 'update'])->name('update-data');
+
   Route::get('/dashboardTeknikal', [DashboardController::class, 'index'])->name('dashboard')->middleware(['permission:read data Technikal']);
   Route::get('/telearning', [ElearningController::class, 'index'])->name('elearning')->middleware(['permission:read data Technikal']);
   Route::get('/create-elearning', [ElearningController::class, 'create'])->name('create-elearning')->middleware(['permission:create data Technikal']);
@@ -158,6 +168,7 @@ Route::group(['middleware'], function () {
   Route::get('/edit/{id}', [ElearningController::class, 'edit'])->name('edit')->middleware(['permission:detail data Technikal']);
   Route::get('/delete/{id}', [ElearningController::class, 'destroy'])->middleware(['permission:read data Technikal']);
   Route::post('/update-data/{id}', [ElearningController::class, 'update'])->name('update-data')->middleware(['permission:update data Technikal']);
+
 
   Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['permission:create data Technikal']);
   Route::get('/report', [WeeklyReportController::class, 'index'])->middleware(['permission:create data Technikal']);
@@ -202,10 +213,10 @@ Route::group(['middleware'], function () {
   // Route::post('/task',[TaskController::class,'index'])->name('task');
   Route::get('/lpadminpmlead', [LpadminPmLeadController::class, 'index'])->name('lpadminpmlead');
 
-  Route::post('/listprojectpm', [ListProjectPmController::class, 'listprojectpm'])->middleware(['permission:create data PM Lead']);
+  Route::post('/listprojectpm', [ListProjectPmController::class, 'listprojectpm']);
 
   Route::get('/listprojectpm', [ListProjectPmController::class, 'index'])->name('listprojectpm')->middleware(['permission:read data PM Lead']);
-  Route::post('/simpan-dok', [ListProjectPmController::class, 'store'])->name('simpan-dok')->middleware(['permission:create data PM Lead']);
+  Route::post('/simpan-dok', [ListProjectPmController::class, 'store'])->name('simpan-dok');
 
   Route::get('/list', [ListController::class, 'index'])->name('list')->middleware(['permission:read data PM Lead']);
   Auth::routes();
@@ -216,19 +227,21 @@ Route::group(['middleware'], function () {
   //! Route PM
 Route::group(['middleware'], function () {
 
+  Route::get('/dashboardpm', [DashboardPmController::class, 'index'])->name('dashboardpm')->middleware(['permission:read data PM']);
+
   Route::get('/index-list',[ListProjectTechController::class,'index'])->name('index-list')->middleware(['permission:read data PM']);
   Route::get('/listproject', [ListProjectTechController::class, 'create'])->name('listproject')->middleware(['permission:create data PM']);
-  Route::post('/simpan-list', [ListProjectTechController::class, 'store'])->name('simpan-list')->middleware(['permission:create data PM']);
+  Route::post('/simpan-list', [ListProjectTechController::class, 'store'])->name('simpan-list');
   Route::get('/list-delete/{id}',[ListProjectTechController::class,'destroy'])->name('list-delete')->middleware(['permission:delete data PM']);
-  Route::post('/work_order', [ListProjectTechController::class, 'work'])->middleware(['permission:create data PM']);
+  Route::post('/work_order', [ListProjectTechController::class, 'work']);
 
 
   Route::get('/timeline', [TimeLineController::class, 'index'])->name('timeline')->middleware(['permission:read data PM']);
   Route::get('/input', [TimeLineController::class, 'create'])->name('input')->middleware(['permission:read data PM']);
-  Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data')->middleware(['permission:create data PM']);
+  Route::post('/simpan-data', [TimeLineController::class, 'store'])->name('simpan-data');
   Route::get('/edittml/{id}', [TimeLineController::class, 'edit'])->name('edittml')->middleware(['permission:read data PM']);
   Route::post('/updatetml/{id}',[TimeLineController::class,'update'])->name('updatetml')->middleware(['permission:create data PM']);
-  Route::post('/list-project', [TimeLineController::class, 'list'])->name('list')->middleware(['permission:create data PM']);
+  Route::post('/list-project', [TimeLineController::class, 'list'])->name('list');
   Route::get('/detail_timeline/{id}', [TimeLineController::class, 'show'])->name('detail_timeline')->middleware(['permission:read data PM']);
 
   Route::get('/list_project', [ListProjectController::class, 'index'])->name('list_project')->middleware(['permission:read data PM']);

@@ -13,13 +13,9 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          {{-- <a href="{{route ('create-elearning')}}"> <button type="submit" class="btn btn-primary btn-sm">Create</button></a> --}}
           <div class="card-header-action">
-            <form method="GET" action="/selearning">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="cari">
-                <div class="input-group-btn">
-                  <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+            <form method="GET" action="/search">
+             
                 </div>
               </div>
             </form>
@@ -35,23 +31,32 @@
                   <th>Deskripsi Produk</th>
                   <th>Pengalaman</th>
                   <th>Dokumen Datasheet</th>
+                 
                 </tr>
               </thead>
               @foreach($ele as $item)
               <tbody>
                 <tr>
-                  <th scope="row">{{$item->produk}}</th>
-                  <td>{{$item->principle}}</td>
-                  <td>{{$item->deskripsi}}</td>
+                  <th scope="row">{{$item->eles->produk}}</th>
+                  <td>{{$item->eles->principle}}</td>
+                  <td>{{$item->eles->deskripsi}}</td>
                   <td>{{$item->implementasi}}</td>
                   <td>
-                    <a href="dokumen/{{$item->upload}}">{{$item->upload}}</a>
+                    <a href="dokumen/{{$item->eles->upload}}">{{$item->eles->upload}}</a>
                   </td>
+                  <td>
+                   
+
+                  
+                     
+
                 </tr>
               </tbody>
               @endforeach
             </table>
-         
+            <div class="card-footer d-flex justify-content-end">
+        {{ $ele->links() }}
+        </div>
           </div>
         </div>
       </div>
