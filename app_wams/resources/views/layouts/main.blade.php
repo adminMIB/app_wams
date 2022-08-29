@@ -25,27 +25,24 @@
   <div id="app" style="background-color: white">
     <div class="main-wrapper" style="background-color: white">
       <div class="navbar-bg bg-transparent"></div>
-      @if (!Auth::user()->hasRole('Management'))
-      @include('partials.navbar')
-      @else
+      @if (Auth::user()->hasRole('Management'))
       @include('partials.navbarManagement')
       @endif
 
 
 
-      @if (!Auth::user()->hasRole('PM'))
-      @include('partials.navbar')
-      @else
+      @if (Auth::user()->hasRole('PM'))
       @include('partials.navbarPM')
       @endif
 
 
-      <!-- @if (!Auth::user()->hasRole('Technikal'))
-      @include('partials.navbar')
-      @else
+      @if (Auth::user()->hasRole('Technikal'))
       @include('partials.navbarTeknikal')
-      @endif -->
+      @endif 
+
+      @include('partials.navbar')
       @include('partials.sidebar')
+
       <!-- Main Content -->
       <div class="main-content" style="background-color: white">
         @yield('content')

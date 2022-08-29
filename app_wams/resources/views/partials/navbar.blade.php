@@ -1,6 +1,4 @@
-{{-- @if (Auth::user()->hasRole('Management'))
-@endif
- --}}
+
 
 
 
@@ -19,14 +17,10 @@
     <li class="dropdown dropdown-list-toggle" style="margin-right:0.6em">
       <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep">
         
-        {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
-          @if (!$datas)
-          <span></span>   
-          @else
-          <span>{{$datas}}</span>               
-          @endif
-        </i> --}}
-        {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">{{$loop->iteration}}</i> --}}
+        <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
+          
+        </i>
+        {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); "></i> --}}
       </a>
       <div class="dropdown-menu dropdown-list dropdown-menu-right">
         <div class="dropdown-header">Notifications
@@ -46,7 +40,6 @@
               <div class="time text-primary">2 Min Ago</div>
             </div>
           </a>
-      @endforeach --}}
       {{-- @foreach ($data as $d)
       <a href="#" class="dropdown-item">
         <div class="dropdown-item-icon bg-info text-white">

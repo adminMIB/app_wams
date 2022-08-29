@@ -61,7 +61,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label>Sign to Teknikal</label>
+                            <label>Sign to Teknikal Lead</label>
                             <select class="form-control select2" style="width: 100%;" name="signTeknikal_lead">
                             <option></option>
                             @foreach ($TechnikelLead as $item)

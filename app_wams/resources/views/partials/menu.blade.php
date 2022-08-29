@@ -48,7 +48,7 @@
 <ul class="sidebar-menu">
   <li class="menu-header">admin Tools</li>
   <li class="nav-item ">
-  <a href="/dashboard" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
+  <a href="#" class="nav-link "><i class="fas fa-chart-pie"></i><span>Dashboard</span></a>
   </li>
   <li class=" nav-item"><a class="nav-link" href="/adminproject"><i class="fas fa-clipboard-check"></i> <span class=" list-admin ">list Project admin</span></a></li>
   <li class="nav-item"><a class="nav-link" href="/adminproject/sales"><i class="fas fa-file-alt"></i> <span class="list-sales-admin">List Sales Opty</span></a></li>
@@ -135,6 +135,7 @@
     <a href="{{url ('/dashboardlead')}}" class="nav-link "><img src="image/Vector.png" alt=""><span>Dashboard</span></a>
   </li>
   <li class="nav-item"><a class="nav-link" href="{{url ('lpadminpmlead')}}"><img src="image/Akar.png" alt=""> <span>List Project Admin</span></a></li>
+  <li class="nav-item"><a class="nav-link" href="{{url ('lpadminpmlead')}}"><img src="image/Akar.png" alt=""> <span>List Project Sales Opty</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('list')}}"><img src="image/Line.png" alt=""> <span>List View Order</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('listprojectpm')}}"><img src="image/Line.png" alt=""> <span>List Project</span></a></li>
   <li class="nav-item"><a class="nav-link" href="{{url ('task')}}"><img src="image/Line.png" alt=""> <span>Task Progress Report</span></a></li>
