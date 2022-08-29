@@ -68,10 +68,8 @@ class ListProjectTechController extends Controller
         foreach ($data as $dokumen) {
             $fileName = $dokumen->getClientOriginalName();
             $dokumen->move(public_path() . '/upload_dokumen', $fileName);
-            $name = $name . $fileName . ".";
+            $name = $name . $fileName ;
         }
-
-
 
         $data['user_id'] = implode(",", $request->user_id);
         $data['no_sales'] = $request->no_sales;

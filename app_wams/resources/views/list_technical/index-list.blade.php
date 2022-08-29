@@ -2,7 +2,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h2>List Project Timeline</h2>
+        <h2>List Project Technikal</h2>
     </div>
     <div class="card" style="border-radius: 2em">
         <div class="card-header">
@@ -23,6 +23,7 @@
                             <th>Kode Project</th>
                             <th>Nama Client</th>
                             <th>Nama Project</th>
+                            <th>Dokumen</th>
                             <th>Action</th>
 
                         </tr>
@@ -34,6 +35,9 @@
                             <td>{{$t->kode_project}}</td>
                             <td>{{$t->nama_institusi}}</td>
                             <td>{{$t->nama_project}}</td>
+                            <td>
+                            <a href="upload_dokumen/{{$t->upload_dokumen}}">{{$t->upload_dokumen}}</a>
+                            </td>
                             <td>
                                 <a href="{{url ('list-delete',$t->id)}}"><button type="submit" class="btn btn-danger" style="border-radius:3em ;">Delete</button></a>
                             </td>

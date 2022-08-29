@@ -70,11 +70,10 @@
         <div class="technical"></div>
     </div>
   </div>
-  <div class="col-12">
-    <a href="{{route('timeline')}}" class="btn btn-danger" style="border-radius:3em ;"> <i class="fas fa-arrow-left"></i> Back</a>
-    <button type="submit" class="btn btn-primary " style="border-radius: 3em;">Save</button>
-
-  </div>
+        <div class="col-12">
+          <a href="{{route('timeline')}}" class="btn btn-danger" style="border-radius:3em ;"> <i class="fas fa-arrow-left"></i> Back</a>
+          <button type="submit" class="btn btn-primary " style="border-radius: 3em;">Save</button>
+        </div>
   </form>
 
 </div>

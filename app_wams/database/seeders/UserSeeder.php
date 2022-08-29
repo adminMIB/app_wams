@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
         // kita asiggin rolenya
-        $admin->assignRole('Project Admin');
+        $admin->assignRole('Project Admins');
         
 
         $techLead = User::create([

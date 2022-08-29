@@ -21,16 +21,6 @@ class RoleSeeder extends Seeder
             "guard_name" => "web"
         ]);
 
-        // $permision =  Permission::create([
-        //     "name" => "read data",
-        //     "guard_name" => "web"
-        // ]);
-
-
-        // $admin->givePermissionTo($permision);
-        // $permision->assignRole($admin);
-
-
         Role::create([
             "name" =>  "AM/Sales",
             "guard_name" => "web"
@@ -68,7 +58,7 @@ class RoleSeeder extends Seeder
         ]);
 
         Role::create([
-            "name" =>  "Project Admin",
+            "name" =>  "Project Admins",
             "guard_name" => "web"
         ]);
     }

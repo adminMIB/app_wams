@@ -60,8 +60,8 @@
                 </div>
                 @endforeach
                 <div class="technical"></div>
-                <a href="{{route('timeline')}}" class="btn btn-danger btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
-                <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                <a href="{{route('timeline')}}" class="btn btn-danger " style="border-radius: 3em;"><i class="fas fa-arrow-left"></i> Back</a>
+                <button type="submit" class="btn btn-primary " style="border-radius: 3em;">Save</button>
 
             </form>
         </div>

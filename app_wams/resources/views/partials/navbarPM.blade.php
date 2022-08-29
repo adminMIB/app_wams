@@ -36,7 +36,7 @@
             </div>
             <div class="dropdown-item-desc">
               <b>{{$item->nama_institusi}}</b> and <b>{{$item->nama_project}}</b>
-              <div class="time">{{$item->nama_sales}}</div>
+              <div class="time">{{$item->nama_pmlead}}</div>
             </div>
           </a>
           @endforeach

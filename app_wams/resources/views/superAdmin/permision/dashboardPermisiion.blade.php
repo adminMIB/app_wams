@@ -9,7 +9,7 @@
 
         <div class="card-body">
           <div class="text-right">
-              <a href="{{route('/dashboard/addPermission')}}" class="btn btn-primary">Add Permission</a>
+              {{-- <a href="{{route('/dashboard/addPermission')}}" class="btn btn-primary">Add Permission</a> --}}
           </div>
           <table class="table table-hover mt-2">
               <thead style="background-color: #12406c;">

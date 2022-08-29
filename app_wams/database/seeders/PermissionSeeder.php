@@ -181,28 +181,28 @@ class PermissionSeeder extends Seeder
 
          // !buat permisiion Project Admin
         Permission::create([
-            "name" => "read data Project Admin",
+            "name" => "read data Project Admins",
             "guard_name" => "web"
         ]);
 
         Permission::create([
-            "name" => "create data Project Admin",
+            "name" => "create data Project Admins",
             "guard_name" => "web"
         ]);
         
 
         Permission::create([
-            "name" => "detail data Project Admin",
+            "name" => "detail data Project Admins",
             "guard_name" => "web"
         ]);
 
         Permission::create([
-            "name" => "update data Project Admin",
+            "name" => "update data Project Admins",
             "guard_name" => "web"
         ]);
 
         Permission::create([
-            "name" => "delete data Project Admin",
+            "name" => "delete data Project Admins",
             "guard_name" => "web"
         ]);
     }
