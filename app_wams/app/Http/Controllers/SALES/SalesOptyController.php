@@ -4,7 +4,7 @@ namespace App\Http\Controllers\SALES;
 
 use App\Exports\SalesOptyExport;
 use App\Http\Controllers\Controller;
-use App\Models\Elearning;
+use App\Models\ElearnindDetail;
 use Carbon\Carbon;
 use App\Models\SalesOpty;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ class SalesOptyController extends Controller
      */
     public function create()
     {
-        $ele = Elearning::all();
+        $ele = ElearnindDetail::all();
         
         return view('SALES.inputsales',compact('ele'));
     }
@@ -138,7 +138,7 @@ class SalesOptyController extends Controller
      */
     public function edit($id)
     {
-        $ele = Elearning::all();
+        $ele = ElearnindDetail::all();
          $edit = SalesOpty::find($id);
          return view('SALES.edit', compact('edit','ele'));
     }

@@ -22,6 +22,7 @@
                         <th>Kode Project</th>
                         <th>Nama Institusi</th>
                         <th>Nama Project</th>
+                        <th>Jenis Pekerjaan</th>
                         <th>Nama AM</th>
                         <th>Nama PM</th>
                         <th>HPS</th>
@@ -34,9 +35,10 @@
                     @if (Auth::user()->name == $item->nama_technical)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>B{{$item->lists->kode_project}}</td>
+                        <td>{{$item->lists->kode_project}}</td>
                         <td>{{$item->lists->nama_institusi}}</td>
                         <td>{{$item->lists->nama_project}}</td>
+                        <td>{{$item->jenis_pekerjaan}}</td>
                         <td>{{$item->lists->nama_sales}}</td>
                         <td>{{$item->lists->nama_pm}}</td>
                         <td>{{$item->lists->hps}}</td>

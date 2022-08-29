@@ -20,6 +20,7 @@
         "bootstrap": "^5.2.0",
         "bootstrap-icons": "^1.9.1",
         "jquery": "^3.6.0",
+        "jquery.nicescroll": "^3.7.6",
         "sweetalert2": "^11.4.24"
     }
 }

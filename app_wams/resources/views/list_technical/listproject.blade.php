@@ -6,7 +6,7 @@
 @include('sweetalert::alert')
 <section class="section">
   <div class="section-header">
-    <h2>List Project Technikal</h2>
+    <h2>Create Project Technikal</h2>
   </div>
   <div class="card">
     <div class="card-body">

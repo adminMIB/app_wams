@@ -1,6 +1,4 @@
-{{-- @if (Auth::user()->hasRole('Management'))
-@endif
- --}}
+
 
 
 
@@ -48,6 +46,7 @@
               </div>
             </a>
         @endforeach --}}
+        
         @foreach ($data as $item)
           @foreach ($item->detail as $d)
           {{-- {{$d->nama_technical}} --}}
