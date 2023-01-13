@@ -1,81 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="UTF-8">
+  <title>@yield('title')  </title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>WAMS</title>
-
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
-  <link rel="stylesheet" href="../assets/scss/style.css">
+    
+  <link rel="stylesheet" href="{{ asset('newassets/assets/css/main/app.css') }}">
+  <link rel="stylesheet" href="{{ asset('newassets/assets/css/main/app-dark.css') }}">
+  {{-- <link rel="shortcut icon" href="{{ asset('newassets/assets/images/logo/favicon.svg') }}" type="image/x-icon"> --}}
+  <link rel="icon" href="{{ asset('image/favicon.ico') }}" />
+  {{-- <link rel="shortcut icon" href="{{ asset('newassets/assets/images/logo/favicon.png') }}" type="image/png"> --}}
+  
+  <link rel="stylesheet" href="{{ asset('newassets/assets/css/shared/iconly.css') }}">
   @yield('css')
-
 </head>
 
 <body>
-  <div id="app" style="background-color: white">
-    <div class="main-wrapper" style="background-color: white">
-      <div class="navbar-bg bg-transparent"></div>
-      @if (Auth::user()->hasRole('Management'))
-      @include('partials.navbarManagement')
-      @endif
-
-
-
-      @if (Auth::user()->hasRole('PM'))
-      @include('partials.navbarPM')
-      @endif
-
-
-      @if (Auth::user()->hasRole('Technikal'))
-      @include('partials.navbarTeknikal')
-      @endif 
-
-      @include('partials.navbar')
-      @include('partials.sidebar')
-
-      <!-- Main Content -->
-      <div class="main-content" style="background-color: white">
-        @yield('content')
-      </div>
-      @yield('modal')
-      <footer class="main-footer" style="background-color: white; border:none">
-        <div class="footer-right">
-        </div>
-      </footer>
-
+  <div id="app">
+    @include('layouts.sidebar')
+    <div id="main">
+      <header class="mb-3">
+        <a href="#" class="burger-btn d-block d-xl-none">
+          <i class="bi bi-justify fs-3"></i>
+        </a>
+      </header>
+      
+      @yield('content')
+      
+      @include('layouts.footer')
     </div>
   </div>
+  
+  <script src="{{ asset('newassets/assets/js/bootstrap.js') }}"></script>
+  <script src="{{ asset('newassets/assets/js/app.js') }}"></script>
+    
+  <!-- Need: Apexcharts -->
+  <script src="{{ asset('newassets/assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('newassets/assets/js/pages/dashboard.js') }}"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script src="../assets/js/stisla.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-  <!-- JS Libraies -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="assets/js/page/bootstrap-modal.js"></script>
-  @yield('js')
-  <script src="../assets/js/scripts.js"></script>
-  <script src="../assets/js/custom.js"></script>
-  @include('sweetalert::alert')
+  <script src="{{ asset('newassets/assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+  <script src="{{ asset('newassets/assets/js/pages/form-element-select.js') }}"></script>
+
   @stack('script-internal')
 
+  @yield('js')
+
 </body>
-{{-- <script>
-  toastr.success('Have fun storming the castle!', 'Miracle Max Says')
-</script> --}}
 
 </html>

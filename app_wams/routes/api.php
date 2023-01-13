@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\API\ElearningController;
 use App\Http\Controllers\API\SalesOrderController;
+use App\Http\Controllers\API\TimelineController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +79,7 @@ use Illuminate\Support\Facades\Route;
 //     "only" => ["store", "index"]
 // ]);
 
+route::get('/tasks', [TimelineController::class, 'index']);
 
 // //manager route
 // Route::apiResource('manager','\App\Http\Controllers\API\managerController',[

@@ -21,25 +21,25 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputEmail2" class="col-sm-3 col-form-label">Tanggal Sales Order</label>
+            <label for="inputEmail2" class="col-sm-3 col-form-label">Sales Order Date</label>
             <div class="col-sm-9">
             <input type="text" class="form-control" readonly name="tgl_sales" id="inputEmail2" value="">
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">Nama Sales</label>
+            <label for="inputEmail3" class="col-sm-3 col-form-label">Sales Name</label>
             <div class="col-sm-9">
-            <input type="text" class="form-control" readonly name="nama_sales" id="inputEmail3" placeholder="Institusi" value="">
+            <input type="text" class="form-control" readonly name="nama_sales" id="inputEmail3" placeholder="sales" value="">
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">Nama Institusi</label>
+            <label for="inputEmail3" class="col-sm-3 col-form-label">Client Name</label>
             <div class="col-sm-9">
             <input type="text" class="form-control" readonly name="nama_institusi" id="inputEmail3" placeholder="Institusi" value=""> 
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputEmail3" class="col-sm-3 col-form-label">Nama Project</label>
+            <label for="inputEmail3" class="col-sm-3 col-form-label">Project Name</label>
             <div class="col-sm-9">
             <input type="text" class="form-control" readonly name="nama_project" id="inputEmail3" placeholder="Project" value="">
             </div>
@@ -64,7 +64,7 @@
           </div>
         </div>
         <div class="text-right">
-          <button class="btn btn-primary mt-5 d-flex flex-end">Kirim</button>
+          <button class="btn btn-success mt-5 d-flex flex-end">Kirim</button>
         </div>
       
         

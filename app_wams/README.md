@@ -1,64 +1,133 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
-
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
 ## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# JANGAN LUPA UNTUK COMPOSER INSTALL DAN PHP ARTISAN STORAGE:LINK
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## REVISI PORJECT WAMS :
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<!-- - sales opty admin mengambil data produk/solusi dari database sementara -->
 
-## Learning Laravel
+<!-- - user admin,view sales opty di tabahkan nama sales nya -->
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<!-- - assign di admin sales opty,sign to tecknikal lead menjadi multiple input -->
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<!-- - pm->list project technikal di hilangkan -->
 
-## Laravel Sponsors
+<!-- - project timeline mengambil data dari view project -->
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<!-- - view project di tampilkan dokumen dari admin -->
 
-### Premium Partners
+<!-- - view sales opty althaf: di tambahkan principle,distributor,presales,pmo,sbu,amount,confidence level contract amount(status menang)muncul field input baru //DONE// -->
+<!-- - status di ganti progres status DONE  -->
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+<!-- - sales opty althaf create(option status),di ganti dengan progress status DONE -->
 
-## Contributing
+<!-- - sales opty althaf create ->principle,distributor,produk/solusi,di buat table DONE -->
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<!-- - sales opty view -> di tambahkan filter tanggal awal tanggal akhir DONE -->
 
-## Code of Conduct
+<!-- - list view project technikal->di tambahkan action upload proposal dan muncul di management dan edit -->
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<!-- - create weekly repot di hapus. -->
 
-## Security Vulnerabilities
+<!-- - create weekly di tambahkan list kerjaan apa saja yang sudah di kirim dari pipeline dan id -->
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+<!-- - report progres ditambah filter date dan eport excel -->
 
-## License
+<!-- - ditambah menu sales pipelane -->
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   membuat akun finance finance keuangan,bisa membuat invoice,membuat so,po
+
+<!-- - semua account bisa update password -->
+
+<!-- - semua yang ada leadnya di hapus -->
+
+# New Revisi v3
+
+-   sales pipeline
+    <!-- - angka di hapus -->
+    <!-- - presales ambil dari teknikal -->
+    <!-- - pmo ambil dari project management -->
+    <!-- - list sales opty ganti sales pipeline -->
+    <!-- - confidence level input manual -->
+    <!-- - progress status deket confindence -->
+    -   confidence level sesuai progress status (NEXT)
+-   sales order
+    <!-- - input manual -->
+    <!-- - nambah field untuk grand total -->
+    <!-- - edit cost, product -->
+    <!-- - cetak data diubah menjadi word/excel  -->
+    <!-- - ditambah kata SO di referensi -->
+    <!-- - report task progress ditambahkan filter startdate end date -->
+    <!-- - get data admin by sign am -->
+    <!-- - multiple input cost amount -->
+    <!-- - buat table principal -->
+    <!-- - buat table product -->
+    <!-- - buat table distributor -->
+    <!-- - Persales perbaiki yang namanya -->
+    <!-- - product, quentity, harga (Edit Belum) -->
+    <!-- - Status perkerjaan muncul di am dari technikal -->
+    <!-- - yang ada di pdf -->
+    <!-- - Pt ecs ini -> distributor -->
+    <!-- - nama technikal dari admin masih menggunakan id  -->
+    <!-- - export pdf benerin logo dan sales order -->
+
+-   project admin
+    <!-- - di detail pipeline munculin pmo dan presale -->
+    <!-- - sign pipeline upload dokumen -->
+    <!-- - !filter admin project perbaiki -->
+    <!-- - sama munculin amoutnya yang di list sales piplane -->
+    <!-- - status ganti progress status -->
+    <!-- - update status dan tanggal tambah row -->
+    <!-- - tambah principal dan distributor -->
+    <!-- - sign tech am multiple,  pm satu -->
+-   technical
+-   althaf
+    <!-- - Project ID sama Status di ubah signya -->
+    <!-- - Ada tombol detail selain edit -->
+    <!-- - di view edit hanya menampilkan dokumen -->
+    <!-- - yang dari admin upload proposan timpa / nambah -->
+-   adit
+    <!-- - report timeline menampilkan dataa semuanya -->
+    <!-- - report progres menampilkan sesuai yang di assign,ditambahkan filter start date end date,nama project dan nama technikal -->
+    <!-- - nama client select hanya di tampilkan satu -->
+    <!-- - button delete di pindahkan ke index report berdampingan dengan detail -->
+-   ariz
+
+    <!-- - tambah input autofill pekerjaan  -->
+    <!-- - view project dari admin -->
+    <!-- - Uraian perkerjaan nya diraphin ngambil dari view project admin -->
+    <!-- - Create wekly report rapihin  -->
+    <!-- - Task Progres Nama Insitusi -> Nama client -->
+    <!-- - Nama client 1 , perkerjaan nya bisa double -> create wekly report -->
+    <!-- - tambah field pekerjaan di view project -->
+    <!-- - di technikal membuat 2 menu,1 untuk detail lengkap -->
+    <!-- - membuat menu baru report untuk menampilkan detail data dari sales order. -->
+
+-   rifqi
+    <!-- - nambahn field pkerrjan di edit view -->
+    <!-- - tambah list piplene dan filter start date end date dan nama sales -->
+    <!-- - view lis project admin di tambah filter date -->
+    <!-- - nambahin upload dokumen = RIFQI -->
+    <!-- - form elearning,principle tidak semua tampilkan = RIFQI -->
+-   pm
+    <!-- - option 2 bermasalah di update timeline bila nambah atau update akan mengganti id, jadi report progress tidak muncul karena id tersebut berubah -->
+    <!-- - yang dikirim dari so ditampilkan juga -->
+    <!-- - membuat menu baru report untuk menampilkan detail data dari sales order. -->
+    <!-- - menu create timeline ditambah field satu pm dan technikal -->
+    <!-- - menu report timeline semua nya muncul -->
+    <!-- - menu report progress sesuai yang di assign oleh pm ke technikal -->
+    <!-- - Technikal sama PM Report Timeline ,  report progres -->
+    <!-- - menu task progress report (ambil dari pm lead) -->
+-   super admin
+    <!-- - report (filter starded ended search nama status (all), export excel) -->
+    <!-- - report progress pekerjaan -->
+    <!-- - report timeline -->
+    <!-- - report pipeline -->
+    <!-- - report list project admin -->
+-   management
+    <!-- - Di view detail approval ditampilkan nama Technikal,PM -->
+    <!-- - Di view detail tampilkan semua informasi -->
+    <!-- - report timeline menampilkan dataa semuanya -->
+    <!-- - report progres menampilkan sesuai yang di assign,ditambahkan filter start date end date,nama project dan nama technikal -->
+
+<!-- - perbaiki tampilan dari wams mulai dari button, nama nama menggunakan bahasa indonesia  -->

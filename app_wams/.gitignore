@@ -1,9 +1,19 @@
 /node_modules
 /public/hot
 /public/storage
+/public/dokumen
+/public/bast_dokumen
+/public/DocumentLTO
+/public/file_hitungan
+/public/tmp
+/public/file_release
+/public/upload_dokumen
+/public/file_request
+/public/dokumen_project
 /storage/*.key
 /vendor
 
+.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml

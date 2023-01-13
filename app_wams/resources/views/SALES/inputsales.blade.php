@@ -1,121 +1,179 @@
 @extends('layouts.main')
 @section('content')
     <section class="section">
-    <div class="title">
-        <h1 style="color: black; margin-left: 9px; margin-top:20px">Input Sales</h1>
+    <div class="section-header">
+        <h1>Input Sales Pipeline</h1>
      </div> 
        <div class="card">
         <div class="card-body">
         <form action="{{route('Ysimpan-data')}}" method="POST" enctype="multipart/form-data">
             {{csrf_field()}}
-        
+            <input type="text" class="form-control d-none" name="arr" value="{{date('d/m/Y').'/'.$dd}}">
+
+            <input type="text" class="form-control d-none" name="no_opty" value="{{date('d/m/Y').'/'.$dd}}">
                 <div class="mb-3 row">
-                    <label for="inputNamaClient" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Nama Client</label>
-                    <div class="col-sm-10">
-                    <input type="text" class="@error('NamaClient') is-invalid @enderror form-control" name="NamaClient" placeholder="Nama Client" id="inputNamaClient">
-                    @error('NamaClient')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
-                    </div>
-                </div>
-
-                <div class="mb-2 row">
-                    <label for="inputNamaProject" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Nama Project</label>
-                    <div class="col-sm-10">
-                    <input type="text" class=" @error('NamaProject') is-invalid @enderror form-control" name="NamaProject" placeholder="Nama Project" id="inputNamaProject">
-                    @error('NamaProject')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
-                    </div>
-                </div>
-
-                <div class="mb-2 row">
-                    <label for="inputTimeline" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Produk / Solusi</label>
-                    <div class="col-sm-10">
-                        <select name="elearning_id" class="@error('elearning_id') is-invalid @enderror form-control">
-                            <option value="">-- Produk / Solusi --</option>
-                            @foreach($ele as $item)
-                        <option value="{{$item->principle}}">{{$item->principle}}</option>
+                    <label for="inputNamaClient" class="col-sm-3 col-form-label">Client Name</label>
+                    <div class="col-sm-9">
+                    <select name="NamaClient" class="form-select" required>
+                        <option value=""></option>
+                        @foreach($customer as $item)
+                        <option value="{{$item->nama}}">{{$item->nama}}</option>
                         @endforeach
+                    </select>
+                    </div>
+                </div>
+
+                <div class="mb-2 row">
+                    <label for="inputNamaProject" class="col-sm-3 col-form-label">Project Name</label>
+                    <div class="col-sm-9">
+                    <input type="text" class=" form-control" name="NamaProject" placeholder="Project Name" id="inputNamaProject" required>
+                    </div>
+                </div>
+
+                <div class="mb-2 row">
+                    <label for="inputTimeline" class="col-sm-3 col-form-label">Principal</label>
+                    <div class="col-sm-9">
+                        <select name="elearning_id" class="form-control" required>
+                            <option value="" disabled selected hidden>Principal</option>
+                            @foreach($principal as $item)
+                            <option value="{{$item->name}}">{{$item->name}}</option>
+                            @endforeach
                        
                     </select>
-                     @error('elearning_id')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
+
+                    </div>
+                </div>
+                
+                <div class="mb-2 row">
+                    <label for="inputTimeline" class="col-sm-3 col-form-label">Distributor</label>
+                    <div class="col-sm-9">
+                        <select name="distributor" class="form-control" required>
+                            <option disabled selected hidden>Distributor</option>
+                            @foreach($distributor as $item)
+                            <option value="{{$item->distributor}}">{{$item->distributor}}</option>
+                            @endforeach
+                        </select>
+
                     </div>
                 </div>
 
+                <div class="mb-2 row">
+                    <label class="col-sm-3 col-form-label">Date</label>
+                    <div class="col-sm-9">
+                    <input type="date" class="form-control date" name="Date" required>
+                    </div>
+                </div>
         
                 <div class="mb-2 row">
-                    <label for="inputTimeline" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Timeline</label>
-                    <div class="col-sm-10">
-                    <select name="Timeline" class="@error('Timeline') is-invalid @enderror form-control">
-                        <option value="">-- Timeline Dropdown Q1, Q2, Q3, Q4 --</option>
+                    <label for="inputTimeline" class="col-sm-3 col-form-label">Timeline</label>
+                    <div class="col-sm-9">
+                    <select name="Timeline" class="form-control" required>
+                        <option value="" disabled selected hidden>-- Timeline Dropdown Q1, Q2, Q3, Q4 --</option>
                         <option value="Q1"> Q1</option>
                         <option value="Q2"> Q2</option>
                         <option value="Q3"> Q3</option>
                         <option value="Q4"> Q4</option>
                        
                     </select>
-                    @error('Timeline')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
-                    </div>
-                </div>
-        
-
-                <div class="mb-2 row">
-                    <label class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Date</label>
-                    <div class="col-sm-10">
-                    <input type="date" class="@error('Date') is-invalid @enderror form-control date" name="Date">
-                    @error('Date')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
                     </div>
                 </div>
 
                 <div class="mb-2 row">
-                    <label for="inputAngka" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Angka</label>
-                    <div class="col-sm-10">
-                    <input type="number" class="@error('Angka') is-invalid @enderror form-control" name="Angka" placeholder="Angka" id="inputAngka">
-                    @error('Angka')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
+                    <label for="inputAngka" class="col-sm-3 col-form-label">Estimated Amount</label>
+                    <div class="col-sm-9">
+                    <input type="number" class="form-control" name="estimated_amount" placeholder="Estimated Amount" id="inputAngka1" required>
                     </div>
                 </div>
 
-                <div class="mb-2 row">
-                    <label for="inputStatus" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Status</label>
-                    <div class="col-sm-10">
-                    <select class="@error('Status') is-invalid @enderror form-control" name="Status">
 
-                        <option value="">-- Tender, Menang, Kalah --</option>
-                        <option value="Tender"> Tender</option>
-                        <option value="Menang"> Menang</option>
-                        <option value="Kalah"> Kalah</option>
+                <div class="mb-2 row">
+                    <label for="inputStatus" class="col-sm-3 col-form-label">Progress Status</label>
+                    <div class="col-sm-9">
+                    <select class="form-control" name="Status" required>
+
+                        <option disabled selected hidden>Progress Status</option>
+                        @foreach($prostat as $item)
+                        <option value="{{$item->title}}">{{$item->title}}</option>
+                        @endforeach
                         
                     </select>
-                    @error('Status')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
+                    </div>
+                </div>
+
+                <div class="mb-2 row">
+                    <label class="col-sm-3 col-form-label">Confidence Level</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" name="confidence_level" placeholder="Confidence Level" required>
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label class="col-sm-3 col-form-label">Contract Amount</label>
+                    <div class="col-sm-9">
+                    <input type="number" class="form-control" name="contract_amount" id="inputAngka3" placeholder="Contract Amount">
+                    </div>
+                </div>
+
+                
+
+                <div class="mb-2 row">
+                    <label for="inputStatus" class="col-sm-3 col-form-label">Presales</label>
+                    <div class="col-sm-9">
+                    <select class="form-control" name="presales" required>
+
+                        <option value="" disabled selected hidden>Presales</option>
+                        @foreach ($Technikel as $item)
+                            @foreach ($item->users as $user)
+                                <option value="{{$user->name}}">{{$user->name}}</option>
+                            @endforeach
+                        @endforeach
+                        
+                        
+                    </select>
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="inputStatus" class="col-sm-3 col-form-label">PMO</label>
+                    <div class="col-sm-9">
+                    <select class="form-control" name="pmo" required>
+
+                        <option value="" disabled selected hidden>PMO</option>
+                        @foreach ($pm as $item)
+                            @foreach ($item->users as $user)
+                                <option value="{{$user->name}}">{{$user->name}}</option>
+                            @endforeach
+                        @endforeach
+                        
+                        
+                    </select>
+                    </div>
+                </div>
+                <div class="mb-2 row">
+                    <label for="inputStatus" class="col-sm-3 col-form-label">SBU</label>
+                    <div class="col-sm-9">
+                    <select class="form-control" name="sbu" required>
+
+                        <option value="" disabled selected hidden>SBU</option>
+                        @foreach($sbu as $item)
+                        <option value="{{$item->name}}">{{$item->name}}</option>
+                        @endforeach
+                        
+                    </select>
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label" style="color:black;font-weight:bold">Note</label>
-                    <div class="col-sm-10">
-                    <textarea class="@error('Note') is-invalid @enderror form-control" name="Note" id="exampleFormControlTextarea1" ></textarea>
-                    @error('Note')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
+                    <label for="exampleFormControlTextarea1" class="col-sm-3 col-form-label">Note</label>
+                    <div class="col-sm-9">
+                    <textarea class="form-control" name="Note" id="exampleFormControlTextarea1" placeholder="Note"></textarea>
                     </div>
                 </div>
+
                 <div style="text-align:right;">
                     <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                    <a href="{{url ('index-sales')}}" class="btn btn-danger btn-sm">Back</a> 
                 </div>
         </form>
        
-        <a href="{{url ('index-sales')}}"><button type="submit" class="btn btn-danger btn-sm">Back</button></a> 
        
         </div>
        </div>
@@ -123,4 +181,54 @@
       
     
     </section>
+@endsection
+@section('js')
+{{-- <script>
+    var harga1 = document.getElementById('inputAngka1');
+    harga1.addEventListener('keyup', function(e)
+    {
+        harga1.value = formatRupiah(this.value, 'Rp. ');
+    });
+    
+    function formatRupiah(angka, prefix)
+    {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split    = number_string.split(','),
+            sisa     = split[0].length % 3,
+            rupiah     = split[0].substr(0, sisa),
+            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+            
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+</script>
+<script>
+    var harga3 = document.getElementById('inputAngka3');
+    harga3.addEventListener('keyup', function(e)
+    {
+        harga3.value = formatRupiah(this.value, 'Rp. ');
+    });
+    
+    function formatRupiah(angka, prefix)
+    {
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+            split    = number_string.split(','),
+            sisa     = split[0].length % 3,
+            rupiah     = split[0].substr(0, sisa),
+            ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+            
+        if (ribuan) {
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+        
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+</script> --}}
 @endsection

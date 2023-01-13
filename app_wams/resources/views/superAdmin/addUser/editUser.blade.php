@@ -40,9 +40,10 @@
 
                 </div>
                 <button class="btn btn-primary">Submit</button>
-            </form>
-              </div>
-      </div>
+              </form>
+            </div>
+          </div>
+          <a href="/dashboard/user" class="btn btn-secondary btn-lg d-block mt-2">Back</a>
     </section>
 @endsection
       

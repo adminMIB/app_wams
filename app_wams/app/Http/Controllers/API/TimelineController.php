@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Timeline;
+use App\Models\WeeklyReport;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,13 +14,11 @@ class TimelineController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Timeline::orderBy("created_at" , "DESC")->paginate(10);
-
+        $datas = WeeklyReport::with('editp')->orderBy('created_at', 'ASC')->paginate();
         return response()->json([
-            "status" => "true",
-            "data" => $data
+            "status" => true,
+            "data"=> $datas
         ]);
-
     }
 
     public function store(Request $request)

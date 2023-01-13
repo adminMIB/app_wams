@@ -2,19 +2,17 @@
 @section('content')
    
     <section class="section">
+      <div class="section-header">
+        <h1>User</h1>
+      </div>
       <div class="card">
-        <div class="card-header">
-          <h1>User Management</h1>
-        </div>
-
-
         <div class="card-body">
           <div class="card-body">
             <div class="text-right">
               <a href="{{route('/dashboard/addUser')}}" class="btn btn-primary">Add user</a>
           </div>
             <div>
-              <p>search user berdasarkan role</p>
+              <p>search users by role</p>
               <select class="cari custom-select mb-3" onchange="myFunction()"   name="" id="cari" placeholder="sd">
                 <option value="all">All Role</option> 
                 <option value="Super Admin">Super Admin</option> 
@@ -30,34 +28,37 @@
   
             {{-- !all role --}}
             <div class="all-role">
-              <table class="table table-hover mt-2">
-                  <thead style="background-color: #12406c;">
-                      <tr>
-                        <th class="text-white" scope="col">No</th>
-                        <th class="text-white" scope="col">Name</th>
-                        <th class="text-white" scope="col">Email</th>
-                        <th class="text-white" scope="col">Role</th>
-                        <th class="text-white" scope="col">action</th>
-                        </tr>
-                    </thead>
-                    @foreach ($user as $dd)
-                    <tbody>
-                      <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$dd->name}}</td>
-                        <td>{{$dd->email}}</td>
-                        
-                        @foreach($dd->roles as $d)
-                        <td>{{$d->name}}</td>
-                        @endforeach
-                        <td>
-                          <a href={{url('/editUser', $dd->id)}}>Edit</a> |
-                          <a href="{{url('/dashboard/deleteUser',$dd->id)}}">Delete</a>
-                        </td>
+              <a href="/contoh/export_excel" class="btn btn-success my-3" target="_blank">EXPORT EXCEL</a>
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped mt-2">
+                  <thead>
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">action</th>
                       </tr>
-                    </tbody>
-                    @endforeach
-              </table>
+                  </thead>
+                  @foreach ($user as $dd)
+                  <tbody>
+                    <tr>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{$dd->name}}</td>
+                      <td>{{$dd->email}}</td>
+                      
+                      @foreach($dd->roles as $d)
+                      <td>{{$d->name}}</td>
+                      @endforeach
+                      <td>
+                        <a href={{url('/editUser', $dd->id)}}>Edit</a> |
+                        <a  onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" href="{{url('/dashboard/deleteUser',$dd->id)}}">Delete</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                  @endforeach
+                </table>
+              </div>
             </div>
 
             {{-- !super admin --}}
@@ -340,7 +341,7 @@
                   @endforeach
               </table>
             </div>
-
+            {{ $user->links() }}
         </div>
         </div>
       </div>

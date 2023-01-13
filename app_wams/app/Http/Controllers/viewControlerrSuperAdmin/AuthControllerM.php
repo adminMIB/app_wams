@@ -48,27 +48,17 @@ class AuthControllerM extends Controller
     {        
         try {
             DB::beginTransaction();
-            // $validator = Validator::make($request->all(),[
-            //     'name' => 'required|string|max:30',
-            //     'email' => 'required|unique:users|email',
-            //     'password' => 'required|min:6',
-            // ]);  
-            
-            // if($validator->fails()) {
-            //     return response()->json([
-            //         'status' => false,
-            //         'message' => 'validation error',
-            //         'errors' => $validator->errors()
-            //     ], 442);
-            // }
 
-            $request->validate([
-                'name' => 'required|string|max:30',
+            $validator = Validator::make($request->all(),[
                 'email' => 'required|unique:users|email',
                 'password' => 'required|min:6',
                 'names' => 'required'
-            ]);
+            ]);    
             
+            
+            if($validator->fails()) {
+                return back()->with('error', 'Please provide all value!');
+            }
             
 
             $user = User::create([
@@ -90,7 +80,7 @@ class AuthControllerM extends Controller
             $token = $user->createToken('wams')->plainTextToken;
             DB::commit();
 
-            return redirect('dashboard/user');
+            return redirect('dashboard/user')->with('success', 'Account berhasil ditambah');
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -100,6 +90,18 @@ class AuthControllerM extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|unique:users|email',
+            'password' => 'required|',
+            'name' => 'required'
+        ]);    
+        
+        
+        if($validator->fails()) {
+            return back()->with('error', 'Please provide all value!');
+        }
+        
         try {
             $getData = User::findOrFail($id);
 
@@ -126,7 +128,7 @@ class AuthControllerM extends Controller
             $getData->assignRole($role);
             
 
-            return redirect('dashboard/user');
+            return redirect('dashboard/user')->with('success', 'account berhasil di update');
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json($th->getMessage());
@@ -138,7 +140,7 @@ class AuthControllerM extends Controller
         $delete = User::find($id);
         $delete->delete();
 
-        return back();
+        return back()->with('success', 'account berhasil di hapus!');
 
     }
 }

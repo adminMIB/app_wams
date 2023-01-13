@@ -2,10 +2,10 @@
 @section('content')
    
     <section class="section">
+      <div class="section-header">
+        <h1>Add Role</h1>
+      </div>
       <div class="card">
-        <div class="card-header">
-          <h1>Add Role</h1>
-        </div>
         <div class="card-body">
 
 

@@ -17,11 +17,6 @@ class CreateWeeklyReportsTable extends Migration
             $table->id();
             $table->string('name_client');
             $table->string('name_project');
-            $table->string('job_essay');
-            $table->date('start_date');
-            $table->date('end_date');
-            $table->string('status');
-            $table->string('note');
             $table->string('name_technikal');
             $table->timestamps();
         });

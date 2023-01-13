@@ -2,10 +2,10 @@
 @section('content')
    
     <section class="section">
+      <div class="section-header">
+        <h1>Add User</h1>
+      </div>
       <div class="card">
-        <div class="card-header">
-          <h1>Add User</h1>
-        </div>
         <div class="card-body">
 
 
@@ -54,7 +54,10 @@
                     @endforeach
                   </select>
                 </div>
-                <button class="btn btn-primary">Kirim</button>
+                <div class="d-flex  justify-content-between mt-5">
+                  <a href="/dashboard/user" class="btn btn-lg btn-primary text-white">Back</a>
+                  <button class="btn btn-lg btn-success">Submit</button>
+                </div>
                 </form>
               </div>
             </div>

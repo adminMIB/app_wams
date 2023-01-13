@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ElearnindDetail;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
@@ -62,7 +64,7 @@ class LoginController extends Controller
         else if (Auth::user()->hasRole('AM/Sales')) {
             // jika role super AM/Sales'  -> arahkan ke dashboard am/sales
             return redirect()->intended('dashboardAmSales');
-        } 
+        }
 
         //! ini pengecekan role Pm
         else if (Auth::user()->hasRole('PM')) {
@@ -73,7 +75,7 @@ class LoginController extends Controller
         //! ini pengecekan admin project
         if ( Auth::user()->hasRole('Project Admins')) {
             // jika role super admin  -> arahkan ke dashboard super admin
-            return redirect()->intended('adminproject');
+            return redirect()->intended('dashboardAdmin');
             // return response()->json([
             //     "status" => 'ok'
             // ]);
@@ -82,7 +84,7 @@ class LoginController extends Controller
         //! ini pengecekan role 
         else if (Auth::user()->hasRole('Management')) {
             // jika role super Management  -> arahkan ke dashboard Management
-            return redirect()->intended('um/dashboard');
+            return redirect()->intended('umdashboard');
 
         } 
 
@@ -103,9 +105,15 @@ class LoginController extends Controller
         //! ini pengecekan role finance
         else if (Auth::user()->hasRole('Finance')) {
             // jika role super finance  -> arahkan ke dashboard finance
-            return response()->json([
-                "message " => 'ini dashboard finance'
-            ]);
+            return redirect()->intended('dashboardFinance');   
+            
+        } 
+        
+        //! ini pengecekan role corporate
+        else if (Auth::user()->hasRole('Corporate')) {
+            // jika role super finance  -> arahkan ke dashboard finance
+            return redirect()->intended('dashboardCorporate');   
+            
         } 
 
         else if (Auth::user()->hasRole('PM Lead')) {
