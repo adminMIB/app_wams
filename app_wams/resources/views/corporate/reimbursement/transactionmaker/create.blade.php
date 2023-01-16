@@ -55,8 +55,11 @@
             <input type="file" class="form-control" name="file_MoM" required>
         </div>
     </div>
-    <div class="text-end">
-        <a href="{{ route('TMReimbursement') }}" class="btn btn-secondary">Back</a>
-        <button type="submit" class="btn btn-success">Kirim</button>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-sm btn-info" >Submit</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+        <i class="bx bx-x d-block d-sm-none"></i>
+        <span class="d-none d-sm-block">Close</span>
+        </button>
     </div>
 </form>

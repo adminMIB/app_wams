@@ -128,15 +128,16 @@ class DCLController extends Controller
     public function indexTmakerdcl($id)
     {
         $item = PicDistributor::find($id);
-
-        return view('corporate.dcl.tmakerdcl.create', compact('item'));
-    }
-    
-    public function createTmakerdcl()
-    {
         $sbu = Sbu::all();
 
-        return view('corporate.dcl.tmakerdcl.create', compact('sbu'));
+        return view('corporate.dcl.tmakerdcl.create', compact('item', 'sbu'));
+    }
+    
+    public function showTmakerdcl($id)
+    {
+        $tmdcl = PicDistributor::find($id);
+
+        return view('corporate.dcl.tmakerdcl.index', compact('tmdcl'));
     }
 
     public function storeTmakerdcl(Request $request)
@@ -169,14 +170,17 @@ class DCLController extends Controller
 
             $time = new TransactionMakerDcl;
 
-            $time->tanggal_reimbursement    = $data1['tanggal_reimbursement'];
-            $time->nama_pic_reimbursement   = $data1['nama_pic_reimbursement'];
-            $time->nominal_reimbursement    = $data1['nominal_reimbursement'];
+            $time->picdisti_id              = $data1['picdisti_id'];
+            $time->tanggal_po               = $data1['tanggal_po'];
+            $time->nama_project             = $data1['nama_project'];
+            $time->nama_client              = $data1['nama_client'];
+            $time->nama_eu                  = $data1['nama_eu'];
+            $time->nominal_po               = $data1['nominal_po'];
+            $time->nama_sbu                 = $data1['nama_sbu'];
+            $time->nama_pic                 = $data1['nama_pic'];
             $time->pic_business_channel     = $data1['pic_business_channel'];
-            $time->client                   = $data1['client'];
-            $time->pic_client               = $data1['pic_client'];
-            $time->file_po_client           = $data1['file_kwitansi'] = $file_po_client_name;
-            $time->file_po_mib              = $data1['file_MoM'] = $file_po_mib_name;
+            $time->file_po_client           = $data1['file_po_client'] = $file_po_client_name;
+            $time->file_po_mib              = $data1['file_po_mib'] = $file_po_mib_name;
             $time->save();
             
             return redirect()->back()->with('success', 'Berhasil buat Transaction Maker');
@@ -184,5 +188,39 @@ class DCLController extends Controller
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
+    }
+
+    public function destroydisti($id)
+    {
+        Distributor::find($id)->delete();
+ 
+        return back()->with('success', 'data berhasil di hapus');
+    }
+    
+    public function destroysbu($id)
+    {
+        Sbu::find($id)->delete();
+ 
+        return back()->with('success', 'data berhasil di hapus');
+    }
+
+    public function destroypicdisti($id)
+    {
+        $op = PicDistributor::find($id);
+
+        $tmre = TransactionMakerDcl::all();
+
+        foreach ($tmre as $key => $v) {
+            $amid = $op->id; // 2 -> tabel salesorder
+
+            if ($amid ==  $v->picdisti_id) {
+                // return $v->id;
+                TransactionMakerDcl::find($v->id)->delete();
+            }
+        }
+
+        $op->delete();
+ 
+        return back()->with('success', 'data berhasil di hapus');
     }
 }

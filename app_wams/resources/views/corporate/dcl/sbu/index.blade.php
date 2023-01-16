@@ -36,7 +36,7 @@
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->PicSales }}</td>
                         <td>
-                            
+                          <a href="{{ route('dclsbudelete', $item->id) }}" onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     @endforeach

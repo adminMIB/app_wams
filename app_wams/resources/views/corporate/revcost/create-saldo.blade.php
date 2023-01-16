@@ -21,6 +21,7 @@
                         </div>
                     </div>
                     <div class="text-end">
+                        <a href="{{ route('index-saldo') }}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </form>

@@ -1,118 +1,62 @@
-
-<div class="p2">
-    <div class="card">
+<form action="{{route('update-TMACDC',$item->id)}}" method="POST" enctype="multipart/form-data">
+    {{ csrf_field() }}
+    <div class="mb-2 row">
+        <label  class="col-sm-2 col-form-label" style="font-size: 12px">Principal</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="principal_name" value="{{ $item->cpt->principal_name }}" required>
+        </div>
     </div> 
-    {{-- <div class="form-group d-flex"> --}}
-        <form action="{{route('saveTMAC',$item->id)}}" method="POST" enctype="multipart/form-data">
-            @csrf
-            
-            <div class="mb-2 row">
-                <label  class="col-sm-1 col-form-label" style="font-size: 12px">ID Project</label>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                       <select name="cpt_id" class="form-control" id="id">
-                            <option value=""></option>
-                            @foreach ($pt as $cpt)
-                                <option value="{{$cpt->id_project}}">{{$cpt->id_project}}</option>
-                            @endforeach
-                       </select>
-                       <input type="text" id="id" name="cpt_id">
-                    </div>
-                </div>
-            </div>
-  
-            <div class="mb-2 row">
-                <label  class="col-sm-1 col-form-label" style="font-size: 12px">Jenis Transaksi</label>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                      <select name="jenis_transaksi" class="form-control" id="">
-                        <option value=""></option>
-                        <option value="Transfer">Transfer</option>
-                        <option value="Cash">Cash</option>
-                        <option value="Payment">Payment</option>
-                    </select>
-                    </div>
-                </div>
-            </div>
-  
-            <div class="mb-2 row">
-                <label  class="col-sm-1 col-form-label" style="font-size: 12px">Nama Tujuan</label>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="nama_tujuan" id="">
-                    </div>
-                </div>
-            </div>
-  
-            <div class="mb-2 row">
-                <label  class="col-sm-1 col-form-label" style="font-size: 12px">Nominal</label>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="nominal" id="">
-                    </div>
-                </div>
-            </div>
-  
-            <div class="mb-2 row">
-                <label  class="col-sm-1 col-form-label" style="font-size: 12px">Keterangan</label>
-                <div class="col-sm-10">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="keterangan">
-                    </div>
-                </div>
-            </div>
-  
-            <div class="mb-2 row">
-              <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Request</label>
-              <div class="col-sm-10">
-                  <div class="form-group">
-                      <input type="file" class="form-control" name="upload_request">
-                  </div>
-              </div>
-            </div>
-  
-            <div class="mb-2 row">
-              <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Release</label>
-              <div class="col-sm-10">
-                  <div class="form-group">
-                      <input type="file" class="form-control" name="upload_release">
-                  </div>
-              </div>
-            </div>
-            
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-sm btn-info" >Submit</button>
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                <i class="bx bx-x d-block d-sm-none"></i>
-                <span class="d-none d-sm-block">Close</span>
-            </button>
-        </form>
-    {{-- </div>     --}}
-  </div>
-  @section('js')
-  <script src="{{ asset('newassets/assets/extensions/jquery/jquery.min.js') }}"></script>
-  <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-  <script src="{{ asset('newassets/assets/js/pages/datatables.js') }}"></script>
-  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script>
-  $('#id').change(function() {
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
+    
+    <div class="mb-2 row">
+        <label  class="col-sm-2 col-form-label" style="font-size: 12px">Client Name</label>
+        <div class="col-sm-10">
+            <select name="cpt_id" class="form-select" id="">
+                <option value="{{ $item->cpt_id }}" hidden > {{ $item->cpt->client_name }}</option>
+                <option value=""></option>
+                @foreach ($cp as $it)
+                    <option value="{{ $it->id}}">{{ $it->client_name}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div> 
 
-    $.ajax({
-      method: "POST",
-      type: "JSON",
-      data: {
-        id: this.value
-      },
-      url: "/cpt"
-    }).done(function(res) {
-          $("#id").val(res.id)
-        
-    })
-  });
-</script>
-  @endsection
+    <div class="mb-2 row">
+        <label  class="col-sm-2 col-form-label" style="font-size: 12px">Project Name</label>
+        <div class="col-sm-10">
+            <select name="project_name" class="form-select" id="">
+                <option value="{{ $item->cpt->project_name }}" > {{ $item->cpt->project_name }}</option>
+                <option value=""></option>
+                @foreach ($cp as $it)
+                    <option value="{{ $it->project_name }}">{{ $it->project_name}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div> 
+
+    <div class="mb-2 row">
+        <label  class="col-sm-2 col-form-label" style="font-size: 12px">ID Project</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="id_project" value="{{ $item->cpt->id_project }}" required>
+        </div>
+    </div> 
+{{--     
+    <div class="mb-2 row">
+        <label  class="col-sm-2 col-form-label" style="font-size: 12px">ID</label>
+        <div class="col-sm-10">
+            <select name="opptyproject_id" class="form-select" id="">
+                <option value="{{ $item->opptyproject_id }}" hidden>{{ $item->tmaker->jenis }} - {{ $item->tmaker->ID_opptyproject }}</option>
+                @foreach ($opptprjt as $it)
+                    <option value="{{ $it->id }}">{{ $it->jenis }} - {{ $it->ID_opptyproject }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>  --}}
+    
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-sm btn-info" >Submit</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+        <i class="bx bx-x d-block d-sm-none"></i>
+        <span class="d-none d-sm-block">Close</span>
+        </button>
+    </div>
+</form>

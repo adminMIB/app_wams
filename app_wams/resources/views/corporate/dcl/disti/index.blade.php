@@ -36,7 +36,7 @@
                         <td>{{ $item->distributor }}</td>
                         <td>{{ $item->alamat_disti }}</td>
                         <td>
-                            
+                          <a href="{{ route('clientdelete', $item->id) }}" onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     @endforeach

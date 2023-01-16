@@ -12,4 +12,9 @@ class CreatePRK extends Model
     protected $fillable =[
         "pengajuan_cl","jumlah_cl","jenis_kolateral","keterangan"
     ];
+
+    public function tmcmm()
+    {
+        return $this->hasMany(TransactionMakerCMM::class, 'cmm_id');
+    }
 }

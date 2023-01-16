@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\Validator;
 
 class RevenueCostController extends Controller
 {
+    public function indexSaldo()
+    {
+        $saldo = SaldoAwal::all();
+        return view("corporate.revcost.index-saldo", compact('saldo'));
+    }
+
     public function createSaldo()
     {
         return view("corporate.revcost.create-saldo");
@@ -36,7 +42,7 @@ class RevenueCostController extends Controller
             $sld->tanggal_saldo=$request->tanggal_saldo;
             $sld->save();
 
-            return redirect()->back()->with('success', 'Berhasil Create Saldo');
+            return redirect('SaldoAwal')->with('success', 'Berhasil Create Saldo');
 
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -50,9 +56,11 @@ class RevenueCostController extends Controller
         return view("corporate.revcost.index-tmaker", compact('tmaker'));
     }
 
-    public function createTmaker()
+    public function createTmaker($id)
     {
-        return view("corporate.revcost.transaction-maker");
+        $item= SaldoAwal::find($id);
+
+        return view("corporate.revcost.transaction-maker", compact('item'));
     }
 
     public function storeTmaker(Request $request)
@@ -72,6 +80,7 @@ class RevenueCostController extends Controller
             $trx = new TransactionMakerRevCost;
 
             if (!$request->penerimaan_project) {
+                $trx->sldawl_id=$request->sldawl_id;
                 $trx->project_id=$request->project_id;
                 $trx->nama_project=$request->nama_project;
                 $trx->nama_client=$request->nama_client;
@@ -84,6 +93,7 @@ class RevenueCostController extends Controller
             }
 
             if (!$request->pengeluaran_project) {
+                $trx->sldawl_id=$request->sldawl_id;
                 $trx->project_id=$request->project_id;
                 $trx->nama_project=$request->nama_project;
                 $trx->nama_client=$request->nama_client;
@@ -102,12 +112,11 @@ class RevenueCostController extends Controller
         }
     }
 
-    public function index()
+    public function detailTmaker($id)
     {
-        $tmaker = TransactionMakerRevCost::all();
-        $sawal = SaldoAwal::all();
+        $sawal = SaldoAwal::with('detailtmrevcost')->find($id);
 
-        return view("corporate.revcost.index", compact('tmaker', 'sawal'));
+        return view("corporate.revcost.index", compact('sawal'));
     }
 
     public function deleteAll()
@@ -116,5 +125,25 @@ class RevenueCostController extends Controller
         DB::table('saldo_awals')->delete();
 
         return redirect()->back();
+    }
+
+    public function destroySaldo($id)
+    {
+        $op = SaldoAwal::find($id);
+
+        $tmre = TransactionMakerRevCost::all();
+
+        foreach ($tmre as $key => $v) {
+            $amid = $op->id; // 2 -> tabel salesorder
+
+            if ($amid ==  $v->sldawl_id) {
+                // return $v->id;
+                TransactionMakerRevCost::find($v->id)->delete();
+            }
+        }
+
+        $op->delete();
+ 
+        return back()->with('success', 'data berhasil di hapus');
     }
 }

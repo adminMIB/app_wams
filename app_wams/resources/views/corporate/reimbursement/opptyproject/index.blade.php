@@ -46,9 +46,9 @@
                                 <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </div>
                                 <div class="dropdown-menu text-center">
-                                    <a style="float: left;" onclick="CreateTMReim({{$item->id}})">Transaction Maker</a>
-                                    <br>
-                                    <a href="{{route('showcpt',$item->id)}}" style="color: gray;float:left;margin-top:6%">Detail</a>
+                                    <a class="btn btn-primary btn-sm" onclick="CreateTMReim({{$item->id}})">Transaction Maker</a>
+                                    <a href="{{route('show-TMReimbursement',$item->id)}}" class="btn btn-info btn-sm">Detail</a>
+                                    <a href="{{ route('opdelete', $item->id) }}" onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
                         </td>

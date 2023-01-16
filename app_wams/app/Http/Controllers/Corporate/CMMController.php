@@ -49,15 +49,18 @@ class CMMController extends Controller
     }
 
     //Create Transaction Maker
-    public function indexTMCMM()
+    public function CreateTMCMM($id)
     {
-        $tmcmm = TransactionMakerCMM::all();
-        return view('corporate.CMM.TransactionMakerCMM.indexTM-CMM',compact('tmcmm'));
+        $item= CreatePRK::find($id);
+        return view('corporate.CMM.TransactionMakerCMM.indexTM-CMM',compact('item'));
     }
 
-    public function saveTMCMM(Request $request)
+    public function saveTMCMM(Request $request,$id)
     {
+        $tm = CreatePRK::with('tmcmm')->find($id);
+
         TransactionMakerCMM::create([
+            "cmm_id" => $tm->id,
             "tgl_po" => $request -> tgl_po,
             "nama_project" => $request -> nama_project,
             "nama_klien" => $request -> nama_klien,
@@ -66,5 +69,35 @@ class CMMController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+    public function detailTMCMM($id)
+    {
+        $dtmcmm = CreatePRK::with('tmcmm')->find($id);
+        return view('corporate.CMM.TransactionMakerCMM.detailTMCMM',compact('dtmcmm'));
+    }
+
+    public function deleteCB($id)
+    {
+        $cb = CreateBank::find($id);
+        $cb->delete();
+        return back();
+    }
+
+    public function deletePRK($id)
+    {
+        $so = CreatePRK::find($id);
+        $am = TransactionMakerCMM::all();
+        
+        foreach ($am as $key => $v) {
+            $amid = $so->id; // 2 -> tabel salesorder
+
+            if ($amid ==  $v->cmm_id) {
+                TransactionMakerCMM::find($v->id)->delete();
+            }
+        }
+
+        $so->delete();
+        return redirect()->back()->with('success','Data berhasil di hapus');
     }
 }

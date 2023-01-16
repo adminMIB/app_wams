@@ -42,7 +42,7 @@
               <label  class="col-sm-1 col-form-label" style="font-size: 12px">Nominal</label>
               <div class="col-sm-10">
                   <div class="form-group">
-                      <input type="text" class="form-control" name="nominal" id="">
+                      <input type="number" class="form-control" name="nominal" id="">
                   </div>
               </div>
           </div>
@@ -60,7 +60,7 @@
             <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Request</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="file" class="form-control" name="upload_request">
+                    <input type="file" class="form-control" name="upload_request" required>
                 </div>
             </div>
           </div>
@@ -69,7 +69,7 @@
             <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Release</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="file" class="form-control" name="upload_release">
+                    <input type="file" class="form-control" name="upload_release" required>
                 </div>
             </div>
           </div>

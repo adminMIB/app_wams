@@ -24,7 +24,8 @@
                         $total_penerimaan = 0;
                         $total_pengeluaran = 0;
                         $total = 0;
-                            foreach ($tmaker as $item){
+                        $hasil = 0;
+                            foreach ($sawal->detailtmrevcost as $item){
                                 ?>
                         <tr>
                             @if (!$item->tanggal_penerimaan)
@@ -49,6 +50,7 @@
                                 $total_penerimaan +=$item->penerimaan_project;
                                 $total_pengeluaran += $item->pengeluaran_project;
                                 $total = $total_penerimaan - $total_pengeluaran;
+                                $hasil = $sawal->jumlah_saldo - $total;
                             }
                         ?>
                         <tr>
@@ -63,15 +65,7 @@
                     <tr>
                         <td>Saldo Awal</td>
                         <th class="text-end">
-                            <?php
-                            $hasil = 0;
-                                foreach ($sawal as $it){
-                                    ?>
-                            {{ $it->jumlah_saldo }}
-                            <?php
-                                    $hasil = $it->jumlah_saldo - $total;
-                                }
-                            ?>
+                            {{ $sawal->jumlah_saldo }}
                         </th>
                     </tr>
                     <tr>
@@ -85,7 +79,8 @@
                 </table>
             </div>
             <div class="card-footer">
-                <a href="{{ route('delete-TMRevCost') }}" class="btn btn-danger">Clear</a>
+                {{-- <a href="{{ route('delete-TMRevCost') }}" class="btn btn-danger">Clear</a> --}}
+                <a href="{{ route('index-saldo') }}" class="btn btn-secondary">Back</a>
             </div>
         </div>
     </section>

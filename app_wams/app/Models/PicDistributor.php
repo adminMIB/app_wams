@@ -10,4 +10,9 @@ class PicDistributor extends Model
     use HasFactory;
 
     protected $guarded = ["id"];
+
+    public function detailtmdcl()
+    {
+        return $this->hasMany(TransactionMakerDcl::class, 'picdisti_id');
+    }
 }

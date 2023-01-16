@@ -36,7 +36,7 @@
                         <td>{{ $item->divisi }}</td>
                         <td>{{ $item->nama_personel }}</td>
                         <td>
-                            
+                            <a href="{{ route('personeldelete', $item->id) }}" onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     @endforeach
@@ -52,7 +52,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-center" style="text-align: center" id="exampleModalLabel">Create Personel Team</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

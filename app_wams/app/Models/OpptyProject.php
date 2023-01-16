@@ -12,4 +12,9 @@ class OpptyProject extends Model
     protected $fillable=[
         "jenis", "ID_opptyproject", "nama_project", "pic_bussiness_channel", "client"
     ];
+
+    public function detailtmreim()
+    {
+        return $this->hasMany(TransactionMakerReimbursement::class, 'opptyproject_id');
+    }
 }

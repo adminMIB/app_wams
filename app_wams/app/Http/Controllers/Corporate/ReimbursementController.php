@@ -145,16 +145,25 @@ class ReimbursementController extends Controller
         return view('corporate.reimbursement.transactionmaker.create',compact('item'));
     }
 
-    public function indexTmakerreimburs()
-    {
-        $tmreim = TransactionMakerReimbursement::all();
+    // public function indexTmakerreimburs()
+    // {
+    //     $tmreim = TransactionMakerReimbursement::all();
 
+    //     return view('corporate.reimbursement.transactionmaker.index', compact('tmreim'));
+    // }
+
+    public function showTMReim($id)
+    {
+        $tmreim = OpptyProject::with('detailtmreim')->find($id);
         return view('corporate.reimbursement.transactionmaker.index', compact('tmreim'));
     }
     
-    public function createTmakerreimburs()
+    public function editTmReim($id)
     {
-        return view('corporate.reimbursement.transactionmaker.create');
+        $item= TransactionMakerReimbursement::find($id);
+        $opptprjt = OpptyProject::all();
+
+        return view('corporate.reimbursement.transactionmaker.edit',compact('item', 'opptprjt'));
     }
 
     public function storeTmakerreimburs(Request $request)
@@ -187,6 +196,7 @@ class ReimbursementController extends Controller
 
             $time = new TransactionMakerReimbursement;
 
+            $time->opptyproject_id          = $data1['opptyproject_id'];
             $time->tanggal_reimbursement    = $data1['tanggal_reimbursement'];
             $time->nama_pic_reimbursement   = $data1['nama_pic_reimbursement'];
             $time->nominal_reimbursement    = $data1['nominal_reimbursement'];
@@ -202,5 +212,70 @@ class ReimbursementController extends Controller
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
+    }
+    
+    public function updateTmakerreimburs(Request $request, $id)
+    {
+        $edittm = TransactionMakerReimbursement::find($id);
+
+        try {
+            $validate = Validator::make($request->all(), [
+                // "jumlah_saldo" => "required|string|max:30",
+                // "institusi" => "required|string",
+                // "project" => "required|string",
+                // "no_doc" => "required|string|max:30|unique:sales_orders"
+            ]);
+            
+            if ($validate->fails()) {
+                return response()->json($validate->errors());
+            }
+
+            // $data1=$request->all();
+
+            $edittm->update([
+                "nama_pic_reimbursement" => $request->nama_pic_reimbursement,
+                "pic_business_channel" => $request->pic_business_channel,
+                "opptyproject_id" => $request->opptyproject_id,
+            ]);
+            
+            return redirect()->back()->with('success', 'Berhasil buat Transaction Maker');
+            
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
+
+    public function destroyPersonel($id)
+    {
+        PersonelTeam::find($id)->delete();
+ 
+        return back()->with('success', 'data berhasil di hapus');
+    }
+    
+    public function destroyClient($id)
+    {
+        Customer::find($id)->delete();
+ 
+        return back()->with('success', 'data berhasil di hapus');
+    }
+    
+    public function destroyOpptyproject($id)
+    {
+        $op = OpptyProject::find($id);
+
+        $tmre = TransactionMakerReimbursement::all();
+
+        foreach ($tmre as $key => $v) {
+            $amid = $op->id; // 2 -> tabel salesorder
+
+            if ($amid ==  $v->opptyproject_id) {
+                // return $v->id;
+                TransactionMakerReimbursement::find($v->id)->delete();
+            }
+        }
+
+        $op->delete();
+ 
+        return back()->with('success', 'data berhasil di hapus');
     }
 }

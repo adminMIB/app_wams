@@ -494,56 +494,72 @@ Route::group(['middleware'], function () {
   // Reimbursement
   Route::get('/PersonelTeam', [ReimbursementController::class, 'indexPersonelteam'])->name('personelindex');
   Route::post('/PersonelTeam', [ReimbursementController::class, 'storePersonelteam'])->name('personelstore');
+  Route::get('/PersonelTeam/{id}', [ReimbursementController::class, 'destroyPersonel'])->name('personeldelete');
   
   Route::get('/Client-Reimbursement', [ReimbursementController::class, 'indexClient'])->name('clientindex');
   Route::get('/Client-Reimbursement/create', [ReimbursementController::class, 'createClient'])->name('clientcreate');
   Route::post('/Client-Reimbursement/create', [ReimbursementController::class, 'storeClient'])->name('clientstore');
+  Route::get('/Client-Reimbursement/{id}', [ReimbursementController::class, 'destroyClient'])->name('clientdelete');
 
   Route::get('/OpptyProject', [ReimbursementController::class, 'indexOpptyproject'])->name('opptyprojectindex');
   Route::get('/OpptyProject/create', [ReimbursementController::class, 'createOpptyproject'])->name('opptyprojectcreate');
   Route::post('/OpptyProject/create', [ReimbursementController::class, 'storeOpptyproject'])->name('opptyprojectstore');
+  Route::get('/OpptyProject/{id}', [ReimbursementController::class, 'destroyOpptyproject'])->name('opdelete');
   
   Route::get('/createTMReim/{id}',[ReimbursementController::class,'CreateTMReim'])->name('createTMReim');
   // Route::get('/Transaction-Maker/Reimbursement', [ReimbursementController::class, 'indexTmakerreimburs'])->name('TMReimbursement');
   // Route::get('/Transaction-Maker/Reimbursement/create', [ReimbursementController::class, 'createTmakerreimburs'])->name('create-TMReimbursement');
+  Route::get('/Transaction-Maker/Reimbursement/edit/{id}',[ReimbursementController::class,'editTmReim'])->name('edit-TMReimbursement');
+  Route::post('/Transaction-Maker/Reimbursement/update/{id}',[ReimbursementController::class,'updateTmakerreimburs'])->name('update-TMReimbursement');
+  Route::get('/Transaction-Maker/Reimbursement/show/{id}',[ReimbursementController::class,'showTMReim'])->name('show-TMReimbursement');
   Route::post('/Transaction-Maker/Reimbursement/create', [ReimbursementController::class, 'storeTmakerreimburs'])->name('store-TMReimbursement');
 
   // Revenue vs Cost
-  Route::get('/SaldoAwal', [RevenueCostController::class, 'createSaldo'])->name('create-saldo');
-  Route::post('/SaldoAwal', [RevenueCostController::class, 'storeSaldo'])->name('store-saldo');
-  Route::get('/Transaction-Maker/RevenuevsCost', [RevenueCostController::class, 'indexTmaker'])->name('TMRevCost');
-  Route::get('/Create/RevenuevsCost', [RevenueCostController::class, 'createTmaker'])->name('create-TMRevCost');
+  Route::get('/SaldoAwal', [RevenueCostController::class, 'indexSaldo'])->name('index-saldo');
+  Route::get('/SaldoAwal/{id}', [RevenueCostController::class, 'destroySaldo'])->name('deletesaldo');
+  Route::get('/SaldoAwal/create', [RevenueCostController::class, 'createSaldo'])->name('create-saldo');
+  Route::post('/SaldoAwal/create', [RevenueCostController::class, 'storeSaldo'])->name('store-saldo');
+  Route::get('/Transaction-Maker/RevenuevsCost/{id}', [RevenueCostController::class, 'detailTmaker'])->name('detail-TMRevCost');
+  // Route::get('/Transaction-Maker/RevenuevsCost', [RevenueCostController::class, 'indexTmaker'])->name('TMRevCost');
+  Route::get('/Create/RevenuevsCost/{id}', [RevenueCostController::class, 'createTmaker'])->name('create-TMRevCost');
   Route::post('/Transaction-Maker/RevenuevsCost', [RevenueCostController::class, 'storeTmaker'])->name('store-TMRevCost');
   Route::get('/Delete-all/RevenuevsCost', [RevenueCostController::class, 'deleteAll'])->name('delete-TMRevCost');
   
   // DCL
   Route::get('/DCL-DISTRIBUTOR', [DCLController::class, 'indexdisti'])->name('dcldistiindex');
   Route::post('/DCL-DISTRIBUTOR', [DCLController::class, 'storedisti'])->name('dcldististore');
+  Route::get('/DCL-DISTRIBUTOR/{id}', [DCLController::class, 'destroydisti'])->name('dcldistidelete');
   
   Route::get('/DCL-SBU', [DCLController::class, 'indexsbu'])->name('dclsbuindex');
   Route::post('/DCL-SBU', [DCLController::class, 'storesbu'])->name('dclsbustore');
+  Route::get('/DCL-SBU/{id}', [DCLController::class, 'destroysbu'])->name('dclsbudelete');
   
   Route::get('/PIC-Distributor', [DCLController::class, 'indexPic'])->name('picdistiindex');
   Route::get('/PIC-Distributor/create', [DCLController::class, 'createPic'])->name('picdisticreate');
   Route::post('/PIC-Distributor/create', [DCLController::class, 'storePic'])->name('picdististore');
+  Route::get('/PIC-Distributor/{id}', [DCLController::class, 'destroypicdisti'])->name('picdistidelete');
   
   Route::get('/Transaction-Maker/DCL/{id}', [DCLController::class, 'indexTmakerdcl'])->name('TMDLCindex');
-  Route::get('/Transaction-Maker/DCL/create', [DCLController::class, 'createTmakerdcl'])->name('TMDLcreate');
+  Route::get('/Transaction-Maker/DCL/show/{id}', [DCLController::class, 'showTmakerdcl'])->name('TMDLshow');
   Route::post('/Transaction-Maker/DCL/create', [DCLController::class, 'storeTmakerdcl'])->name('TMDLstore');
 
   //ACDC Create Principal
   Route::get('/index-createprincipal',[ACDCController::class,'indexCP'])->name('/indexCP');
   Route::post('/CreatePrincipal',[ACDCController::class,'saveCP'])->name('cp');
+  Route::get('/deleteCP/{id}',[ACDCController::class,'deleteCP'])->name('deleteCP');
+
 
   //ACDC Create Client
   Route::get('/index-createclient',[ACDCController::class,'indexCC'])->name('/indexCC');
   Route::post('/CreateClient',[ACDCController::class,'saveCC'])->name('cc');
+  Route::get('/deleteCC/{id}',[ACDCController::class,'deleteCC'])->name('deleteCC');
 
   //ACDC Create Project
   Route::get('/index-createproject',[ACDCController::class,'indexCPT'])->name('/indexCPT');
   Route::get('/CreateProject',[ACDCController::class,'createCPT'])->name('/cpt');
   Route::post('/saveCPT',[ACDCController::class,'saveCPT'])->name('svcpt');
   Route::get('/showCPT/{id}',[ACDCController::class,'showCPT'])->name('showcpt');
+  Route::get('/deletecpt/{id}',[ACDCController::class,'deletecpt'])->name('deletecpt');
 
   //ACDC Transaction Maker
   Route::get('/index-transactionmakerACDC',[ACDCController::class,'indexTM'])->name('/indexTM');
@@ -552,6 +568,7 @@ Route::group(['middleware'], function () {
   //CMM Create Bank
   Route::get('/index-createbank',[CMMController::class,'indexCB'])->name('indexCB');
   Route::post('/saveCB',[CMMController::class,'saveCB'])->name('saveCB');
+  Route::get('/deleteCB/{id}',[CMMController::class,'deleteCB'])->name('deleteCB');
 
   //CMM Create PRK
   Route::get('/index-PRK',[CMMController::class,'indexCPRK'])->name('indexPRK');
@@ -559,12 +576,19 @@ Route::group(['middleware'], function () {
 
   //CMM Transaction Maker
   Route::get('/index-TransactionMakerCMM',[CMMController::class,'indexTMCMM'])->name('indexTMCMM');
-  Route::post('/saveTMCMM',[CMMController::class,'saveTMCMM'])->name('saveTMCMM');
+  Route::post('/saveTMCMM/{id}',[CMMController::class,'saveTMCMM'])->name('saveTMCMM');
 
   Route::get('/createTM/{id}',[ACDCController::class,'CreateTM'])->name('createTM');
   Route::post('/saveTMAC/{id}',[ACDCController::class,'saveTMAC'])->name('saveTMAC');
 
   Route::get('/editTM/{id}',[ACDCController::class,'editTM'])->name('editTM');
+  Route::post('/Transaction-Maker/ACDC/update/{id}',[ACDCController::class,'updateTMACDC'])->name('update-TMACDC');
 
   Route::post('/cpt', [ACDCController::class, 'cpt'])->name('cpt');
+
+  Route::get('/createTMCMM/{id}',[CMMController::class,'CreateTMCMM'])->name('createTMCMM');
+  Route::get('/detailTMCMM/{id}',[CMMController::class,'detailTMCMM'])->name('detailTMCMM');
+
+  Route::get('/deletePRK/{id}',[CMMController::class,'deletePRK'])->name('deletePRK');
+
 });

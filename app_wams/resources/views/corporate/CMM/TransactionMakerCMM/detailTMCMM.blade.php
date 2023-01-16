@@ -13,68 +13,38 @@
             <table class="table table-hover table-responsive table-bordered ">
                 <thead>
                     <tr>
-                        <th>BMT - Awal</th>
-                        <th>Services</th>
-                        <th>Sub-Total</th>
-                        <th>Bunga Admin</th>
-                        <th>Biaya Admin</th>
-                        <th>Biaya Pengurang(BPK)</th>
-                        <th>Total BMT+SERVICES-FINAL</th>
-                    </tr>
-                </thead>
-                    <tbody>
-                    <tr>
-                        <td>{{$cpt->bmt}}</td>
-                        <td>{{$cpt->services}}</td>
-                        <td>{{$cpt->sub_total}}</td>
-                        <td>{{$cpt->bunga_admin}}%</td>
-                        <td>{{$cpt->biaya_admin}}</td>
-                        <td>{{$cpt->biaya_pengurangan}}</td>
-                        <td>{{$cpt->total_final}}</td>
-                    </tr>
-                    <tr>
-                        
-                    </tr>
-                </tbody>
-
-            <table class="table table-hover table-responsive table-bordered ">
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Jenis Transaksi</th>
-                        <th>Nominal</th>
-                        <th>Action</th>
+                        <th>Tanggal PO</th>
+                        <th>Nama Project</th>
+                        <th>Nama Klien</th>
+                        <th>Nama EU</th>
+                        <th>Nominal PO</th>
                     </tr>
                 </thead>
                 
                 <tbody>
                     <?php
-                    $nominal2 = 0;
-                    $total_final2=0;
-                    foreach($cpt->detail as $tm){
+                    $nominal_po2 = 0;
+                    foreach($dtmcmm->tmcmm as $tm){
                             ?>
                         {{-- <a href="{{route('penawaran.edit',$i->id)}}">     --}}
                             <tr  style="font-size: 13px;">
-                                <td>{{$tm->tanggal}}</td>
-                                <td>{{$tm->jenis_transaksi}} - {{$tm->nama_tujuan}} ({{$tm->keterangan}})</td>
-                                <td>{{$tm->nominal}}</td>
-                                <td>
-                                    <a class="btn btn-primary" onclick="editTM({{$tm->id}})">Edit</a>
-                                </td>
+                                <td>{{ date('d-m-Y', strtotime($tm->tgl_po)) }}</td>
+                                <td>{{$tm->nama_project}}</td>
+                                <td>{{$tm->nama_klien}}</td>
+                                <td>{{$tm->nama_eu}}</td>
+                                <td>Rp. {{number_format($tm->nominal_po)}}</td>
                             </tr>
                         {{-- </a>     --}}
                             <?php
 
-                            $nominal2 +=$tm->nominal;
-                            $total_final2 = $cpt->total_final - $nominal2;
+                            $nominal_po2 +=$tm->nominal_po;
                             // $diskon = $i->diskon;
                         }
                     ?>
                 </tbody>
             </table>
 
-            <p>Total Advance :Rp. {{number_format($nominal2)}} </p>
-            <p>Sisa :Rp. {{number_format($total_final2)}}</p>
+            <p>Total Advance :Rp. {{number_format($nominal_po2)}} </p>
             
             {{-- <div class="row">
                 @foreach($time->detail as $tm)
@@ -107,22 +77,7 @@
                 @endif
                 @endforeach
             </div> --}}
-            <a href="{{ route('/indexCPT') }}" class="btn btn-secondary">Back</a>
-        </div>
-    </div>
-    <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Comment</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="page" class="p-2">
-    
-                </div>
-            </div>
-        </div>
+            <a href="/index-PRK" class="btn btn-secondary">Back</a>
         </div>
     </div>
 </section>
@@ -133,13 +88,4 @@
 <script src="{{ asset('newassets/assets/extensions/jquery/jquery.min.js') }}"></script>
 <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
 <script src="{{ asset('newassets/assets/js/pages/datatables.js') }}"></script>
-<script>
-    function editTM(id){
-        $.get("{{url('editTM')}}/"+ id,{},function(data,status){
-            $("#exampleModalLabel").html('Edit Product')
-            $("#page").html(data);
-            $("#exampleModal").modal('show');
-        });
-    }
-</script>
 @endsection

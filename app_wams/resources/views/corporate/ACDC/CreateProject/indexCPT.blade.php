@@ -49,9 +49,9 @@
                                 <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </div>
                                 <div class="dropdown-menu text-center">
-                                    <a style="float: left;" onclick="CreateTM({{$item->id}})">Transaction Maker</a>
-                                    <br>
-                                    <a href="{{route('showcpt',$item->id)}}" style="color: gray;float:left;margin-top:6%">Detail</a>
+                                    <a class="btn btn-primary btn-sm" onclick="CreateTM({{$item->id}})">Transaction Maker</a>
+                                    <a href="{{route('showcpt',$item->id)}}" class="btn btn-info btn-sm">Detail</a>
+                                    <a href="{{route('deletecpt',$item->id)}}" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
                         </td>

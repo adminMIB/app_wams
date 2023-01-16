@@ -10,4 +10,9 @@ class TransactionMakerDcl extends Model
     use HasFactory;
 
     protected $guarded = ["id"];
+
+    public function tmaker()
+    {
+        return $this->belongsTo(OpptyProject::class, 'picdisti_id');
+    }
 }

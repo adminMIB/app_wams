@@ -13,4 +13,9 @@ class SaldoAwal extends Model
         "jumlah_saldo",
         "tanggal_salo"
     ];
+
+    public function detailtmrevcost()
+    {
+        return $this->hasMany(TransactionMakerRevCost::class, 'sldawl_id');
+    }
 }

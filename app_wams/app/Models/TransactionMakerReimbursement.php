@@ -10,4 +10,9 @@ class TransactionMakerReimbursement extends Model
     use HasFactory;
 
     protected $guarded = ["id"];
+
+    public function tmaker()
+    {
+        return $this->belongsTo(OpptyProject::class, 'opptyproject_id');
+    }
 }

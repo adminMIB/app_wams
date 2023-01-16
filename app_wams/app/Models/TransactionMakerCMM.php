@@ -10,6 +10,6 @@ class TransactionMakerCMM extends Model
     use HasFactory;
 
     protected $fillable =[
-        "tgl_po","nama_project","nama_klien","nama_eu","nominal_po"
+        "tgl_po","nama_project","nama_klien","nama_eu","nominal_po","cmm_id"
     ];
 }

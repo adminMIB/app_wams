@@ -29,6 +29,7 @@
                         <th>NO</th>
                         <th>Principal Type</th>
                         <th>Principal Name</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 @foreach ($cc as $item)
@@ -37,6 +38,9 @@
                         <td>{{$loop->iteration}}</td>
                         <td>{{$item->client_type}}</td>
                         <td>{{$item->client_name}}</td>
+                        <td>
+                          <a href="{{route('deleteCC',$item->id)}}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
                     </tr>
                 </tbody>
                 @endforeach

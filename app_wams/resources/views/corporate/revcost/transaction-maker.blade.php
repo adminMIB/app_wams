@@ -6,6 +6,7 @@
             <div class="card-body">
                 <form action="{{ route('store-TMRevCost') }}" method="POST">
                     {{ csrf_field() }}
+                    <input type="hidden" value="{{ $item->id }}" name="sldawl_id">
                     <div class="row mb-1">
                         <label for="" class="col-md-3">Choose Type</label>
                         <div class="col-md-9">
@@ -81,6 +82,7 @@
                         </div>
                     </div>
                     <div class="text-end">
+                        <a href="{{ route('index-saldo') }}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
                 </form>

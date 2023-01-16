@@ -344,7 +344,7 @@
                             <li class="submenu-item {{request()->is('Client-Reimbursement*') ? 'active' : ''}}">
                                 <a href="{{ route('clientindex') }}">Create Client</a>
                             </li>
-                            <li class="submenu-item {{request()->is('OpptyProject*') ? 'active' : ''}}">
+                            <li class="submenu-item {{request()->is('OpptyProject*') || request()->is('Transaction-Maker/Reimbursement*') ? 'active' : ''}}">
                                 <a href="{{ route('opptyprojectindex') }}">Create ID Oppty/Project</a>
                             </li>
                             {{-- <li class="submenu-item {{request()->is('Transaction-Maker/Reimbursement*') ? 'active' : ''}}">
@@ -368,7 +368,7 @@
                             <li class="submenu-item {{request()->is('DCL-SBU*') ? 'active' : ''}}">
                                 <a href="{{ route('dclsbuindex') }}">Create SBU</a>
                             </li>
-                            <li class="submenu-item {{request()->is('PIC-Distributor*') ? 'active' : ''}}">
+                            <li class="submenu-item {{request()->is('PIC-Distributor*') || request()->is('Transaction-Maker/DCL*') ? 'active' : ''}}">
                                 <a href="{{ route('picdistiindex') }}">Create PIC Distributor</a>
                             </li>
                             {{-- <li class="submenu-item {{request()->is('Transaction-Maker/DCL*') ? 'active' : ''}}">
@@ -380,16 +380,16 @@
                         </ul>
                     </li>
                     
-                    <li class="sidebar-item {{request()->is('Project*') || request()->is('slistpa') ? 'active' : ''}} has-sub">
+                    <li class="sidebar-item {{request()->is('index-createbank*') || request()->is('index-PRK*') ? 'active' : ''}} has-sub">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-people-fill"></i>
                             <span>CCM</span>
                         </a>
-                        <ul class="submenu {{request()->is('Project*') || request()->is('slistpa') ? 'active' : ''}}">
-                            <li class="submenu-item {{request()->is('Project*') ? 'active' : ''}}">
+                        <ul class="submenu {{request()->is('index-createbank*') || request()->is('index-PRK*') ? 'active' : ''}}">
+                            <li class="submenu-item {{request()->is('index-createbank*') ? 'active' : ''}}">
                                 <a href="/index-createbank">Create Bank</a>
                             </li>
-                            <li class="submenu-item {{request()->is('slistpa') ? 'active' : ''}}">
+                            <li class="submenu-item {{request()->is('index-PRK*') ? 'active' : ''}}">
                                 <a href="/index-PRK">Create PRK</a>
                             </li>
                             {{-- <li class="submenu-item {{request()->is('slistpa') ? 'active' : ''}}">
@@ -401,14 +401,14 @@
                         </ul>
                     </li>
 
-                    <li class="sidebar-item {{request()->is('SaldoAwal') || request()->is('Transaction-Maker/RevenuevsCost') || request()->is('Create/RevenuevsCost') || request()->is('Report-Transaction-Maker/RevenuevsCost') ? 'active' : ''}} has-sub">
+                    <li class="sidebar-item {{request()->is('SaldoAwal*') || request()->is('Transaction-Maker/RevenuevsCost*') || request()->is('Create/RevenuevsCost*') || request()->is('Report-Transaction-Maker/RevenuevsCost') ? 'active' : ''}} has-sub">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-people-fill"></i>
                             <span>Revenue vs Cost</span>
                         </a>
-                        <ul class="submenu {{request()->is('SaldoAwal') || request()->is('Transaction-Maker/RevenuevsCost') || request()->is('Create/RevenuevsCost') || request()->is('Report-Transaction-Maker/RevenuevsCost') ? 'active' : ''}}">
-                            <li class="submenu-item {{request()->is('SaldoAwal') ? 'active' : ''}}">
-                                <a href="{{ route('create-saldo') }}">Initial Balance</a>
+                        <ul class="submenu {{request()->is('SaldoAwal*') || request()->is('Transaction-Maker/RevenuevsCost*') || request()->is('Create/RevenuevsCost*') || request()->is('Report-Transaction-Maker/RevenuevsCost') ? 'active' : ''}}">
+                            <li class="submenu-item {{request()->is('SaldoAwal*') || request()->is('Create/RevenuevsCost*') || request()->is('Transaction-Maker/RevenuevsCost*') ? 'active' : ''}}">
+                                <a href="{{ route('index-saldo') }}">Initial Balance</a>
                             </li>
                             {{-- <li class="submenu-item {{request()->is('Transaction-Maker/RevenuevsCost') || request()->is('Create/RevenuevsCost') ? 'active' : ''}}">
                                 <a href="{{ route('TMRevCost') }}">Transaction Maker</a>

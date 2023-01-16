@@ -40,7 +40,19 @@
                         <td>Rp. {{number_format($item->jumlah_cl)}}</td>
                         <td>{{$item->jenis_kolateral}}</td>
                         <td>{{$item->keterangan}}</td>
-                        <td></td>
+                        <td>
+                          <div class="btn-group  mb-1" style="cursor: pointer;">
+                            <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </div>
+                            <div class="dropdown-menu text-center border">
+                                <a style="float: center;" onclick="CreateTMCMM({{$item->id}})">Transaction Maker</a>
+                                <br>
+                                <a href="{{route('detailTMCMM',$item->id)}}" style="float:center:color:gray; margin-top:6%;">Detail</a>
+                                <br>
+                                <a href="{{route('deletePRK',$item->id)}}" style="float:center:color:gray; margin-top:6%;">Delete</a>
+                            </div>
+                        </div>
+                        </td>
                     </tr>
                 </tbody>
                 @endforeach
@@ -48,6 +60,23 @@
         </div>
         </div>
     </div>
+
+    
+    <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Comment</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div id="page" class="p-2">
+  
+              </div>
+          </div>
+      </div>
+      </div>
+  </div>
 </section>
 @endsection
 <div id="exampleModalScrollable" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -94,4 +123,13 @@
 <script src="{{ asset('newassets/assets/extensions/jquery/jquery.min.js') }}"></script>
 <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
 <script src="{{ asset('newassets/assets/js/pages/datatables.js') }}"></script>
+<script>
+  function CreateTMCMM(id){
+      $.get("{{url('createTMCMM')}}/"+ id,{},function(data,status){
+          $("#exampleModalLabel").html('Create Transaction Maker CMM')
+          $("#page").html(data);
+          $("#exampleModal").modal('show');
+      });
+  }
+</script>
 @endsection

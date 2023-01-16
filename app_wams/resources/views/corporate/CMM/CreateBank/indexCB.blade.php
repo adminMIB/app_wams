@@ -42,7 +42,9 @@
                         <td>{{$item->pic_bank}}</td>
                         <td>{{$item->email_pic_bank}}</td>
                         <td>{{$item->hp_pic_bank}}</td>
-                        <td></td>
+                        <td>
+                          <a href="{{route('deleteCB',$item->id)}}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
                     </tr>
                 </tbody>
                 @endforeach

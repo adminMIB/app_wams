@@ -1,93 +1,63 @@
-@extends('layouts.main')
 
-@section('title', 'All Projects')
+<div class="p2">
+  <div class="card">
+  </div> 
+  {{-- <div class="form-group d-flex"> --}}
+      <form action="{{route('saveTMCMM',$item->id)}}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <input type="hidden" value="{{$item->id}}" name="cmm_id">
+          <div class="mb-2 row">
+              <label  class="col-sm-1 col-form-label" style="font-size: 12px">Tanggal PO</label>
+              <div class="col-sm-10">
+                  <div class="form-group">
+                      <input type="date" class="form-control" name="tgl_po">
+                  </div>
+              </div>
+          </div>
 
-@section('css')
-<link rel="stylesheet" href="{{ asset('newassets/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
-<link rel="stylesheet" href="{{ asset('newassets/assets/css/pages/fontawesome.css') }}">
-<link rel="stylesheet" href="{{ asset('newassets/assets/css/pages/datatables.css') }}">
-@endsection
+          <div class="mb-2 row">
+              <label  class="col-sm-1 col-form-label" style="font-size: 12px">Project Name</label>
+              <div class="col-sm-10">
+                  <div class="form-group">
+                    <input type="text" name="nama_project" class="form-control">
+                  </div>
+              </div>
+          </div>
 
-@section('content')
-<section class="section">
-    <div class="section-header">
-        <div class="card">
-            <div class="alert">
-                <h2 class="text-capitalize text-center">List Transaction Maker</h2>
-            </div>
-        </div>
-    </div>
-    <div class="card" style="border-radius: 2em">
-        <div class="card-header">
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable">Create</button>
-        </div>
-        <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered " id="table1">
-                <thead>
-                    <tr align="center" style="font-size: 13px">
-                        <th>Tanggal PO</th>
-                        <th>Project Name</th>
-                        <th>Klien Name</th>
-                        <th>EU Name</th>
-                        <th>Nominal PO</th>
-                    </tr>
-                </thead>
-                @foreach ($tmcmm as $item)
-                <tbody>
-                    <tr style="font-size:13px">
-                        <td>{{ date('d-m-Y', strtotime($item->tgl_po)) }}</td>
-                        <td>{{$item->nama_project}}</td>
-                        <td>{{$item->nama_klien}}</td>
-                        <td>{{$item->nama_eu}}</td>
-                        <td>Rp. {{number_format($item->nominal_po)}}</td>
-                    </tr>
-                </tbody>
-                @endforeach
-            </table>
-        </div>
-        </div>
-    </div>
-</section>
-@endsection
-<div id="exampleModalScrollable" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-center" style="text-align: center" id="exampleModalLabel">Create Transaction Maker ACDC</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="{{route('saveTMCMM')}}" method="POST" enctype="multipart/form-data">
-          {{csrf_field()}}
-          <div class="modal-body">
+          <div class="mb-2 row">
+              <label  class="col-sm-1 col-form-label" style="font-size: 12px">Client Name</label>
+              <div class="col-sm-10">
+                  <div class="form-group">
+                      <input type="text" class="form-control" name="nama_klien" id="">
+                  </div>
+              </div>
+          </div>
 
-            <label for="dari">Tanggal PO</label>
-            <input type="date" class="form-control" name="tgl_po">
+          <div class="mb-2 row">
+              <label  class="col-sm-1 col-form-label" style="font-size: 12px">EU Name</label>
+              <div class="col-sm-10">
+                  <div class="form-group">
+                      <input type="text" class="form-control" name="nama_eu" id="">
+                  </div>
+              </div>
+          </div>
 
-            <label for="" class="mt-2">Project Name</label>
-            <input type="text" class="form-control" name="nama_project">
-
-            <label for="" class="mt-2">Client Name</label>
-            <input type="text" class="form-control" name="nama_klien" id="">
-
-            <label for="" class="mt-2">EU Name</label>
-            <input type="text" class="form-control" name="nama_eu" id="">
-
-            <label for="" class="mt-2">Nominal PO</label>
-            <input type="number" class="form-control" name="nominal_po">
+          <div class="mb-2 row">
+              <label  class="col-sm-1 col-form-label" style="font-size: 12px">Nominal PO</label>
+              <div class="col-sm-10">
+                  <div class="form-group">
+                      <input type="number" class="form-control" name="nominal_po">
+                  </div>
+              </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              <button type="submit" class="btn btn-sm btn-info" >Submit</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
               <i class="bx bx-x d-block d-sm-none"></i>
               <span class="d-none d-sm-block">Close</span>
-              <button type="submit" class="btn text-white" style="background-color: #5252FF">Kirim</button>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          </button>
+      </form>
+  {{-- </div>     --}}
 </div>
 @section('js')
 <script src="{{ asset('newassets/assets/extensions/jquery/jquery.min.js') }}"></script>
