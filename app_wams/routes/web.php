@@ -13,6 +13,7 @@ use App\Http\Controllers\Corporate\CMMController;
 use App\Http\Controllers\Corporate\CorporateController;
 use App\Http\Controllers\Corporate\DCLController;
 use App\Http\Controllers\Corporate\ReimbursementController;
+use App\Http\Controllers\Corporate\ReportController as CorporateReportController;
 use App\Http\Controllers\Corporate\RevCost\SaldoAwalController;
 use App\Http\Controllers\Corporate\RevenueCostController;
 use App\Http\Controllers\DashboardAdminController;
@@ -337,7 +338,7 @@ Route::group(['middleware'], function () {
 });
 
 //! Routing dashboard Admin
-Route::group(['middleware'], function () {
+Route::group(['middleware'  => ['auth']], function () {
   Route::get('/dashboardAdmin', [AdminController::class, 'dashboard'])->name('/dashboardAdmin')->middleware(['permission:read data Project Admins']);
   Route::get('/adminproject', [AdminController::class, 'index'])->name('/adminproject')->middleware(['permission:read data Project Admins']);
   Route::get('/adminproject/create', [AdminController::class, 'create'])->name('/adminproject/create')->middleware(['permission:read data Project Admins']);
@@ -389,7 +390,7 @@ Route::group(['middleware'], function () {
 
 
 // ! Routing Finance
-Route::group(['middleware'], function () {
+Route::group(['middleware'  => ['auth']], function () {
   Route::get('/dashboardFinance', [FinanceController::class, 'index'])->name('/dashboard');
   Route::get('/projectF', [FinanceController::class, 'indexproject'])->name('projectF');
   Route::get('/projectF/view/{id}', [FinanceController::class, 'Projectdetail'])->name('viewprojectF');
@@ -487,7 +488,7 @@ Route::group(['middleware'], function () {
 });
 
 // ! Routing Corporate
-Route::group(['middleware'], function () {
+Route::group(['middleware'  => ['auth']], function () {
   Route::get('/dashboardCorporate', [CorporateController::class, 'index'])->name('dashboardCorporate');
   Route::get('/Report-Transaction-Maker/RevenuevsCost', [RevenueCostController::class, 'index'])->name('TMakerRevCost');
   
@@ -504,7 +505,7 @@ Route::group(['middleware'], function () {
   Route::get('/OpptyProject', [ReimbursementController::class, 'indexOpptyproject'])->name('opptyprojectindex');
   Route::get('/OpptyProject/create', [ReimbursementController::class, 'createOpptyproject'])->name('opptyprojectcreate');
   Route::post('/OpptyProject/create', [ReimbursementController::class, 'storeOpptyproject'])->name('opptyprojectstore');
-  Route::get('/OpptyProject/{id}', [ReimbursementController::class, 'destroyOpptyproject'])->name('opdelete');
+  Route::delete('/OpptyProject/{id}', [ReimbursementController::class, 'destroyOpptyproject'])->name('opdelete');
   
   Route::get('/createTMReim/{id}',[ReimbursementController::class,'CreateTMReim'])->name('createTMReim');
   // Route::get('/Transaction-Maker/Reimbursement', [ReimbursementController::class, 'indexTmakerreimburs'])->name('TMReimbursement');
@@ -513,11 +514,17 @@ Route::group(['middleware'], function () {
   Route::post('/Transaction-Maker/Reimbursement/update/{id}',[ReimbursementController::class,'updateTmakerreimburs'])->name('update-TMReimbursement');
   Route::get('/Transaction-Maker/Reimbursement/show/{id}',[ReimbursementController::class,'showTMReim'])->name('show-TMReimbursement');
   Route::post('/Transaction-Maker/Reimbursement/create', [ReimbursementController::class, 'storeTmakerreimburs'])->name('store-TMReimbursement');
-
+  Route::get('/Transaction-Maker/Reimbursement/viewEditTreimburs/{id}', [ReimbursementController::class, 'viewEditTreimburs'])->name("viewEditTreimburs.edit");
+  Route::get('/reimursment/edit/{id}', function () {
+      return view('corporate.reimbursement.opptyproject.edit');
+  })->name("reibursment.edit");
+  Route::put('/updateOppty/{id}', [ReimbursementController::class, 'updateOpptyProject'])->name('updateOppty.update');
   // Revenue vs Cost
   Route::get('/SaldoAwal', [RevenueCostController::class, 'indexSaldo'])->name('index-saldo');
   Route::get('/SaldoAwal/{id}', [RevenueCostController::class, 'destroySaldo'])->name('deletesaldo');
-  Route::get('/SaldoAwal/create', [RevenueCostController::class, 'createSaldo'])->name('create-saldo');
+  Route::get('/saldo-create', function() {
+      return view("corporate.revcost.create-saldo");
+  });
   Route::post('/SaldoAwal/create', [RevenueCostController::class, 'storeSaldo'])->name('store-saldo');
   Route::get('/Transaction-Maker/RevenuevsCost/{id}', [RevenueCostController::class, 'detailTmaker'])->name('detail-TMRevCost');
   // Route::get('/Transaction-Maker/RevenuevsCost', [RevenueCostController::class, 'indexTmaker'])->name('TMRevCost');
@@ -529,6 +536,8 @@ Route::group(['middleware'], function () {
   Route::get('/DCL-DISTRIBUTOR', [DCLController::class, 'indexdisti'])->name('dcldistiindex');
   Route::post('/DCL-DISTRIBUTOR', [DCLController::class, 'storedisti'])->name('dcldististore');
   Route::get('/DCL-DISTRIBUTOR/{id}', [DCLController::class, 'destroydisti'])->name('dcldistidelete');
+  route::get("/edit/sbu/{id}", [DCLController::class, 'editSbu'])->name("edit-sbu");
+  route::post("/update/sbu/{id}", [DCLController::class, 'updateSbu'])->name("upte-sbu");
   
   Route::get('/DCL-SBU', [DCLController::class, 'indexsbu'])->name('dclsbuindex');
   Route::post('/DCL-SBU', [DCLController::class, 'storesbu'])->name('dclsbustore');
@@ -555,11 +564,17 @@ Route::group(['middleware'], function () {
   Route::get('/deleteCC/{id}',[ACDCController::class,'deleteCC'])->name('deleteCC');
 
   //ACDC Create Project
-  Route::get('/index-createproject',[ACDCController::class,'indexCPT'])->name('/indexCPT');
+  Route::get('datalist-cpt',[ACDCController::class,'getDataList'])->name('dataList-cpt');
+  Route::get('/index-createproject',[ACDCController::class,'indexCPT'])->name('indexCPT');
   Route::get('/CreateProject',[ACDCController::class,'createCPT'])->name('/cpt');
   Route::post('/saveCPT',[ACDCController::class,'saveCPT'])->name('svcpt');
   Route::get('/showCPT/{id}',[ACDCController::class,'showCPT'])->name('showcpt');
-  Route::get('/deletecpt/{id}',[ACDCController::class,'deletecpt'])->name('deletecpt');
+  Route::get('/editCP/{id}',[ACDCController::class,'editCP'])->name('editcp');
+  Route::get('/editTransactionMaker/{id}',[ACDCController::class,'editTransactionMaker'])->name('editTransactionMaker.edit');
+  Route::put('/updateAcdcP/{id}', [ACDCController::class, 'updateProjectAcdc'])->name('updateAcdcP');
+  Route::delete('/deletecpt/{id}',[ACDCController::class,'deletecpt'])->name('deletecpt');
+  Route::get('/getByClient',[ACDCController::class,'getByClient'])->name('getbyclient');
+  Route::post('/getProjectByClient',[ACDCController::class,'getPojectByClient'])->name('getProjectByClient');
 
   //ACDC Transaction Maker
   Route::get('/index-transactionmakerACDC',[ACDCController::class,'indexTM'])->name('/indexTM');
@@ -592,3 +607,27 @@ Route::group(['middleware'], function () {
   Route::get('/deletePRK/{id}',[CMMController::class,'deletePRK'])->name('deletePRK');
 
 });
+
+
+//report
+Route::get('/report-acdc', function() {
+  return view('report.corporate.acdc.index');
+});
+
+Route::get('/report-dcl', function() {
+  return view('report.corporate.dcl.index');
+});
+
+
+Route::get('/report-reimbursement', function() {
+  return view('report.corporate.reimbursement.index');
+});
+
+Route::get('/report-cmm', function() {
+  return view('report.corporate.cmm.index');
+});
+
+Route::post('/report-adcd', [CorporateReportController::class, 'AcdcReport'])->name('reportAcdc');
+Route::post('/report-reimbursement', [CorporateReportController::class, 'ReimbursementReport'])->name('reportreimbursment');
+Route::post('/report-dcl', [CorporateReportController::class, 'DclReport'])->name('DclReport');
+Route::post('/report-cmm', [CorporateReportController::class, 'CmmReport'])->name('CmmReport');

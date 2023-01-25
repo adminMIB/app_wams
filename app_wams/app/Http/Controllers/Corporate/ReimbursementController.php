@@ -8,8 +8,13 @@ use App\Models\Divisi;
 use App\Models\OpptyProject;
 use App\Models\PersonelTeam;
 use App\Models\TransactionMakerReimbursement;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Svg\Tag\Rect;
+use Yajra\DataTables\DataTables;
 
 class ReimbursementController extends Controller
 {
@@ -98,16 +103,75 @@ class ReimbursementController extends Controller
         
     }
     
-    public function indexOpptyproject()
+    public function indexOpptyproject(Request $request)
     {
-        $op = OpptyProject::all();
-    
-        return view('corporate.reimbursement.opptyproject.index', compact('op'));
+        Carbon::setLocale('id');
+        CarbonInterval::setLocale('id');
+
+        if ($request->ajax()) {
+            $data = DB::table('oppty_projects')
+                ->select(
+                    'oppty_projects.id',
+                    'oppty_projects.jenis',
+                    'oppty_projects.ID_opptyproject as code',
+                    'oppty_projects.nama_project as name', 
+                    'oppty_projects.pic_bussiness_channel as picBChanel',
+                    'oppty_projects.client',
+                    'oppty_projects.created_at'
+                )->latest('oppty_projects.id');
+
+            return DataTables::of($data)
+                ->addColumn('created_at', function ($val) {
+                    return Carbon::parse($val->created_at)->translatedFormat("Y-m-d");
+                })
+                ->addColumn('action', function ($val) {
+                    $edit_url = route('reibursment.edit',$val->id);
+                    $detail_url = route('show-TMReimbursement', $val->id);
+
+                    $btn_edit = "<a href='$edit_url' class='btn btn-warning btn-sm text-white'><i class='fa fa-edit'></i></a>";
+                    $btn_detail = "<a href='$detail_url' class='btn btn-info btn-sm text-white'><i class='fa fa-eye'></i></a>";
+                    $btn_delete = ' <a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-id="'.$val->id.'" title="Hapus data"><i class="fas fa-trash "></i></a>';
+                    $transMaker = '<a href="javascript:void(0)" class="btn btn-primary btn-sm maker" onclick="CreateTMReim('. $val->id .')">Transaction Maker</a>';
+
+
+                    return $btn_detail . ' ' . $btn_edit . ' ' . $btn_delete . ' ' . $transMaker;
+                })
+                ->filter(function ($instance) use ($request) {
+                    if ($request->get('search')) {
+                        $instance->where('oppty_projects.nama_project', 'LIKE', '%' . request()->search . '%');
+                    }
+
+                    if (!empty($request->client)) {
+                        $instance->where('oppty_projects.client', $request->client);
+                    }
+
+                    if (!empty($request->jenis)) {
+                        $instance->where('oppty_projects.jenis', $request->jenis);
+                    }
+
+                    if ($request->get('start_date')) {
+
+                        $instance->whereBetween('oppty_projects.created_at', [
+                            Carbon::parse($request->start_date)->format('Y-m-d') . ' 00:00:01',
+                            Carbon::parse($request->end_date)->format('Y-m-d') . ' 23:59:59'
+                        ]);
+                    }
+                })
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        $client = DB::table('customers')->select('nama')->get();
+
+        return view('corporate.reimbursement.opptyproject.index', compact('client'));
     }
     
     public function createOpptyproject()
     {
-        return view('corporate.reimbursement.opptyproject.create');
+        $customer = Customer::select("id", "nama")->get();
+        $pt= PersonelTeam::select("id", "nama_personel")->get();
+
+        return view('corporate.reimbursement.opptyproject.create', compact('customer', 'pt'));
     }
 
     public function storeOpptyproject(Request $request)
@@ -133,6 +197,27 @@ class ReimbursementController extends Controller
             ]);
             
             return redirect()->back()->with('success', 'Berhasil buat Project/Oppty');
+            
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
+
+    public function updateOpptyProject(Request $request, $id)
+    {
+        try {
+
+            $data = OpptyProject::find($id);
+
+            $data->update([
+                "jenis"                 => $request->jenis,
+                "ID_opptyproject"       => $request->ID_opptyproject,
+                "nama_project"          => $request->nama_project,
+                "pic_bussiness_channel" => $request->pic_bussiness_channel,
+                "client"                => $request->client
+            ]);
+            
+            return redirect(route('opptyprojectindex'))->with('success', 'Project/Oppty berhasil diubah');
             
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -207,11 +292,18 @@ class ReimbursementController extends Controller
             $time->file_MoM                 = $data1['file_MoM'] = $file_MoM_name;
             $time->save();
             
-            return redirect()->back()->with('success', 'Berhasil buat Transaction Maker');
+            return redirect(route('show-TMReimbursement', $data1['opptyproject_id']))->with('success', 'Berhasil buat Transaction Maker');
             
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
+    }
+
+    public function viewEditTreimburs($id)
+    {
+        $item= TransactionMakerReimbursement::find($id);
+
+        return view('corporate.reimbursement.transactionmaker.updateData', compact('item'));
     }
     
     public function updateTmakerreimburs(Request $request, $id)
@@ -235,10 +327,12 @@ class ReimbursementController extends Controller
             $edittm->update([
                 "nama_pic_reimbursement" => $request->nama_pic_reimbursement,
                 "pic_business_channel" => $request->pic_business_channel,
-                "opptyproject_id" => $request->opptyproject_id,
+                "opptyproject_id" => empty($request->opptyproject_id) ? $edittm->opptyproject_id : $request->opptyproject_id,
+                "nominal_reimbursement" => empty($request->nominal_reimbursement) ? $edittm->nominal_reimbursement : $request->nominal_reimbursement,
+                "tanggal_reimbursement" => empty($request->tanggal_reimbursement) ? $edittm->tanggal_reimbursement : $request->tanggal_reimbursement
             ]);
             
-            return redirect()->back()->with('success', 'Berhasil buat Transaction Maker');
+            return redirect()->back()->with('success', 'Berhasil update Transaction Maker');
             
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -275,7 +369,7 @@ class ReimbursementController extends Controller
         }
 
         $op->delete();
+        return response()->json("Data $op->nama_project berhasil dihapus");
  
-        return back()->with('success', 'data berhasil di hapus');
     }
 }

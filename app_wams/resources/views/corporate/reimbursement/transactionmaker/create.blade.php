@@ -1,3 +1,7 @@
+@php
+    $personal = \Illuminate\Support\Facades\DB::table('personel_teams')->select('id', 'nama_personel')->get();
+    $customer =  \Illuminate\Support\Facades\DB::table('customers')->select('id', 'nama')->get();
+@endphp
 <form action="{{ route('store-TMReimbursement') }}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     <input type="hidden" value="{{$item->id}}" name="opptyproject_id">
@@ -10,7 +14,14 @@
     <div class="mb-2 row">
         <label  class="col-sm-2 col-form-label" style="font-size: 12px">Nama PIC Reimbursement</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="nama_pic_reimbursement" required>
+            <select name="nama_pic_reimbursement" class="form-control">
+                <option value="" readonly>------PILIH------</option>
+                @foreach($personal as $val)
+                    <option value="{{ $val->nama_personel }}">
+                        {{ $val->nama_personel }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div> 
     
@@ -31,7 +42,14 @@
     <div class="mb-2 row">
         <label  class="col-sm-2 col-form-label" style="font-size: 12px">Client</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" name="client" required>
+            <select name="client" class="form-control">
+                <option value="" reaadonly>------PILIH------</option>
+                @foreach($customer as $val)
+                    <option value="{{ $val->nama }}">
+                        {{ $val->nama }}
+                    </option>
+                @endforeach
+            </select>
         </div>
     </div> 
     
@@ -45,14 +63,14 @@
     <div class="mb-2 row">
         <label  class="col-sm-2 col-form-label" style="font-size: 12px">Kwitansi</label>
         <div class="col-sm-10">
-            <input type="file" class="form-control" name="file_kwitansi" required>
+            <input type="file" class="form-control" name="file_kwitansi" accept="image/*, application/pdf,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
         </div>
     </div>
     
     <div class="mb-2 row">
         <label  class="col-sm-2 col-form-label" style="font-size: 12px">MoM</label>
         <div class="col-sm-10">
-            <input type="file" class="form-control" name="file_MoM" required>
+            <input type="file" class="form-control" name="file_MoM" accept="image/*, application/pdf,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
         </div>
     </div>
     <div class="modal-footer">

@@ -53,6 +53,26 @@ class DCLController extends Controller
 
         return view('corporate.dcl.sbu.index', compact('sbu', 'psteam'));
     }
+
+    public function editSbu($id)
+    {
+        $sbu = Sbu::find($id);
+        
+        return response()->json($sbu);
+    }
+
+    public function updateSbu(Request $request, $id)
+    {
+        $sbu = Sbu::find($id);
+
+        $sbu->update([
+            'name' => $request->name,
+            'picSales' => $request->pic
+        ]);
+
+        return redirect()->back()->with(['success' => "SBU $sbu->name berhasil diubah"]);
+    }
+
     public function storesbu(Request $request)
     {
         try {
@@ -118,7 +138,7 @@ class DCLController extends Controller
                 "jumlah_cl"     => $request->jumlah_cl
             ]);
             
-            return redirect()->back()->with('success', 'Berhasil buat Project/Oppty');
+            return redirect(route('dclsbuindex'))->with('success', 'Berhasil buat DCL');
             
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
@@ -154,36 +174,50 @@ class DCLController extends Controller
                 return response()->json($validate->errors());
             }
 
-            $file_po_client = $request->file('file_po_client');
-            $file_po_client_ext = $file_po_client->getClientOriginalName();
-            $file_po_client_name = time(). $file_po_client_ext;
-            $file_po_client_path = public_path('fileCorporate/');
-            $file_po_client->move($file_po_client_path, $file_po_client_name);
-            
-            $file_po_mib = $request->file('file_po_mib');
-            $file_po_mib_ext = $file_po_mib->getClientOriginalName();
-            $file_po_mib_name = time(). $file_po_mib_ext;
-            $file_po_mib_path = public_path('fileCorporate/');
-            $file_po_mib->move($file_po_mib_path, $file_po_mib_name);
-            
-            $data1=$request->all();
+            $totalpo = 0;
+            $tmDcl = TransactionMakerDcl::where("picdisti_id", $request->picdisti_id)->get();
 
-            $time = new TransactionMakerDcl;
+            foreach($tmDcl as $row) {
+                $totalpo += $row->nominal_po;
+            }
 
-            $time->picdisti_id              = $data1['picdisti_id'];
-            $time->tanggal_po               = $data1['tanggal_po'];
-            $time->nama_project             = $data1['nama_project'];
-            $time->nama_client              = $data1['nama_client'];
-            $time->nama_eu                  = $data1['nama_eu'];
-            $time->nominal_po               = $data1['nominal_po'];
-            $time->nama_sbu                 = $data1['nama_sbu'];
-            $time->nama_pic                 = $data1['nama_pic'];
-            $time->pic_business_channel     = $data1['pic_business_channel'];
-            $time->file_po_client           = $data1['file_po_client'] = $file_po_client_name;
-            $time->file_po_mib              = $data1['file_po_mib'] = $file_po_mib_name;
-            $time->save();
-            
-            return redirect()->back()->with('success', 'Berhasil buat Transaction Maker');
+            $saldo_pic_disti = PicDistributor::find($request->picdisti_id)->first('jumlah_cl');
+            $sisa_saldo = $saldo_pic_disti->jumlah_cl - $totalpo;
+
+            if ($request->nominal_po > $sisa_saldo) {
+                return redirect()->back()->with(['error' => "Saldo PIC Disti Tidak Cukup"]);
+            } else {
+                $file_po_client = $request->file('file_po_client');
+                $file_po_client_ext = $file_po_client->getClientOriginalName();
+                $file_po_client_name = time(). $file_po_client_ext;
+                $file_po_client_path = public_path('fileCorporate/');
+                $file_po_client->move($file_po_client_path, $file_po_client_name);
+                
+                $file_po_mib = $request->file('file_po_mib');
+                $file_po_mib_ext = $file_po_mib->getClientOriginalName();
+                $file_po_mib_name = time(). $file_po_mib_ext;
+                $file_po_mib_path = public_path('fileCorporate/');
+                $file_po_mib->move($file_po_mib_path, $file_po_mib_name);
+                
+                $data1=$request->all();
+
+                $time = new TransactionMakerDcl;
+
+                $time->picdisti_id              = $data1['picdisti_id'];
+                $time->tanggal_po               = $data1['tanggal_po'];
+                $time->nama_project             = $data1['nama_project'];
+                $time->nama_client              = $data1['nama_client'];
+                $time->nama_eu                  = $data1['nama_eu'];
+                $time->nominal_po               = $data1['nominal_po'];
+                $time->nama_sbu                 = $data1['nama_sbu'];
+                $time->nama_pic                 = $data1['nama_pic'];
+                $time->pic_business_channel     = $data1['pic_business_channel'];
+                $time->file_po_client           = $data1['file_po_client'] = $file_po_client_name;
+                $time->file_po_mib              = $data1['file_po_mib'] = $file_po_mib_name;
+                $time->save();
+                
+                return redirect()->back()->with('success', 'Berhasil buat Transaction Maker');
+            }
             
         } catch (\Exception $e) {
             return response()->json($e->getMessage());

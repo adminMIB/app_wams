@@ -3,10 +3,49 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Report Transaction Maker</h1>
+        <h4>Report Transaction Maker Reimbursement</h4>
     </div>
     <div class="card">
         <div class="card-body">
+            <h6 class="text-capitalize">Detail Project - {{ $tmreim->nama_project }}</h6>
+
+            <table class="table table-borderless">
+                <tr>
+                    <td width="30%">Jenis</td>
+                    <td>:</td>
+                    <td>{{ $tmreim->jenis }}</td>
+                </tr>
+                <tr>
+                    <td>ID Oppty</td>
+                    <td>:</td>
+                    <td>{{ $tmreim->ID_opptyproject }}</td>
+                </tr>
+                <tr>
+                    <td>Nama Project</td>
+                    <td>:</td>
+                    <td>{{ $tmreim->nama_project }}</td>
+                </tr>
+                <tr>
+                    <td>PIC Busssines Chanel</td>
+                    <td>:</td>
+                    <td>{{ $tmreim->pic_bussiness_channel }}</td>
+                </tr>
+                <tr>
+                    <td>Client</td>
+                    <td>:</td>
+                    <td>{{ $tmreim->client }}</td>
+                </tr>
+            </table>
+
+            <hr>
+
+            <h6>Detail Transaction Maker</h6>
+            <div class="pb-3 pt-3">
+                <button class="btn btn-primary btn-sm" onclick="CreateTMReim({{ $tmreim->id }})">
+                    Transaction Maker 
+                    <i class="fa fa-plus"></i>
+                </button>
+            </div>
             <table class="table table-hover table-responsive table-bordered ">
                 <thead>
                     <tr>
@@ -24,19 +63,20 @@
                     <tr>
                         <td>{{$tm->tanggal_reimbursement}}</td>
                         <td>{{$tm->nama_pic_reimbursement}}</td>
-                        <td>{{$tm->nominal_reimbursement}}</td>
+                        <td>Rp. {{ number_format($tm->nominal_reimbursement) }}</td>
                         <td>
+                            <a class="btn btn-warning" onclick="moveData({{$tm->id}})">Pindah Data</a>
                             <a class="btn btn-primary" onclick="EditTMReim({{$tm->id}})">Edit</a>
                         </td>
                     </tr>
                     <?php
-                            $nominal2 +=$tm->nominal_reimbursement;
+                            $nominal2 += $tm->nominal_reimbursement;
                         }
                     ?>
                 </tbody>
             </table>
 
-            <p>Total Advance :Rp. {{number_format($nominal2)}} </p>
+            <p>Total Advance : Rp. {{number_format($nominal2)}} </p>
             {{-- <p>Sisa :Rp. {{number_format($total_final2)}}</p> --}}
 
             <a href="{{ route('opptyprojectindex') }}" class="btn btn-secondary">Back</a>
@@ -67,8 +107,24 @@
 <script src="{{ asset('newassets/assets/js/pages/datatables.js') }}"></script>
 <script>
     function EditTMReim(id){
+        $.get("{{url('/Transaction-Maker/Reimbursement/viewEditTreimburs/')}}/"+ id,{},function(data,status){
+            $("#exampleModalLabel").html('Edit Transaction Maker')
+            $("#page").html(data);
+            $("#exampleModal").modal('show');
+        });
+    }
+
+    function moveData(id){
         $.get("{{url('Transaction-Maker/Reimbursement/edit')}}/"+ id,{},function(data,status){
-            $("#exampleModalLabel").html('Edit Product')
+            $("#exampleModalLabel").html('Move Transaction Maker')
+            $("#page").html(data);
+            $("#exampleModal").modal('show');
+        });
+    }
+
+    function CreateTMReim(id){
+        $.get("{{url('createTMReim')}}/"+ id,{},function(data,status){
+            $("#exampleModalLabel").html('Transaction Maker')
             $("#page").html(data);
             $("#exampleModal").modal('show');
         });

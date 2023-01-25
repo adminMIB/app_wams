@@ -15,10 +15,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <h6>Create New Data</h6>
+                        <h6>Edit Projek - ({{ $data->project_name }})</h6>
                     </div>
                 </div>
-                <form action="{{route('svcpt')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('updateAcdcP', $data->id)}}" method="POST" enctype="multipart/form-data">
+                    @method('put');
                     @csrf
                     <div class="card-body">
                         <div class="form-group row mb-4">
@@ -30,7 +31,7 @@
                                     placeholder="ID Project" 
                                     id="code"
                                     name="id_project"
-                                    value='{{old('id_project','')}}'
+                                    value='{{old('id_project', $data->id_project)}}'
                                     autocomplete="Off"
                                     required
                                 >
@@ -45,7 +46,7 @@
                                     name="project_name" 
                                     placeholder="Project Name" 
                                     autocomplete="Off"
-                                    value='{{old('project_name','')}}'
+                                    value='{{old('project_name', $data->project_name)}}'
                                     required
                                 >
                                 <p class="text-danger">{{ $errors->first('project_name') }}</p>
@@ -58,7 +59,9 @@
                                     <select class="form-control select2" name="principal_name" required>
                                         <option readOnly value="">----Pilih----</option>
                                         @foreach ($cp as $item)
-                                            <option value="{{ $item->principal_name }}">{{ $item->principal_name }}</option>
+                                            <option value="{{ $item->principal_name }}" {{ $data->principal_name == $item->principal_name ? 'selected' : '' }}>
+                                                {{ $item->principal_name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -71,7 +74,9 @@
                                     <select class="form-control select2" name="client_name" required>
                                         <option readOnly value="">----Pilih----</option>
                                         @foreach ($cc as $item)
-                                            <option value="{{ $item->client_name }}">{{ $item->client_name }}</option>
+                                            <option value="{{ $item->client_name }}"{{ $data->client_name == $item->client_name ? 'selected' : '' }}>
+                                                {{ $item->client_name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -82,7 +87,9 @@
                             <div class="col-sm-12 col-md-7">
                                 <div id="image-preview" class="image-preview">
                                     <label for="image-upload" id="image-label">Choose File</label>
-                                    <input type="file" name="file" accept = "application/pdf,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                                    <input type="file" name="file" accept = "application/pdf,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    <p class="text-warning text-sm pt-2">Biarkan kosong jika tidak ingin mengganti file</p>
+
                                 </div>
                             </div>
                         </div>
@@ -97,7 +104,7 @@
                                         type="text" 
                                         id="bmt_awal" 
                                         class="form-control uang" 
-                                        value='{{old('bmt','')}}'
+                                        value='{{old('bmt', $data->bmt)}}'
                                         name="bmt" 
                                         min=1
                                         required
@@ -118,7 +125,7 @@
                                         class="form-control uang" 
                                         name="services" 
                                         min=1
-                                        value='{{old('services','')}}'
+                                        value='{{old('services', $data->services)}}'
                                         required
                                     >
                                 </div>
@@ -137,7 +144,7 @@
                                         class="form-control uang" 
                                         aria-label="Amount" 
                                         name="lain" 
-                                        value='{{old('lain','')}}'
+                                        value='{{old('lain', $data->lain)}}'
                                         min=0
                                         required
                                     >
@@ -151,8 +158,8 @@
                                     <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                     </div>
-                                    <input type="hidden" name="subtotal" id="subtotal" value="0">
-                                    <div id="displaySubtotal" class="form-control"></div>
+                                    <input type="hidden" name="subtotal" id="subtotal" value="{{ $data->subtotal }}">
+                                    <div id="displaySubtotal" class="form-control">Rp. {{ $data->subtotal }}</div>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +167,16 @@
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Bunga Admin</label>
                             <div class="col-sm-12 col-md-7">
                                 <div class="input-group mb-3">
-                                    <input type="number" class="form-control uang" id="admin_bunga" name="bunga_admin" min="1" max="100"  placeholder="" required>
+                                    <input 
+                                        type="number" 
+                                        class="form-control uang" 
+                                        id="admin_bunga" 
+                                        name="bunga_admin"
+                                        min="1" 
+                                        max="100"  
+                                        placeholder="" 
+                                        value='{{old('lain', $data->bunga_admin)}}'
+                                    required>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">%</span>
                                     </div>
@@ -174,8 +190,8 @@
                                     <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                     </div>
-                                    <input type="hidden" name="biaya_admin" id="admin_cost">
-                                    <div id="displayCost" class="form-control">0</div>
+                                    <input type="hidden" name="biaya_admin" id="admin_cost" value="{{ $data->biaya_admin }}">
+                                    <div id="displayCost" class="form-control"> Rp. {{ number_format($data->biaya_admin) }} </div>
                                 </div>
                             </div>
                         </div>
@@ -186,7 +202,14 @@
                                     <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                     </div>
-                                    <input type="text" id="decrement_cost" class="form-control uang" aria-label="Amount" name="biaya_pengurangan" min=0 required>
+                                    <input 
+                                        type="text" 
+                                        id="decrement_cost" 
+                                        class="form-control uang" 
+                                        name="biaya_pengurangan"
+                                        min=0 
+                                        value='{{old('lain', $data->biaya_pengurangan)}}'
+                                        required>
                                 </div>
                             </div>
                             
@@ -198,8 +221,8 @@
                                     <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                     </div>
-                                    <div id="displayFinal" class="form-control">0</div>
-                                    <input type="hidden" id="final_subtotal" class="form-control" name="final_subtotal" min=1>
+                                    <div id="displayFinal" class="form-control">Rp. {{ number_format($data->total_final) }}</div>
+                                    <input type="hidden" id="final_subtotal" class="form-control" name="final_subtotal" min=1 value="{{ $data->total_final }}">
                                 </div>
                                 <p class="text-sm text-muted">Subtotal <b>dari</b> Total BMT+Service - Final</p>
                             </div>
@@ -207,7 +230,7 @@
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                             <div class="col-sm-12 col-md-7">
-                                <button class="btn btn-primary">Create</button>
+                                <button class="btn btn-primary">Update</button>
                             </div>
                         </div>
                     </div>

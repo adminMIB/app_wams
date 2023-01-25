@@ -60,7 +60,7 @@
             <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Request</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="file" class="form-control" name="upload_request" required>
+                    <input type="file" class="form-control" name="upload_request" accept="application/vnd.ms-excel, application/pdf, image/*" required>
                 </div>
             </div>
           </div>
@@ -69,7 +69,7 @@
             <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Release</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="file" class="form-control" name="upload_release" required>
+                    <input type="file" class="form-control" name="upload_release" accept="application/vnd.ms-excel, application/pdf, image/*" required>
                 </div>
             </div>
           </div>

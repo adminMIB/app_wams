@@ -17,7 +17,7 @@
     </div>
     <div class="card" style="border-radius: 2em">
         <div class="card-header">
-            <a href="{{ route('create-saldo') }}" class="btn btn-primary">Create</a>
+            <a href="/saldo-create" class="btn btn-primary">Create</a>
         </div>
         <div class="card-body">
         <div class="table-responsive">
@@ -42,7 +42,7 @@
                                 <div class="dropdown-menu text-center">
                                     <a href="{{ route('create-TMRevCost', $item->id) }}" class="btn btn-primary btn-sm">Transaction Maker</a>
                                     <a href="{{route('detail-TMRevCost',$item->id)}}" class="btn btn-info btn-sm">Detail</a>
-                                    <a href="{{ route('deletesaldotrrr5vbbbbbb', $item->id) }}" onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="{{ route('deletesaldo', $item->id) }}" onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
                         </td>

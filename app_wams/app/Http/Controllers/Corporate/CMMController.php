@@ -26,7 +26,7 @@ class CMMController extends Controller
             "hp_pic_bank" => $request->hp_pic_bank,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with(['success' => 'data berhasil ditambahkan']);   
     }
 
     //Create PRK
@@ -45,7 +45,7 @@ class CMMController extends Controller
             "keterangan" => $request -> keterangan,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with(['success' => 'data berhasil ditambahkan']);   
     }
 
     //Create Transaction Maker
@@ -59,16 +59,29 @@ class CMMController extends Controller
     {
         $tm = CreatePRK::with('tmcmm')->find($id);
 
-        TransactionMakerCMM::create([
-            "cmm_id" => $tm->id,
-            "tgl_po" => $request -> tgl_po,
-            "nama_project" => $request -> nama_project,
-            "nama_klien" => $request -> nama_klien,
-            "nama_eu" => $request -> nama_eu,
-            "nominal_po" => $request -> nominal_po,
-        ]);
+        $totalPo = 0;
+        $tmTMCMM = TransactionMakerCMM::where('cmm_id', $tm->cmm_id)->get();
 
-        return redirect()->back();
+        foreach($tmTMCMM as $row) {
+            $totalPo += $row->nominal_po;
+        }
+
+        $sisa_saldo = $tm->jumlah_cl - $totalPo;
+
+        if ($request->nominal_po > $sisa_saldo) {
+            return redirect()->back()->with(['error' => "Saldo CMM Disti Tidak Cukup"]);
+        } else {
+            TransactionMakerCMM::create([
+                "cmm_id" => $tm->id,
+                "tgl_po" => $request -> tgl_po,
+                "nama_project" => $request -> nama_project,
+                "nama_klien" => $request -> nama_klien,
+                "nama_eu" => $request -> nama_eu,
+                "nominal_po" => $request -> nominal_po,
+            ]);
+    
+            return redirect()->back()->with(['success' => 'data berhasil ditambahkan']);   
+        }
     }
 
     public function detailTMCMM($id)

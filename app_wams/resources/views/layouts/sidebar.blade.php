@@ -119,6 +119,30 @@
                             <li class="submenu-item {{request()->is('umViewAdmin') ? 'active' : ''}}">
                                 <a href="/umViewAdmin">Report Timeline</a>
                             </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-acdc/*') ? 'active' : ''}}">
+                                <a href="/report-acdc" class=''>
+                                    <span>Report ACDC</span>
+                                </a>
+                            </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-dcl/*') ? 'active' : ''}}">
+                                <a href="/report-dcl" class=''>
+                                    <span>Report DCL</span>
+                                </a>
+                            </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-reimbursement/*') ? 'active' : ''}}">
+                                <a href="/report-reimbursement" class=''>
+                                    <span>Report Reimbursement</span>
+                                </a>
+                            </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-cmm/*') ? 'active' : ''}}">
+                                <a href="/report-cmm" class=''>
+                                    <span>Report CMM</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -579,6 +603,30 @@
                             class="submenu-item {{request()->is('umViewPiplane') || request()->is('umShowPiplane/*') ? 'active' : ''}}">
                                 <a href="{{ route('umViewPiplane') }}" class=''>
                                     <span>Report Pipeline</span>
+                                </a>
+                            </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-acdc/*') ? 'active' : ''}}">
+                                <a href="/report-acdc" class=''>
+                                    <span>Report ACDC</span>
+                                </a>
+                            </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-dcl/*') ? 'active' : ''}}">
+                                <a href="/report-dcl" class=''>
+                                    <span>Report DCL</span>
+                                </a>
+                            </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-reimbursement/*') ? 'active' : ''}}">
+                                <a href="/report-reimbursement" class=''>
+                                    <span>Report Reimbursement</span>
+                                </a>
+                            </li>
+                            <li
+                            class="submenu-item {{ request()->is('report-cmm/*') ? 'active' : ''}}">
+                                <a href="/report-cmm" class=''>
+                                    <span>Report CMM</span>
                                 </a>
                             </li>
                         </ul>

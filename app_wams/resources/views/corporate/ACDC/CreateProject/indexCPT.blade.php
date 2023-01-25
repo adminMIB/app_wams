@@ -3,9 +3,53 @@
 @section('title', 'All Projects')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('newassets/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
 <link rel="stylesheet" href="{{ asset('newassets/assets/css/pages/fontawesome.css') }}">
-<link rel="stylesheet" href="{{ asset('newassets/assets/css/pages/datatables.css') }}">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-html5-1.6.1/b-print-1.6.1/r-2.2.3/datatables.min.css" />
+<style>
+    .table-loader {
+        visibility: hidden;
+    }
+    .table-loader:before {
+        visibility: visible;
+        display: table-caption;
+        content: " ";
+        width: 100%;
+        height: 600px;
+        background-image: linear-gradient(rgba(235, 235, 235, 1) 1px, transparent 0),
+        linear-gradient(90deg, rgba(235, 235, 235, 1) 1px, transparent 0),
+        linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 15%, rgba(255, 255, 255, 0) 30%),
+        linear-gradient(rgba(240, 240, 242, 1) 35px, transparent 0);
+        background-repeat: repeat;
+        background-size: 1px 35px,
+        calc(100% * 0.1666666666) 1px,
+        30% 100%,
+        2px 70px;
+        background-position: 0 0,
+        0 0,
+        0 0,
+        0 0;
+        animation: shine 0.5s infinite;
+    }
+    @keyframes shine {
+        to {
+            background-position: 0 0,
+            0 0,
+            40% 0,
+            0 0;
+        }
+    }
+    
+    .picker__theme_dark {
+        background-color: black;
+        color: white;
+    }
+
+    .picker__theme_dark li:hover {
+        color: black
+    }
+</style>
 @endsection
 
 @section('content')
@@ -13,51 +57,100 @@
     <div class="section-header">
         <div class="card">
             <div class="alert">
-                <h2 class="text-capitalize text-center">List Create Principal</h2>
+                <h2 class="text-capitalize text-center">List Create Project ACDC</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4>Filter</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label for="">Client</label>
+                        <select id="client_filter" class="form-control select2">
+                            <option value="" readonly>-----PILIH------</option>
+                            @forelse ($client as $item)
+                                <option value="{{ $item->client_name }}">{{ $item->client_name }}</option>
+                            @empty
+                                <option value="">tidak ada data</option>
+                            @endforelse
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="form-group">
+                        <label for="">Principal</label>
+                        <select id="principal_filter" class="form-control select2">
+                            <option value="" readonly>-----PILIH------</option>
+                            @forelse ($principal as $item)
+                                <option value="{{ $item->principal_name }}">{{ $item->principal_name }}</option>
+                            @empty
+                                <option value="">tidak ada data</option>
+                            @endforelse
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <div class="pt-3"></div>
+                        <button class="btn btn-danger" id="reset">Reset</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="card" style="border-radius: 2em">
         <div class="card-header">
-            <a href="{{route('/cpt')}}"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable">Create</button></a>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col pull-left"></div>
+                    <div class="col pull-right">
+                        <div style="float: right;">
+                            <a href="{{route('/cpt')}}" class="btn btn-primary">
+                                Create <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered " id="table1">
-                <thead>
-                    <tr align="center" style="font-size: 13px">
-                        <th>ID Project</th>
-                        <th>Project Name</th>
-                        <th>Principal Name</th>
-                        <th>Client Name</th>
-                        <th>File</th>
-                        <th>Total BMT+Services - Final</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                @foreach ($cpt as $item)
-                <tbody>
-                    <tr style="font-size:13px">
-                        <td>{{$item ->id_project}}</td>
-                        <td>{{$item ->project_name}}</td>
-                        <td>{{$item ->principal_name}}</td>
-                        <td>{{$item ->client_name}}</td>
-                        <td>{{$item ->file}}</td>
-                        <td>Rp. {{number_format($item ->total_final)}}</td>
-                        <td>
-                            <div class="btn-group  mb-1" style="cursor: pointer;">
-                                <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                </div>
-                                <div class="dropdown-menu text-center">
-                                    <a class="btn btn-primary btn-sm" onclick="CreateTM({{$item->id}})">Transaction Maker</a>
-                                    <a href="{{route('showcpt',$item->id)}}" class="btn btn-info btn-sm">Detail</a>
-                                    <a href="{{route('deletecpt',$item->id)}}" class="btn btn-danger btn-sm">Delete</a>
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-sm-6 pull-left">
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <div id="date-range" class="form-control">
+                                        <i class="fa fa-calendar"></i>&nbsp;
+                                        <span></span> <i class="fa fa-caret-down"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-                @endforeach
+                        </div>
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3 pull-right">
+                            <input type="text" class="form-control" placeholder="Search project name" id="search" autocomplete="Off">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="table-responsive">
+                <table class="table table-bordered " id="project">
+                    <thead>
+                        <th>No</th>
+                        <th>Project ID</th>
+                        <th>Project</th>
+                        <th>Client</th>
+                        <th>Principal</th>
+                        <th>Subtotal Final</th>
+                        <th>CreatedAt</th>
+                        <th>Action</th>
+                    </thead>
+                </table>
             </table>
         </div>
         </div>
@@ -81,13 +174,36 @@
 </section>
 @endsection
 @section('js')
-<script src="{{ asset('newassets/assets/extensions/jquery/jquery.min.js') }}"></script>
-<script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-<script src="{{ asset('newassets/assets/js/pages/datatables.js') }}"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="{{ asset('js/project_acdc.js') }}"></script>
+
+<script>
+    $(init)
+        function init() {
+            if ($('body').hasClass('theme-dark')) {
+                $(".ranges").addClass('picker__theme_dark')
+            } else {
+                $('.ranges').removeClass('picker__theme_dark')
+            }
+        }
+        $('input[type="checkbox"]').click(function(){
+            if ($('body').hasClass('theme-dark')) {
+                $(".ranges").addClass('picker__theme_dark')
+            } else {
+                $('.ranges').removeClass('picker__theme_dark')
+            }
+        })
+</script>
+
 <script>
     function CreateTM(id){
         $.get("{{url('createTM')}}/"+ id,{},function(data,status){
-            $("#exampleModalLabel").html('Edit Product')
+            $("#exampleModalLabel").html('Transaction Maker')
             $("#page").html(data);
             $("#exampleModal").modal('show');
         });

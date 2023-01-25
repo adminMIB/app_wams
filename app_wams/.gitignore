@@ -10,6 +10,7 @@
 /public/upload_dokumen
 /public/file_request
 /public/dokumen_project
+/public/fileCorporate/
 /storage/*.key
 /vendor
 
