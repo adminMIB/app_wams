@@ -74,8 +74,8 @@ class ReportController extends Controller
 
         $nama_table = "Project ACDC";
         $total_pendapatan = [
-            'index' => 'Total Nominal Project ACDC',
-            'data' => 'Rp' . number_format($data->sum('jumlah_cl')),
+            'index' => 'Total Nominal Transaction makker Project ACDC',
+            'data' => 'Rp' . number_format($data->sum('nominal')),
             'th' => 'A2', 'td' => 'B2'
         ];
 

@@ -126,7 +126,9 @@ class LoginController extends Controller
             return redirect()->intended('TechnikalLead');
         }
         
-        
+        else {
+            return redirect()->intended('dashboard-hrd');
+        }
                     
         }
 

@@ -779,6 +779,36 @@
                     
                 </ul>
                 @endif
+                @if (Auth::user()->hasRole('HRD'))
+                <ul class="menu">
+                    <li class="sidebar-title">HRD TOOLS</li>
+                    
+                    <li
+                        class="sidebar-item {{request()->is('dashboard-hrd') ? 'active' : ''}}">
+                        <a href="/dashboard-hrd" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>    
+
+                    <li
+                        class="sidebar-item {{request()->is('hrd') ? 'active' : ''}}">
+                        <a href="/hrd" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Data Karyawan</span>
+                        </a>
+                    </li>
+                    
+                    <li
+                        class="sidebar-item  ">
+                        <form action="/logout" method="POST" style="">
+                            @csrf
+                            <button class="btn btn-danger text-white w-100">Logout</button>
+                        </form>
+                    </li>
+                    
+                </ul>
+                @endif
             </div>
         </div>
     </div>

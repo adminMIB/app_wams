@@ -28,6 +28,7 @@ use App\Http\Controllers\Finance\FakturPenjualanController;
 use App\Http\Controllers\Finance\FinanceController;
 use App\Http\Controllers\Finance\PembelianController;
 use App\Http\Controllers\Finance\PenawaranController;
+use App\Http\Controllers\Hrd\HrdController;
 use App\Http\Controllers\Technical\ElearningController;
 use App\Http\Controllers\ListProjectTechController;
 use App\Http\Controllers\SALES\ListPAController;
@@ -79,8 +80,6 @@ route::get("/", function () {
   return view("auth.login");
 });
 Route::post('logout', [LoginController::class, 'logout']);
-Route::get('resetp', [UpdatePasswordController::class, 'index'])->name('/resetp');
-Route::post('updatePasswords', [UpdatePasswordController::class, 'updatePassword'])->name('/updatePasswords');
 
 Route::get('/contoh', [ContohController::class, 'index']);
 Route::get('/contoh/export_excel', [ContohController::class, 'export_excel']);
@@ -627,7 +626,14 @@ Route::get('/report-cmm', function() {
   return view('report.corporate.cmm.index');
 });
 
-Route::post('/report-adcd', [CorporateReportController::class, 'AcdcReport'])->name('reportAcdc');
+Route::post('/report-acdc', [CorporateReportController::class, 'AcdcReport'])->name('reportAcdc');
 Route::post('/report-reimbursement', [CorporateReportController::class, 'ReimbursementReport'])->name('reportreimbursment');
 Route::post('/report-dcl', [CorporateReportController::class, 'DclReport'])->name('DclReport');
 Route::post('/report-cmm', [CorporateReportController::class, 'CmmReport'])->name('CmmReport');
+
+Route::group(['middleware'  => ['auth']], function () {
+  Route::get('dashboard-hrd', function() {
+    return view('DashboardHrd');
+  });
+  Route::resource('hrd', HrdController::class);
+});
