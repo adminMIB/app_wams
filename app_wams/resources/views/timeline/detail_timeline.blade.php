@@ -2,9 +2,9 @@
 @extends('layouts.main')
 @section('content')
 <section class="section">
-    {{-- <div class="section-header">
+    <div class="section-header">
         <h1>Detail Timeline</h1>
-    </div> --}}
+    </div>
     <div class="card">
         <div class="card-header">
             {{-- <a href="" class="btn btn-secondary btn-sm mb-3">Back</a> --}}
@@ -13,31 +13,29 @@
             <table class="table table-hover table-responsive table-bordered ">
                 <thead>
                     <tr>
-                        <th>Kode Project</th>
-                        <th> Client</th>
-                        <th> Project</th>
-                        <th>Jenis Pekerjaan</th>
+                        <th>Project Code </th>
+                        <th> Client Name</th>
+                        <th> Project Name</th>
+                        <th>Task</th>
                         <th>Start Date</th>
                         <th>Finish Date</th>
                         <th>Technikal</th>
-                        <th>PM</th>
                     </tr>
                 </thead>
                 @foreach($time->detail as $tm)
-                @if ($tm->nama_technical)
+                {{-- @if ($tm->nama_technical) --}}
                     <tbody>
-                    <tr>
+                    <tr style="font-size: 80%">
                         <td>{{$time->kode_project}}</td>
                         <td>{{$time->nama_institusi}}</td>
                         <td>{{$time->nama_project}}</td>
                         <td>{{$tm->jenis_pekerjaan}}</td>
-                        <td>{{$tm->start_date}}</td>
-                        <td>{{$tm->finish_date}}</td>
+                        <td><span class="badge text-bg-success text" >{{$tm->start_date}}</span></td>
+                        <td><span class="badge text-bg-danger">{{$tm->finish_date}}</span></td>
                         <td>{{$tm->nama_technical}}</td>
-                        <td>{{$tm->nama_pm}}</td>
                     </tr>
                 </tbody>
-                @endif
+                {{-- @endif --}}
                 @endforeach
             </table>
             

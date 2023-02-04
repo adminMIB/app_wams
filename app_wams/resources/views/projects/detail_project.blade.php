@@ -422,6 +422,7 @@
                                                   @endforeach
                                                 </td>
                                                 <td>
+                                                    <a href="{{route('detail_timeline',$r->id)}}" style="font-size: 10px" class="btn btn-primary btn-sm">Detail</a>
                                                     <a href="{{url('newtimeline', $r->id)}}" style="font-size: 10px" class="btn btn-warning btn-sm" >Add New Timeline</a>
                                                 </td>
                                             </tr>

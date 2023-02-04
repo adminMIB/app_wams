@@ -140,12 +140,12 @@
                 </table> --}}
                 
                 <div class="row mt-5">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="form-group">
                             <label><b>Distributor Price Offers</b></label>
                             <input type="file" class="form-control" name="file_PHD" required>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-4">
                         <div class="form-group">
                             <label><b>SPK/PO/SPBBJ Client</b></label>
@@ -160,6 +160,12 @@
                     </div>
                 </div>
 
+                <div class="mb-3">
+                    <label for="document">Distributor Price Offers</label>
+                    <div style="background-color: none" class="needsclick dropzone" id="document-dropzone">
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                 <a href="{{route('slsorder')}}" class="btn btn-secondary">Back</a>
             </form>
@@ -169,6 +175,62 @@
 @endsection
 @section('js')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+@push('script-internal')
+
+{{-- JS assets at the bottom --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+{{-- ...Some more scripts... --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+<script>
+var uploadedDocumentMap = {}
+Dropzone.options.documentDropzone = {
+    url: '{{ route('storeMediaSales') }}',
+    maxFilesize: 2, // MB
+    addRemoveLinks: true,
+    acceptedFiles: ".doc,.docx,.pdf,.xls,.xlsx,.ppt,.pptx",
+    headers: {
+        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+    },
+    success: function(file, response) {
+        $('form').append('<input type="hidden" name="file_PHD[]" value="' + response.name + '">')
+        uploadedDocumentMap[file.name] = response.name
+    },
+    removedfile: function(file) {
+        file.previewElement.remove()
+        var name = ''
+        if (typeof file.file_name !== 'undefined') {
+            name = file.file_name
+        } else {
+            name = uploadedDocumentMap[file.name]
+        }
+        $('form').find('input[name="file_PHD[]"][value="' + name + '"]').remove()
+    },
+    init: function() {
+            @if (isset($file_PHDs))
+                var files =
+                {!! json_encode($file_PHDs) !!}
+                for (var i in files) {
+                var file = files[i]
+                console.log(file);
+                file = {
+                ...file,
+                width: 226,
+                height: 324
+                }
+                this.options.addedfile.call(this, file)
+                this.options.thumbnail.call(this, file, file.original_url)
+                file.previewElement.classList.add('dz-complete')
+
+                $('form').append('<input type="hidden" name="file_PHD[]" value="' + file.file_name + '">')
+                }
+            @endif
+        }
+}
+
+</script>
 <script type="text/javascript">
   $('.addamount').on('click', function() {
     addamount();

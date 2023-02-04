@@ -11,7 +11,7 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable=[
-        "nama", "IDCustomer", "email", "no_telp", "alamat", "nama_pic", "jabatan_pic", "no_hp"
+        "nama", "IDCustomer", "email", "no_telp", "alamat", "nama_pic", "jabatan_pic", "no_hp","pic_name","influencer_name","influencer_position","telp_influencer","influencer_email","position"
     ];
 
 

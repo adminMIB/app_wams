@@ -26,6 +26,9 @@ use PDF;
 
 class SalesOrderController extends Controller
 {    
+
+    private $mediaCollection = 'file_PHD';
+
     public function index()
     {
         // $products = SalesOrder::whereIn('id', explode(",", $products->user_id))->get();
@@ -98,11 +101,11 @@ class SalesOrderController extends Controller
             return back()->with('error', 'Project Sudah ada atau field belum diisi');
         }
 
-        $file_PHD = $request->file('file_PHD');
-        $file_PHD_ext = $file_PHD->getClientOriginalName();
-        $file_PHD_name = time(). $file_PHD_ext;
-        $file_PHD_path = public_path('DocumentLTO/');
-        $file_PHD->move($file_PHD_path, $file_PHD_name);
+        // $file_PHD = $request->file('file_PHD');
+        // $file_PHD_ext = $file_PHD->getClientOriginalName();
+        // $file_PHD_name = time(). $file_PHD_ext;
+        // $file_PHD_path = public_path('DocumentLTO/');
+        // $file_PHD->move($file_PHD_path, $file_PHD_name);
         
         $file_SPSC = $request->file('file_SPSC');
         $file_SPSC_ext = $file_SPSC->getClientOriginalName();
@@ -130,7 +133,7 @@ class SalesOrderController extends Controller
         $time->project = $data1['project'];
         $time->tgl_so = $data1['tgl_so'];
         $time->file_project = $data1['file_project'];
-        $time->file_PHD = $data['file_PHD'] = $file_PHD_name;
+        $time->file_PHD =  implode("," , $request->file_PHD);
         $time->file_SPSC = $data['file_SPSC'] = $file_SPSC_name;
         $time->file_PS = $data['file_PS'] = $file_PS_name;
         $time->distributor = $data1['distributor'];
@@ -149,6 +152,10 @@ class SalesOrderController extends Controller
         // $time->grandtotal = $data1['grandtotal'];
         $time->name_user = Auth::user()->name;
         $time->save();
+
+        foreach ($request->input('file_PHD', []) as $file) {
+            $time->addMedia(public_path('tmp/file_phd/' . $file))->toMediaCollection($this->mediaCollection);
+        }
         
         if ($pd !== null) {
             foreach ($data1['product_quantity'] as $item => $value) {
@@ -181,6 +188,23 @@ class SalesOrderController extends Controller
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }
+    }
+
+    public function storeMedia(Request $request)
+    {
+        $path = public_path('tmp/file_phd');
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $request->file('file');
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
     }
 
     public function show($id)

@@ -23,6 +23,12 @@ class CreateCustomersTable extends Migration
             $table->string('alamat')->nullable();
             $table->string('nama_pic')->nullable();
             $table->string('jabatan_pic')->nullable();
+            $table->string('pic_name')->nullable();
+            $table->string('influencer_name')->nullable();
+            $table->string('influencer_position')->nullable();
+            $table->string('telp_influencer')->nullable();
+            $table->string('influencer_email')->nullable();
+            $table->string('position')->nullable();
             $table->timestamps();
         });
     }

@@ -107,4 +107,14 @@ class SalesOrder extends Model implements HasMedia
         return $this->hasMany(Pembelian::class, 'lto_id');
     }
 
+     public function file_PHDs()
+    {
+        return $this->morphMany(Media::class, 'model');
+    }
+
+    public function setFilenamesAttribute($value)
+    {
+        $this->attributes['file_PHD'] = json_encode($value);
+    }
+
 }

@@ -384,6 +384,8 @@ Route::group(['middleware'  => ['auth']], function () {
   Route::get('/profile-all',[ControllersProfileController::class,'index'])->name('profile-all');
   Route::post('/update-all/{id}',[ControllersProfileController::class,'update'])->name('update-all');
 
+  Route::post('/sales/media', [SalesOrderController::class, 'storeMedia'])->name('storeMediaSales');
+
 
 });
 

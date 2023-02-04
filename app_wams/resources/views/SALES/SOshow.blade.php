@@ -267,7 +267,14 @@
             <div class="row mt-2">
                 <div class="mr-2 col">
                     <label for="" class=""><b>Distributor Price Offers</b></label>
-                    <a href="/DocumentLTO/{{$shorder->file_PHD}}" class="form-control">{{$shorder->file_PHD}}</a>
+                    <div class="border">
+                        @foreach ($shorder->file_PHDs as $i)
+                          @foreach (explode("," , $i->file_name) as $a) 
+                            <a href="/storage/{{$i->id}}/{{$a}}">{{$a}}<br></a>
+                          @endforeach
+                        @endforeach
+                    </div>
+                    {{-- <a href="/storage/{{$shorder->file_PHD}}" class="form-control">{{$shorder->file_PHD}}</a> --}}
                 </div>
                 <div class="mr-2 col">
                     <label for="" class=""><b>SPK/PO/SPBBJ Client</b></label>

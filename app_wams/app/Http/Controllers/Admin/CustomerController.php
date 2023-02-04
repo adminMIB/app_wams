@@ -51,7 +51,13 @@ class CustomerController extends Controller
             "IDCustomer"   => $request->idCustomer,
             "email"        => $request->email,
             "no_telp"      => $request->noTelephone,
-            "alamat"       => $request->alamat
+            "alamat"       => $request->alamat,
+            "pic_name"     => $request->pic_name,
+            "position"     => $request->position,
+            "influencer_name" => $request->influencer_name,
+            "influencer_position" => $request->influencer_position,
+            "telp_influencer" => $request->telp_influencer,
+            "influencer_email" => $request->influencer_name
         ]);
 
     return redirect('customer')->with('success', 'Data Customer Berhasil Dibuat!');
@@ -74,9 +80,15 @@ class CustomerController extends Controller
         $getData = Customer::find($id);
             $getData->update([
                 "nama"     => $request->namaCustomer,
+                "pic_name" => $request->pic_name,
+                "position" => $request->position,
                 "email"    => $request->email,
                 "no_telp"  => $request->noTelephone,
-                "alamat"   => $request->alamat
+                "alamat"   => $request->alamat,
+                "influencer_name" => $request->influencer_name,
+                "influencer_position" => $request->influencer_position,
+                "telp_influencer" => $request->telp_influencer,
+                "influencer_email" => $request->influencer_email
         ]);
 
         return redirect('customer')->with('success', 'Data Customer Berhasil Diupdate!');

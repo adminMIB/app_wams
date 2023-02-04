@@ -97,8 +97,14 @@
                 <div class="mb-2 row">
                     <label for="inputTimeline" class="col-sm-3 col-form-label">Distributor</label>
                     <div class="col-sm-9">
-                        <select name="distributor" class="@error('elearning_id') is-invalid @enderror form-control" required>
+                        {{-- <select name="distributor" class="@error('elearning_id') is-invalid @enderror form-control" required>
                             <option></option>
+                            @foreach($distributor as $item)
+                            <option value="{{$item->distributor}}">{{$item->distributor}}</option>
+                            @endforeach
+                        </select> --}}
+                        <select class="choices form-select multiple-remove @error('elearning_id') is-invalid @enderror" multiple="multiple" name="distributor[]" required>
+                            <option value="" hidden></option>
                             @foreach($distributor as $item)
                             <option value="{{$item->distributor}}">{{$item->distributor}}</option>
                             @endforeach

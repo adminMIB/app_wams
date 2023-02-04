@@ -281,6 +281,7 @@ class AdminController extends Controller
         ]);
 
         $admin = ListProjectAdmin::create([
+
             "NamaClient" => $request->namaClient,
             "NamaProject" => $request->NamaProject,
             'ID_Customer' => $request->idCustomer,
@@ -293,7 +294,7 @@ class AdminController extends Controller
             "ID_project" => $request->ID_project,
             "ID_Customer" => $idCustomer,
             "principal" => $request->principal,
-            "distributor" => $request->distributor,
+            "distributor" => implode(",", $request->distributor),
             "name_user" => Auth::user()->name,
         ]);
 
@@ -313,7 +314,7 @@ class AdminController extends Controller
             "ID_project" => $request->ID_project,
             "ID_Customer" => $idCustomer,
             "principal" => $request->principal,
-            "distributor" => $request->distributor,
+            "distributor" => implode(",", $request->distributor),
             "name_user" => Auth::user()->name,
         ]);
 
