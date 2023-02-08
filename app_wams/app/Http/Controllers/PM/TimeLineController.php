@@ -68,6 +68,15 @@ class TimeLineController extends Controller
     {
         try {
 
+            $validate = Validator::make($request->all(), [
+                "nama_dokumen" => "required",
+                "upload_dokumen" => "required",
+
+            ]);
+            if ($validate->fails()) {
+                return back()->with('error', 'Field cannot be empty!');
+            }
+
             $data1=$request->all();
 
                 $time = new ListProjet;
@@ -87,8 +96,7 @@ class TimeLineController extends Controller
                 foreach ($request->input('upload_dokumen', []) as $file) {
                     $time->addMedia(public_path('tmp/upload_dokument/' . $file))->toMediaCollection($this->mediaCollection);
                 }
-
-
+    
             if (count($data1['nama_technical'])) {
                 foreach ($data1['start_date'] as $item => $value) {
                     $data2 = array(
@@ -104,8 +112,8 @@ class TimeLineController extends Controller
 
                 return back()->with('success', 'Data Berhasil Di Simpan');
             }
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage());
+        } catch (\Exception ) {
+            return back()->with('error', 'Field cannot be empty!');
         }
     }
 

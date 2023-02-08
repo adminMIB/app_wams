@@ -112,20 +112,20 @@
             </div>
             <div class="col-6 col-sm-4">
               <label for="" class="">Star Date</label>
-              <input type="date" class="form-control " name="start_date[]">
+              <input type="date" class="form-control " name="start_date[]" required>
             </div>
             <div class="col-6 col-sm-4">
               <label for="" class="">Finis Date</label>
-              <input type="date" class="form-control" name="finish_date[]">
+              <input type="date" class="form-control" name="finish_date[]" required>
             </div>
             <div class="w-100 d-none d-md-block"></div>
             <div class="col-6 col-sm-4">
               <label for="" class="">Jenis Pekerjaan</label>
-              <input type="text" class="form-control" name="jenis_pekerjaan[]">
+              <input type="text" class="form-control" name="jenis_pekerjaan[]" required>
             </div>
             <div class="col-6 col-sm-4">
               <label for="" class="">Nama Technikal</label>
-              <select name="nama_technical[]" id="" class="form-control">
+              <select name="nama_technical[]" id="" class="form-control" required>
                 <option value=""></option>
                 @foreach ($user as $l)
                 @foreach($l->users as $a)

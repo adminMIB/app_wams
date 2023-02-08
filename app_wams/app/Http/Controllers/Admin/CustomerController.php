@@ -40,10 +40,17 @@ class CustomerController extends Controller
             'namaCustomer'  => 'required',
             "noTelephone"   =>'required',
             "alamat"        => 'required',
+            "email"         => 'required',
+            "pic_name"      => 'required',
+            "position"      => 'required',
+            "influencer_name" => 'required',
+            "influencer_position" => 'required',
+            "telp_influencer" => 'required',
+            "influencer_email" => 'required'
         ]);    
 
         if($validator->fails()) {
-            return back()->with('error', 'Silahkan isi data NAMA, NO_TELP DAN ALAMAT!');
+            return back()->with('error', 'Field cannot be empty!');
         }
         
         $cel = Customer::create([

@@ -119,6 +119,14 @@ class ACDCController extends Controller
 
     public function saveCP (Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            'principal_type'  => 'required',
+            'principal_name'  => 'required'
+        ]);    
+
+        if($validator->fails()) {
+            return back()->with('error', 'Field cannot be empty!');
+        }
         
         CreatePrincipal::create([
             "principal_type" => $request->principal_type,
@@ -139,6 +147,15 @@ class ACDCController extends Controller
 
     public function saveCC (Request $request)
     {
+
+        $validator = Validator::make($request->all(),[
+            'client_type'  => 'required',
+            'client_name'  => 'required'
+        ]);    
+
+        if($validator->fails()) {
+            return back()->with('error', 'Field cannot be empty!');
+        }
 
         CreateClient::create([
             "client_type" => $request->client_type,

@@ -30,14 +30,11 @@ class ReimbursementController extends Controller
     {
         try {
             $validate = Validator::make($request->all(), [
-                // "jumlah_saldo" => "required|string|max:30",
-                // "institusi" => "required|string",
-                // "project" => "required|string",
-                // "no_doc" => "required|string|max:30|unique:sales_orders"
+                "divisi" => "required",
+                "nama_personel" => "required",
             ]);
-            
             if ($validate->fails()) {
-                return response()->json($validate->errors());
+                return back()->with('error', 'Field cannot be empty!');
             }
             
             $pt = new PersonelTeam;

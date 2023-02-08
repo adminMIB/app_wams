@@ -13,7 +13,7 @@
     <div class="section-header">
         <div class="card">
             <div class="alert">
-                <h2 class="text-capitalize text-center">List Create Principal</h2>
+                <h2 class="text-capitalize text-center">List Create Client</h2>
             </div>
         </div>
     </div>
@@ -27,8 +27,8 @@
                 <thead>
                     <tr align="center" style="font-size: 13px">
                         <th>NO</th>
-                        <th>Principal Type</th>
-                        <th>Principal Name</th>
+                        <th>Client Type</th>
+                        <th>Client Name</th>
                         <th>Action</th>
                     </tr>
                 </thead>

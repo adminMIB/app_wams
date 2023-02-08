@@ -483,7 +483,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="c" rotle="tabpanel" aria-labelledby="dokumen">
+                    <div class="tab-pane fade" id="dokumen" rotle="tabpanel" aria-labelledby="dokumen">
                         <div class="card">
                             <div class="card-header">
                                 <button type="button" class="btn ml-2 btn-primary btn-sm" style="float: left;" data-bs-toggle="modal" data-bs-target="#dokumen{{$shorder->id}}">Add Dokumen</button>

@@ -12,6 +12,7 @@ use App\Models\SalesOrder;
 use App\Models\TaskDiscussion;
 use App\Models\Weekly;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class ProjectController extends Controller
@@ -56,6 +57,15 @@ class ProjectController extends Controller
 
     public function storebast(Request $request)
     {
+        $validate = Validator::make($request->all(), [
+            "bast_dokumen" => "required",
+            "status" => "required",
+
+        ]);
+        if ($validate->fails()) {
+            return back()->with('error', 'Field cannot be empty!');
+        }
+
         $file_dokumen = $request->file('bast_dokumen');
         $file_dokumen_ext = $file_dokumen->getClientOriginalName();
         $file_dokumen_name = time(). $file_dokumen_ext;
@@ -83,6 +93,16 @@ class ProjectController extends Controller
 
     public function storeDP(Request $request)
     {
+
+        $validate = Validator::make($request->all(), [
+            "dokumen_project" => "required",
+            "deskripsi" => "required",
+
+        ]);
+        if ($validate->fails()) {
+            return back()->with('error', 'Field cannot be empty!');
+        }
+
         $file_dokumen = $request->file('dokumen_project');
         $file_dokumen_ext = $file_dokumen->getClientOriginalName();
         $file_dokumen_name = time(). $file_dokumen_ext;

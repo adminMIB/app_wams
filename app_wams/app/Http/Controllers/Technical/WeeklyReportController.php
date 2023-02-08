@@ -104,6 +104,21 @@ class WeeklyReportController extends Controller
      */
     public function store(Request $request)
     {
+        try {
+            $validate = Validator::make($request->all(), [
+                "job_essay" => "required|string",
+                "start_date" => "required|string",
+                "end_date" => "required|string",
+                "status" => "required|string",
+                "note" => "required|string"
+                // "institusi" => "required|string|max:30",
+                // "estimated_amount" => "required|string|max:30",
+                // "no_doc" => "required|string|max:30|unique:sales_orders"
+            ]);
+
+            if ($validate->fails()) {
+                return back()->with('error', 'Field cannot be empty!');
+            }
 
         $weekly_reports = $request->all();
 
@@ -147,6 +162,10 @@ class WeeklyReportController extends Controller
         //     // dd($weekly_reports);
         // }
         return back()->with('success', 'Weekly Report has been Added');
+
+    } catch (\Exception $e) {
+        return response()->json($e->getMessage());
+    }
     }
 
     /**
