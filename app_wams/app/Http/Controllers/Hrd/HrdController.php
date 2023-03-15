@@ -250,8 +250,17 @@ class HrdController extends Controller
     public function destroy($id)
     {
         $data = Hrd::find($id);
+        $certificate = EmployeeCertificate_file::where('worker_id', $data->id)->get();
+
+        unlink(public_path("hrd_file/$data->file_izasah"));
+        unlink(public_path("hrd_file/$data->file_ktp"));
+
+        foreach($certificate as $val) {
+            unlink(public_path("hrd_file/$val->name"));
+        }
 
         $data->delete();
+        EmployeeCertificate_file::where('worker_id', $data->id)->delete();
 
         return redirect(route('hrd.index'))->with(['success' => "Data $data->name berhasil dihapus"]);
     }
