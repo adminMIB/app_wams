@@ -15,7 +15,7 @@ class CreateHrdsTable extends Migration
     {
         Schema::create('hrds', function (Blueprint $table) {
             $table->id();
-            $table->integer('nik')->unique();
+            $table->bigInteger('nik')->unique();
             $table->date('joined');
             $table->string('name');
             $table->string('from_institute');

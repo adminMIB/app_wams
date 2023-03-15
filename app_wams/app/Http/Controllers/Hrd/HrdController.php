@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Hrd;
 
 use App\Http\Controllers\Controller;
+use App\Models\EmployeeCertificate_file;
 use App\Models\Hrd;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class HrdController extends Controller
 {
@@ -37,6 +39,9 @@ class HrdController extends Controller
                 })
                 ->addColumn("gender", function($val) {
                     return $val->gender == 'L' ? "Laki-Laki" : "Perempuan";
+                })
+                ->addColumn("status", function ($val) {
+                    return ucfirst($val->status);
                 })
                 ->addColumn("created_at", function($val) {
                     return Carbon::parse($val->created_at)->translatedFormat("Y-m-d");
@@ -94,12 +99,25 @@ class HrdController extends Controller
                 "phone" => "required",
                 "email" => "required"
             ]);
-            
+
             if ($validate->fails()) {
                 return back()->with(['error' => $validate->errors()]);
             }
 
-            Hrd::create([
+            $file_izah = $request->file('file_izasah');
+            $file_ktp = $request->file('file_ktp');
+            $path = public_path("hrd_file/file");
+
+            if (!Storage::exists($path)) {
+                Storage::makeDirectory($path, 0777, true, true);
+            }
+
+            $izasah_name = time() . '-' . $file_izah->getClientOriginalName();
+            $ktp_name = time() . '-' . $file_ktp->getClientOriginalName();
+            $file_izah->move($path, $izasah_name);
+            $file_ktp->move($path, $ktp_name);
+
+            $worker = Hrd::create([
                 "name" => $request->name,
                 "nik" => $request->nik,
                 "from_institute" => $request->from_institute,
@@ -111,8 +129,26 @@ class HrdController extends Controller
                 "date_birth" => $request->date_birth,
                 "religion" => $request->religion,
                 "phone" => $request->phone,
-                "email" => $request->email
+                "email" => $request->email,
+                "npwp" => $request->employee_number,
+                "status_tk" => $request->status_tk,
+                "no_emergency" => $request->no_emergency,
+                "employee_number" => $request->employee_number,
+                "position" => $request->position,
+                "department" => $request->department,
+                "start_contract" => $request->start_contract,
+                "end_contract" => $request->end_contract,
+                "file_ktp" => $ktp_name,
+                "file_izasah" => $izasah_name
             ]);
+
+            foreach($request->file('certificate') as $row) {
+                $row->move($path, $row->getClientOriginalName());
+                EmployeeCertificate_file::create([
+                    "worker_id" => $worker->id,
+                    "name" => $row->getClientOriginalName()
+                ]);
+            }
 
             return redirect(route('hrd.index'))->with([
                 'success' => 'Data berhasil dibuat'
@@ -127,19 +163,57 @@ class HrdController extends Controller
     {
         $data = Hrd::find($id);
 
-        return view('hrd.edit', ['data' => $data]);
+        return view('Hrd.edit', ['data' => $data]);
     }
 
     public function show($id)
     {
         $data = Hrd::find($id);
+        $certificate = EmployeeCertificate_file::where('worker_id', $data->id)->get();
 
-        return view('hrd.show', ['data' => $data]);
+        return view('Hrd.show', ['data' => $data, 'certificate' => $certificate]);
     }
 
     public function update(Request $request, $id)
     {
         $data = Hrd::find($id);
+        $certificate = EmployeeCertificate_file::where('worker_id', $data->id)->get();
+
+        if (!empty($request->file('file_izasah'))) {
+            $path = public_path("hrd_file/file");
+
+            unlink("hrd_file/$data->file_izasah");
+
+            $file_izah = $request->file('file_izasah');
+            $izasah_name = time() . '-' . $file_izah->getClientOriginalName();
+            $file_izah->move($path, $izasah_name);
+        }
+
+        if (!empty($request->file('file_ktp'))) {
+            $path = public_path("hrd_file/file");
+
+            unlink("hrd_file/$data->file_ktp");
+
+            $file_ktp= $request->file('file_ktp');
+            $ktp_name = time() . '-' . $file_ktp->getClientOriginalName();
+            $file_izah->move($path, $ktp_name);
+        }
+
+        if (!empty($request->file('certificate'))) {
+            foreach($certificate as $val) {
+                unlink("hrd_file/file/$val->name");
+            }
+
+            EmployeeCertificate_file::where('worker_id', $data->id)->delete();
+
+            foreach($request->file('certificate') as $row) {
+                $row->move($path, $row->getClientOriginalName());
+                EmployeeCertificate_file::create([
+                    "worker_id" => $data->id,
+                    "name" => $row->getClientOriginalName()
+                ]);
+            }
+        }
 
         $update = $data->update([
             "name" => $request->name,
@@ -153,8 +227,18 @@ class HrdController extends Controller
             "date_birth" => $request->date_birth,
             "religion" => $request->religion,
             "phone" => $request->phone,
-            "email" => $request->email
-        ]); 
+            "email" => $request->email,
+            "npwp" => $request->employee_number,
+            "status_tk" => $request->status_tk,
+            "no_emergency" => $request->no_emergency,
+            "employee_number" => $request->employee_number,
+            "position" => $request->position,
+            "department" => $request->department,
+            "start_contract" => $request->start_contract,
+            "end_contract" => $request->end_contract,
+            "file_ktp" => !empty($request->file('file_ktp')) ? $ktp_name : $data->file_ktp,
+            "file_izasah" => !empty($request->file('file_izasah')) ? $izasah_name : $data->file_izasah
+        ]);
 
         if (!$update) {
             return redirect()->back()->with(['error' => "data gagal ditambahkan"]);

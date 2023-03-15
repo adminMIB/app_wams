@@ -240,7 +240,7 @@ Route::group(['middleware'], function () {
   // !
   Route::get('/inputWorkOrder/{id}', [ApprovalController::class, 'inputWo'])->middleware(['permission:detail data Management']);
   Route::post('/input_wo', [InputwoController::class, 'iwo'])->middleware(['permission:create data Management']);
-  // 
+  //
   route::post('/updateStatusApproval/{id}', [ApprovalController::class, 'update'])->name('updateStatusApproval')->middleware(['permission:update data Management']);;
   Route::get('/inputTwo', [InputwoController::class, 'index'])->name('inputTwo')->middleware(['permission:read data Management']);
   Route::post('/inputWo/sendPmLead', [InputwoController::class, 'store'])->name('/inputWo/sendPmLead')->middleware(['permission:create data Management']);
@@ -280,7 +280,7 @@ Route::group(['middleware'], function () {
 });
 
 //! Routing dashboard Finance
-// Route::group(['middleware' => ['role:Finance']], function() 
+// Route::group(['middleware' => ['role:Finance']], function()
 // {}
 
 
@@ -420,7 +420,7 @@ Route::group(['middleware'  => ['auth']], function () {
   Route::post('/Penawaran/update/status/{id}',[PenawaranController::class,'updateST'])->name('penawaran.status');
   Route::get('/edit-status/{id}',[PenawaranController::class,'editST'])->name('edit.status');
 
-  
+
   Route::get('/Pesanan-Penjualan/{id}', [PenawaranController::class, 'showpesanan'])->name('pesananpenjualan');
   Route::get('/Faktur/{id}', [FakturPenjualanController::class, 'showfaktur'])->name('faktur');
   Route::post('/addbarangfaktur/{id}', [FakturPenjualanController::class, 'addbrng'])->name('add.barangfaktur');
@@ -462,7 +462,7 @@ Route::group(['middleware'  => ['auth']], function () {
   Route::post('/pembayarranPembeli/{id}', [FakturPembelianController::class, 'addPembayaranPembelian'])->name('pembayarranPembeli');
   route::get('/faktur-pembelian/pdf/{id}', [FakturPembelianController::class, 'faktur_pdf'])->name('faktur-pembelian-pdf');
   Route::get('/pesanan-pembelian/pdf/{id}', [PembelianController::class, 'pesanan_pembelian_pdf'])->name('pesanan-pembelian-pdf');
-  
+
   // route::get('pembelian/faktur/pdf/{id}', [FakturPembelianController::class, 'fakturPembelian_pdf'])->name('pembelian/faktur/pdf');
   route::get('/testing', [FakturPembelianController::class, 'fakturPembelian_pdf'])->name('/testing');
 
@@ -479,7 +479,7 @@ Route::group(['middleware'  => ['auth']], function () {
   Route::get('/bank/edit/{id}', [BankController::class, 'edit'])->name('/bank/edit');
   Route::post('/bank/update/{id}', [BankController::class, 'update'])->name('/bank/update');
   Route::get('/bank/delete/{id}', [BankController::class, 'destroy'])->name('/bank/delete');
-  
+
   //Barang
   Route::get('/Barang',[BarangController::class,'index'])->name('barang');
   Route::post('/Barang/Simpan',[BarangController::class,'store'])->name('barang.simpan');
@@ -492,12 +492,12 @@ Route::group(['middleware'  => ['auth']], function () {
 Route::group(['middleware'  => ['auth']], function () {
   Route::get('/dashboardCorporate', [CorporateController::class, 'index'])->name('dashboardCorporate');
   Route::get('/Report-Transaction-Maker/RevenuevsCost', [RevenueCostController::class, 'index'])->name('TMakerRevCost');
-  
+
   // Reimbursement
   Route::get('/PersonelTeam', [ReimbursementController::class, 'indexPersonelteam'])->name('personelindex');
   Route::post('/PersonelTeam', [ReimbursementController::class, 'storePersonelteam'])->name('personelstore');
   Route::get('/PersonelTeam/{id}', [ReimbursementController::class, 'destroyPersonel'])->name('personeldelete');
-  
+
   Route::get('/Client-Reimbursement', [ReimbursementController::class, 'indexClient'])->name('clientindex');
   Route::get('/Client-Reimbursement/create', [ReimbursementController::class, 'createClient'])->name('clientcreate');
   Route::post('/Client-Reimbursement/create', [ReimbursementController::class, 'storeClient'])->name('clientstore');
@@ -507,7 +507,7 @@ Route::group(['middleware'  => ['auth']], function () {
   Route::get('/OpptyProject/create', [ReimbursementController::class, 'createOpptyproject'])->name('opptyprojectcreate');
   Route::post('/OpptyProject/create', [ReimbursementController::class, 'storeOpptyproject'])->name('opptyprojectstore');
   Route::delete('/OpptyProject/{id}', [ReimbursementController::class, 'destroyOpptyproject'])->name('opdelete');
-  
+
   Route::get('/createTMReim/{id}',[ReimbursementController::class,'CreateTMReim'])->name('createTMReim');
   // Route::get('/Transaction-Maker/Reimbursement', [ReimbursementController::class, 'indexTmakerreimburs'])->name('TMReimbursement');
   // Route::get('/Transaction-Maker/Reimbursement/create', [ReimbursementController::class, 'createTmakerreimburs'])->name('create-TMReimbursement');
@@ -532,23 +532,23 @@ Route::group(['middleware'  => ['auth']], function () {
   Route::get('/Create/RevenuevsCost/{id}', [RevenueCostController::class, 'createTmaker'])->name('create-TMRevCost');
   Route::post('/Transaction-Maker/RevenuevsCost', [RevenueCostController::class, 'storeTmaker'])->name('store-TMRevCost');
   Route::get('/Delete-all/RevenuevsCost', [RevenueCostController::class, 'deleteAll'])->name('delete-TMRevCost');
-  
+
   // DCL
   Route::get('/DCL-DISTRIBUTOR', [DCLController::class, 'indexdisti'])->name('dcldistiindex');
   Route::post('/DCL-DISTRIBUTOR', [DCLController::class, 'storedisti'])->name('dcldististore');
   Route::get('/DCL-DISTRIBUTOR/{id}', [DCLController::class, 'destroydisti'])->name('dcldistidelete');
   route::get("/edit/sbu/{id}", [DCLController::class, 'editSbu'])->name("edit-sbu");
   route::post("/update/sbu/{id}", [DCLController::class, 'updateSbu'])->name("upte-sbu");
-  
+
   Route::get('/DCL-SBU', [DCLController::class, 'indexsbu'])->name('dclsbuindex');
   Route::post('/DCL-SBU', [DCLController::class, 'storesbu'])->name('dclsbustore');
   Route::get('/DCL-SBU/{id}', [DCLController::class, 'destroysbu'])->name('dclsbudelete');
-  
+
   Route::get('/PIC-Distributor', [DCLController::class, 'indexPic'])->name('picdistiindex');
   Route::get('/PIC-Distributor/create', [DCLController::class, 'createPic'])->name('picdisticreate');
   Route::post('/PIC-Distributor/create', [DCLController::class, 'storePic'])->name('picdististore');
   Route::get('/PIC-Distributor/{id}', [DCLController::class, 'destroypicdisti'])->name('picdistidelete');
-  
+
   Route::get('/Transaction-Maker/DCL/{id}', [DCLController::class, 'indexTmakerdcl'])->name('TMDLCindex');
   Route::get('/Transaction-Maker/DCL/show/{id}', [DCLController::class, 'showTmakerdcl'])->name('TMDLshow');
   Route::post('/Transaction-Maker/DCL/create', [DCLController::class, 'storeTmakerdcl'])->name('TMDLstore');

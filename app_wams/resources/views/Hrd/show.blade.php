@@ -7,126 +7,149 @@
     <div class="section-header">
         <div class="card">
             <div class="alert">
-                <h2 class="text-capitalize text-center">Detail Data Karyawan - {{ $data->name }}</h2>
+                <h2 class="text-capitalize">
+                    <a href="{{ route('hrd.index') }}"><i class="fa fa-arrow-left"></i></a>
+                    Detail Data Karyawan - {{ $data->name }}
+                </h2>
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <div class="form-group row">
-                <div class="col-sm-3">
-                    <label for="">NIK</label>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Personal information</h4>
                 </div>
-                <div class="col-sm-9">
-                    <input type="number" name="nik" class="form-control" value='{{old('nik', $data->nik)}}' readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-3">
-                    <label for="">Nama</label>
-                </div>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="name" value='{{old('name', $data->name)}}' readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-3">
-                    <label for="">Phone</label>
-                </div>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="phone" value="{{ old('phone', $data->phone) }}" readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-3">
-                    <label for="">Email</label>
-                </div>
-                <div class="col-sm-9">
-                    <input type="email" class="form-control" name="email" value="{{ old('email', $data->email) }}" readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-3">
-                    <label for="">Status</label>
-                </div>
-                <div class="col-sm-9">
-                    <select name="status" class="form-control" value="{{ old('status', $data->status) }}"  disabled>
-                        <option value="">---------PILIH--------</option>
-                        <option value="menikah" {{ $data->status == 'menikah' ? 'selected' : '' }} >Menikah</option>
-                        <option value="lajang" {{ $data->status == 'lajang' ? 'selected' : '' }}>Lajang</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-3">
-                    <label for="">Jenis Kelamin</label>
-                </div>
-                <div class="col-sm-9">
-                    <select name="gender" class="form-control" value="{{ old('gender', $data->gender) }}" disabled>
-                        <option value="">---------PILIH--------</option>
-                        <option value="L" {{ $data->gender == "L" ? 'selected' : '' }} >Laki - Laki</option>
-                        <option value="P" {{ $data->gender == "P" ? 'selected' : '' }} >Perempuan</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-3">
-                    <label for="">Agama</label>
-                </div>
-                <div class="col-sm-9">
-                    <select name="religion" class="form-control" value="{{ old('religion', $data->religion) }}" disabled>
-                        <option value="">---------PILIH--------</option>
-                        @php $religion = ["Islam", "Kristen", "Buddha", "Katolik", "Kong Hu Chu"] @endphp
-                        @foreach($religion as $val)
-                            <option value="{{ $val }}" {{ $data->religion == $val ? 'selected' : '' }}>{{ $val }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-3">
-                        <label for="">Tanggal Lahir</label>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>Nama</td>
+                                <td>{{ $data->name }}</td>
+                            </tr>
+                            <tr>
+                                <td>NIK</td>
+                                <td>{{ $data->nik }}</td>
+                            </tr>
+                            <tr>
+                                <td>NPWP</td>
+                                <td>{{ $data->npwp }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>{{ ucfirst($data->status) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status TK/K</td>
+                                <td>{{ ucfirst($data->status) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Jenis Kelamin</td>
+                                <td>{{ $data->gender == 'L' ? "Laki-Laki" : "Perempuan"; }}</td>
+                            </tr>
+                            <tr>
+                                <td>Agama</td>
+                                <td>{{ $data->religion }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Lahir</td>
+                                <td>{{ $data->date_birth }}</td>
+                            </tr>
+                            <tr>
+                                <td>Asal institute</td>
+                                <td>{{ $data->from_institute }}</td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td>{{ $data->phone }}</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>{{ $data->email }}</td>
+                            </tr>
+                            <tr>
+                                <td>No Darurat (Keluarga)</td>
+                                <td>{{ $data->no_emergency }}</td>
+                            </tr>
+                            <tr>
+                                <td>Skills</td>
+                                <td>
+                                    <p>{{ $data->skills }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Alamat</td>
+                                <td>{{ $data->address }}</td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="col-sm-9">
-                        <input type="date" class="form-control" name="date_birth" value="{{ old('date_birth', $data->date_birth) }}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                        <label for="">Alamat</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <textarea name="address" rows="10" class="form-control">{{ old('address', $data->address) }}</textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                        <label for="">Asal Istansi</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="from_institute" value="{{ old('from_institute', $data->from_institute) }}" readonly>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                        <label for="">Keahlian</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <textarea name="skills" rows="10" class="form-control">{{ old('skills', $data->skills) }}</textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-3">
-                        <label for="">Tanggal Masuk</label>
-                    </div>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" name="joined" value="{{ old('joined', $data->joined) }}" readonly>
-                </div>
-            </div>
 
-            <div class="form-group" style="padding-top: 40px">
-                <a href="{{ route('hrd.index') }}" class="btn btn-warning"><i class="fa fa-arrow-left"></i> Kembali</a>
-                <button class="btn btn-primary">update <i class="fa fa-save"></i></button>
+                    <hr>
+                    <h5>Join Company</h5>
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>No Induk Karyawan</td>
+                                <td>{{ $data->employee_number }}</td>
+                            </tr>
+                            <tr>
+                                <td>Jabatan</td>
+                                <td>{{ $data->position }}</td>
+                            </tr>
+                            <tr>
+                                <td>Departemen</td>
+                                <td>{{ $data->department }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Masuk</td>
+                                <td>{{ $data->joined }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Mulai Kontrak</td>
+                                <td>{{ $data->start_contract }}</td>
+                            </tr>
+                             <tr>
+                                <td>Tanggal Berakhir Kontrak</td>
+                                <td>{{ $data->end_contract }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>File</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td>File Izasah</td>
+                                <td>
+                                    <a href="{{ public_path("hrd_file/file/$data->file_izasah") }}" download>Download</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>File KTP</td>
+                                <td>
+                                    <a href="{{ public_path("hrd_file/file/$data->ktp") }}" download>Download</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>File Certificate</td>
+                                <td>
+                                    <ul>
+                                        @foreach ($certificate as $item)
+                                            <li><a href="{{ public_path("hrd_file/$item->name") }}" download>Download</a></li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
