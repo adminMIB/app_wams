@@ -22,7 +22,7 @@
             <select id="id" class="form-control" name="project_id">
               <option value=""></option>
               @foreach($list as $v)
-              <!-- @if (Auth::user()->id == $v->sign_pm) -->
+              <!-- @if (Auth::user()->id == $v->sign_pm || Auth::user()->hasRole('Super Admin')) -->
               <option value="{{$v->id}}">{{$v->kode_project}}</option>
               <!-- @endif -->
               @endforeach

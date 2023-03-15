@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\ElearnindDetail;
+use Database\Seeders\ElearningSeeders;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleAndPermissionSeeder;
 use Database\Seeders\RoleSeeder;
@@ -137,6 +139,8 @@ class CreatePermissionTables extends Migration
         Artisan::call('db:seed', [
             '--class' => RoleAndPermissionSeeder::class ,
         ]);
+        
+        
 
         
         app('cache')

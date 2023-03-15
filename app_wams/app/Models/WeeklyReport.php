@@ -19,11 +19,34 @@ class WeeklyReport extends Model
         "note",
         "listp_id",
         "name_technikal",
-        
+
     ];
 
     public function listp()
     {
-        return $this->belongsTo(ListProjet::class,'listp_id');
+        return $this->belongsTo(ListProjet::class, 'listp_id');
     }
+    
+    public function editp()
+    {
+        return $this->hasMany(Weekly::class, 'listd_id');
+    }
+    
+    public function projecttime()
+    {
+        return $this->belongsTo(ProjectTimeline::class, 'projecttime_id');
+    }
+
+    public function definition()
+    {
+        return [
+            'created_at' => $this->faker->dateTimeThisMonth($max = 'now', $timezone = null)
+        ];
+    }
+
+    public function destroyy()
+    {
+        return $this->hasMany(Weekly::class, 'listd_id');
+    }
+    
 }

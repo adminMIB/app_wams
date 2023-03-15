@@ -17,13 +17,13 @@
       <li class="dropdown dropdown-list-toggle" style="margin-right:0.6em">
         <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep">
           
-          <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
+          {{-- <i class="fa fa-bell" style="color: rgb(27, 27, 27); ">
             @if (!$datas)
             <span></span>   
             @else
             <span>{{$datas}}</span>               
             @endif
-          </i>
+          </i> --}}
           
         
         </a>
@@ -47,9 +47,9 @@
             </a>
         @endforeach --}}
         
-        @foreach ($data as $item)
+        {{-- @foreach ($data as $item)
           @foreach ($item->detail as $d)
-          {{-- {{$d->nama_technical}} --}}
+          {{$d->nama_technical}}
           @if (Auth::user()->name == $d->nama_technical)
           <a href="#" class="dropdown-item">
             <div class="dropdown-item-icon bg-info text-white">
@@ -62,7 +62,7 @@
           </a>
           @endif
           @endforeach
-        @endforeach
+        @endforeach --}}
         {{-- @foreach ($data as $d)
         <a href="#" class="dropdown-item">
           <div class="dropdown-item-icon bg-info text-white">
@@ -119,15 +119,13 @@
       <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
           <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
           <div class="dropdown-menu dropdown-menu-right">
-            <div class="dropdown-title">Logged in 5 min ago</div>
-            <a href="features-profile.html" class="dropdown-item has-icon">
+            <div class="dropdown-title">
+              Last Sign in at
+              <br>
+              {{auth()->user()->last_sign_in_at->diffForHumans()}}
+            </div>
+            <a href="{{route('profile-technical')}}" class="dropdown-item has-icon">
               <i class="far fa-user"></i> Profile
-            </a>
-            <a href="features-activities.html" class="dropdown-item has-icon">
-              <i class="fas fa-bolt"></i> Activities
-            </a>
-            <a href="features-settings.html" class="dropdown-item has-icon">
-              <i class="fas fa-cog"></i> Settings
             </a>
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item has-icon text-danger">

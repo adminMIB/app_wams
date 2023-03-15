@@ -78,7 +78,7 @@
                         <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
                         <a href="{{url ('Mdetail', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
                         <a href="{{url ('Medit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
-                         <a href="{{url ('Mdelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
+                         <a  onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" href="{{url ('Mdelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
                         </div>
                     </td>
                     </div>

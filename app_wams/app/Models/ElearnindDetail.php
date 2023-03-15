@@ -11,5 +11,8 @@ class ElearnindDetail extends Model
         "produk","principle","deskripsi","upload"
     ];
 
-  
+    public function elearn()
+    {
+        return $this->hasMany(Elearning::class, 'ele_id');
+    }
 }

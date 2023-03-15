@@ -15,11 +15,49 @@ class SalesOrder extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
-        "no_so","kode_project","institusi", "project", "hps", "file_dokumen", "status", "signPm_lead", "signTeknikal_lead", "tgl_so", "name_user", "listpa_id", "Note"
+        "file_PHD",
+        "file_SPSC",
+        "file_PS",
+        "note_for_file1",
+        "note_for_file2",
+        "note_for_file3",
+        "status",
+        "name_user",
+        "Note",
+        "no_so",
+        "kode_project",
+        "institusi",
+        "project",
+        "tgl_so",
+        "file_project",
+        "distributor",
+        "principal",
+        "pmo",
+        "sbu",
+        "presales",
+        "estimated_amount",
+        "confidence_level",
+        "contract_amount",
+        "status_project",
+        "total",
+        "grandtotal",
+        "no_customer",
+        "alamat_disti",
+        "listadmin_id",
+        "listpipe_id",
+        "st_project",
+        "start_date",
+        "end_date"
     ];
-    public function listpadmin()
+    
+    public function listadmin()
     {
-        return $this->belongsTo(ListProjectAdmin::class, 'listpa_id');
+        return $this->belongsTo(ListProjectAdmin::class, 'listadmin_id');
+    }
+    
+    public function listpipe()
+    {
+        return $this->belongsTo(SalesOpty::class, 'listpipe_id');
     }
 
     public function file_dokumens()
@@ -27,13 +65,56 @@ class SalesOrder extends Model implements HasMedia
         return $this->morphMany(Media::class, 'model');
     }
 
-    public function pmLead()
+    public function amdetail()
     {
-        return $this->belongsTo(User::class, 'signPm_lead');
+        return $this->hasMany(Amount::class,'salesorders_id');
+    }
+    
+    public function pddetail()
+    {
+        return $this->hasMany(ProductItem::class,'list_id');
+    }
+    
+
+    public function listtimeline()
+    {
+        return $this->hasMany(ListProjet::class,'so_id');
     }
 
-    public function teknikalLead()
+
+    public function weeklies()
     {
-        return $this->belongsTo(User::class, 'signTeknikal_lead');
+        return $this->hasMany(Weekly::class,'listL_id');
     }
+
+    public function bast()
+    {
+        return $this->hasMany(Bast::class,'so_id');
+    }
+
+    public function dokumen_projects()
+    {
+        return $this->hasMany(DokumenProject::class,'so_id');
+    }
+
+    public function pps()
+    {
+        return $this->hasMany(PenawaranPesanan::class,'lto_id');
+    }
+
+    public function pembelian()
+    {
+        return $this->hasMany(Pembelian::class, 'lto_id');
+    }
+
+     public function file_PHDs()
+    {
+        return $this->morphMany(Media::class, 'model');
+    }
+
+    public function setFilenamesAttribute($value)
+    {
+        $this->attributes['file_PHD'] = json_encode($value);
+    }
+
 }

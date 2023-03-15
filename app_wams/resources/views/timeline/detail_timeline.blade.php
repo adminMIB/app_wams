@@ -1,34 +1,76 @@
+
 @extends('layouts.main')
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Detail Project Timeline</h1>
+        <h1>Detail Timeline</h1>
     </div>
-    <div class="row">
-        @foreach($time->detail as $tm)
-        <div class="col-12 col-md-6 col-lg-6">
-            <div class="card" style="box-shadow: 4px 5px 	#C3FDB8;  ">
-                <div class="card-header">
-                    <h4 style="color:black ; font-style:italic; ">{{$time->nama_institusi}}
-                        /
-                        {{$time->nama_project}}
-                    </h4>
-                </div>
-                <div class="card-body">
-
-                    <span class="">{{$tm->jenis_pekerjaan}}</span>
-                    <br>
-                    <span class="text-muted">{{$tm->start_date}}</span> -
-
-                    <span class="text-muted">{{$tm->finish_date}}</span>
-                </div>
-                <div class="card-footer">
-                    {{$tm->nama_technical}}
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            {{-- <a href="" class="btn btn-secondary btn-sm mb-3">Back</a> --}}
         </div>
-        @endforeach
+        <div class="card-body">
+            <table class="table table-hover table-responsive table-bordered ">
+                <thead>
+                    <tr>
+                        <th>Project Code </th>
+                        <th> Client Name</th>
+                        <th> Project Name</th>
+                        <th>Task</th>
+                        <th>Start Date</th>
+                        <th>Finish Date</th>
+                        <th>Technikal</th>
+                    </tr>
+                </thead>
+                @foreach($time->detail as $tm)
+                {{-- @if ($tm->nama_technical) --}}
+                    <tbody>
+                    <tr style="font-size: 80%">
+                        <td>{{$time->kode_project}}</td>
+                        <td>{{$time->nama_institusi}}</td>
+                        <td>{{$time->nama_project}}</td>
+                        <td>{{$tm->jenis_pekerjaan}}</td>
+                        <td><span class="badge text-bg-success text" >{{$tm->start_date}}</span></td>
+                        <td><span class="badge text-bg-danger">{{$tm->finish_date}}</span></td>
+                        <td>{{$tm->nama_technical}}</td>
+                    </tr>
+                </tbody>
+                {{-- @endif --}}
+                @endforeach
+            </table>
+            
+            {{-- <div class="row">
+                @foreach($time->detail as $tm)
+                @if ($tm->nama_technical)
+                <div class="col-8 col-md-4 ">
+                    <div class="card shadow p-3 mb-5 rounded border">
+                        <div class="">
+                            <span class="ml-4 ">{{$time->nama_project}}
+                            </span>
+                        </div>
+        
+                        <div class="ml-4">
+                            <span><i class="bi bi-building"></i> {{$time->nama_institusi}}</span> 
+                        </div>
+                        <label class="ml-4 mt-4" style="font-size: 12px">Timeline</label>
+                        <hr class="mt-0 ml-4">
+                        <div class="card-body ">
+                            <span class=""><i class="bi bi-briefcase"></i> {{$tm->jenis_pekerjaan}}</span>
+                            <br>
+                            <span class="" style="font-size: 10px" ><div class="badge bg-success"> {{$tm->start_date}}</div></span> 
+                            <span class="" style="font-size: 10px"><div class="badge bg-danger"> {{$tm->finish_date}} </div></span>
+                        </div>
+                        <label class="ml-4 mt-4" style="font-size: 12px">Technical</label>
+                        <hr class="mt-0 ml-4">
+                        <div class="ml-4">
+                            <i class="bi bi-person"></i> {{$tm->nama_technical}}
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @endforeach
+            </div> --}}
+        </div>
     </div>
-    <a href="{{route('timeline')}}" class="btn btn-danger btn-sm" style="border-radius: 3em;"><i class="fas fa-arrow-left"></i> Back</a>
 </section>
 @endsection

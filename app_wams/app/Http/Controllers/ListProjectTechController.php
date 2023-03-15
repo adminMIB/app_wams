@@ -7,6 +7,7 @@ use App\Models\ListProjectTech;
 use App\Models\ListToPm;
 use App\Models\SalesOrder;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
@@ -17,12 +18,14 @@ class ListProjectTechController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $datas = ListToPm::all()->count();
         $data = ListToPm::all();
         $tk =ListProjectTech::all();
+      
         return view('list_technical.index-list',compact('data','datas','tk'));
+        
     }
 
     /**
@@ -37,6 +40,7 @@ class ListProjectTechController extends Controller
         $data = ListToPm::all();
         $list = ListToPm::all();
         $user = Role::with('users')->where('name', 'Technikal')->get();
+       
         return view('list_technical.listproject', compact('list', 'user', 'data', 'datas'));
         
     }

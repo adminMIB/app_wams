@@ -39,8 +39,10 @@
 
                     </div>
                 </div>
-
-                <button class="btn btn-primary">Kirim</button>
+                <div class="d-flex  justify-content-between mt-5">
+                  <a href="/dashboard/role" class="btn btn-lg btn-primary text-white">Back</a>
+                  <button class="btn btn-lg btn-success">Kirim</button>
+                </div>
                 </form>
               </div>
             </div>

@@ -1,155 +1,281 @@
 @extends('layouts.main')
 @section('content')
-<section></section>
-    <div class="title">
-        <h1 style="color: black; margin-left: 9px; margin-top:20px">List Sales Opty</h1>
-     </div> 
-       <div class="card">
-        <div class="card-body ">
-          {{-- <a href="{{route('inputsales')}}"><button type="submit" class="btn btn-primary btn-sm" style="margin-bottom:1%;">Create</button></a> --}}
-          {{-- <div class="text-right">
-          <button type="button" class="btn btn-primary" style="margin-right: 810px;" data-toggle="modal" data-target="#exampleModal">
-            Filter Data
-          </button>        
-            <a href="{{ route('Ycetak') }}" class="btn btn-warning" target="_blank" rel="noopener noreferrer">Cetak</a>
-            <a href="{{ route('exportsalesopty') }}" class="btn btn-success"target="_blank" rel="noopener noreferrer">Export</a>
-          </div> --}}
-          <table class="table table-striped table-hover">
-            <div class="card-header-action">
+  <section class="section">
+    <div class="section-header">
+      <h1>List Sales Pipeline</h1>
+    </div> 
+    <div class="card">
+      <div class="card-body ">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex mb-4">
+            <button type="button" class="btn text-black ml-2" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" style="background-color: #FFDDA9">Filter Data</button>
+          </div>
+          <div class="d-flex mb-4">
+            <button class="btn text-white ml-2 btn-md" style="background-color: #32735F" onclick="tableToExcel('pipeline')">Export Excel</button>
           </div>
         </div>
-         <hr>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered">
             <thead>
-            <tr>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th colspan="2" class="text-center">Product / Solution</th>
+                {{-- <th colspan="4" class="text-center">PIC</th> --}}
+                <th colspan="4" class="text-center">Timeline</th>
+                <th></th>
+                <th colspan="2" class="text-center">Project Amount (IDR)</th>
+                {{-- <th></th> --}}
+                <th></th>
+              </tr>
+              <tr>
                 <th>No</th>
-                <th>Nama Client</th>
-                <th>Nama Project</th>
-                <th>Produk / Solusi</th>
-                <th colspan="4" style="text-align:center">Timeline</th>
-                <th></th>
-                <th>Action</th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Client Name</th>
+                <th>Project Name</th>
+                <th>AM</th>
+                <th>PMO</th>
+                <th colspan="2">Engineer & Presales</th>
+                <th>Principal</th>
+                <th>Distributor</th>
+                {{-- <th>Presales</th> --}}
+                {{-- <th>PMO</th> --}}
+                <th>SBU</th>
                 <th>Q1</th>
                 <th>Q2</th>
                 <th>Q3</th>
                 <th>Q4</th>
-                <th></th>
-                <th></th>
-               
-            </tr>
-         </thead>
-         
-         <tbody>
-            @foreach ($sales as $opty)
-            @if ($opty->pmLead_id)   
-            <tr> 
+                <th>Status Progress</th>
+                {{-- <th>Estimated Amount</th> --}}
+                <th>Estimated Amount</th>
+                <th>Confidence Level</th>
+                {{-- <th>Contract Amount</th> --}}
+                {{-- <th>PM</th> --}}
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{-- @if (Auth::user()->hasRole('AM/Sales') || Auth::user()->hasRole('Super Admin'))
+              @endif --}}
+              @foreach ($sales as $opty)
+              <tr> 
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $opty->NamaClient }}</td>
                 <td>{{ $opty->NamaProject }}</td>
+                <td class="text-primary">{{ $opty->name_user}}</td>
+                <td>{{ $opty->pmo }}</td>
+                {{-- <td>{{ $opty->presales }}</td> --}}
+                <td colspan="2">
+                  @foreach ($opty->userTechnikalsPipe as $item)
+                      {{ $item->userTechnikal->name ?? null}}
+                  @endforeach
+                </td>
                 <td>{{ $opty->elearning_id}}</td>
-
-                <td>
+                <td>{{ $opty->distributor}}</td>
+                {{-- <td>{{ $opty->presales}}</td> --}}
+                {{-- <td>{{ $opty->pmo}}</td> --}}
+                <td>{{ $opty->sbu}}</td>
+                <td>  
                     @if ($opty->Timeline == 'Q1')
-                        {{ number_format($opty->Angka,0,',','.') }}
+                        {{ number_format($opty->estimated_amount) }}
                     @endif
                 </td>
                 <td>
                     @if ($opty->Timeline == 'Q2')
-                        {{ number_format($opty->Angka,0,',','.') }}
+                        {{ number_format($opty->estimated_amount) }}
                     @endif
                 </td>
                 <td>
                     @if ($opty->Timeline == 'Q3')
-                        {{ number_format($opty->Angka,0,',','.') }}
+                        {{ number_format($opty->estimated_amount) }}
                     @endif
                 </td>
                 <td>
                     @if ($opty->Timeline == 'Q4')
-                        {{ number_format($opty->Angka,0,',','.') }}
+                        {{ number_format($opty->estimated_amount) }}
                     @endif
                 </td>
-                <td></td>
-                <td>
+                @if ($opty->Status == 'PO/Contract')
+                  <td class="text-success">{{ $opty->Status }}</td>
+                @else
+                  <td class="text-info">{{ $opty->Status }}</td>
+                @endif
+                <td>{{ number_format($opty->estimated_amount) }}</td>
+                <td>{{ $opty->confidence_level}}</td>
+                {{-- <td>{{ $opty->contract_amount}}</td> --}}
+                {{-- @if ($opty->pmLead == null) --}}
+                {{-- <td></td> --}}
+                {{-- @else                     --}}
+                {{-- <td>{{ $opty->pmLead->name }}</td> --}}
+                {{-- @endif --}}
+                
+                {{-- @if ($jumlah == 0)
+                @else
+                  @foreach ($detailss as $item)
+                      @if ($opty->id == $item->projectSalesOpties->id )
+                      <td>{{$item->userTechnikal->name}}</td>
+                      @endif
+                  @endforeach
+                @endif  --}}
+                <td class="text-center">
+                  <div class="btn-group dropstart mb-1" style="cursor: pointer;">
+                    <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </div>
+                    <div class="dropdown-menu text-center">
+                      {{-- {{$opty->detailss}} --}}
+                      <a href="{{url ("/adminShowSales", $opty->id)}}" class="btn text-white btn-sm" style="background-color: #0EC8F8">Detail</a>
+                      {{-- @if ($detailss) --}}
+                            @if ($opty->UploadDocument == null)
+                                
+                            @else
+                            <a href="{{url ("adminprojectSalesEdits", $opty->id)}}" class="btn text-white btn-sm btn-danger">Edit</a>
+                            @endif
                           
-                      <a href="{{url ('/adminShowSales', $opty->id)}}" class="btn btn-info btn-sm">Detail</a>
-                          
+                      {{-- @else --}}
+                      {{-- @endif --}}
+
+                    </div>
+                  </div>
                 </td>
                 </div>
-            </tr>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+          {{ $sales->links() }}
+        </div>
+      </div> 
+    </div>
+  </section>
+
+  {{-- Table Hidden  --}}
+  <table id="pipeline" class="table table-hover table-responsive d-none">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Client Name</th>
+        <th>Project Name</th>
+        <th colspan="2" class="text-center">Product / Solution</th>
+        <th colspan="4" class="text-center">PIC</th>
+        <th colspan="4" class="text-center">Timeline</th>
+        <th>Status Progress</th>
+        <th colspan="3" class="text-center">Project Amount (IDR)</th>
+        {{-- <th>PM</th> --}}
+        <th  colspan="3" class="text-center">Technical</th>
+      </tr>
+      <tr>
+        
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>Principal</th>
+        <th>Distributor</th>
+        <th>AM</th>
+        <th>Presales</th>
+        <th>PMO</th>
+        <th>SBU</th>
+        <th>Q1</th>
+        <th>Q2</th>
+        <th>Q3</th>
+        <th>Q4</th>
+        <th></th>
+        <th>Estimated Amount</th>
+        <th>Confidence Level</th>
+        {{-- <th>Contract Amount</th> --}}
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{-- @if (Auth::user()->hasRole('AM/Sales') || Auth::user()->hasRole('Super Admin'))
+      @endif --}}
+      @foreach ($sales as $opty)
+      <tr> 
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $opty->NamaClient }}</td>
+        <td>{{ $opty->NamaProject }}</td>
+        <td>{{ $opty->elearning_id}}</td>
+        <td>{{ $opty->distributor}}</td>
+        <td>{{ $opty->name_user}}</td>
+        <td>{{ $opty->presales}}</td>
+        <td>{{ $opty->pmo}}</td>
+        <td>{{ $opty->sbu}}</td>
+        <td>
+            @if ($opty->Timeline == 'Q1')
+                {{ number_format($opty->Angka) }}
             @endif
-            @if (!$opty->pmLead_id)
-            <tr> 
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ $opty->NamaClient }}</td>
-              <td>{{ $opty->NamaProject }}</td>
-              <td>{{ $opty->elearning_id}}</td>
-              <td>
-                  @if ($opty->Timeline == 'Q1')
-                      {{ number_format($opty->Angka,0,',','.') }}
-                  @endif
-              </td>
-              <td>
-                  @if ($opty->Timeline == 'Q2')
-                      {{ number_format($opty->Angka,0,',','.') }}
-                  @endif
-              </td>
-              <td>
-                  @if ($opty->Timeline == 'Q3')
-                      {{ number_format($opty->Angka,0,',','.') }}
-                  @endif
-              </td>
-              <td>
-                  @if ($opty->Timeline == 'Q4')
-                      {{ number_format($opty->Angka,0,',','.') }}
-                  @endif
-              </td>
-              <td></td>
-              <td>
-                        
-                    <a href="{{url ('/adminShowSales', $opty->id)}}" class="btn btn-primary btn-sm">Assign To</a>
-                        
-                  {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle text-dark" role="button" data-toggle="dropdown"  href="">
-                      ...
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="navbarDropdown">
-                  <a href="{{url ('/adminShowSales', $opty->id)}}">  <button type="submit" class="btn btn-warning btn-sm mb-1">Detail</button></a>
-                  <a href="{{url ('Yedit', $opty->id)}}">  <button type="submit" class="btn btn-success btn-sm mb-1">Edit</button></a>
-                   <a href="{{url ('Ydelete', $opty->id)}}">  <button type="submit" class="btn btn-danger btn-sm mb-1">Delete</button></a>
-                  </div> --}}
-              </td>
-              </div>
-          </tr>
+        </td>
+        <td>
+            @if ($opty->Timeline == 'Q2')
+                {{ number_format($opty->Angka) }}
             @endif
-            @endforeach
-         </tbody>
-        </table>
-        </div> 
-       </div>
-      <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      <form action="/index-sales" method="GET">
-			<label>PILIH TANGGAL</label>
-			<input type="date" name="cari">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Pilih">
+        </td>
+        <td>
+            @if ($opty->Timeline == 'Q3')
+                {{ number_format($opty->Angka) }}
+            @endif
+        </td>
+        <td>
+            @if ($opty->Timeline == 'Q4')
+                {{ number_format($opty->Angka) }}
+            @endif
+        </td>
+        <td>{{ $opty->Status }}</td>
+        <td>{{ number_format($opty->estimated_amount) }}</td>
+        <td>{{ $opty->confidence_level}}</td>
+        {{-- <td>{{ $opty->contract_amount}}</td> --}}
+        {{-- @if ($opty->pmLead == null)
+        <td></td>
+        @else                    
+        <td>{{ $opty->pmLead->name }}</td>
+        @endif --}}
+      
+      @endforeach
+    </tbody>
+  </table>
+
+  <!-- Modal -->
+  <div id="exampleModalScrollable" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Filter Data Table</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/adminproject/sales" method="GET">
+          <div class="modal-body">
+            <label for="dari">From</label>
+            <input type="date" class="form-control" id="dari" name="dari_tgl">
+            <label for="sampai" class="mt-2">To</label>
+            <input type="date" class="form-control" id="sampai" name="sampai_tgl">
+            <label for="sampai" class="mt-2">Status</label>
+            <select class="form-control" name="Status">
+              <option value=""></option>
+              @foreach ($prostat as $item)
+              <option value="{{ $item->title }}">{{ $item->title }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              <i class="bx bx-x d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">Close</span>
+            </button>
+            <button type="submit" class="btn text-white" style="background-color: #5252FF">Cari</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-</div>
+
+  <script src="../assets/js/export_exel.js"></script>
 @endsection

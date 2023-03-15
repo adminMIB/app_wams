@@ -14,7 +14,7 @@ class AddRelationshipsElearningsToElearnindDetailsTable extends Migration
     public function up()
     {
         Schema::table('elearnings', function (Blueprint $table) {
-            $table->foreignId('ele_id');
+            $table->foreignId('ele_id')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddRelationshipsElearningsToElearnindDetailsTable extends Migration
     public function down()
     {
         Schema::table('elearnings', function (Blueprint $table) {
-            $table->dropForeign(['ele_id']);
+            $table->dropForeign(['ele_id'])->nullable();
         });
     }
 }

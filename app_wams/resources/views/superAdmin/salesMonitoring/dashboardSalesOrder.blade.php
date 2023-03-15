@@ -54,7 +54,7 @@
                  <td>{{$item->name_user}}</td>
                 <td>
                   <a href="{{url('/edit', $item->id)}}" class="btn btn-info"><i class="far fa-edit"></i></a>
-                  <a href="{{url('/del', $item->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
+                  <a onClick="javascript: return confirm('Apahkah Anda Ingin Menghapusnya?');" href="{{url('/del', $item->id)}}" class="btn btn-danger"><i class="fas fa-times"></i></a>
                 </td>
               </tr>
               @endforeach

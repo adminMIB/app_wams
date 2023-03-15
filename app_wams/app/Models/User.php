@@ -40,7 +40,7 @@ class User extends Authenticatable
 
     public function listAdmin()
     {
-        return $this->belongsTo(ListProjectAdmin::class);
+        return $this->belongsTo(SalesOpty::class);
     }
 
     /**
@@ -52,6 +52,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getNameInitials()
+    {
+        $name = $this->name;
+        $name_array = explode(' ',trim($name));
+
+        $firstWord = $name_array[0];
+        // $lastWord = $name_array[count($name_array)-1];
+
+        return mb_substr($firstWord[0],0,1);
+    }
 
     // // buat variabel buat role
     // const Super_Admin = 0;
@@ -97,4 +107,13 @@ class User extends Authenticatable
     // {
     //     return $this->role === self::Technikal;
     // }
+
+    protected $dates =[
+        'current_sign_in_at','last_sign_in_at'
+    ];
+
+    public function taskdiscussion()
+    {
+        return $this->hasMany(TaskDiscussion::class);
+    }
 }

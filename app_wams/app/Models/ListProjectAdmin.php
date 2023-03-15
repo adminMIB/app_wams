@@ -15,10 +15,10 @@ class ListProjectAdmin extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable =[
-        "ID_project", "NamaClient","NamaProject","UploadDocument","Date", "Angka","Status","Note"
+        "ID_project", "ID_Customer", "NamaClient","NamaProject","UploadDocument","Date","Status","Note","distributor", "principal", "signTechnikal_id","signAM_id", "name_user"
     ];
 
-    public function admin_upload()
+    public function UploadDocuments()
     {
         return $this->morphMany(Media::class, 'model');
     }
@@ -28,5 +28,20 @@ class ListProjectAdmin extends Model implements HasMedia
         $this->attributes['UploadDocument'] = json_encode($value);
     }
     
+    public function Pm()
+    {
+        return $this->belongsTo(User::class, 'sign_Pm_id');
+    }
+
+    public function userTechnikals()
+    {
+        return $this->hasMany(UserHasListProjectAdmin::class, 'ListProjectAdmin_id');
+    }
+
+    public function ltoproject()
+    {
+        return $this->hasMany(SalesOrder::class, 'listadmin_id');
+    }
+
 
 }

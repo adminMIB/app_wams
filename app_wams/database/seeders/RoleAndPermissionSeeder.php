@@ -87,22 +87,6 @@ class RoleAndPermissionSeeder extends Seeder
         $role_Technikal->givePermissionTo('delete data Technikal');
         $role_Technikal->givePermissionTo('create data Technikal');
 
-        //! Technikal Lead 
-        $role_Technikal_Lead = Role::where('name', 'Technikal Lead')->first();
-        $role_Technikal_Lead->givePermissionTo('read data Technikal Lead');
-        $role_Technikal_Lead->givePermissionTo('detail data Technikal Lead');
-        $role_Technikal_Lead->givePermissionTo('update data Technikal Lead');
-        $role_Technikal_Lead->givePermissionTo('delete data Technikal Lead');
-        $role_Technikal_Lead->givePermissionTo('create data Technikal Lead');
-
-        //! PM Lead 
-        $role_PM_Lead = Role::where('name', 'PM Lead')->first();
-        $role_PM_Lead->givePermissionTo('read data PM Lead');
-        $role_PM_Lead->givePermissionTo('detail data PM Lead');
-        $role_PM_Lead->givePermissionTo('update data PM Lead');
-        $role_PM_Lead->givePermissionTo('delete data Technikal');
-        $role_PM_Lead->givePermissionTo('create data Technikal');
-
         //! Project Admin 
         $role_Project_Admins = Role::where('name', 'Project Admins')->first();
         $role_Project_Admins->givePermissionTo('read data Project Admins');

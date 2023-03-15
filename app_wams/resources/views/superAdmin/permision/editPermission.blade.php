@@ -18,7 +18,10 @@
                   <label>Add Permission</label>
                   <input type="text" name="name" class="form-control" placeholder="{{$getid->name}}">
                 </div>
-                <button class="btn btn-primary">Kirim</button>
+                <div class="d-flex  justify-content-between mt-5">
+                  <a href="/dashboardPermision" class="btn btn-lg btn-primary text-white">Back</a>
+                  <button class="btn btn-lg btn-success">Submit</button>
+                </div>
                 </form>
               </div>
             </div>

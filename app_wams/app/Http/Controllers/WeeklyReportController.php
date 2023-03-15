@@ -6,10 +6,12 @@ namespace App\Http\Controllers;
 use App\Models\ListProjet;
 use App\Models\ProjectTimeline;
 use App\Models\WeeklyReport;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+
 
 class WeeklyReportController extends Controller
 {
@@ -20,19 +22,22 @@ class WeeklyReportController extends Controller
      */
     public function index(Request $request)
     {
+        $start_date = Carbon::parse($request->start_date)
+        ->toDateTimeString();
+
+        $end_date = Carbon::parse($request->end_date)
+        ->toDateTimeString();
+
+        $weekly_reports = WeeklyReport::with('listp')->orderBy('created_at', 'ASC')->whereBetween('created_at',[$start_date,$end_date])->get();
         $datas = ListProjet::all()->count();
         $data = ListProjet::with('detail')->get();
         $listp = ListProjet::all();
-        $weekly = WeeklyReport::with('listp')->orderBy('created_at', 'ASC')->paginate();
-        if ($request->has('search')) {
-            $weekly_reports = WeeklyReport::where('start_date', 'LIKE', '%' . $request->search . '%')->paginate(5);
-        } else {
-            $weekly_reports = WeeklyReport::paginate(5);
-        }
-
         
-        return view('report.report_progres', compact('weekly_reports', 'data', 'listp', 'weekly', 'datas'));
+       
+
+        return view('report.report_progres', compact('weekly_reports', 'data', 'listp', 'datas', 'post'));
     }
+
 
 
     /**
@@ -175,4 +180,46 @@ class WeeklyReportController extends Controller
         $data = ListProjet::find($id);
         return response()->json($data);
     }
+
+    public function cetak_data()
+    {
+        $weekly_reports = WeeklyReport::all();
+        return view('report.cetak_data', compact('weekly_reports'));
+    }
+
+    public function getDate(Request $request)
+    {
+        $start = Carbon::parse("$request->start_date 00:00:00")->format('Y-m-d H:i:s');
+        $end = Carbon::parse("$request->end_date 23:59:59")->format('Y-m-d H:i:s');
+        $product_packages = DB::table('weekly_reports')
+            ->where([['start_date', '<=', $start], ['end_date', '>=', $end]])
+            ->orwhereBetween('start_date', [$start, $end])
+            ->orWhereBetween('end_date', [$start, $end])
+        ;
+        
+        return redirect('report',compact('product_packages'));
+    }
+
+    // public function cari(Request $request)
+    // {
+
+
+    //     $start = Carbon::createFromFormat('Y-m-d', '2022-09-14');
+    //     $end = Carbon::createFromFormat('Y-m-d', '2022-09-17');
+
+    //     $search = WeeklyReport::query()->whereDate('start_date', '>=', $start)->whereDate('end_date', '<=', $end)->get();
+    //     dd($search);
+
+
+
+
+    //     // return view('report.report_progres',compact('weekly_reports'));
+
+
+
+
+    //     // $start = Carbon::parse("$request->start_date 00:00:00")->format('Y-m-d H:i:s');
+    //     // $end = Carbon::parse("$request->end_date 00:00:00")->format('Y-m-d H:i:s');
+    //     // $weekly_reports = DB::table('weekly_reports')->where([['start_date', '<=', $start], ['end_date', '>=', $end]])->orWhereBetween('start_date', [$start, $end])->orWhereBetween('end_date', [$start, $end])->get();
+    // }
 }
