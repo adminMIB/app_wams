@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="card-body">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-5">
                             <div class="card-header">
                                 <h4>Filter</h4>
@@ -18,20 +18,58 @@
                                     <option value="" readonly>-----PILIH------</option>
                                     <option value="all">ALL</option>
                                     @forelse ($principal as $item)
-                                        <option value="{{ $item->principal_name }}">{{ $item->principal_name }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->principal_name }}</option>
                                     @empty
                                         <option value="">tidak ada data</option>
                                     @endforelse
                                 </select>
                             </div>
                         </div>
+                        
+                        
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <div class="pt-3"></div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
+                    <div class="row">
+                      <div class="col-lg-5">
+                          <div class="form-group">
+                              <label for="">Nama Project</label>
+                              <select name="nama_project" class="form-control select2" id="namaParoject">
+                                  <option value="" readonly>-----PILIH------</option>
+                                  @forelse ($namaProject as $item)
+                                      <option value="{{ $item->id }}">{{ $item->project_name }}</option>
+                                  @empty
+                                      <option value="">tidak ada data</option>
+                                  @endforelse
+                              </select>                        
+                          </div>
+                      </div>
+                      <div class="col-lg-5">
+                          <div class="form-group">
+                                <label for="">Principal</label>
+                                <select id="principal_filter" class="form-control select2" name="name_principal">
+                                    <option value="" readonly>-----PILIH------</option>
+                                    <!-- <option value="all">ALL</option> -->
+                                    @forelse ($principal as $item)
+                                        <option value="{{ $item->id }}">{{ $item->principal_name }}</option>
+                                    @empty
+                                        <option value="">tidak ada data</option>
+                                    @endforelse
+                                </select>
+                          </div>
+                      </div>
+                      <div class="col-lg-2">
+                          <div class="form-group">
+                              <div class="pt-3"></div>
+                              <button class="btn btn-danger" id="reset">Reset</button>
+                          </div>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -132,6 +170,7 @@
                 error: function(xhr, status, error) {
                     // Tanggapan jika terjadi kesalahan
                     alert('Data tidak ditemukan');
+                    
                     console.error(xhr.responseText.message);
                 }
             });
