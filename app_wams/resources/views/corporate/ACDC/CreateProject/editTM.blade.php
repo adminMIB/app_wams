@@ -3,20 +3,20 @@
     <div class="mb-2 row">
         <label  class="col-sm-2 col-form-label" style="font-size: 12px">Principal</label>
         <div class="col-sm-10">
-            <div class="form-control">{{ $item->cpt->principal_name }}</div>
+            <div class="form-control">{{ $principal->principal_name }}</div>
         </div>
     </div>
 
     <div class="mb-2 row">
-        <input type="hidden" id="client_val" value="{{ $item->cpt->client_name }}">
+        <input type="hidden" id="client_val" value="{{ $item->cpt->client_id }}">
         <input type="hidden" name="cpt_id" id="cpt_id">
         <label  class="col-sm-2 col-form-label" style="font-size: 12px">Client Name</label>
         <div class="col-sm-10">
             <select class="form-control select2" id="client" style="width: 100%" required>
                 <option value="" readonly>------PILIH------</option>
                 @foreach($in_client as $key => $val)
-                    <option value="{{ $val }}" data-id="{{$key}}">
-                        {{ $val }}
+                    <option value="{{ $val }}" data-id="{{$val}}">
+                        {{ $key }}
                     </option>
                 @endforeach
             </select>

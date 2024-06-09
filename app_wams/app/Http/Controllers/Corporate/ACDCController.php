@@ -241,8 +241,19 @@ class ACDCController extends Controller
     public function getPojectByClient(Request $request)
     {
         $data = DB::table('create_projects')
-            ->select('id', 'project_name', 'id_project', 'client_name')
-            ->where("client_name", $request->client)
+            ->join('opty_acdcs', 'create_projects.opty_acdc_id', 'opty_acdcs.id')
+            ->join('create_clients', 'create_projects.client_id', 'create_clients.id')
+            ->join('create_principals', 'create_projects.principal_id', 'create_principals.id')
+            ->select(
+                'create_projects.id',
+                'create_projects.id_project',
+                'opty_acdcs.project_name as project_name',
+                'create_clients.client_name',
+                'create_principals.principal_name',
+                'create_projects.total_final',
+                'create_projects.created_at'
+            )->latest('create_projects.id')
+            ->where("create_projects.id", $request->client)
             ->get();
 
         return response($data);
@@ -276,7 +287,7 @@ class ACDCController extends Controller
             "nominal" => $request->nominal,
             "keterangan" => $request->keterangan,
             "upload_request" => $request->upload_request = $file_name_request,
-            "upload_release" => $request->upload_release = $file_ext_release,
+            "upload_release" => $request->upload_release = $file_ext_release
         ]);
 
         return redirect()->back();
@@ -291,18 +302,22 @@ class ACDCController extends Controller
     public function saveTMAC(Request $request, $id)
     {
         $tm = CreateProject::with('detail')->find($id);
+        $file_name_request = "";
+        $file_name_release = "";
 
-        $file_request = $request->file('upload_request');
-        $file_ext_request = $file_request->getClientOriginalName();
-        $file_name_request = time() . $file_ext_request;
-        $file_path_request = public_path('file_request/');
-        $file_request->move($file_path_request, $file_name_request);
+        if (!empty($request->upload_release) && !empty($request->upload_request)) {
+            $file_request = $request->file('upload_request');
+            $file_ext_request = $file_request->getClientOriginalName();
+            $file_name_request = time() . $file_ext_request;
+            $file_path_request = public_path('file_request/');
+            $file_request->move($file_path_request, $file_name_request);
 
-        $file_release = $request->file('upload_release');
-        $file_ext_release = $file_release->getClientOriginalName();
-        $file_name_release = time() . $file_ext_release;
-        $file_path_release = public_path('file_release/');
-        $file_release->move($file_path_release, $file_name_release);
+            $file_release = $request->file('upload_release');
+            $file_ext_release = $file_release->getClientOriginalName();
+            $file_name_release = time() . $file_ext_release;
+            $file_path_release = public_path('file_release/');
+            $file_release->move($file_path_release, $file_name_release);
+        }
 
         TransactionMakerACDC::create([
             "cpt_id" => $tm->id,
@@ -312,12 +327,12 @@ class ACDCController extends Controller
             "nominal" => $request->nominal,
             "keterangan" => $request->keterangan,
             "upload_request" => $file_name_request,
-            "upload_release" => $file_ext_release,
+            "upload_release" => $file_name_release,
 
         ]);
 
         return redirect(route('showcpt', $id))->with([
-            'success' => 'Transaction Maker Projek - ' . $tm->project_name . ' berhasil dibuat'
+            'success' => 'Transaction Maker berhasil dibuat'
         ]);
     }
 
@@ -332,7 +347,7 @@ class ACDCController extends Controller
             )->where('create_projects.id', $id)
             ->first();
 
-            $detail = TransactionMakerACDC::where('cpt_id', $id)->get();
+        $detail = TransactionMakerACDC::where('cpt_id', $id)->get();
 
         return view('corporate.ACDC.CreateProject.showCPT', compact('cpt', 'detail'));
     }
@@ -340,11 +355,16 @@ class ACDCController extends Controller
     public function editTM($id)
     {
         $item = TransactionMakerACDC::with('cpt')->find($id);
+        $principal = CreatePrincipal::find($item->cpt->principal_id);
 
-        $data = DB::table('create_projects')->pluck('client_name', 'id')->toArray();
+        $data = DB::table('create_projects')
+            ->join('create_clients', 'create_projects.client_id', 'create_clients.id')
+            ->pluck('create_projects.id', 'create_clients.client_name')
+            ->toArray();
+
         $in_client = array_unique($data);
 
-        return view('corporate.ACDC.CreateProject.editTM', compact('item', 'in_client'));
+        return view('corporate.ACDC.CreateProject.editTM', compact('item', 'in_client', 'principal'));
     }
 
     public function editTransactionMaker($id)
@@ -360,16 +380,10 @@ class ACDCController extends Controller
 
         try {
             $edittm->update([
-                "nama_tujuan" => empty($request->nama_tujuan) ? $edittm->nama_tujuan : $request->nama_tujuan,
-                "jenis_transaksi" => empty($request->jenis_transaksi) ? $edittm->jenis_transaksi : $request->jenis_transaksi,
-                "nominal" => empty($request->nominal) ? $edittm->nominal : $request->nominal,
-                "keterangan" => empty($request->keterangan) ? $edittm->keterangan : $request->keterangan,
-                "project_name" => $request->project_name,
-                "id_project" => $request->id_project,
                 "cpt_id" => $request->cpt_id,
             ]);
 
-            return redirect()->back()->with('success', 'Update Transaction Maker berhasil');
+            return redirect()->back()->with('success', 'Pindah Data Transaction Maker berhasil');
         } catch (\Exception $e) {
             return response()->json($e->getMessage());
         }

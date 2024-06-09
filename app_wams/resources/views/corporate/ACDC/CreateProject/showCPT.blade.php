@@ -97,8 +97,10 @@
                     <thead>
                         <tr>
                             <th>Tanggal</th>
-                            <th>Transaksi</th>
+                            <th>Jenis Transaksi</th>
+                            <th>Nama Tujuan</th>
                             <th>Nominal</th>
+                            <th>Keterangan</th>
                             <th>File</th>
                             <th>Action</th>
                         </tr>
@@ -113,8 +115,10 @@
                         {{-- <a href="{{route('penawaran.edit',$i->id)}}">     --}}
                         <tr style="font-size: 13px;">
                             <td>{{ $tm->tanggal }}</td>
-                            <td>{{ $tm->jenis_transaksi }} - {{ $tm->nama_tujuan }} ({{ $tm->keterangan }})</td>
+                            <td>{{ $tm->jenis_transaksi }} </td>
+                            <td>{{ $tm->nama_tujuan }} </td>
                             <td>Rp. {{ number_format($tm->nominal) }}</td>
+                            <td>{{ \App\Models\TransactionMakerACDC::getKetLabel($tm->keterangan) }}</td>
                             <td>
                                 <ul>
                                     <li>

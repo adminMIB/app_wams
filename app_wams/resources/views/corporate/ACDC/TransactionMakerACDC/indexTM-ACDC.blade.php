@@ -1,7 +1,5 @@
 
 <div class="p2">
-  <div class="card">
-  </div> 
   {{-- <div class="form-group d-flex"> --}}
       <form action="{{route('saveTMAC',$item->id)}}" method="POST" enctype="multipart/form-data">
           @csrf
@@ -50,8 +48,32 @@
           <div class="mb-2 row">
               <label  class="col-sm-1 col-form-label" style="font-size: 12px">Keterangan</label>
               <div class="col-sm-10">
+                @php
+                    $keteranganOptions = [
+                        '1' => 'HPP',
+                        '2' => 'Biaya BMT',
+                        '3' => 'Fotocopy/Jilid',
+                        '4' => 'Materai',
+                        '5' => 'Biaya Pengiriman Dokumen',
+                        '6' => 'Biaya Jaminan Asuransi',
+                        '7' => 'Biaya Sertifikat Tenaga Ahli',
+                        '8' => 'Biaya Training',
+                        '9' => 'Entertain',
+                        '10' => 'Tiket',
+                        '11' => 'Hotel',
+                        '12' => 'Sewa Mobil',
+                        '13' => 'Uang Dinas',
+                        '14' => 'Denda/Pinalty',
+                        '15' => 'Biaya Lain-Lain',
+                    ];
+                @endphp
                   <div class="form-group">
-                      <input type="text" class="form-control" name="keterangan">
+                    <select class="form-control select2" name="keterangan" required style="width: 100%">
+                        <option value="">----PILIH----</option>
+                        @foreach($keteranganOptions as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
                   </div>
               </div>
           </div>
@@ -60,7 +82,7 @@
             <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Request</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="file" class="form-control" name="upload_request" accept="application/vnd.ms-excel, application/pdf, image/*" required>
+                    <input type="file" class="form-control" name="upload_request" accept="application/vnd.ms-excel, application/pdf, image/*">
                 </div>
             </div>
           </div>
@@ -69,7 +91,7 @@
             <label  class="col-sm-1 col-form-label" style="font-size: 12px">Upload Release</label>
             <div class="col-sm-10">
                 <div class="form-group">
-                    <input type="file" class="form-control" name="upload_release" accept="application/vnd.ms-excel, application/pdf, image/*" required>
+                    <input type="file" class="form-control" name="upload_release" accept="application/vnd.ms-excel, application/pdf, image/*">
                 </div>
             </div>
           </div>
