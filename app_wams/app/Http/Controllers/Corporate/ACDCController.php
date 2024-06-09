@@ -223,14 +223,14 @@ class ACDCController extends Controller
             "principal_name" => $request->principal_name,
             "client_name" => $request->client_name,
             "file" => $file_name,
-            "bmt" => str_replace(".", "", $request->bmt),
-            "services" => str_replace(".", "", $request->services),
+            "bmt" => str_replace([".", ", "], "", $request->bmt),
+            "services" => str_replace([".", ", "], "", $request->services),
             "lain" => empty($request->other) ? $request->lain : 0,
             "subtotal" => $request->subtotal,
             "bunga_admin" => $request->bunga_admin,
             "biaya_admin" => $request->biaya_admin,
-            "wapu" => str_replace(".", "", $request->wapu),
-            "biaya_pengurangan" => str_replace(".", "", $request->biaya_pengurangan),
+            "wapu" => str_replace([".", ", "], "", $request->wapu),
+            "biaya_pengurangan" => str_replace([".", ", "], "", $request->biaya_pengurangan),
             "total_final" => $request->final_subtotal,
 
         ]);
