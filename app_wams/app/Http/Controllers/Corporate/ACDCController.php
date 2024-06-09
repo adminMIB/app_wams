@@ -28,7 +28,7 @@ class ACDCController extends Controller
         $fileName = "";
 
         if (!empty($request->file)) {
-            unlink("/file_hitungan/$data->file");
+            // unlink("/file_hitungan/$data->file");
             $extention = $request->file('file')->getClientOriginalExtension();
             $name = base64_encode(random_bytes(18)) . time();
             $request->file->move(public_path('file_hitungan'), $name . '.' . $extention);
@@ -39,17 +39,16 @@ class ACDCController extends Controller
             "id_project" => $request->id_project,
             "principal_id" => $request->principal_name,
             "client_id" => $request->client_name,
-            "file" => empty($request->file) ? $data->file : $fileName,
-            "bmt" => str_replace(".", "", $request->bmt),
-            "services" => str_replace(".", "", $request->services),
-            "lain" => empty($request->other) ? str_replace(".", "", $request->lain) : 0,
+            "file" => !empty($request->file) ? $fileName : $data->file,
+            "bmt" => str_replace([".", ", "], "", $request->bmt),
+            "services" => str_replace([".", ", "], "", $request->services),
+            "lain" => str_replace([".", ", "], "", $request->lain),
             "subtotal" => $request->subtotal,
             "bunga_admin" => $request->bunga_admin,
             "biaya_admin" => $request->biaya_admin,
-            "type_wapu" => $request->type_wapu,
-            "wapu" => $request->wapu,
-            "biaya_pengurangan" => str_replace(".", "", $request->biaya_pengurangan),
-            "total_final" => $request->final_subtotal,
+            "wapu" => str_replace([".", ", "], "", $request->wapu),
+            "biaya_pengurangan" => str_replace([".", ", "], "", $request->biaya_pengurangan),
+            "total_final" => $request->final_subtotal
         ]);
 
         return redirect('/index-createproject')->with([
@@ -232,7 +231,6 @@ class ACDCController extends Controller
             "wapu" => str_replace([".", ", "], "", $request->wapu),
             "biaya_pengurangan" => str_replace([".", ", "], "", $request->biaya_pengurangan),
             "total_final" => $request->final_subtotal,
-
         ]);
 
         return redirect('/index-createproject')->with([
