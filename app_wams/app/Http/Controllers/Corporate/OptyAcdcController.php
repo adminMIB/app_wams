@@ -91,7 +91,7 @@ class OptyAcdcController extends Controller
             'mdc_id' => 'required',
             'nominal' => 'required',
             'no_penawaran' => 'required',
-            'file' => 'required',
+            'file' => 'required|max:5120',
         ]);
 
         DB::beginTransaction();

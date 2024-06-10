@@ -12,9 +12,9 @@ trait Excel
     {
         $alfabet = range('A', 'Z');
         $spreadsheet = new Spreadsheet();
-        $myWorksheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, $project['project_name']);
+        $myWorksheet = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, str_replace(["/", ", "], "", $project['project_name']));
         $report_data = $spreadsheet->addSheet($myWorksheet, 0);
-        $report_data->setCellValue('A1', 'Project ' . $project['project_name']);
+        $report_data->setCellValue('A1', 'Project ' . str_replace(["/", ", "], "", $project['project_name']));
         $start_from = 16;
 
         // set Header
@@ -31,7 +31,7 @@ trait Excel
 
         // Set data
         $report_data->setCellValue('B3', $project['id_project'])->getColumnDimension('B')->setWidth(20);
-        $report_data->setCellValue('B4', $project['project_name'])->getColumnDimension('B')->setWidth(20);
+        $report_data->setCellValue('B4', str_replace(["/", ", "], "", $project['project_name']))->getColumnDimension('B')->setWidth(20);
         $report_data->setCellValue('B5', 'Rp. ' . number_format($project['bmt'], 0, ',', '.'))->getColumnDimension('B')->setWidth(20);
         $report_data->setCellValue('B6', 'Rp. ' . number_format($project['services'], 0, ',', '.'))->getColumnDimension('B')->setWidth(20);
         $report_data->setCellValue('B7', 'Rp. ' . number_format($project['subtotal'], 0, ',', '.'))->getColumnDimension('B')->setWidth(20);
@@ -41,7 +41,7 @@ trait Excel
         $report_data->setCellValue('B11', 'Rp. ' . number_format($project['total_final'], 0, ',', '.'))->getColumnDimension('B')->setWidth(20);
         $report_data->setCellValue('B12', $project['file'])->getColumnDimension('B')->setWidth(20);
 
-        $report_data->setCellValue('A14', 'Transaction Maker Project ' . $project['project_name']);
+        $report_data->setCellValue('A14', 'Transaction Maker Project ' . str_replace(["/", ", "], "", $project['project_name']));
 
         $report_data->setCellValue('A' . $start_from, 'Tanggal')->getColumnDimension('A')->setWidth(20);
         $report_data->setCellValue('B' . $start_from, 'Jenis Transaksi')->getColumnDimension('B')->setWidth(20);
