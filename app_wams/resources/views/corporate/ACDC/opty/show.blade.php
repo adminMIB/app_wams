@@ -125,6 +125,8 @@
                             @endforelse
                         </tbody>
                     </table>
+
+                    <a href="/project-opty-acdc" class="btn btn-primary">Kembali</a>
                 </div>
             </div>
         </div>
@@ -258,7 +260,7 @@
                 $.get(`/opty-maker/${id}`, function(data, status) {
                     $("#title").text("Edit Data")
                     $("#date_trx").val(data.date_trx)
-                    $("#jenis_trx").val(data.date_trx)
+                    $("#jenis_trx").val(data.jenis_trx)
                     $("#nama_penerima").val(data.nama_penerima)
                     $("#nominal_trx").val(data.nominal_trx)
                     $("#keterangan").select2("val", data.keterangan)
