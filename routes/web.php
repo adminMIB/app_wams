@@ -21,5 +21,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // customers
-    Route::resource('master-data/customers', CustomerController::class)->except(['show', 'create']);
+    Route::resource('master-data/customers', CustomerController::class)->except('create');
 });

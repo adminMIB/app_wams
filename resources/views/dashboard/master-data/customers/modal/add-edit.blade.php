@@ -5,10 +5,12 @@
             <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
             <div class="modal-body">
                 <div class="text-center mb-4">
-                    <h3 class="mb-2">Add New Customer</h3>
+                    <h3 class="mb-2" id="title-header">Add New Customer</h3>
                 </div>
                 <form id="addEditCustomerForm" class="row" onsubmit="return false">
                     @csrf
+                    <input type="hidden" id="type">
+                    <input type="hidden" id="cus_id">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label" for="name">Nama Perusahaan</label>

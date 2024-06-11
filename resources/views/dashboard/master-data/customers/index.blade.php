@@ -62,4 +62,5 @@
     </div>
 
     @include('dashboard.master-data.customers.modal.add-edit')
+    @include('dashboard.master-data.customers.modal.detail')
 @endsection

@@ -11,8 +11,8 @@ $(function () {
   // ajax setup
   $.ajaxSetup({
     headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
   });
 
   // customers List datatable
@@ -81,8 +81,8 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<span class="text-nowrap">' +
-              '<button class="btn btn-sm btn-icon me-2" data-bs-target="#editPermissionModal" data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-edit"></i></button>' +
-              '<button class="btn btn-sm btn-icon me-2" data-bs-target="#viewCustomerModal" data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>' +
+              `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>` +
+              `<button class="btn btn-sm btn-icon me-2 detail-record" data-bs-target="#detailCustomer" data-id="${full["id"]}"data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full["id"]}"><i class="ti ti-trash"></i></button>` +
               "</span>"
             );
@@ -107,10 +107,9 @@ $(function () {
       buttons: [
         {
           text: "Add Customer",
-          className: "add-new btn btn-primary mb-3 mb-md-0",
+          className: "add-new btn btn-primary mb-3 mb-md-0 create-record",
           attr: {
-            "data-bs-toggle": "modal",
-            "data-bs-target": "#addEditCustomers",
+            "data-type": "create",
           },
           init: function (api, node, config) {
             $(node).removeClass("btn-secondary");
@@ -162,49 +161,102 @@ $(function () {
       dtrModal.modal("hide");
     }
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: "Yes, delete it!",
       customClass: {
-        confirmButton: 'btn btn-primary me-3',
-        cancelButton: 'btn btn-label-secondary'
+        confirmButton: "btn btn-primary me-3",
+        cancelButton: "btn btn-label-secondary",
       },
-      buttonsStyling: false
+      buttonsStyling: false,
     }).then(function (result) {
       if (result.value) {
         // delete the data
         $.ajax({
-          type: 'DELETE',
+          type: "DELETE",
           url: `/master-data/customers/${customer_id}`,
           success: function () {
             dt_customers.ajax.reload(null, false);
           },
           error: function (error) {
             console.log(error);
-          }
+          },
         });
-  
+
         // success sweetalert
         Swal.fire({
-          icon: 'success',
-          title: 'Deleted!',
-          text: 'The customer has been deleted!',
+          icon: "success",
+          title: "Deleted!",
+          text: "The customer has been deleted!",
           customClass: {
-            confirmButton: 'btn btn-success'
-          }
+            confirmButton: "btn btn-success",
+          },
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
-          title: 'Cancelled',
-          text: 'The Customer is not deleted!',
-          icon: 'error',
+          title: "Cancelled",
+          text: "The Customer is not deleted!",
+          icon: "error",
           customClass: {
-            confirmButton: 'btn btn-success'
-          }
+            confirmButton: "btn btn-success",
+          },
         });
       }
+    });
+  });
+
+  // detail record
+  $(".datatables-customers tbody").on("click", ".detail-record", function () {
+    var id = $(this).data("id");
+    $.get(`/master-data/customers/${id}`, function (data, status) {
+      $("#title-detail").text(`Detail Customer ${data.nama_perusahaan}`);
+
+      $("table.borderless tbody").empty();
+
+      var rows = "";
+      for (var key in data) {
+        rows +=
+          "<tr>" +
+          "<td>" +
+          key.replace(/_/g, " ").toUpperCase() +
+          "</td>" +
+          "<td>:</td>" +
+          "<td>" +
+          data[key] +
+          "</td>" +
+          "</tr>";
+      }
+
+      $("table.borderless tbody").append(rows);
+    });
+  });
+
+  $(document).on("click", ".create-record", function () {
+    $("#addEditCustomerForm").trigger("reset");
+    var type = $(this).data("type");
+    $("#addEditCustomers").modal("show");
+    $("#type").val(type);
+
+    $("#title-header").text("Add New Customer")
+  });
+
+  $(document).on("click", ".edit-record", function () {
+    var type = $(this).data("type"),
+      id = $(this).data("id");
+    $("#addEditCustomers").modal("show");
+    $("#type").val(type);
+    $("#cus_id").val(id);
+
+    $.get(`/master-data/customers/${id}/edit`, function (data, status) {
+      $("#title-header").text(`Edit Customer ${data.name}`)
+      $("#name").val(data.name)
+      $("#no_npwp").val(data.no_npwp)
+      $("#address").val(data.address)
+      $("#pic_name").val(data.pic_name)
+      $("#email_pic").val(data.email_pic)
+      $("#phone_pic").val(data.phone_pic)
     });
   });
 
@@ -290,17 +342,42 @@ $(function () {
       autoFocus: new FormValidation.plugins.AutoFocus(),
     },
   }).on("core.form.valid", function () {
+    var type = $("#type").val(),
+      url,
+      method,
+      cust_id = $("#cus_id").val();
+
+    if (type == "create") {
+      url = `/master-data/customers`;
+      method = "POST";
+    } else if (type == "edit" && cust_id) {
+      url = `/master-data/customers/${cust_id}`;
+      method = "PUT";
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "Customer ID is missing for editing.",
+        icon: "error",
+        customClass: {
+          confirmButton: "btn btn-danger",
+        },
+      });
+      return;
+    }
+
     $.ajax({
       data: $("#addEditCustomerForm").serialize(),
-      url: "/master-data/customers",
-      type: "POST",
-      success: function (status) {
+      url: url,
+      type: method,
+      contentType: "application/x-www-form-urlencoded",
+      success: function (response) {
         $("#addEditCustomers").modal("hide");
-        // sweetalert
         Swal.fire({
           icon: "success",
-          title: `Successfully ${status}!`,
-          text: `Customer ${status} Successfully.`,
+          title: `Successfully ${type === "create" ? "created" : "edited"}!`,
+          text: `Customer ${response} ${
+            type === "create" ? "created" : "edited"
+          } successfully.`,
           customClass: {
             confirmButton: "btn btn-success",
           },
@@ -308,13 +385,13 @@ $(function () {
         $("#addEditCustomerForm").trigger("reset");
         dt_customers.ajax.reload(null, false);
       },
-      error: function (err) {
+      error: function (xhr, status, error) {
         Swal.fire({
-          title: "upps!",
-          text: "Terjadi kesalahan.",
+          title: "Oops!",
+          text: "An error occurred.",
           icon: "error",
           customClass: {
-            confirmButton: "btn btn-success",
+            confirmButton: "btn btn-danger",
           },
         });
       },

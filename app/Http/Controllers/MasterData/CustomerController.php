@@ -52,8 +52,56 @@ class CustomerController extends Controller
 
             return response()->json("$request->name")->setStatusCode(201);
         } catch (\Exception $e) {
-            return response()->json(["error" => $e->getMessage()]);
+            return response()->json(["error" => $e->getMessage()], $e->getCode());
         }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'no_npwp' => 'required',
+            'address' => 'required',
+            'pic_name' => 'required',
+            'phone_pic' => 'required',
+            'email_pic' => 'required',
+        ]);
+
+        try {
+            $customer = Customer::find($id);
+
+            $customer->update($request->all());
+            
+            return response()->json("$request->name")->setStatusCode(200);
+        } catch (\Exception $e) {
+            return response()->json(["error" => $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function show($id)
+    {
+        $customer = Customer::select(
+            "name as nama_perusahaan",
+            "no_npwp as no_npwp_perusahaan",
+            "address as alamat_perusahaan",
+            "pic_name as nama_pic",
+            "phone_pic as no_telepon_pic",
+            "email_pic as email_pic",
+            "created_at as dibuat_pada",
+        )->find($id);
+
+        if ($customer) {
+            $customer->dibuat_pada = Carbon::parse($customer->created_at)->translatedFormat('Y-m-d H:i:s');
+            
+            return response()->json($customer);
+        } else {
+            return response()->json(['message' => 'Customer not found'], 404);
+        }
+    }
+
+    public function edit($id)
+    {
+        return response()->json(Customer::find($id));
     }
 
     public function destroy($id)
@@ -65,7 +113,7 @@ class CustomerController extends Controller
 
             return response()->json("Customer $customer->name berhasil dihapus");
         } catch (\Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage())->setStatusCode($e->getCode());
         }
     }
 }
