@@ -21,7 +21,7 @@ $(function () {
       serverSide: true,
       processing: true,
       ajax: {
-        url: "/reimbursement/personal-teams",
+        url: "/master-data/personel-teams",
         type: "GET",
         data: function (d) {
           d.search.value = $("input[type=search]").val() || "";
@@ -179,7 +179,7 @@ $(function () {
           // delete the data
           $.ajax({
             type: "DELETE",
-            url: `/reimbursement/personal-teams/${idPersonalTeams}`,
+            url: `/master-data/personel-teams/${idPersonalTeams}`,
             success: function () {
               dt_personelTeams.ajax.reload(null, false);
             },
@@ -217,7 +217,7 @@ $(function () {
     ".detail-record",
     function () {
       var id = $(this).data("id");
-      $.get(`/reimbursement/personal-teams/${id}`, function (data, status) {
+      $.get(`/master-data/personel-teams/${id}`, function (data, status) {
         $("#title-detail").text(`Detail Perosonel Teams, ${data.divisi}`);
 
         $("table.borderless tbody").empty();
@@ -259,7 +259,7 @@ $(function () {
     $("#personelTeams_id").val(id);
 
     // edit, menampilkan  data
-    $.get(`/reimbursement/personal-teams/${id}/edit`, function (data, status) {
+    $.get(`/master-data/personel-teams/${id}/edit`, function (data, status) {
       $("#title-header").text(`Edit Personel Teams ${data.divisi}`);
       $("#divisi").val(data.divisi);
       $("#name").val(data.name);
@@ -310,11 +310,11 @@ $(function () {
 
     // add personal teams
     if (type == "create") {
-      url = `/reimbursement/personal-teams`;
+      url = `/master-data/personel-teams`;
       method = "POST";
       // edit persona teams
     } else if (type == "edit" && prsl_team_id) {
-      url = `/reimbursement/personal-teams/${prsl_team_id}`;
+      url = `/master-data/personel-teams/${prsl_team_id}`;
       method = "PUT";
     } else {
       Swal.fire({
