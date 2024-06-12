@@ -82,7 +82,7 @@ $(function () {
             return (
               '<span class="text-nowrap">' +
               `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>` +
-              `<button class="btn btn-sm btn-icon me-2 detail-record" data-bs-target="#detailCustomer" data-id="${full["id"]}"data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>` +
+              `<button class="btn btn-sm btn-icon me-2 detail-record" data-bs-target="#detailPersonalTeams" data-id="${full["id"]}"data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full["id"]}"><i class="ti ti-trash"></i></button>` +
               "</span>"
             );
@@ -266,9 +266,11 @@ $(function () {
     });
   });
 
-  const addNewCustomerForm = document.getElementById("addEditPersonelTeams");
+  const addNewPersonelTeamsForm = document.getElementById(
+    "addEditPersonelTeams"
+  );
 
-  const fv = FormValidation.formValidation(addNewCustomerForm, {
+  const fv = FormValidation.formValidation(addNewPersonelTeamsForm, {
     fields: {
       divisi: {
         validators: {
@@ -317,7 +319,7 @@ $(function () {
     } else {
       Swal.fire({
         title: "Error!",
-        text: "Customer ID is missing for editing.",
+        text: "Personel Teams ID is missing for editing.",
         icon: "error",
         customClass: {
           confirmButton: "btn btn-danger",

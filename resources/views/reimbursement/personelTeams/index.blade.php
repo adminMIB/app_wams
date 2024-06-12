@@ -34,7 +34,7 @@
                             <a href="javascript:void(0);">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">Customer</a>
+                            <a href="javascript:void(0);">Personel Teams</a>
                         </li>
                         <li class="breadcrumb-item active">List</li>
                     </ol>
