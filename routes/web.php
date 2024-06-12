@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MasterData\CustomerController;
+use App\Http\Controllers\Reimbursement\PersonelTeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,11 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
     // customers
     Route::resource('master-data/customers', CustomerController::class)->except('create');
+
+
+     // Reimbursement
+    Route::resource('reimbursement/personal-teams', PersonelTeamController::class)->except('create');
 });

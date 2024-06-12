@@ -80,15 +80,19 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item  {{
+                request()->is('reimbursement/personal-teams*')
+                ? 'open'
+                : ''
+            }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-article"></i>
                 <div data-i18n="Reimbursement">Reimbursement</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Reimbursement">Reimbursement</div>
+                <li class="menu-item {{ request()->is('reimbursement/personal-teams*') ? 'active' : '' }} ">
+                    <a href="{{ route('personal-teams.index') }}" class="menu-link">
+                        <div data-i18n="Personel Teams">Personel Teams</div>
                     </a>
                 </li>
             </ul>
