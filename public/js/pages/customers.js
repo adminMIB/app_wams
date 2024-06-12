@@ -82,14 +82,14 @@ $(function () {
             return (
               '<span class="text-nowrap">' +
               `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>` +
-              `<button class="btn btn-sm btn-icon me-2 detail-record" data-bs-target="#detailCustomer" data-id="${full["id"]}"data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>` +
+              `<button class="btn btn-sm btn-icon me-2 detail-record" data-bs-target="#detailCustomer" data-id="${full["id"]}" data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full["id"]}"><i class="ti ti-trash"></i></button>` +
               "</span>"
             );
           },
         },
       ],
-      order: [[1, "asc"]],
+      order: [[1, "DESC"]],
       dom:
         '<"row mx-1"' +
         '<"col-sm-12 col-md-3" l>' +

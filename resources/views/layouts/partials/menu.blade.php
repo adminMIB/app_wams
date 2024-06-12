@@ -62,7 +62,12 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Apps &amp; Pages</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{
+            request()->is('opty*') ||
+            request()->is('project*')
+            ? 'open'
+            : ''
+        }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-files"></i>
                 <div data-i18n="ACDC">ACDC</div>
@@ -73,8 +78,8 @@
                         <div data-i18n="Project">Project</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ request()->is('opty*') ? 'active' : '' }}">
+                    <a href="/opty" class="menu-link">
                         <div data-i18n="Opty">Opty</div>
                     </a>
                 </li>
