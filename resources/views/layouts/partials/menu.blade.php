@@ -32,7 +32,7 @@
             class="menu-item {{
                 request()->is('master-data/customers*') ||
                 request()->is('master-data/principals') ||
-                request()->is('master-data/personel-team')
+                request()->is('master-data/personel-teams')
                 ? 'open'
                 : ''
             }}">
@@ -51,8 +51,8 @@
                         <div data-i18n="Principal">Principal</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ request()->is('master-data/personel-teams*') ? 'active' : '' }} ">
+                    <a href="{{ route('personel-teams.index') }}" class="menu-link">
                         <div data-i18n="Personal Teams">Personal Teams</div>
                     </a>
                 </li>
@@ -80,19 +80,15 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item  {{
-                request()->is('reimbursement/personal-teams*')
-                ? 'open'
-                : ''
-            }}">
+        <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-article"></i>
                 <div data-i18n="Reimbursement">Reimbursement</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item {{ request()->is('reimbursement/personal-teams*') ? 'active' : '' }} ">
-                    <a href="{{ route('personal-teams.index') }}" class="menu-link">
-                        <div data-i18n="Personel Teams">Personel Teams</div>
+                    <a href="" class="menu-link">
+                        <div data-i18n="Reimbursement">Reimbursement</div>
                     </a>
                 </li>
             </ul>

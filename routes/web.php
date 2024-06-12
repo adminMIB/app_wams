@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\MasterData\CustomerController;
-use App\Http\Controllers\Reimbursement\PersonelTeamController;
+use App\Http\Controllers\MasterData\PersonelTeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,5 +27,5 @@ Route::group(['middleware' => 'auth'], function () {
 
 
      // Reimbursement
-    Route::resource('reimbursement/personal-teams', PersonelTeamController::class)->except('create');
+    Route::resource('master-data/personel-teams', PersonelTeamController::class)->except('create');
 });

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'List Personal Teams')
+@section('title', 'List Personel Teams')
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -27,7 +27,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="mb-0">Personal Temas</h3>
+                <h3 class="mb-0">Personel Teams</h3>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
@@ -61,7 +61,8 @@
         </div>
     </div>
 
+    <!-- D:\app\mib-2024\acdc\wams-acdc\resources\views\dashboard\master-data\personelTeams\modal\detail.blade.php -->
     <!-- set up design modal -->
-    @include('reimbursement.personelTeams.modal.add-edit')
-    @include('reimbursement.personelTeams.modal.detail')
+    @include('dashboard.master-data.personelTeams.modal.add-edit')
+    @include('dashboard.master-data.personelTeams.modal.detail')
 @endsection
