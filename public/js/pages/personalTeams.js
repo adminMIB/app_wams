@@ -6,7 +6,7 @@
 
 $(function () {
   var dataTablePersonalTeams = $(".datatables-personal-teams"),
-    dt_customers;
+    dt_personelTeams;
 
   // ajax setup
   $.ajaxSetup({
@@ -15,9 +15,9 @@ $(function () {
     },
   });
 
-  // customers List datatable
+  // personal teams List datatable
   if (dataTablePersonalTeams.length) {
-    dt_customers = dataTablePersonalTeams.DataTable({
+    dt_personelTeams = dataTablePersonalTeams.DataTable({
       serverSide: true,
       processing: true,
       ajax: {
@@ -154,174 +154,133 @@ $(function () {
   }
 
   // Delete Record
-  $(".datatables-customers tbody").on("click", ".delete-record", function () {
-    var customer_id = $(this).data("id"),
-      dtrModal = $(".dtr-bs-modal.show");
-    if (dtrModal.length) {
-      dtrModal.modal("hide");
+  $(".datatables-personal-teams tbody").on(
+    "click",
+    ".delete-record",
+    function () {
+      var idPersonalTeams = $(this).data("id"),
+        dtrModal = $(".dtr-bs-modal.show");
+      if (dtrModal.length) {
+        dtrModal.modal("hide");
+      }
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        customClass: {
+          confirmButton: "btn btn-primary me-3",
+          cancelButton: "btn btn-label-secondary",
+        },
+        buttonsStyling: false,
+      }).then(function (result) {
+        if (result.value) {
+          // delete the data
+          $.ajax({
+            type: "DELETE",
+            url: `/reimbursement/personal-teams/${idPersonalTeams}`,
+            success: function () {
+              dt_personelTeams.ajax.reload(null, false);
+            },
+            error: function (error) {
+              console.log(error);
+            },
+          });
+
+          // success sweetalert
+          Swal.fire({
+            icon: "success",
+            title: "Deleted!",
+            text: "The personel teams has been deleted!",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            title: "Cancelled",
+            text: "The personel teams is not deleted!",
+            icon: "error",
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        }
+      });
     }
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      customClass: {
-        confirmButton: "btn btn-primary me-3",
-        cancelButton: "btn btn-label-secondary",
-      },
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        // delete the data
-        $.ajax({
-          type: "DELETE",
-          url: `/master-data/customers/${customer_id}`,
-          success: function () {
-            dt_customers.ajax.reload(null, false);
-          },
-          error: function (error) {
-            console.log(error);
-          },
-        });
+  );
 
-        // success sweetalert
-        Swal.fire({
-          icon: "success",
-          title: "Deleted!",
-          text: "The customer has been deleted!",
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire({
-          title: "Cancelled",
-          text: "The Customer is not deleted!",
-          icon: "error",
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
-      }
-    });
-  });
+  // detail data personal teams
+  $(".datatables-personal-teams tbody").on(
+    "click",
+    ".detail-record",
+    function () {
+      var id = $(this).data("id");
+      $.get(`/reimbursement/personal-teams/${id}`, function (data, status) {
+        $("#title-detail").text(`Detail Perosonel Teams, ${data.divisi}`);
 
-  // detail record
-  $(".datatables-customers tbody").on("click", ".detail-record", function () {
-    var id = $(this).data("id");
-    $.get(`/master-data/customers/${id}`, function (data, status) {
-      $("#title-detail").text(`Detail Customer ${data.nama_perusahaan}`);
+        $("table.borderless tbody").empty();
 
-      $("table.borderless tbody").empty();
+        var rows = "";
+        for (var key in data) {
+          rows +=
+            "<tr>" +
+            "<td>" +
+            key.replace(/_/g, " ").toUpperCase() +
+            "</td>" +
+            "<td>:</td>" +
+            "<td>" +
+            data[key] +
+            "</td>" +
+            "</tr>";
+        }
 
-      var rows = "";
-      for (var key in data) {
-        rows +=
-          "<tr>" +
-          "<td>" +
-          key.replace(/_/g, " ").toUpperCase() +
-          "</td>" +
-          "<td>:</td>" +
-          "<td>" +
-          data[key] +
-          "</td>" +
-          "</tr>";
-      }
+        $("table.borderless tbody").append(rows);
+      });
+    }
+  );
 
-      $("table.borderless tbody").append(rows);
-    });
-  });
-
+  // MODAL AKSI ADD dan EDIT DAN, VALIDATION
   $(document).on("click", ".create-record", function () {
-    $("#addEditCustomerForm").trigger("reset");
+    $("#addEditPersonelTeams").trigger("reset");
     var type = $(this).data("type");
-    $("#addEditCustomers").modal("show");
+    $("#addEditPersonalTeams").modal("show");
     $("#type").val(type);
 
-    $("#title-header").text("Add New Customer");
+    $("#title-header").text("Add New Personel Teams");
   });
 
   $(document).on("click", ".edit-record", function () {
     var type = $(this).data("type"),
       id = $(this).data("id");
-    $("#addEditCustomers").modal("show");
+    $("#addEditPersonalTeams").modal("show");
     $("#type").val(type);
-    $("#cus_id").val(id);
+    $("#personelTeams_id").val(id);
 
-    $.get(`/master-data/customers/${id}/edit`, function (data, status) {
-      $("#title-header").text(`Edit Customer ${data.name}`);
+    // edit, menampilkan  data
+    $.get(`/reimbursement/personal-teams/${id}/edit`, function (data, status) {
+      $("#title-header").text(`Edit Personel Teams ${data.divisi}`);
+      $("#divisi").val(data.divisi);
       $("#name").val(data.name);
-      $("#no_npwp").val(data.no_npwp);
-      $("#address").val(data.address);
-      $("#pic_name").val(data.pic_name);
-      $("#email_pic").val(data.email_pic);
-      $("#phone_pic").val(data.phone_pic);
     });
   });
 
-  const addNewCustomerForm = document.getElementById("addEditCustomerForm");
+  const addNewCustomerForm = document.getElementById("addEditPersonelTeams");
 
   const fv = FormValidation.formValidation(addNewCustomerForm, {
     fields: {
+      divisi: {
+        validators: {
+          notEmpty: {
+            message: "Nama divisi tidak boleh kosong",
+          },
+        },
+      },
       name: {
         validators: {
           notEmpty: {
-            message: "Nama perusahaan tidak boleh kosong",
-          },
-        },
-      },
-      no_npwp: {
-        validators: {
-          notEmpty: {
-            message: "No NPWP Perusahaan tidak boleh kosong",
-          },
-          stringLength: {
-            max: 16,
-            message: "No NPWP Perusahaan tidak boleh lebih dari 16 karakter",
-          },
-          regexp: {
-            regexp: /^[0-9]+$/,
-            message: "No NPWP Perusahaan hanya boleh berisi angka",
-          },
-        },
-      },
-      address: {
-        validators: {
-          notEmpty: {
-            message: "Alamat perusahaan tidak boleh kosong",
-          },
-        },
-      },
-      name_pic: {
-        validators: {
-          notEmpty: {
-            message: "Nama PIC tidak boleh kosong",
-          },
-        },
-      },
-      phone_pic: {
-        validators: {
-          notEmpty: {
-            message: "No Telp PIC tidak boleh kosong",
-          },
-          stringLength: {
-            max: 12,
-            message: "No Telp tidak boleh lebih dari 12 karakter",
-          },
-          regexp: {
-            regexp: /^[0-9]+$/,
-            message: "No Telp hanya boleh berisi angka",
-          },
-        },
-      },
-      email_pic: {
-        validators: {
-          notEmpty: {
-            message: "Email PIC tidak boleh kosong",
-          },
-          emailAddress: {
-            message: "The value is not a valid email address",
+            message: "Name tidak boleh kosong",
           },
         },
       },
@@ -345,13 +304,15 @@ $(function () {
     var type = $("#type").val(),
       url,
       method,
-      cust_id = $("#cus_id").val();
+      prsl_team_id = $("#personelTeams_id").val();
 
+    // add personal teams
     if (type == "create") {
-      url = `/master-data/customers`;
+      url = `/reimbursement/personal-teams`;
       method = "POST";
-    } else if (type == "edit" && cust_id) {
-      url = `/master-data/customers/${cust_id}`;
+      // edit persona teams
+    } else if (type == "edit" && prsl_team_id) {
+      url = `/reimbursement/personal-teams/${prsl_team_id}`;
       method = "PUT";
     } else {
       Swal.fire({
@@ -366,24 +327,24 @@ $(function () {
     }
 
     $.ajax({
-      data: $("#addEditCustomerForm").serialize(),
+      data: $("#addEditPersonelTeams").serialize(),
       url: url,
       type: method,
       contentType: "application/x-www-form-urlencoded",
       success: function (response) {
-        $("#addEditCustomers").modal("hide");
+        $("#addEditPersonalTeams").modal("hide");
         Swal.fire({
           icon: "success",
           title: `Successfully ${type === "create" ? "created" : "edited"}!`,
-          text: `Customer ${response} ${
+          text: `Personel Teams ${response} ${
             type === "create" ? "created" : "edited"
           } successfully.`,
           customClass: {
             confirmButton: "btn btn-success",
           },
         });
-        $("#addEditCustomerForm").trigger("reset");
-        dt_customers.ajax.reload(null, false);
+        $("#addEditPersonelTeams").trigger("reset");
+        dt_personelTeams.ajax.reload(null, false);
       },
       error: function (xhr, status, error) {
         Swal.fire({
@@ -397,6 +358,7 @@ $(function () {
       },
     });
   });
+  //END MODAL AKSI ADD dan EDIT DAN, VALIDATION
 
   // Filter form control to default size
   // ? setTimeout used for multilingual table initialization

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'List Master Data Customer')
+@section('title', 'List Personal Teams')
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -61,6 +61,7 @@
         </div>
     </div>
 
-    @include('dashboard.master-data.customers.modal.add-edit')
-    @include('dashboard.master-data.customers.modal.detail')
+    <!-- set up design modal -->
+    @include('reimbursement.personelTeams.modal.add-edit')
+    @include('reimbursement.personelTeams.modal.detail')
 @endsection
