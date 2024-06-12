@@ -8,6 +8,13 @@
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.8/jquery.mask.min.js"
+        integrity="sha512-hAJgR+pK6+s492clbGlnrRnt2J1CJK6kZ82FZy08tm6XG2Xl/ex9oVZLE6Krz+W+Iv4Gsr8U2mGMdh0ckRH61Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@endsection
+
+@section('page-script')
+    <script src="{{ asset('js/pages/opty-detail.js') }}"></script>
 @endsection
 
 @section('content')
@@ -63,7 +70,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <h6>List Transaction Maker Opty</h6>
-                <button class="btn btn-primary btn-md">
+                <button class="btn btn-primary btn-md" id="addData">
                     Add Maker <i class="ti ti-plus me-md-1"></i>
                 </button>
             </div>
@@ -86,4 +93,6 @@
             </div>
         </div>
     </div>
+
+    @include('dashboard.opty.modal.addEdit-maker')
 @endsection

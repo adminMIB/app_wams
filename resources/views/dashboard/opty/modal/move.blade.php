@@ -1,4 +1,3 @@
-<!-- Add Permission Modal -->
 <div class="modal fade" id="moveData" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content p-3 p-md-2">
@@ -12,4 +11,3 @@
         </div>
     </div>
 </div>
-<!--/ Add Permission Modal -->

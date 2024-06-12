@@ -113,13 +113,13 @@ $(function () {
               "</div>"
             );
           },
-        }        
+        },
       ],
       order: [[1, "desc"]],
       dom:
         '<"row mx-1"' +
-        '<"col-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-start gap-2"l<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start mt-md-0 mt-3"B>>' +
-        '<"col-12 col-md-6 d-flex align-items-center justify-content-end flex-column flex-md-row pe-3 gap-md-3"f<"status_opty mb-3 mb-md-0">>' +
+        '<"col-12 col-md-6 d-flex align-items-center justify-content-center justify-content-md-start gap-2"l<"status_opty mb-3 mb-md-0">>' +
+        '<"col-12 col-md-6 d-flex align-items-center justify-content-end flex-column flex-md-row pe-3 gap-md-3"f<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start mt-md-0 mt-3"B>>' +
         ">t" +
         '<"row mx-2"' +
         '<"col-sm-12 col-md-6"i>' +
@@ -133,7 +133,7 @@ $(function () {
       // Buttons with Dropdown
       buttons: [
         {
-          text: '<i class="ti ti-plus me-md-1"></i><span class="d-md-inline-block d-none">Create Opty</span>',
+          text: '<span class="d-md-inline-block d-none">Add Opty</span> <i class="ti ti-plus me-md-1"></i>',
           className: "btn btn-primary",
           action: function (e, dt, button, config) {
             window.location = "/opty/create";
@@ -176,8 +176,7 @@ $(function () {
         },
       },
       initComplete: function () {
-        // Adding role filter once table initialized
-        var select = $('<select id="UserRole" class="form-select"></select>')
+        var select = $('<select id="status_opty" class="form-select"></select>')
           .appendTo(".status_opty")
           .on("change", function () {
             var val = $(this).val();
@@ -251,14 +250,15 @@ $(function () {
     });
   });
 
-   // On each datatable draw, initialize tooltip
-   dt_opties.on('draw.dt', function () {
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  // On each datatable draw, initialize tooltip
+  dt_opties.on("draw.dt", function () {
+    var tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl, {
-        boundary: document.body
+        boundary: document.body,
       });
     });
   });
-
 });
