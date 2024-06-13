@@ -36,8 +36,6 @@ class PersonelTeamController extends Controller
         return view('dashboard.master-data.personelTeams.index');
     }
 
-    // D:\app\mib-2024\acdc\wams-acdc\resources\views\dashboard\master-data\personelTeams
-
 
     public function store(Request $request)
     {

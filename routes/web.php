@@ -3,6 +3,7 @@
 use App\Http\Controllers\MasterData\CustomerController;
 use App\Http\Controllers\OptyController;
 use App\Http\Controllers\MasterData\PersonelTeamController;
+use App\Http\Controllers\Reimbursement\ReimbursementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,10 +25,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     // customers
     Route::resource('master-data/customers', CustomerController::class)->except('create');
-
-     // Reimbursement
+     // personelTeams
     Route::resource('master-data/personel-teams', PersonelTeamController::class)->except('create');
 
     // opty
     Route::resource('opty', OptyController::class);
+
+    // reimbursement
+    Route::resource('reimbursement', ReimbursementController::class);
+
 });
