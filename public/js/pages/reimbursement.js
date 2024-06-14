@@ -112,7 +112,7 @@ $(function () {
               '<div class="dropdown">' +
               '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>' +
               '<div class="dropdown-menu dropdown-menu-end">' +
-              `<a href="javascript:;" class="dropdown-item move" data-id="${full["id"]}" data-bs-target="#moveData" data-bs-toggle="modal" data-bs-dismiss="modal">Pindah ke Project</a>` +
+              // `<a href="javascript:;" class="dropdown-item move" data-id="${full["id"]}" data-bs-target="#moveData" data-bs-toggle="modal" data-bs-dismiss="modal">Pindah ke Project</a>` +
               `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>` +
               "</div>" +
               "</div>" +
@@ -301,12 +301,7 @@ $(function () {
       $("#client").val(data.reimbursement.client);
       $("#keterangan").val(data.reimbursement.keterangan);
       $("#file").val(data.reimbursement.file);
-
-      if (data.reimbursement.file) {
-        $("#file-info").show();
-      } else {
-        $("#file-info").hide();
-      }
+      $("#file-info").show();
     });
   });
 
