@@ -1,6 +1,6 @@
 $(function () {
-  var dataTablePersonalTeams = $(".datatables-reimbursement"),
-    dt_personelTeams;
+  var dataTableReimbursement = $(".datatables-reimbursement"),
+    dt_reimbursement;
 
   // Pengaturan ajax
   $.ajaxSetup({
@@ -10,8 +10,8 @@ $(function () {
   });
 
   // List datatable
-  if (dataTablePersonalTeams.length) {
-    dt_personelTeams = dataTablePersonalTeams.DataTable({
+  if (dataTableReimbursement.length) {
+    dt_reimbursement = dataTableReimbursement.DataTable({
       serverSide: true,
       processing: true,
       ajax: {
@@ -106,11 +106,17 @@ $(function () {
           orderable: false,
           render: function (data, type, full, meta) {
             return (
-              '<span class="text-nowrap">' +
+              '<div class="d-flex align-items-center">' +
+              `<a class="btn btn-sm btn-icon me-2" href="/reimbursement/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>` +
               `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>` +
-              `<button class="btn btn-sm btn-icon me-2 detail-record" data-bs-target="#detailPersonalTeams" data-id="${full["id"]}"data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>` +
-              `<button class="btn btn-sm btn-icon delete-record" data-id="${full["id"]}"><i class="ti ti-trash"></i></button>` +
-              "</span>"
+              '<div class="dropdown">' +
+              '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>' +
+              '<div class="dropdown-menu dropdown-menu-end">' +
+              `<a href="javascript:;" class="dropdown-item move" data-id="${full["id"]}" data-bs-target="#moveData" data-bs-toggle="modal" data-bs-dismiss="modal">Pindah ke Project</a>` +
+              `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>` +
+              "</div>" +
+              "</div>" +
+              "</div>"
             );
           },
         },
@@ -184,7 +190,7 @@ $(function () {
     "click",
     ".delete-record",
     function () {
-      var idPersonalTeams = $(this).data("id"),
+      var idReimbursement = $(this).data("id"),
         dtrModal = $(".dtr-bs-modal.show");
       if (dtrModal.length) {
         dtrModal.modal("hide");
@@ -205,9 +211,9 @@ $(function () {
           // hapus data
           $.ajax({
             type: "DELETE",
-            url: `/reimbursement/${idPersonalTeams}`,
+            url: `/reimbursement/${idReimbursement}`,
             success: function () {
-              dt_personelTeams.ajax.reload(null, false);
+              dt_reimbursement.ajax.reload(null, false);
             },
             error: function (error) {
               console.log(error);
@@ -226,7 +232,7 @@ $(function () {
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire({
             title: "Cancelled",
-            text: "The personel teams is not deleted!",
+            text: "The Reimbursement is not deleted!",
             icon: "error",
             customClass: {
               confirmButton: "btn btn-success",
@@ -291,7 +297,7 @@ $(function () {
       $("#title-header").text(`Edit Reimbursement`);
       $("#id_reimbursement").val(data.reimbursement.id_reimbursement);
       $("#nama_project").val(data.reimbursement.nama_project);
-      $("#pic_businees_channels").val(data.reimbursement.pic_bussiness_channel); // Perbaikan typo
+      $("#pic_businees_channels").val(data.reimbursement.pic_bussiness_channel);
       $("#client").val(data.reimbursement.client);
       $("#keterangan").val(data.reimbursement.keterangan);
       $("#file").val(data.reimbursement.file);
@@ -304,11 +310,11 @@ $(function () {
     });
   });
 
-  const addNewPersonelTeamsForm = document.getElementById(
+  const addNewReimbursement = document.getElementById(
     "addEditReimbursementForm"
   );
 
-  const fv = FormValidation.formValidation(addNewPersonelTeamsForm, {
+  const fv = FormValidation.formValidation(addNewReimbursement, {
     fields: {
       id_reimbursement: {
         validators: {
@@ -342,6 +348,28 @@ $(function () {
         validators: {
           notEmpty: {
             message: "Keterangan tidak boleh kosong",
+          },
+        },
+      },
+      file: {
+        validators: {
+          // Gunakan callback untuk menentukan kapan validasi file harus ditampilkan
+          callback: {
+            message: "File tidak boleh kosong",
+            callback: function (value, validator, $field) {
+              var type = $("#type").val(); // Dapatkan nilai dari input type
+              var fileValue = $("#file").val(); // Dapatkan nilai dari input file
+
+              // Periksa apakah dalam mode create dan file kosong
+              if (
+                type === "create" &&
+                (!fileValue || fileValue.trim() === "")
+              ) {
+                return false; // Validasi tidak lolos jika mode create dan file kosong
+              }
+
+              return true; // Validasi lolos
+            },
           },
         },
       },
@@ -381,7 +409,7 @@ $(function () {
       return;
     }
 
-    var formData = new FormData(addNewPersonelTeamsForm);
+    var formData = new FormData(addNewReimbursement);
 
     $.ajax({
       data: formData,
@@ -405,7 +433,7 @@ $(function () {
           },
         });
         $("#addEditReimbursementForm").trigger("reset");
-        dt_personelTeams.ajax.reload(null, false);
+        dt_reimbursement.ajax.reload(null, false);
       },
       error: function (xhr, status, error) {
         Swal.fire({

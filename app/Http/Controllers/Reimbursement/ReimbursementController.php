@@ -138,7 +138,6 @@ class ReimbursementController extends Controller
 
         $dataDefault = DB::table('reimbursements')->where('id', $id)->first();
     
-
         try {
 
             $file = $request->file('file');
@@ -177,8 +176,37 @@ class ReimbursementController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
     // END UPDATE DATA
+
+
+    public function show($id)
+    {
+        
+        $data = DB::table('reimbursements')
+                    ->where('reimbursements.id', $id)
+                    ->join('opties', 'reimbursements.nama_project', '=', 'opties.id')
+                    ->select(
+                        'reimbursements.id',
+                        'reimbursements.id_reimbursement',
+                        'opties.project_name as nama_project', // Aliaskan 'project_name' dari 'opties' menjadi 'nama_project'
+                        'reimbursements.pic_bussiness_channel',
+                        'reimbursements.client',
+                        'reimbursements.keterangan',
+                        'reimbursements.file',
+                        'reimbursements.created_at'
+                    )
+                    ->first();
+        
+        if ($data) {
+            $reimbursement = (array) $data;
+        } else {
+            $reimbursement = [];
+        }
+
+        $reimbursement['created_at'] = Carbon::parse($reimbursement['created_at'])->format('Y-m-d, H:i:s');
+
+        return view('reimbursement.detail', compact('reimbursement'));
+    }
 
 
     public function destroy($id)
