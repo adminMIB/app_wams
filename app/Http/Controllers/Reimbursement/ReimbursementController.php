@@ -23,12 +23,13 @@ class ReimbursementController extends Controller
         if ($request->ajax()) {
             $data = DB::table('reimbursements')
                 ->join('opties', 'reimbursements.nama_project', '=', 'opties.id') // Lakukan join dengan menggunakan nama_project dari reimbursements dan id dari opties
+                ->join('customers', 'reimbursements.customer', '=', 'customers.id') 
                 ->select(
                     'reimbursements.id',
                     'reimbursements.id_reimbursement',
                     'opties.project_name as nama_project', // Aliaskan 'project_name' dari 'opties' menjadi 'nama_project'
                     'reimbursements.pic_bussiness_channel',
-                    'reimbursements.client',
+                    'customers.name as customer', // Aliaskan 'project_name' dari 'opties' menjadi 'nama_project'
                     'reimbursements.keterangan',
                     'reimbursements.file',
                     'reimbursements.created_at'
@@ -62,10 +63,12 @@ class ReimbursementController extends Controller
             'id_reimbursement'      => 'required',
             'nama_project'          => 'required',
             'pic_businees_channels' => 'required',
-            'client'                => 'required',
             'keterangan'            => 'required',
             'file'                  => 'required|file'
         ]);
+
+        // ambil customer berdasarkan nama project
+        $customer = DB::table('opties')->where('id', $request->nama_project)->first();
 
         try {
             $path = public_path('uploads/reimbursements');
@@ -83,7 +86,7 @@ class ReimbursementController extends Controller
                 "id_reimbursement"      => $request->id_reimbursement,
                 "nama_project"          => $request->nama_project,
                 "pic_bussiness_channel" => $request->pic_businees_channels,
-                "client"                => $request->client,
+                "customer"              => $customer->customer_id,
                 "keterangan"            => $request->keterangan,
                 "file"                  => $file_name,
                 "created_at"            => Carbon::now(),
@@ -101,7 +104,6 @@ class ReimbursementController extends Controller
     // UPDATE DATA
     public function edit($id)
     {    
-
         $reimbursement = DB::table('reimbursements')
             ->where('reimbursements.id', $id)
             ->join('opties', 'reimbursements.nama_project', '=', 'opties.id')
@@ -110,7 +112,6 @@ class ReimbursementController extends Controller
                 'reimbursements.id_reimbursement',
                 'opties.id as nama_project',
                 'reimbursements.pic_bussiness_channel',
-                'reimbursements.client',
                 'reimbursements.keterangan',
                 'reimbursements.file',
                 'reimbursements.created_at'
@@ -181,32 +182,43 @@ class ReimbursementController extends Controller
 
     public function show($id)
     {
+        $projects = DB::table('opties')->select('id', 'project_name', 'customer_id' )->latest('id')->get();
+
+        $personelTeams = DB::table('personel_teams')->select('id', 'name')->latest('id')->get();
+
+
+        $dataIDReimbursements = DB::table('reimbursements')->select('id_reimbursement')->get();
+
+        $reimbursement = DB::table('reimbursements')
+                        ->where('reimbursements.id', $id)
+                        ->join('opties', 'reimbursements.nama_project', '=', 'opties.id')
+                        ->join('customers', 'reimbursements.customer', '=', 'customers.id') 
+                        ->select(
+                            'reimbursements.id',
+                            'reimbursements.id_reimbursement',
+                            'opties.project_name as nama_project',
+                            'reimbursements.pic_bussiness_channel',
+                            'customers.name as customer', // Aliaskan 'project_name' dari 'opties' menjadi 'nama_project'
+                            'reimbursements.keterangan',
+                            'reimbursements.file',
+                            'reimbursements.created_at'
+                        )
+                        ->first();
         
-        $data = DB::table('reimbursements')
-                    ->where('reimbursements.id', $id)
-                    ->join('opties', 'reimbursements.nama_project', '=', 'opties.id')
-                    ->select(
-                        'reimbursements.id',
-                        'reimbursements.id_reimbursement',
-                        'opties.project_name as nama_project', // Aliaskan 'project_name' dari 'opties' menjadi 'nama_project'
-                        'reimbursements.pic_bussiness_channel',
-                        'reimbursements.client',
-                        'reimbursements.keterangan',
-                        'reimbursements.file',
-                        'reimbursements.created_at'
-                    )
-                    ->first();
-        
-        if ($data) {
-            $reimbursement = (array) $data;
+        if ($reimbursement) {
+            $reimbursement = (array) $reimbursement;
+            $reimbursement['created_at'] = Carbon::parse($reimbursement['created_at'])->format('Y-m-d, H:i:s');
         } else {
             $reimbursement = [];
         }
 
-        $reimbursement['created_at'] = Carbon::parse($reimbursement['created_at'])->format('Y-m-d, H:i:s');
+        // Render view add-edit sebagai string HTML
+        $addEditView = view('reimbursement.modalMaker.add-edit', compact('reimbursement', 'personelTeams'))->render();
 
-        return view('reimbursement.detail', compact('reimbursement'));
-    }
+        // Kirim view detail dengan view add-edit sebagai bagian dari data
+        return view('reimbursement.detail', compact('reimbursement', 'addEditView', "projects", "dataIDReimbursements", "personelTeams"));
+    }   
+
 
 
     public function destroy($id)

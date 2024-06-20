@@ -13,7 +13,7 @@
                     <input type="hidden" name="_method" id="_method" value="">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label" for="id_reimbursement">ID Reimbursement</label>
+                            <label class="form-label" for="id_reimbursement">ID Reimbursement </label>
                             <input type="text" id="id_reimbursement" name="id_reimbursement" class="form-control"
                                 placeholder="ID Reimbursement" autocomplete="off" autofocus />
                         </div>
@@ -30,16 +30,12 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label class="form-label" for="pic_businees_channels">PIC Business Channel</label>
                             <input type="text" id="pic_businees_channels" name="pic_businees_channels"
                                 class="form-control" placeholder="PIC Business Channel" autofocus />
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label" for="client">Client</label>
-                            <input type="text" id="client" name="client" class="form-control" placeholder="Client"
-                                autofocus />
-                        </div>
+                     
                         <div class="col-12 mb-3">
                             <label class="form-label" for="keterangan">Keterangan</label>
                             <textarea name="keterangan" id="keterangan" rows="10" class="form-control"

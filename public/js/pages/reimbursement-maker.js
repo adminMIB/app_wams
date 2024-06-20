@@ -1,6 +1,10 @@
 $(function () {
-  var dataTableReimbursement = $(".datatables-reimbursement"),
-    dt_reimbursement;
+  var dataTableReimbursementMaker = $(".datatables-reimbursement-maker"),
+    dt_reimbursement_maker;
+
+  var totalAdvanceMakerReimbursement = $(".total-advance-reimbuersement-maker");
+
+  var reimbursementId = $("#rembursement_id_detail").val();
 
   // Pengaturan ajax
   $.ajaxSetup({
@@ -10,27 +14,37 @@ $(function () {
   });
 
   // List datatable
-  if (dataTableReimbursement.length) {
-    dt_reimbursement = dataTableReimbursement.DataTable({
+  if (dataTableReimbursementMaker.length) {
+    dt_reimbursement_maker = dataTableReimbursementMaker.DataTable({
       serverSide: true,
       processing: true,
       ajax: {
-        url: "/reimbursement",
+        url: `/reimbursement/${reimbursementId}/details`,
         type: "GET",
-        data: function (d) {
-          d.search.value = $("input[type=search]").val() || "";
+        // data: function (d) {
+        //   d.search.value = $("input[type=search]").val() || "";
+        // },
+        dataSrc: function (json) {
+          var total = 0;
+          json.data.forEach(function (item) {
+            // Hapus "Rp." dan titik agar bisa diubah menjadi angka dengan benar
+            var nominal = item.nominal.replace(/[^0-9]/g, "");
+            total += parseFloat(nominal);
+          });
+
+          totalAdvanceMakerReimbursement.text(
+            "Total Advance : Rp. " + total.toLocaleString("id-ID")
+          );
+          return json.data;
         },
       },
       columns: [
         { data: "" },
         { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false },
         { data: "id" },
-        { data: "id_reimbursement" },
-        { data: "nama_project" },
-        { data: "pic_bussiness_channel" },
-        { data: "customer" },
-        { data: "keterangan" },
-        { data: "created_at" },
+        { data: "tanggal" },
+        { data: "nama_pic" },
+        { data: "nominal" },
         { data: "" },
       ],
       columnDefs: [
@@ -53,50 +67,21 @@ $(function () {
           targets: 3,
           searchable: true,
           render: function (data, type, full, meta) {
-            return (
-              '<span class="text-nowrap">' + full.id_reimbursement + "</span>"
-            );
+            return '<span class="text-nowrap">' + full.tanggal + "</span>";
           },
         },
         {
           targets: 4,
           orderable: false,
           render: function (data, type, full, meta) {
-            return (
-              '<span class="text-nowrap">' + full.nama_project + " </span>"
-            );
+            return '<span class="text-nowrap">' + full.nama_pic + "</span>";
           },
         },
         {
           targets: 5,
           orderable: false,
           render: function (data, type, full, meta) {
-            return (
-              '<span class="text-nowrap">' +
-              full.pic_bussiness_channel +
-              "</span>"
-            );
-          },
-        },
-        {
-          targets: 6,
-          orderable: false,
-          render: function (data, type, full, meta) {
-            return '<span class="text-nowrap">' + full.customer + "</span>";
-          },
-        },
-        {
-          targets: 7,
-          orderable: false,
-          render: function (data, type, full, meta) {
-            return '<span class="text-nowrap">' + full.keterangan + "</span>";
-          },
-        },
-        {
-          targets: 8,
-          orderable: false,
-          render: function (data, type, full, meta) {
-            return '<span class="text-nowrap">' + full.created_at + "</span>";
+            return '<span class="text-nowrap">' + full.nominal + "</span>";
           },
         },
         {
@@ -107,13 +92,13 @@ $(function () {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-flex align-items-center">' +
-              `<a class="btn btn-sm btn-icon me-2" href="/reimbursement/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>` +
               `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>` +
               '<div class="dropdown">' +
+              `<button class="btn btn-sm btn-icon delete-record" data-id="${full["id"]}"><i class="ti ti-trash"></i></button>` +
               '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>' +
               '<div class="dropdown-menu dropdown-menu-end">' +
-              // `<a href="javascript:;" class="dropdown-item move" data-id="${full["id"]}" data-bs-target="#moveData" data-bs-toggle="modal" data-bs-dismiss="modal">Pindah ke Project</a>` +
-              `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>` +
+              `<a href="javascript:;" class="dropdown-item move pindah-data-record" data-id="${full["id"]}" data-bs-target="#pindahDataReimbursementMaker data-bs-toggle="modal" data-bs-dismiss="modal">Pindah ke Project</a>` +
+              // `<a href="javascript:;" class="dropdown-item move pindah-data-record" data-id="${full["id"]}" data-bs-toggle="modal" data-bs-target="#pindahDataReimbursementMaker>Pindah ke Project</a>` +
               "</div>" +
               "</div>" +
               "</div>"
@@ -125,7 +110,7 @@ $(function () {
       dom:
         '<"row mx-1"' +
         '<"col-sm-12 col-md-3" l>' +
-        '<"col-sm-12 col-md-9"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-md-end justify-content-center flex-wrap me-1"<"me-3"f>B>>' +
+        '<"col-sm-12 col-md-9"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-md-end justify-content-center flex-wrap me-1"<"me-3"B>>>' +
         ">t" +
         '<"row mx-2"' +
         '<"col-sm-12 col-md-6"i>' +
@@ -138,7 +123,7 @@ $(function () {
       },
       buttons: [
         {
-          text: "Add Reimbursement",
+          text: "Add Maker",
           className: "add-new btn btn-primary mb-3 mb-md-0 create-record",
           attr: {
             "data-type": "create",
@@ -186,7 +171,7 @@ $(function () {
   }
 
   // Hapus Record
-  $(".datatables-reimbursement tbody").on(
+  $(".datatables-reimbursement-maker tbody").on(
     "click",
     ".delete-record",
     function () {
@@ -211,9 +196,9 @@ $(function () {
           // hapus data
           $.ajax({
             type: "DELETE",
-            url: `/reimbursement/${idReimbursement}`,
+            url: `/reimbursement-maker/${idReimbursement}`,
             success: function () {
-              dt_reimbursement.ajax.reload(null, false);
+              dt_reimbursement_maker.ajax.reload(null, false);
             },
             error: function (error) {
               console.log(error);
@@ -224,7 +209,7 @@ $(function () {
           Swal.fire({
             icon: "success",
             title: "Deleted!",
-            text: "Reimbursement has been deleted!",
+            text: "Transaction Maker has been deleted!",
             customClass: {
               confirmButton: "btn btn-success",
             },
@@ -232,7 +217,7 @@ $(function () {
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire({
             title: "Cancelled",
-            text: "The Reimbursement is not deleted!",
+            text: "The Transaction Maker is not deleted!",
             icon: "error",
             customClass: {
               confirmButton: "btn btn-success",
@@ -243,102 +228,105 @@ $(function () {
     }
   );
 
-  // detail data
-  $(".datatables-reimbursement tbody").on(
-    "click",
-    ".detail-record",
-    function () {
-      var id = $(this).data("id");
-      $.get(`/master-data/personel-teams/${id}`, function (data, status) {
-        $("#title-detail").text(`Detail Perosonel Teams, ${data.divisi}`);
-
-        $("table.borderless tbody").empty();
-
-        var rows = "";
-        for (var key in data) {
-          rows +=
-            "<tr>" +
-            "<td>" +
-            key.replace(/_/g, " ").toUpperCase() +
-            "</td>" +
-            "<td>:</td>" +
-            "<td>" +
-            data[key] +
-            "</td>" +
-            "</tr>";
-        }
-
-        $("table.borderless tbody").append(rows);
-      });
-    }
-  );
-
   // MODAL AKSI ADD dan EDIT DAN, VALIDATION
   $(document).on("click", ".create-record", function () {
-    $("#addEditReimbursementForm").trigger("reset");
+    $("#addEditReimbursementFormMaker").trigger("reset");
     var type = $(this).data("type");
-    $("#addEditReimbursement").modal("show");
+    $("#addEditReimbursementMaker").modal("show");
     $("#type").val(type);
     $("#_method").val(""); // Clear the method for create
-    $("#title-header").text("Add Reimbursement");
+    $("#title-header").text("Add Transaction Maker ");
     $("#file-info").hide();
+    $("#file-info2").hide();
   });
 
   $(document).on("click", ".edit-record", function () {
-    var type = $(this).data("type");
     var id = $(this).data("id");
 
-    $("#addEditReimbursement").modal("show");
-    $("#type").val(type);
-    $("#rembursement_id").val(id);
+    $("#addEditReimbursementMaker").modal("show");
+    $("#type").val("edit");
+    // $("#rembursement_id").val(id);
     $("#_method").val("PUT"); // Set method to PUT for edit
 
-    $.get(`/reimbursement/${id}/edit`, function (data, status) {
-      $("#title-header").text(`Edit Reimbursement`);
-      $("#id_reimbursement").val(data.reimbursement.id_reimbursement);
-      $("#nama_project").val(data.reimbursement.nama_project);
-      $("#pic_businees_channels").val(data.reimbursement.pic_bussiness_channel);
-      // $("#customer").val(data.reimbursement.customer);
-      $("#keterangan").val(data.reimbursement.keterangan);
-      $("#file").val(data.reimbursement.file);
-      $("#file-info").show();
+    $.ajax({
+      url: `/reimbursement-maker/${id}/edit`,
+      type: "GET",
+      success: function (data, status) {
+        $("#title-header").text(`Edit Transaction Maker`);
+        $("#tanggal_reimbursement").val(data.reimbursementMaker.tanggal);
+        $("#nama_pic").val(data.reimbursementMaker.nama_pic);
+        $("#nominal_reimbursement").val(data.reimbursementMaker.nominal);
+        $("#keterangan").val(data.reimbursementMaker.keterangan);
+        $("#file").val(data.reimbursementMaker.file);
+        $("#file-info").show();
+        $("#file-info2").show();
+        $("#id").val(id);
+      },
+      error: function () {
+        alert("Terjadi kesalahan. Silakan coba lagi.");
+      },
     });
   });
 
-  const addNewReimbursement = document.getElementById(
-    "addEditReimbursementForm"
+  // fitur pindah data
+  $(document).on("click", ".pindah-data-record", function () {
+    var id = $(this).data("id");
+    // Set value of hidden input 'id'
+    $("#id_maker").val(id);
+
+    // Show the modal
+    $("#pindahDataReimbursementMaker").modal("show");
+
+    // Make AJAX call to fetch data
+    $.ajax({
+      url: `/reimbursement-maker/${id}/edit`,
+      type: "GET",
+      success: function (data) {
+        $("#title-header").text(`Move Transaction Maker`);
+        $("#id_project_reimbursement").val(
+          data.reimbursement.id_project_reimbursement
+        );
+      },
+      error: function () {
+        alert("Terjadi kesalahan. Silakan coba lagi.");
+      },
+    });
+  });
+
+  const addNewReimbursementMaker = document.getElementById(
+    "addEditReimbursementFormMaker"
   );
 
-  const fv = FormValidation.formValidation(addNewReimbursement, {
+  const fv = FormValidation.formValidation(addNewReimbursementMaker, {
     fields: {
-      id_reimbursement: {
+      tanggal_reimbursement: {
         validators: {
           notEmpty: {
-            message: "ID Reimbursement tidak boleh kosong",
+            message: "Tanggal Reimbursement tidak boleh kosong",
           },
         },
       },
-      nama_project: {
+      nama_pic: {
         validators: {
           notEmpty: {
-            message: "Nama Project tidak boleh kosong",
+            message: "Nama PIC tidak boleh kosong",
           },
         },
       },
-      pic_businees_channels: {
+      nominal_reimbursement: {
         validators: {
           notEmpty: {
-            message: "PIC Business Channel tidak boleh kosong",
+            message: "Nominal Reimbursement tidak boleh kosong",
           },
         },
       },
-      // customer: {
-      //   validators: {
-      //     notEmpty: {
-      //       message: "customer tidak boleh kosong",
-      //     },
-      //   },
-      // },
+      client: {
+        validators: {
+          notEmpty: {
+            message: "Client tidak boleh kosong",
+          },
+        },
+      },
       keterangan: {
         validators: {
           notEmpty: {
@@ -346,14 +334,36 @@ $(function () {
           },
         },
       },
-      file: {
+      file_kwitansi: {
         validators: {
           // Gunakan callback untuk menentukan kapan validasi file harus ditampilkan
           callback: {
             message: "File tidak boleh kosong",
             callback: function (value, validator, $field) {
               var type = $("#type").val(); // Dapatkan nilai dari input type
-              var fileValue = $("#file").val(); // Dapatkan nilai dari input file
+              var fileValue = $("#file_kwitansi").val(); // Dapatkan nilai dari input file
+
+              // Periksa apakah dalam mode create dan file kosong
+              if (
+                type === "create" &&
+                (!fileValue || fileValue.trim() === "")
+              ) {
+                return false; // Validasi tidak lolos jika mode create dan file kosong
+              }
+
+              return true; // Validasi lolos
+            },
+          },
+        },
+      },
+      file_mom: {
+        validators: {
+          // Gunakan callback untuk menentukan kapan validasi file harus ditampilkan
+          callback: {
+            message: "File tidak boleh kosong",
+            callback: function (value, validator, $field) {
+              var type = $("#type").val(); // Dapatkan nilai dari input type
+              var fileValue = $("#file_mom").val(); // Dapatkan nilai dari input file
 
               // Periksa apakah dalam mode create dan file kosong
               if (
@@ -384,18 +394,18 @@ $(function () {
     var type = $("#type").val(),
       url,
       method,
-      rmbs_team_id = $("#rembursement_id").val();
+      rembursement_id = $("#rembursement_id").val();
 
     if (type == "create") {
-      url = `/reimbursement`;
+      url = `/reimbursement-maker`;
       method = "POST";
-    } else if (type == "edit" && rmbs_team_id) {
-      url = `/reimbursement/${rmbs_team_id}`;
+    } else if (type == "edit" && rembursement_id) {
+      url = `/reimbursement-maker/${rembursement_id}`;
       method = "POST"; // Form method is POST, _method is overridden to PUT
     } else {
       Swal.fire({
         title: "Error!",
-        text: "Reimbursement ID is missing for editing.",
+        text: "Transaction Maker ID is missing for editing.",
         icon: "error",
         customClass: {
           confirmButton: "btn btn-danger",
@@ -404,7 +414,7 @@ $(function () {
       return;
     }
 
-    var formData = new FormData(addNewReimbursement);
+    var formData = new FormData(addNewReimbursementMaker);
 
     $.ajax({
       data: formData,
@@ -416,19 +426,19 @@ $(function () {
         console.log(...formData.entries()); // Debugging: Menampilkan semua entri form data
       },
       success: function (response) {
-        $("#addEditReimbursement").modal("hide");
+        $("#addEditReimbursementMaker").modal("hide");
         Swal.fire({
           icon: "success",
           title: `Successfully ${type === "create" ? "created" : "edited"}!`,
-          text: `Reimbursement ${
+          text: `Transaction Maker ${
             type === "create" ? "created" : "edited"
           } successfully.`,
           customClass: {
             confirmButton: "btn btn-success",
           },
         });
-        $("#addEditReimbursementForm").trigger("reset");
-        dt_reimbursement.ajax.reload(null, false);
+        $("#addEditReimbursementFormMaker").trigger("reset");
+        dt_reimbursement_maker.ajax.reload(null, false);
       },
       error: function (xhr, status, error) {
         Swal.fire({

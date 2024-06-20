@@ -18,7 +18,7 @@ class Reimbursements extends Migration
             $table->string('id_reimbursement');
             $table->integer('nama_project');
             $table->string('pic_bussiness_channel');
-            $table->string('client');
+            $table->integer('customer');
             $table->string('keterangan');
             $table->string('file');
             $table->timestamps();
