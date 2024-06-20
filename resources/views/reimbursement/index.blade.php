@@ -54,7 +54,7 @@
                         <th>Id Reimbursements</th>
                         <th>Nama Project</th>
                         <th>Pic Bussines Channel</th>
-                        <th>Client</th>
+                        <th>Customer</th>
                         <th>Keterangan</th>
                         <th>Created Date</th>
                         <th>Action</th>

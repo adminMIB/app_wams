@@ -4,6 +4,8 @@ use App\Http\Controllers\MasterData\CustomerController;
 use App\Http\Controllers\OptyController;
 use App\Http\Controllers\MasterData\PersonelTeamController;
 use App\Http\Controllers\Reimbursement\ReimbursementController;
+use App\Http\Controllers\Reimbursement\TransactionMakerReimbursementController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,5 +35,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     // reimbursement
     Route::resource('reimbursement', ReimbursementController::class);
+        // maker
+        Route::get('reimbursement/{id}/details', [TransactionMakerReimbursementController::class, 'showDetails'])->name('reimbursement.details');
+        Route::post('/reimbursement-maker-move-transaction/{id}/update', [TransactionMakerReimbursementController::class, 'moveTransactionMakerReimbursmenet'])
+    ->name('reimbursement-maker-move-transaction.update');
+    
+        Route::resource('reimbursement-maker', TransactionMakerReimbursementController::class);
+ 
 
 });
