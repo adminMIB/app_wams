@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Opty;
+use App\Models\OptyMaker;
+use App\Models\Project;
+use App\Models\ProjectMaker;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +29,8 @@ class OptyController extends Controller
                     "customers.name",
                     "opties.account_manager",
                     "opties.revenue_sales",
-                    "opties.created_at"
+                    "opties.created_at",
+                    'opties.is_moved'
                 )
                 ->where('opties.is_moved', $request->is_moved)
                 ->latest('opties.id');
@@ -75,19 +79,8 @@ class OptyController extends Controller
         ]);
 
         try {
-            $path = public_path('uploads/opty');
-
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0755, true, true);
-            }
-
-            $file = $request->file('file');
-            $file_ext = $file->getClientOriginalName();
-            $file_name = time() . '-' . str_replace(" ", "_", $file_ext);
-            $file->move($path, $file_name);
-
             $requestAll = $request->all();
-            $requestAll['file'] = $file_name;
+            $requestAll['file'] = $this->saveFile($request->file('file'));
             $requestAll['revenue_sales'] = str_replace([".", ","], "", $request->revenue_sales);
 
             $insert = Opty::create($requestAll);
@@ -128,9 +121,7 @@ class OptyController extends Controller
                     unlink($pathFile);
                 }
 
-                $file_ext = $file->getClientOriginalName();
-                $fileName = time() . '-' . str_replace(" ", "_", $file_ext);
-                $file->move($path, $fileName);
+                $fileName = $this->saveFile($file);
             }
 
             $data = $request->all();
@@ -168,7 +159,8 @@ class OptyController extends Controller
                 "opties.account_manager",
                 "opties.revenue_sales",
                 "opties.file",
-                "opties.created_at"
+                "opties.created_at",
+                "opties.is_moved"
             )
             ->where('opties.id', $id)
             ->first();
@@ -182,7 +174,9 @@ class OptyController extends Controller
         $opty['created_at'] = Carbon::parse($opty['created_at'])->format('Y-m-d, H:i:s');
         $opty['revenue_sales'] = "Rp. " . number_format($opty['revenue_sales']);
 
-        return view('dashboard.opty.detail', compact('opty'));
+        $optyMaker = OptyMaker::where('opty_id', $id)->get();
+
+        return view('dashboard.opty.detail', compact('opty', 'optyMaker'));
     }
 
     public function destroy($id)
@@ -203,5 +197,91 @@ class OptyController extends Controller
         } catch (\Exception $e) {
             return response()->json($e->getMessage())->setStatusCode(500);
         }
+    }
+
+    public function move_to_project(Request $request, $opty_id)
+    {
+        DB::beginTransaction();
+        try {
+            $opty = Opty::find($opty_id);
+            $optyMaker = OptyMaker::where('opty_id', $opty_id)->get();
+            $insertData = [];
+
+            $project = Project::create([
+                'id_project' => $request->id_project,
+                'opty_id' => $opty_id,
+                'bmt' => $opty->revenue_sales,
+            ]);
+
+            if (count($optyMaker) > 0) {
+                foreach ($optyMaker as $row) {
+                    $insertData[] = [
+                        "project_id" => $project->id,
+                        "tanggal" => $row->date_trx,
+                        "jenis_transaksi" => $row->jenis_trx,
+                        "nama_tujuan" => $row->nama_penerima,
+                        "nominal" => $row->nominal_trx,
+                        "keterangan" => $row->keterangan,
+                        "file" => !empty($row->file) ? $row->file : '',
+                        "created_at" => $row->created_at,
+                        "updated_at" => $row->updated_at
+                    ];
+
+                    $source_path = public_path("uploads/opty-maker/{$row->file}");
+                    $destination = public_path("uploads/projects-maker/{$row->file}");
+
+                    if (File::exists($source_path)) {
+                        $destination_directory = dirname($destination);
+                        if (!File::exists($destination_directory)) {
+                            File::makeDirectory($destination_directory, 0755, true, true);
+                        }
+
+                        File::copy($source_path, $destination);
+                    } else {
+                        Log::warning("File tidak ditemukan: $source_path");
+                    }
+                }
+
+                ProjectMaker::insert($insertData);
+            }
+
+            $opty->update(['is_moved' => true]);
+
+            DB::commit();
+
+            return redirect('/project/' . $project->id . '/edit')->with([
+                'message' => "Berhasil memindah data Opty $opty->project_name ke Project",
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    private function saveFile($request)
+    {
+        $path = public_path('uploads/opty');
+
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0755, true, true);
+        }
+
+        $file = $request;
+        $file_ext = $file->getClientOriginalName();
+        $file_name = time() . '-' . str_replace(" ", "_", $file_ext);
+        $file->move($path, $file_name);
+
+        return $file_name;
+    }
+
+    public function getOptyByTerm(Request $request)
+    {
+        $q = $request->term;
+        $data = Opty::where('is_moved', false)
+            ->orWhere('code_opty', 'LIKE', '%' . $q . '%')
+            ->orWhere('project_name', 'LIKE', '%' . $q . '%')
+            ->get(['id', 'project_name']);
+
+        return response()->json(['content' => $data]);
     }
 }

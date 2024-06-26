@@ -150,7 +150,8 @@
                                 @foreach ($customer as $item)
                                     <option value="{{ $item->id }}"
                                         {{ (old('customer_id') ?? (isset($opty) ? $opty->customer_id : '')) == $item->id ? 'selected' : '' }}>
-                                        {{ $item->name }}</option>
+                                        {{ $item->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             <p class="text-danger">{{ $errors->first('customer_id') }}</p>

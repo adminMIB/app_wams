@@ -7,7 +7,7 @@
                     <h3 class="mb-4" id="title-detail">Create Opty Maker</h3>
                 </div>
 
-                <form id="addEditOptyMakerFrom" class="row" method="POST">
+                <form id="addEditOptyMakerFrom" class="row" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="form-group row mb-4">
@@ -15,13 +15,25 @@
                                 Tanggal Transaksi
                             </label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="date" class="form-control" name="date_trx" id="date_trx"
-                                    placeholder="Tanggal Transaksi" autocomplete="Off" required>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="ti ti-calendar"></i></span>
+                                    <input
+                                        type="text"
+                                        id="date_trx"
+                                        name="date_trx"
+                                        class="form-control"
+                                        placeholder="Tanggal Transaksi"
+                                        autofocus
+                                        readonly
+                                        autocomplete="off">
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Jenis Transaksi</label>
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3" for="jenis_trx">
+                                Jenis Transaksi
+                            </label>
                             <div class="col-sm-12 col-md-7">
                                 <select
                                     class="form-control"
@@ -35,6 +47,7 @@
                                     <option value="cash">Cash</option>
                                     <option value="PO">PO</option>
                                 </select>
+                                <p class="text-danger">{{ $errors->first('jenis_trx') }}</p>
                             </div>
                         </div>
 
@@ -43,17 +56,18 @@
                                 Nominal Transaksi
                             </label>
                             <div class="col-sm-12 col-md-7">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Rp</span>
-                                    </div>
+                                <div class="input-group">
+                                    <span class="input-group-text" id="rp">Rp</span>
                                     <input
                                         type="text"
-                                        class="form-control uang"
                                         id="nominal_trx"
                                         name="nominal_trx"
-                                        min=1 required autocomplete="off">
+                                        class="form-control uang"
+                                        placeholder="Nominal Transaksi"
+                                        autofocus
+                                        autocomplete="off">
                                 </div>
+                                <p class="text-danger">{{ $errors->first('nominal_trx') }}</p>
                             </div>
                         </div>
 
@@ -79,8 +93,8 @@
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3" for="keterangan">
                                 Keterangan Kode Akun
                             </label>
-                            <div class="col-sm-12 col-md-7">
-                                <select class="form-control select2" name="keterangan" id="keterangan" required style="width: 100%">
+                            <div class="col-sm-12 col-md-7 mb-4">
+                                <select class="form-control select2" name="keterangan" id="keterangan" required>
                                     <option value="">----PILIH----</option>
                                     <option value="1">HPP</option>
                                     <option value="2">Biaya BMT</option>
@@ -101,6 +115,21 @@
                                 <p class="text-danger">{{ $errors->first('keterangan') }}</p>
                             </div>
                         </div>
+
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3" for="file">File</label>
+                            <div class="col-sm-12 col-md-7">
+                                <input
+                                    type="file"
+                                    name="file"
+                                    id="file"
+                                    class="form-control"
+                                    accept="application/pdf,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                >
+                                <p class="text-danger">{{ $errors->first('file') }}</p>
+                                <p class="text-muted" id="file-edit"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-12 text-center demo-vertical-spacing">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
@@ -112,4 +141,3 @@
         </div>
     </div>
 </div>
-<!--/ Add Permission Modal -->

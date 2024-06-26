@@ -17,17 +17,19 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->string('id_project')->unique();
             $table->integer('opty_id');
+            $table->integer('principal_id')->nullable();
             $table->string('file')->nullable();
             $table->json('component')->nullable();
-            $table->integer('keterangan')->nullable();
             $table->bigInteger('bmt')->nullable();
-            $table->bigInteger('services')->nullable();
-            $table->string('lain')->nullable();
-            $table->bigInteger('subtotal')->nullable();
-            $table->bigInteger('bunga_admin')->nullable();
+            $table->bigInteger('end_user')->nullable()->default(0);
+            $table->bigInteger('delivery')->nullable()->default(0);
+            $table->bigInteger('wapu')->nullable()->default(0);
+            $table->bigInteger('service')->nullable()->default(0);
+            $table->bigInteger('subtotal')->nullable()->default(0);
+            $table->bigInteger('bunga_admin')->nullable()->default(0);
             $table->bigInteger('biaya_admin')->nullable();
-            $table->bigInteger('biaya_pengurangan')->nullable();
-            $table->bigInteger('total_final')->nullable();
+            $table->bigInteger('biaya_pengurangan')->nullable()->default(0);
+            $table->bigInteger('total_final')->nullable()->default(0);
             $table->timestamps();
         });
     }

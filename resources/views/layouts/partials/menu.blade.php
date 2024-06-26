@@ -31,7 +31,7 @@
         <li
             class="menu-item {{
                 request()->is('master-data/customers*') ||
-                request()->is('master-data/principals') ||
+                request()->is('master-data/principals*') ||
                 request()->is('master-data/personel-teams')
                 ? 'open'
                 : ''
@@ -46,8 +46,8 @@
                         <div data-i18n="Customers">Customers</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ request()->is('master-data/principals') ? 'active' : '' }}">
+                    <a href="{{ route('principals.index') }}" class="menu-link">
                         <div data-i18n="Principal">Principal</div>
                     </a>
                 </li>
@@ -64,7 +64,8 @@
         </li>
         <li class="menu-item {{
             request()->is('opty*') ||
-            request()->is('project*')
+            request()->is('project*') ||
+            request()->is('incomplete-projects')
             ? 'open'
             : ''
         }}">
@@ -73,10 +74,26 @@
                 <div data-i18n="ACDC">ACDC</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <div data-i18n="Project">Project</div>
+                <li class="menu-item {{
+                    request()->is('project*') ||
+                    request()->is('incomplete-projects')
+                    ? 'open' : ''
+                }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                      <div data-i18n="Projects">Projects</div>
                     </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->is('project*') ? 'active' : '' }}">
+                            <a href="/project" class="menu-link">
+                                <div data-i18n="List Data">List Data</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('incomplete-projects') ? 'active' : '' }}">
+                            <a href="/incomplete-projects" class="menu-link">
+                                <div data-i18n="List Data (Belum lengkap)">List Data (Belum lengkap)</div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="menu-item {{ request()->is('opty*') ? 'active' : '' }}">
                     <a href="/opty" class="menu-link">
@@ -86,7 +103,7 @@
             </ul>
         </li>
         <li class="menu-item {{
-            request()->is('reimbursement*') 
+            request()->is('reimbursement*')
             ? 'open'
             : ''
         }}">

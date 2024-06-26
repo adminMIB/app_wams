@@ -1,4 +1,3 @@
-<!-- Add Permission Modal -->
 <div class="modal fade" id="addEditPersonalTeams" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content p-3 p-md-5">
@@ -33,4 +32,3 @@
         </div>
     </div>
 </div>
-<!--/ Add Permission Modal -->

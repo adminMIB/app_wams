@@ -105,11 +105,12 @@
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
-    <!-- Page JS -->
-    @stack('js')
-
+    
     @yield('page-script')
     <!-- END: Page JS-->
+    
+    <!-- Page JS -->
+    @stack('js')
 </body>
 
 </html>

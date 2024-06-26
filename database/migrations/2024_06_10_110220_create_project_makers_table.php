@@ -20,7 +20,7 @@ class CreateProjectMakersTable extends Migration
             $table->string('jenis_transaksi')->nullable();
             $table->string('nama_tujuan');
             $table->bigInteger('nominal')->nullable();
-            $table->string('keterangan')->nullable();
+            $table->integer('keterangan')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
         });

@@ -99,20 +99,23 @@ $(function () {
           title: "Actions",
           orderable: false,
           render: function (data, type, full, meta) {
-            return (
-              '<div class="d-flex align-items-center">' +
-              `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>` +
-              `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="ti ti-edit"></i></a>` +
-              '<div class="dropdown">' +
-              '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>' +
-              '<div class="dropdown-menu dropdown-menu-end">' +
-              `<a href="javascript:;" class="dropdown-item move" data-id="${full["id"]}" data-bs-target="#moveData" data-bs-toggle="modal" data-bs-dismiss="modal">Pindah ke Project</a>` +
-              `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>` +
-              "</div>" +
-              "</div>" +
-              "</div>"
-            );
-          },
+            let html = '<div class="d-flex align-items-center">';
+            html += `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>`;
+          
+            if (full.is_moved === false) {
+              html += `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="ti ti-edit"></i></a>`;
+              html += '<div class="dropdown">';
+              html += '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>';
+              html += '<div class="dropdown-menu dropdown-menu-end">';
+              html += `<a href="javascript:;" class="dropdown-item move-record" data-id="${full["id"]}">Pindah ke Project</a>`;
+              html += `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>`;
+              html += '</div>';
+              html += '</div>';
+            }
+          
+            html += '</div>';
+            return html;
+          }
         },
       ],
       order: [[1, "desc"]],
@@ -141,40 +144,40 @@ $(function () {
         },
       ],
       // For responsive popup
-      responsive: {
-        details: {
-          display: $.fn.dataTable.Responsive.display.modal({
-            header: function (row) {
-              var data = row.data();
-              return "Details of " + data["project_name"];
-            },
-          }),
-          type: "column",
-          renderer: function (api, rowIdx, columns) {
-            var data = $.map(columns, function (col, i) {
-              return col.title !== "" // ? Do not show row in modal popup if title is blank (for check box)
-                ? '<tr data-dt-row="' +
-                    col.rowIndex +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    "<td>" +
-                    col.title +
-                    ":" +
-                    "</td> " +
-                    "<td>" +
-                    col.data +
-                    "</td>" +
-                    "</tr>"
-                : "";
-            }).join("");
+      // responsive: {
+      //   details: {
+      //     display: $.fn.dataTable.Responsive.display.modal({
+      //       header: function (row) {
+      //         var data = row.data();
+      //         return "Details of " + data["project_name"];
+      //       },
+      //     }),
+      //     type: "column",
+      //     renderer: function (api, rowIdx, columns) {
+      //       var data = $.map(columns, function (col, i) {
+      //         return col.title !== "" // ? Do not show row in modal popup if title is blank (for check box)
+      //           ? '<tr data-dt-row="' +
+      //               col.rowIndex +
+      //               '" data-dt-column="' +
+      //               col.columnIndex +
+      //               '">' +
+      //               "<td>" +
+      //               col.title +
+      //               ":" +
+      //               "</td> " +
+      //               "<td>" +
+      //               col.data +
+      //               "</td>" +
+      //               "</tr>"
+      //           : "";
+      //       }).join("");
 
-            return data
-              ? $('<table class="table"/><tbody />').append(data)
-              : false;
-          },
-        },
-      },
+      //       return data
+      //         ? $('<table class="table"/><tbody />').append(data)
+      //         : false;
+      //     },
+      //   },
+      // },
       initComplete: function () {
         var select = $('<select id="status_opty" class="form-select"></select>')
           .appendTo(".status_opty")
@@ -250,6 +253,14 @@ $(function () {
     });
   });
 
+  $(".datatables-opties tbody").on("click", ".move-record", function () {
+    const id = $(this).data("id");
+
+    $("#moveData").modal("show");
+    $("#op_id").val(id);
+    $("#moveForm").attr("action", `/move-optyTo-project/${id}`);
+  });
+
   // On each datatable draw, initialize tooltip
   dt_opties.on("draw.dt", function () {
     var tooltipTriggerList = [].slice.call(
@@ -260,5 +271,88 @@ $(function () {
         boundary: document.body,
       });
     });
+  });
+
+  // Filter form control to default size
+  // ? setTimeout used for multilingual table initialization
+  setTimeout(() => {
+    $(".dataTables_filter .form-control").removeClass("form-control-sm");
+    $(".dataTables_length .form-select").removeClass("form-select-sm");
+  }, 300);
+
+  // check project id available
+  let typingTimer;
+  let doneTypingInterval = 500;
+  let $input = $("#id_project");
+  let $btn = $("#btn-submit");
+  let $text = $("#show-available");
+  let $spinner = $btn.find(".spinner-border");
+  let btnClose = $(".close");
+
+  // On keyup, start the countdown
+  $input.on("keyup", function () {
+    clearTimeout(typingTimer);
+    if ($input.val()) {
+      typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    } else {
+      // Show message and disable button if input is empty
+      $text
+        .addClass("text-danger")
+        .removeClass("text-success")
+        .text("Project ID harus diisi");
+      $btn.prop("disabled", true);
+    }
+  });
+
+  // On keydown, clear the countdown
+  $input.on("keydown", function () {
+    clearTimeout(typingTimer);
+  });
+
+  // User is "done typing," do something
+  function doneTyping() {
+    let query = $input.val();
+
+    // Show spinner and disable button
+    $spinner.removeClass("d-none");
+    $btn.prop("disabled", true);
+
+    $.ajax({
+      url: "/project/check-projectID",
+      method: "POST",
+      data: { q: query },
+      success: function (response) {
+        // Remove spinner
+        $spinner.addClass("d-none");
+
+        if (response.status === true) {
+          $btn.prop("disabled", false);
+          $text
+            .addClass("text-success")
+            .removeClass("text-danger")
+            .text(response.message);
+        } else {
+          $btn.prop("disabled", true);
+          $text
+            .addClass("text-danger")
+            .removeClass("text-success")
+            .text(response.message);
+        }
+      },
+      error: function (error) {
+        // Remove spinner and show error message
+        $spinner.addClass("d-none");
+        $text
+          .addClass("text-danger")
+          .removeClass("text-success")
+          .text("An error occurred. Please try again.");
+        console.error("Error:", error);
+      },
+    });
+  }
+
+  btnClose.on("click", function () {
+    $("#moveForm").trigger("reset");
+    $text.text("")
   });
 });
