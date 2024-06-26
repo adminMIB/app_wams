@@ -9,16 +9,22 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Http\Controllers\Reimbursement\export\Excel;
+
+
 
 class ReimbursementController extends Controller
 {
+    use Excel;
+
 
     public function index(Request $request)
     {
         // Ambil data projects dari tabel opties
         $projects = DB::table('opties')->select('id', 'project_name')->latest('id')->get();
 
-    
         // Query data reimbursements dengan menggunakan join ke opties
         if ($request->ajax()) {
             $data = DB::table('reimbursements')
@@ -36,7 +42,6 @@ class ReimbursementController extends Controller
                 )
                 ->latest('reimbursements.id');
 
-    
             // Implementasikan DataTables untuk mengelola response
             return DataTables::of($data)
                 ->addColumn('created_at', function ($val) {
@@ -52,7 +57,7 @@ class ReimbursementController extends Controller
                 ->addIndexColumn()
                 ->make(true);
         }
-    
+
         return view('reimbursement.index', compact('projects'));
     }
     
@@ -179,7 +184,6 @@ class ReimbursementController extends Controller
     }
     // END UPDATE DATA
 
-
     public function show($id)
     {
         $projects = DB::table('opties')->select('id', 'project_name', 'customer_id' )->latest('id')->get();
@@ -237,4 +241,56 @@ class ReimbursementController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    
+    public function export($id)
+    {
+        // Ambil data project_internal berdasarkan ID
+        $cpt = DB::table('reimbursements')
+            ->where('reimbursements.id', $id)
+            ->join('opties', 'reimbursements.nama_project', '=', 'opties.id')
+            ->join('customers', 'reimbursements.customer', '=', 'customers.id')
+            ->select(
+                'reimbursements.id',
+                'reimbursements.id_reimbursement',
+                'opties.project_name as nama_project',
+                'reimbursements.pic_bussiness_channel',
+                'customers.name as customer',
+                'reimbursements.keterangan',
+                'reimbursements.file',
+                'reimbursements.created_at'
+            )
+            ->first();
+
+        if (!$cpt) {
+            return response()->json(['error' => 'Reimbursment not found'], 404);
+        }
+
+        // Ambil data transactions_maker_internal berdasarkan id_project_internal
+        $ctm = DB::table('transaction_maker_reimbursements')
+            ->where('reimbursements_id', $id)
+            ->join('personel_teams', 'transaction_maker_reimbursements.nama_pic_reimbursement', '=', 'personel_teams.id')
+            ->select(
+                'transaction_maker_reimbursements.id',
+                'transaction_maker_reimbursements.tanggal_reimbursement as tanggal',
+                'personel_teams.name as nama_pic',
+                'transaction_maker_reimbursements.nominal_reimbursement as nominal',
+                'transaction_maker_reimbursements.keterangan',
+
+            )
+            ->latest('transaction_maker_reimbursements.id')
+            ->get();
+
+        @unlink(public_path("/export/file-reimbursment.xlsx"));
+        $headers = [
+            'Content-Type' => 'application/xlsx',
+        ];
+
+        // Panggil fungsi doExportInternal dari trait Excel
+        $export = self::doExportReimbursement($cpt, $ctm);
+
+        return response()->download(public_path($export), 'file-reimbursmeent.xlsx', $headers)->deleteFileAfterSend(false);
+    }
+
+
 }
