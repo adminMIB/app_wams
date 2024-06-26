@@ -102,19 +102,23 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{
+            request()->is('role*') 
+            ? 'open'
+            : ''
+            }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-settings"></i>
                 <div data-i18n="Roles & Permissions">Roles & Permissions</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="app-access-roles.html" class="menu-link">
+            <li class="menu-item {{ request()->is('roles*') ? 'active' : '' }} ">
+                    <a href="/roles" class="menu-link">
                         <div data-i18n="Roles">Roles</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="app-access-permission.html" class="menu-link">
+                    <a href="#" class="menu-link">
                         <div data-i18n="Permission">Permission</div>
                     </a>
                 </li>

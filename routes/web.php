@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RoleAndPremission\RoleController;
 use App\Http\Controllers\MasterData\CustomerController;
 use App\Http\Controllers\OptyController;
 use App\Http\Controllers\MasterData\PersonelTeamController;
@@ -39,8 +40,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('reimbursement/{id}/details', [TransactionMakerReimbursementController::class, 'showDetails'])->name('reimbursement.details');
         Route::post('/reimbursement-maker-move-transaction/{id}/update', [TransactionMakerReimbursementController::class, 'moveTransactionMakerReimbursmenet'])
     ->name('reimbursement-maker-move-transaction.update');
-    
         Route::resource('reimbursement-maker', TransactionMakerReimbursementController::class);
- 
+
+        Route::get('/export-project-internal/{id}', [ReimbursementController::class, 'export'])->name('export-project-internal');
+
+
+
+    // role
+    Route::resource('roles', RoleController::class);
 
 });

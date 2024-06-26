@@ -112,8 +112,14 @@
                 </div>
             </div>
             <div class="mt-4">
-            <h6 class="total-advance-reimbuersement-maker"></h6>
+                <h6 class="total-advance-reimbuersement-maker"></h6>
             </div>
+            <div class="mt-4">                
+                <a href="{{ route('export-project-internal', ['id' => $reimbursement['id'] ]) }}" class="btn btn-success">
+                    Export <i class="fa fa-print"></i>
+                </a>            
+            </div>
+
         </div>
     </div>
 
