@@ -21,6 +21,7 @@ class CreateProjectMakersTable extends Migration
             $table->string('nama_tujuan');
             $table->bigInteger('nominal')->nullable();
             $table->integer('keterangan')->nullable();
+            $table->string('category');
             $table->string('file')->nullable();
             $table->timestamps();
         });

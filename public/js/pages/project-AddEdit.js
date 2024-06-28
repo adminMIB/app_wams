@@ -127,6 +127,11 @@ $(function () {
       calculateSubtotals();
     });
 
+    if (project.principal_id !== null) {
+      const value_component = JSON.parse(project.component);
+      $("#component").val(value_component).trigger("change");
+    }
+
     toggleInputs();
 
     // Attach change event listener

@@ -15,13 +15,13 @@ class ProjectMakerController extends Controller
     {
         $pm = ProjectMaker::find($id);
 
-        return view('dashboard.projects.modal.addEdit', compact('pm'));
+        return view('dashboard.projects.modal.addEditProjectMaker', compact('pm'));
     }
 
     public function create()
     {
         $pm = null;
-        return view('dashboard.projects.modal.addEdit', compact('pm'));
+        return view('dashboard.projects.modal.addEditProjectMaker', compact('pm'));
     }
 
     public function store(Request $request)
@@ -53,7 +53,8 @@ class ProjectMakerController extends Controller
                 "jenis_transaksi" => $request->jenis_transaksi,
                 "nama_tujuan" => $request->nama_tujuan,
                 "nominal" => str_replace([".", ", "], "", $request->nominal),
-                "keterangan" => $request->keterangan
+                "keterangan" => $request->keterangan,
+                "category" => $request->category
             ];
 
             $path = public_path('uploads/projects-maker');

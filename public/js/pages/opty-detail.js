@@ -25,6 +25,13 @@ $(function () {
             },
           },
         },
+        category: {
+          validators: {
+            notEmpty: {
+              message: "Komponen tidak boleh kosong",
+            },
+          },
+        },
         nominal_trx: {
           validators: {
             notEmpty: {
@@ -101,6 +108,7 @@ $(function () {
       $("#nama_penerima").val(data.nama_penerima);
       $("#nominal_trx").val(data.nominal_trx);
       $("#keterangan").val(data.keterangan);
+      $("#category").val(data.category);
       $("#file-edit").text("Biarkan kosong bila tidak ingin mengganti file");
       
       formValidation.updateValidatorOption('file', 'notEmpty', 'enabled', false);

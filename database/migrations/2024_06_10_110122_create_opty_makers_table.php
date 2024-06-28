@@ -21,6 +21,7 @@ class CreateOptyMakersTable extends Migration
             $table->string('nama_penerima');
             $table->bigInteger('nominal_trx');
             $table->string('keterangan');
+            $table->string('category');
             $table->string('file')->nullable();
             $table->timestamps();
         });

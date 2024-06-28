@@ -26,6 +26,10 @@ class OptyMaker extends Model
     const DENDA_PINALTY = 14;
     const BIAYA_LAIN_LAIN = 15;
 
+    const END_USER = 1;
+    const DELIVERY = 2;
+    const SERVICE  = 3;
+
     /**
      * Get the human-readable label for a given value.
      *
@@ -50,6 +54,17 @@ class OptyMaker extends Model
             self::UANG_DINAS => 'Uang Dinas',
             self::DENDA_PINALTY => 'Denda/Pinalty',
             self::BIAYA_LAIN_LAIN => 'Biaya Lain-Lain',
+        ];
+
+        return $labels[$value] ?? 'Unknown';
+    }
+
+    public static function getComLabel($value)
+    {
+        $labels = [
+            self::END_USER => 'End User',
+            self::DELIVERY => 'Delivery',
+            self::SERVICE  => 'Service'
         ];
 
         return $labels[$value] ?? 'Unknown';

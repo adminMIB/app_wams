@@ -113,6 +113,7 @@
                         <th>Nominal Transaksi</th>
                         <th>Tanggal Transaksi</th>
                         <th>Keterangan</th>
+                        <th>Komponen</th>
                         <th>File</th>
                         @if ($opty['is_moved'] === false)
                             <th>Action</th>
@@ -129,6 +130,7 @@
                                 <td>Rp. {{ number_format($row->nominal_trx) }}</td>
                                 <td>{{ $carbon->parse($row->date_trx)->format('Y-m-d') }}</td>
                                 <td>{{ \App\Models\OptyMaker::getKetLabel($row->keterangan) }} </td>
+                                <td>{{ ucwords(str_replace('_', ' ', $row->category)) }} </td>
                                 <td>
                                     @if (!empty($row->file))
                                         <a href="/uploads/opty-maker/{{ $row->file }}" download>Lihat File</a>

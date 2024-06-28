@@ -1,4 +1,5 @@
-<form action="{{ isset($pm) ? route('project-maker.update', $pm->id) : route('project-maker.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ isset($pm) ? route('project-maker.update', $pm->id) : route('project-maker.store') }}" method="POST"
+    enctype="multipart/form-data">
     @csrf
     @isset($pm)
         @method('PUT')
@@ -10,16 +11,8 @@
         <div class="col-sm-10">
             <div class="input-group">
                 <span class="input-group-text"><i class="ti ti-calendar"></i></span>
-                <input
-                    type="text"
-                    id="date_trx"
-                    name="tanggal"
-                    class="form-control"
-                    placeholder="Tanggal Transaksi"
-                    value="{{ old('tanggal', $pm->tanggal ?? '') }}"
-                    required
-                    readonly
-                    autocomplete="off">
+                <input type="text" id="date_trx" name="tanggal" class="form-control" placeholder="Tanggal Transaksi"
+                    value="{{ old('tanggal', $pm->tanggal ?? '') }}" required readonly autocomplete="off">
             </div>
         </div>
     </div>
@@ -49,10 +42,31 @@
     </div>
 
     <div class="form-group row mb-4">
+        <label class="col-sm-2 col-form-label">Komponen</label>
+        <div class="col-sm-10">
+            @php
+                $category = [
+                    'end_user' => 'End User',
+                    'delivery' => 'Delivery',
+                    'service' => 'Service',
+                ];
+            @endphp
+            <select class="form-control form-select" name="category" autocomplete="off" required>
+                <option value="" readonly>----PILIH----</option>
+                @foreach ($category as $value => $label)
+                    <option value="{{ $value }}" {{ isset($pm) && $pm->category == $value ? 'selected' : '' }}>
+                        {{ $label }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row mb-4">
         <label class="col-sm-2 col-form-label">Nominal</label>
         <div class="col-sm-10">
-            <input name="nominal" class="form-control nominal"
-                value="{{ old('nominal', $pm->nominal ?? '') }}" required autocomplete="off">
+            <input name="nominal" class="form-control nominal" value="{{ old('nominal', $pm->nominal ?? '') }}"
+                required autocomplete="off">
         </div>
     </div>
 
@@ -81,7 +95,8 @@
             <select class="form-select form-select-md select2" name="keterangan" required style="width: 100%">
                 <option value="">----PILIH----</option>
                 @foreach ($keteranganOptions as $value => $label)
-                    <option value="{{ $value }}" {{ (isset($pm) && $pm->keterangan == $value) ? 'selected' : '' }}>
+                    <option value="{{ $value }}"
+                        {{ isset($pm) && $pm->keterangan == $value ? 'selected' : '' }}>
                         {{ $label }}
                     </option>
                 @endforeach
@@ -92,11 +107,7 @@
     <div class="form-group row mb-4">
         <label class="col-sm-2 col-form-label">File</label>
         <div class="col-sm-10">
-            <input
-                type="file"
-                name="file"
-                id="file"
-                class="form-control"
+            <input type="file" name="file" id="file" class="form-control"
                 accept="application/pdf,.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
             <p class="text-danger">{{ $errors->first('file') }}</p>
             @isset($pm)
@@ -107,6 +118,7 @@
 
     <div class="col-12 text-center demo-vertical-spacing">
         <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
-        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Discard</button>
+        <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
+            aria-label="Close">Discard</button>
     </div>
 </form>

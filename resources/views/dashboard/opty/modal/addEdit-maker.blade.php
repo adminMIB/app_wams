@@ -36,7 +36,7 @@
                             </label>
                             <div class="col-sm-12 col-md-7">
                                 <select
-                                    class="form-control"
+                                    class="form-control form-select"
                                     name="jenis_trx"
                                     id="jenis_trx"
                                     autocomplete="Off"
@@ -48,6 +48,27 @@
                                     <option value="PO">PO</option>
                                 </select>
                                 <p class="text-danger">{{ $errors->first('jenis_trx') }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3" for="category">
+                                Komponen
+                            </label>
+                            <div class="col-sm-12 col-md-7">
+                                <select
+                                    class="form-control form-select"
+                                    name="category"
+                                    id="category"
+                                    autocomplete="Off"
+                                    required
+                                >
+                                    <option value="">----PILIH----</option>
+                                    <option value="end_user">End User</option>
+                                    <option value="delivery">Delivery</option>
+                                    <option value="service">Service</option>
+                                </select>
+                                <p class="text-danger">{{ $errors->first('category') }}</p>
                             </div>
                         </div>
 

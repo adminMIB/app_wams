@@ -133,6 +133,7 @@
                         <th>Nama Tujuan</th>
                         <th>Nominal</th>
                         <th>Keterangan</th>
+                        <th>Komponen</th>
                         <th>File</th>
                         <th>dibuat pada</th>
                         <th>Action</th>
@@ -145,6 +146,7 @@
                                 <td>{{ ucwords($tm->nama_tujuan) }} </td>
                                 <td>Rp. {{ number_format($tm->nominal) }}</td>
                                 <td>{{ \App\Models\ProjectMaker::getKetLabel($tm->keterangan) }}</td>
+                                <td>{{ ucwords(str_replace('_', ' ', $tm->category)) }}</td>
                                 <td>
                                     <ul>
                                         <li>

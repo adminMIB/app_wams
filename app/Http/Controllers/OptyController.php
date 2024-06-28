@@ -110,18 +110,19 @@ class OptyController extends Controller
                 return redirect()->back()->with('error', 'Opty not found');
             }
 
-            $file = $request->file('file');
             $fileName = $opty->file;
+            $path = public_path('uploads/opty');
+            if ($request->hasFile('file')) {
+                $fileLama = $opty->file;
 
-            if (!empty($file)) {
-                $path = public_path('uploads/opty');
-                $pathFile = $path . '/' . $opty->file;
-
-                if (file_exists($pathFile)) {
-                    unlink($pathFile);
+                if (!empty($fileLama)) {
+                    $pathFile = $path . '/' . $fileLama;
+                    if (file_exists($pathFile)) {
+                        unlink($pathFile);
+                    }
                 }
 
-                $fileName = $this->saveFile($file);
+                $fileName = $this->saveFile($request->file('file'));
             }
 
             $data = $request->all();

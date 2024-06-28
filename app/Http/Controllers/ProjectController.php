@@ -180,19 +180,21 @@ class ProjectController extends Controller
 
             $requestAll = $request->all();
 
-            // cleansing data before save to db
-            if (!empty($request->file)) {
-                $path = public_path('uploads/projects');
+            $path = public_path('uploads/projects');
+            if ($request->hasFile('file')) {
+                $fileLama = $project->file;
 
-                $pathFile = $path . '/' . $project->file;
-
-                if (file_exists($pathFile)) {
-                    unlink($pathFile);
+                if (!empty($fileLama)) {
+                    $pathFile = $path . '/' . $fileLama;
+                    if (file_exists($pathFile)) {
+                        unlink($pathFile);
+                    }
                 }
-
+                
                 $requestAll['file'] = $this->save_file($request->file('file'));
             }
-
+            
+            // cleansing data before save to db
             $requestAll['component']    = json_encode($request->component);
             $requestAll['bmt']          = str_replace([".", ", "], "", $request->bmt);
             $requestAll['delivery']     = str_replace([".", ", "], "", $request->delivery);

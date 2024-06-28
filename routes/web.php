@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RoleAndPremission\RoleController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MasterData\CustomerController;
 use App\Http\Controllers\OptyController;
 use App\Http\Controllers\MasterData\PersonelTeamController;
@@ -25,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('pie-data', [HomeController::class, 'getProjectsMakerDataPie']);
+Route::get('bar-data', [HomeController::class, 'getProjectMakerDataBar']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
