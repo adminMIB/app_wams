@@ -5,8 +5,8 @@
 "use strict";
 
 $(function () {
-  var dataTableRoles = $(".datatables-roles"),
-    dt_roles;
+  var dataTablePremission = $(".datatables-premission"),
+    dt_premission;
 
   // ajax setup
   $.ajaxSetup({
@@ -16,12 +16,12 @@ $(function () {
   });
 
   // roles List datatable
-  if (dataTableRoles.length) {
-    dt_roles = dataTableRoles.DataTable({
+  if (dataTablePremission.length) {
+    dt_premission = dataTablePremission.DataTable({
       serverSide: true,
       processing: true,
       ajax: {
-        url: "/roles",
+        url: "/users",
         type: "GET",
         data: function (d) {
           d.search.value = $("input[type=search]").val() || "";
@@ -32,6 +32,8 @@ $(function () {
         { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false },
         { data: "id" },
         { data: "name" },
+        { data: "email" },
+        { data: "roles" },
         { data: "created_at" },
         { data: "" },
       ],
@@ -62,6 +64,20 @@ $(function () {
           targets: 4,
           orderable: false,
           render: function (data, type, full, meta) {
+            return '<span class="text-nowrap">' + full.email + "</span>";
+          },
+        },
+        {
+          targets: 5,
+          orderable: false,
+          render: function (data, type, full, meta) {
+            return '<span class="text-nowrap">' + full.roles + "</span>";
+          },
+        },
+        {
+          targets: 6,
+          orderable: false,
+          render: function (data, type, full, meta) {
             return '<span class="text-nowrap">' + full.created_at + "</span>";
           },
         },
@@ -74,7 +90,9 @@ $(function () {
             return (
               '<span class="text-nowrap">' +
               `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>` +
-              `<button class="btn btn-sm btn-icon me-2 detail-record" data-id="${full["id"]}" data-bs-toggle="modal" data-bs-target="#detailRolesModal"><i class="ti ti-eye"></i></button>
+              `
+              
+              <button class="btn btn-sm btn-icon me-2 detail-record" data-bs-target="#detailRoles" data-id="${full["id"]}"data-bs-toggle="modal" data-bs-dismiss="modal"><i class="ti ti-eye"></i></button>
               ` +
               `<button class="btn btn-sm btn-icon delete-record" data-id="${full["id"]}"><i class="ti ti-trash"></i></button>` +
               "</span>"
@@ -99,7 +117,7 @@ $(function () {
       },
       buttons: [
         {
-          text: "Add Roles",
+          text: "Add Users",
           className: "add-new btn btn-primary mb-3 mb-md-0 create-record",
           attr: {
             "data-type": "create",
@@ -147,10 +165,9 @@ $(function () {
   }
 
   // Delete Record
-  $(".datatables-roles tbody").on("click", ".delete-record", function () {
+  $(".datatables-premission tbody").on("click", ".delete-record", function () {
     var rolesById = $(this).data("id"),
       dtrModal = $(".dtr-bs-modal.show");
-    console.log(rolesById);
     if (dtrModal.length) {
       dtrModal.modal("hide");
     }
@@ -170,9 +187,9 @@ $(function () {
         // delete the data
         $.ajax({
           type: "DELETE",
-          url: `/roles/${rolesById}`,
+          url: `/users/${rolesById}`,
           success: function () {
-            dt_roles.ajax.reload(null, false);
+            dt_premission.ajax.reload(null, false);
           },
           error: function (error) {
             console.log(error);
@@ -183,7 +200,7 @@ $(function () {
         Swal.fire({
           icon: "success",
           title: "Deleted!",
-          text: "The roles has been deleted!",
+          text: "The users has been deleted!",
           customClass: {
             confirmButton: "btn btn-success",
           },
@@ -191,7 +208,7 @@ $(function () {
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire({
           title: "Cancelled",
-          text: "The roles is not deleted!",
+          text: "The users is not deleted!",
           icon: "error",
           customClass: {
             confirmButton: "btn btn-success",
@@ -201,31 +218,37 @@ $(function () {
     });
   });
 
-  // detail data roles
-  $(".datatables-roles tbody").on("click", ".detail-record", function () {
+  // detail data users
+  $(".datatables-premission tbody").on("click", ".detail-record", function () {
     var id = $(this).data("id");
+    $.get(`/users/${id}`, function (data, status) {
+      $("#title-detail").text(`Detail users, ${data.name}`);
 
-    $.get(`/roles/${id}`, function (data, status) {
-      $("#roleName").val(data.role.name);
-      $("#createdAt").val(data.role.dibuat_pada); // Memanfaatkan properti dibuat_pada yang telah diformat
+      $("table.borderless tbody").empty();
 
-      var permissionsList = $("#permissionsList");
-      permissionsList.empty();
-      data.permissions.forEach(function (permission) {
-        permissionsList.append(
-          `<li class="list-group-item">${permission.name}</li>`
-        );
-      });
+      var rows = "";
+      for (var key in data) {
+        rows +=
+          "<tr>" +
+          "<td>" +
+          key.replace(/_/g, " ").toUpperCase() +
+          "</td>" +
+          "<td>:</td>" +
+          "<td>" +
+          data[key] +
+          "</td>" +
+          "</tr>";
+      }
 
-      $("#detailRolesModal").modal("show");
+      $("table.borderless tbody").append(rows);
     });
   });
 
   // MODAL AKSI ADD dan EDIT DAN, VALIDATION
   $(document).on("click", ".create-record", function () {
-    $("#addEditRolesForm").trigger("reset");
+    $("#addEditPremissionForm").trigger("reset");
     var type = $(this).data("type");
-    $("#addEditRoles").modal("show");
+    $("#addEditPremission").modal("show");
     $("#type").val(type);
 
     $("#title-header").text("Add New Roles");
@@ -234,29 +257,35 @@ $(function () {
   $(document).on("click", ".edit-record", function () {
     var type = $(this).data("type"),
       id = $(this).data("id");
-    $("#addEditRoles").modal("show");
+
+    console.log(id);
+
+    $("#addEditPremission").modal("show");
     $("#type").val(type);
-    $("#roles_id").val(id);
+    $("#user_id").val(id);
 
-    $.get(`/roles/${id}/edit`, function (data, status) {
-      $("#title-header").text(`Edit Roles ${data.role.name}`);
-      $("#name").val(data.role.name);
-      $("#roles_id").val(data.role.id);
-
-      // Clear all checkboxes
-      $('input[name="permissions[]"]').prop("checked", false);
-
-      // Menampilkan permissions yang terkait dengan role
-      $.each(data.permissions, function (index, permission) {
-        $("#permissions" + permission.name).prop("checked", true);
-      });
+    // edit, menampilkan  data
+    $.get(`/users/${id}/edit`, function (data, status) {
+      $("#title-header").text(`Edit users, ${data.name}`);
+      $("#name").val(data.name); // Mengisi nama
+      $("#password").val(data.password); // Mengisi email
+      $("#email").val(data.email); // Mengisi email
+      // Mengisi nilai select dengan role
+      $("#roles").val(data.role); // Menggunakan id dari role yang ingin dipilih
     });
   });
 
-  const addNewRolesForm = document.getElementById("addEditRolesForm");
+  const addNewPremissionForm = document.getElementById("addEditPremissionForm");
 
-  const fv = FormValidation.formValidation(addNewRolesForm, {
+  const fv = FormValidation.formValidation(addNewPremissionForm, {
     fields: {
+      password: {
+        validators: {
+          notEmpty: {
+            message: "password tidak boleh kosong",
+          },
+        },
+      },
       name: {
         validators: {
           notEmpty: {
@@ -264,35 +293,61 @@ $(function () {
           },
         },
       },
+      email: {
+        validators: {
+          notEmpty: {
+            message: "email tidak boleh kosong",
+          },
+        },
+      },
+      role: {
+        validators: {
+          notEmpty: {
+            message: "role tidak boleh kosong",
+          },
+        },
+      },
+      permissions: {
+        validators: {
+          notEmpty: {
+            message: "permissions tidak boleh kosong",
+          },
+        },
+      },
     },
     plugins: {
       trigger: new FormValidation.plugins.Trigger(),
       bootstrap5: new FormValidation.plugins.Bootstrap5({
+        // Use this for enabling/changing valid/invalid class
         eleValidClass: "",
         rowSelector: function (field, ele) {
+          // field is the field name & ele is the field element
           return ".mb-3";
         },
       }),
       submitButton: new FormValidation.plugins.SubmitButton(),
+      // Submit the form when all fields are valid
+      // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
       autoFocus: new FormValidation.plugins.AutoFocus(),
     },
   }).on("core.form.valid", function () {
     var type = $("#type").val(),
       url,
       method,
-      role_id = $("#roles_id").val();
+      user_id = $("#user_id").val();
 
-    // add roles
+    // add premission
     if (type == "create") {
-      url = `/roles`;
+      url = `/users`;
       method = "POST";
-    } else if (type == "edit" && role_id) {
-      url = `/roles/${role_id}`;
+      // edit persona teams
+    } else if (type == "edit" && user_id) {
+      url = `/users/${user_id}`;
       method = "PUT";
     } else {
       Swal.fire({
         title: "Error!",
-        text: "roles ID is missing for editing.",
+        text: "users ID is missing for editing.",
         icon: "error",
         customClass: {
           confirmButton: "btn btn-danger",
@@ -302,32 +357,29 @@ $(function () {
     }
 
     $.ajax({
-      data: $("#addEditRolesForm").serialize(),
+      data: $("#addEditPremissionForm").serialize(),
       url: url,
       type: method,
       contentType: "application/x-www-form-urlencoded",
       success: function (response) {
-        console.log(response?.message);
-        $("#addEditRoles").modal("hide");
+        $("#addEditPremission").modal("hide");
         Swal.fire({
           icon: "success",
           title: `Successfully ${type === "create" ? "created" : "edited"}!`,
-          text: `Roles ${response} ${
+          text: `Users ${response} ${
             type === "create" ? "created" : "edited"
           } successfully.`,
           customClass: {
             confirmButton: "btn btn-success",
           },
         });
-        $('input[type="checkbox"]').prop("checked", false); // Uncheck semua checkbox terlebih dahulu
-        // Tidak perlu lagi melakukan iterasi permissions di sini
-        $("#addEditRolesForm").trigger("reset");
-        dt_roles.ajax.reload(null, false);
+        $("#addEditPremissionForm").trigger("reset");
+        dt_premission.ajax.reload(null, false);
       },
       error: function (xhr, status, error) {
         Swal.fire({
           title: "Oops!",
-          text: "An error occurred.",
+          text: error,
           icon: "error",
           customClass: {
             confirmButton: "btn btn-danger",

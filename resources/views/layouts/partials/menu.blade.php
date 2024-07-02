@@ -120,7 +120,8 @@
             </ul>
         </li>
         <li class="menu-item {{
-            request()->is('role*') 
+            request()->is('role*')  ||   
+            request()->is('premission*')
             ? 'open'
             : ''
             }}">
@@ -134,21 +135,22 @@
                         <div data-i18n="Roles">Roles</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ request()->is('premission*') ? 'active' : '' }} ">
+                    <a href="/premission" class="menu-link">
                         <div data-i18n="Permission">Permission</div>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{
+            request()->is('users*') ? 'open' : '' }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-users"></i>
                 <div data-i18n="Users">Users</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="app-user-list.html" class="menu-link">
+                <li class="menu-item {{ request()->is('users*') ? 'active' : '' }} ">
+                    <a href="/users" class="menu-link">
                         <div data-i18n="Manage Users">Manage Users</div>
                     </a>
                 </li>

@@ -215,8 +215,25 @@ $(function () {
             success: function () {
               dt_reimbursement.ajax.reload(null, false);
             },
-            error: function (error) {
-              console.log(error);
+            error: function (xhr, status, error) {
+              var errorMessage = "Failed to delete reimbursement.";
+
+              if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+              } else if (xhr.statusText) {
+                errorMessage = xhr.statusText;
+              }
+
+              console.log(xhr); // Untuk debug lebih lanjut
+
+              Swal.fire({
+                title: "Error!",
+                text: errorMessage,
+                icon: "error",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              });
             },
           });
 
@@ -433,7 +450,7 @@ $(function () {
       error: function (xhr, status, error) {
         Swal.fire({
           title: "Oops!",
-          text: "An error occurred.",
+          text: error,
           icon: "error",
           customClass: {
             confirmButton: "btn btn-danger",

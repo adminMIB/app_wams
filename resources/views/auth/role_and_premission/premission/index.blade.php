@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'List Roles')
+@section('title', 'List Premission')
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
@@ -20,21 +20,21 @@
 @endsection
 
 @section('page-script')
-    <script src="{{ asset('js/pages/roles.js') }}"></script>
+    <script src="{{ asset('js/pages/premision.js') }}"></script>
 @endsection
 
 @section('content')
     <div class="card mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="mb-0">Roles</h3>
+                <h3 class="mb-0">Premission</h3>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
                             <a href="javascript:void(0);">Dashboard</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">Roles</a>
+                            <a href="javascript:void(0);">Premission</a>
                         </li>
                         <li class="breadcrumb-item active">List</li>
                     </ol>
@@ -45,7 +45,7 @@
 
     <div class="card">
         <div class="card-datatable table-responsive">
-            <table class="datatables-roles table border-top">
+            <table class="datatables-premission table border-top">
                 <thead>
                     <tr>
                         <th></th>
@@ -63,8 +63,7 @@
 
 
     <!-- D:\app\mib-2024\acdc\wams-acdc\resources\views\auth\role_and_premission\role\modal\add-edit.blade.php -->
-    @include('auth.role_and_premission.role.modal.add-edit')
-    <!-- D:\app\mib-2024\acdc\wams-acdc\resources\views\auth\role_and_premission\role\modal\detail.blade.php -->
-    @include('auth.role_and_premission.role.modal.detail')
+    @include('auth.role_and_premission.premission.modal.add-edit')
+    @include('auth.role_and_premission.premission.modal.detail')
 
 @endsection
