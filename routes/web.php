@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RoleAndPremission\PremissionController;
 use App\Http\Controllers\Auth\RoleAndPremission\RoleController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MasterData\CustomerController;
 use App\Http\Controllers\OptyController;
@@ -63,14 +65,20 @@ Route::group(['middleware' => 'auth'], function () {
 
     // reimbursement
     Route::resource('reimbursement', ReimbursementController::class);
-    // maker
+        // - transaction maker
     Route::get('reimbursement/{id}/details', [TransactionMakerReimbursementController::class, 'showDetails'])->name('reimbursement.details');
     Route::post('/reimbursement-maker-move-transaction/{id}/update', [TransactionMakerReimbursementController::class, 'moveTransactionMakerReimbursmenet'])
         ->name('reimbursement-maker-move-transaction.update');
     Route::resource('reimbursement-maker', TransactionMakerReimbursementController::class);
-
-    Route::get('/export-project-internal/{id}', [ReimbursementController::class, 'export'])->name('export-project-internal');
+    // export excel reimbuersment dan transaction maker reimbursement
+    Route::get('/export-reimbursement/{id}', [ReimbursementController::class, 'export'])->name('export-reimbursement');
 
     // role
     Route::resource('roles', RoleController::class);
+    // premission
+    Route::resource('premission', PremissionController::class);
+    // users
+    Route::resource('users', UserController::class);
+
+
 });
