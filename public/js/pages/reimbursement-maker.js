@@ -198,20 +198,26 @@ $(function () {
             type: "DELETE",
             url: `/reimbursement-maker/${idReimbursement}`,
             success: function () {
+              // SweetAlert sukses
+              Swal.fire({
+                icon: "success",
+                title: "Deleted!",
+                text: "Transaction Maker has been deleted!",
+                customClass: {
+                  confirmButton: "btn btn-success",
+                },
+              });
               dt_reimbursement_maker.ajax.reload(null, false);
             },
-            error: function (error) {
-              console.log(error);
-            },
-          });
-
-          // SweetAlert sukses
-          Swal.fire({
-            icon: "success",
-            title: "Deleted!",
-            text: "Transaction Maker has been deleted!",
-            customClass: {
-              confirmButton: "btn btn-success",
+            error: function (xhr, status, error) {
+              Swal.fire({
+                title: "Oops!",
+                text: xhr.responseJSON.error || error,
+                icon: "error",
+                customClass: {
+                  confirmButton: "btn btn-danger",
+                },
+              });
             },
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -286,9 +292,26 @@ $(function () {
         $("#id_project_reimbursement").val(
           data.reimbursement.id_project_reimbursement
         );
+        if (data.reimbursement && data.reimbursement.id_project_reimbursement) {
+          Swal.fire({
+            icon: "success",
+            title: `Successfully `,
+            text: `Move Transaction Maker, Berhasil`,
+            customClass: {
+              confirmButton: "btn btn-success",
+            },
+          });
+        }
       },
-      error: function () {
-        alert("Terjadi kesalahan. Silakan coba lagi.");
+      error: function (xhr, status, error) {
+        Swal.fire({
+          title: "Oops!",
+          text: xhr.responseJSON.error || error,
+          icon: "error",
+          customClass: {
+            confirmButton: "btn btn-danger",
+          },
+        });
       },
     });
   });
@@ -443,7 +466,7 @@ $(function () {
       error: function (xhr, status, error) {
         Swal.fire({
           title: "Oops!",
-          text: "An error occurred.",
+          text: xhr.responseJSON.error || error,
           icon: "error",
           customClass: {
             confirmButton: "btn btn-danger",

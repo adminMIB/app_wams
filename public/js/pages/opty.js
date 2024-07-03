@@ -100,22 +100,43 @@ $(function () {
           orderable: false,
           render: function (data, type, full, meta) {
             let html = '<div class="d-flex align-items-center">';
-            html += `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>`;
-          
-            if (full.is_moved === false) {
-              html += `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="ti ti-edit"></i></a>`;
-              html += '<div class="dropdown">';
-              html += '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>';
-              html += '<div class="dropdown-menu dropdown-menu-end">';
-              html += `<a href="javascript:;" class="dropdown-item move-record" data-id="${full["id"]}">Pindah ke Project</a>`;
-              html += `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>`;
-              html += '</div>';
-              html += '</div>';
+
+            if (canViewseOpty) {
+              html += `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>`;
             }
-          
-            html += '</div>';
+
+            if (full.is_moved === false) {
+              html += '<div class="d-flex align-items-center">';
+
+              if (canEditOpty) {
+                html += `<a class="btn btn-sm btn-icon me-2" href="/opty/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="ti ti-edit"></i></a>`;
+              }
+
+              // Only create one dropdown and include both options if the user has permissions
+              if (canEditOpty || canDeleteOpty) {
+                html += '<div class="dropdown">';
+                html +=
+                  '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>';
+                html += '<div class="dropdown-menu dropdown-menu-end">';
+
+                if (canEditOpty) {
+                  html += `<a href="javascript:;" class="dropdown-item move-record" data-id="${full["id"]}">Pindah ke Project</a>`;
+                }
+
+                if (canDeleteOpty) {
+                  html += `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>`;
+                }
+
+                html += "</div>";
+                html += "</div>"; // Close the dropdown div
+              }
+
+              html += "</div>"; // Close the d-flex align-items-center div
+            }
+
+            html += "</div>";
             return html;
-          }
+          },
         },
       ],
       order: [[1, "desc"]],
@@ -137,7 +158,7 @@ $(function () {
       buttons: [
         {
           text: '<span class="d-md-inline-block d-none">Add Opty</span> <i class="ti ti-plus me-md-1"></i>',
-          className: "btn btn-primary",
+          className: "btn btn-primary btn-add-opty",
           action: function (e, dt, button, config) {
             window.location = "/opty/create";
           },
@@ -191,6 +212,11 @@ $(function () {
         select.append('<option value="true">List opty ke project</option>');
       },
     });
+
+    // Check if user has permission to create reimbursement
+    if (!canCreateOpty) {
+      dt_opties.buttons(".btn-add-opty").remove();
+    }
   }
 
   // Delete Record
@@ -228,11 +254,11 @@ $(function () {
             });
             dt_opties.ajax.reload(null, false);
           },
-          error: function (error) {
-            console.log(error);
+          error: function (xhr, status, error) {
+            console.log("error");
             Swal.fire({
-              title: "Error!",
-              text: error,
+              title: "Oops!",
+              text: xhr.responseJSON.error || error,
               icon: "error",
               customClass: {
                 confirmButton: "btn btn-danger",
@@ -353,6 +379,6 @@ $(function () {
 
   btnClose.on("click", function () {
     $("#moveForm").trigger("reset");
-    $text.text("")
+    $text.text("");
   });
 });

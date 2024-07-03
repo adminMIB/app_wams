@@ -98,8 +98,15 @@ $(function () {
           orderable: false,
           render: function (data, type, full, meta) {
             let html = '<div class="d-flex align-items-center">';
-            html += `<a class="btn btn-sm btn-icon me-2" href="/project/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="ti ti-edit"></i></a>`;
-            html += `<a class="btn btn-sm btn-icon me-2" href="/project/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat Data"><i class="ti ti-eye"></i></a>`;
+
+            if (canEditProjects) {
+              html += `<a class="btn btn-sm btn-icon me-2" href="/project/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data"><i class="ti ti-edit"></i></a>`;
+            }
+
+            if (canViewseProjects) {
+              html += `<a class="btn btn-sm btn-icon me-2" href="/project/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Lihat Data"><i class="ti ti-eye"></i></a>`;
+            }
+
             html += "</div>";
 
             setTimeout(function () {

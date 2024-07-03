@@ -119,42 +119,46 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item {{
-            request()->is('role*')  ||   
-            request()->is('premission*')
-            ? 'open'
-            : ''
-            }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-settings"></i>
-                <div data-i18n="Roles & Permissions">Roles & Permissions</div>
-            </a>
-            <ul class="menu-sub">
-            <li class="menu-item {{ request()->is('roles*') ? 'active' : '' }} ">
-                    <a href="/roles" class="menu-link">
-                        <div data-i18n="Roles">Roles</div>
+
+        @if(auth()->user()->hasRole('Super Admin'))
+            <li class="menu-item {{
+                    request()->is('role*')  ||   
+                    request()->is('premission*')
+                    ? 'open'
+                    : ''
+                    }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-settings"></i>
+                        <div data-i18n="Roles & Permissions">Roles & Permissions</div>
                     </a>
-                </li>
-                <li class="menu-item {{ request()->is('premission*') ? 'active' : '' }} ">
-                    <a href="/premission" class="menu-link">
-                        <div data-i18n="Permission">Permission</div>
+                    <ul class="menu-sub">
+                    <li class="menu-item {{ request()->is('roles*') ? 'active' : '' }} ">
+                            <a href="/roles" class="menu-link">
+                                <div data-i18n="Roles">Roles</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('premission*') ? 'active' : '' }} ">
+                            <a href="/premission" class="menu-link">
+                                <div data-i18n="Permission">Permission</div>
+                            </a>
+                        </li>
+                    </ul>
+            </li>
+            <li class="menu-item {{
+                    request()->is('users*') ? 'open' : '' }}">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-users"></i>
+                        <div data-i18n="Users">Users</div>
                     </a>
-                </li>
-            </ul>
-        </li>
-        <li class="menu-item {{
-            request()->is('users*') ? 'open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-users"></i>
-                <div data-i18n="Users">Users</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ request()->is('users*') ? 'active' : '' }} ">
-                    <a href="/users" class="menu-link">
-                        <div data-i18n="Manage Users">Manage Users</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->is('users*') ? 'active' : '' }} ">
+                            <a href="/users" class="menu-link">
+                                <div data-i18n="Manage Users">Manage Users</div>
+                            </a>
+                        </li>
+                    </ul>
+            </li>
+        @endif
+
     </ul>
 </aside>

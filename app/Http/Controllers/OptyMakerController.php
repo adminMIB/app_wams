@@ -11,25 +11,33 @@ class OptyMakerController extends Controller
 {
     public function store(Request $request, $opty_id)
     {
-        try {
-            $now = Carbon::now()->format('Y-m-d');
-
-            if ($request->date_trx > $now) {
-                return redirect()->back()->with('error', 'Tanggal transaksi tidak boleh lebih dari hari ini.');
-            }
-
-            $requestAll = $request->all();
-            $requestAll['file'] = $this->save_file($request->file('file'));
-            $requestAll['nominal_trx'] = str_replace([".", ","], "", $request->nominal_trx);
-            $requestAll['opty_id'] = $opty_id;
-
-            OptyMaker::create($requestAll);
-
+        if (!auth()->user()->can('create')) {
             return redirect()->back()->with([
-                'success' => "Opty Maker berhasil dibuat"
+                'error' => "Dont have access!, 403"
             ]);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+
+        } else {
+
+            try {
+                $now = Carbon::now()->format('Y-m-d');
+
+                if ($request->date_trx > $now) {
+                    return redirect()->back()->with('error', 'Tanggal transaksi tidak boleh lebih dari hari ini.');
+                }
+
+                $requestAll = $request->all();
+                $requestAll['file'] = $this->save_file($request->file('file'));
+                $requestAll['nominal_trx'] = str_replace([".", ","], "", $request->nominal_trx);
+                $requestAll['opty_id'] = $opty_id;
+
+                OptyMaker::create($requestAll);
+
+                return redirect()->back()->with([
+                    'success' => "Opty Maker berhasil dibuat"
+                ]);
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', $e->getMessage());
+            }
         }
     }
 
@@ -45,23 +53,31 @@ class OptyMakerController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {
-            $optyMaker = OptyMaker::find($id);
-            $requestAll = $request->all();
-
-            if (!empty($request->file)) {
-                $requestAll['file'] = $this->save_file($request->file('file'));
-            }
-
-            $requestAll['nominal_trx'] = str_replace([".", ","], "", $request->nominal_trx);
-
-            $optyMaker->update($requestAll);
-
+        if (!auth()->user()->can('update')) {
             return redirect()->back()->with([
-                'success' => "Data berhasil diubah"
+                'error' => "Dont have access!, 403"
             ]);
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+
+        } else {
+
+            try {
+                $optyMaker = OptyMaker::find($id);
+                $requestAll = $request->all();
+
+                if (!empty($request->file)) {
+                    $requestAll['file'] = $this->save_file($request->file('file'));
+                }
+
+                $requestAll['nominal_trx'] = str_replace([".", ","], "", $request->nominal_trx);
+
+                $optyMaker->update($requestAll);
+
+                return redirect()->back()->with([
+                    'success' => "Data berhasil diubah"
+                ]);
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', $e->getMessage());
+            }
         }
     }
 

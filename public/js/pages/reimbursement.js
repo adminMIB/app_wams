@@ -21,6 +21,7 @@ $(function () {
           d.search.value = $("input[type=search]").val() || "";
         },
       },
+
       columns: [
         { data: "" },
         { data: "DT_RowIndex", name: "DT_RowIndex", orderable: false },
@@ -105,19 +106,25 @@ $(function () {
           title: "Actions",
           orderable: false,
           render: function (data, type, full, meta) {
-            return (
-              '<div class="d-flex align-items-center">' +
-              `<a class="btn btn-sm btn-icon me-2" href="/reimbursement/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>` +
-              `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>` +
-              '<div class="dropdown">' +
-              '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>' +
-              '<div class="dropdown-menu dropdown-menu-end">' +
-              // `<a href="javascript:;" class="dropdown-item move" data-id="${full["id"]}" data-bs-target="#moveData" data-bs-toggle="modal" data-bs-dismiss="modal">Pindah ke Project</a>` +
-              `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>` +
-              "</div>" +
-              "</div>" +
-              "</div>"
-            );
+            var buttons = '<div class="d-flex align-items-center">';
+            if (canViewseimbursement) {
+              buttons += `<a class="btn btn-sm btn-icon me-2" href="/reimbursement/${full["id"]}" data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Data"><i class="ti ti-eye"></i></a>`;
+            }
+            if (canEditReimbursement) {
+              buttons += `<button class="btn btn-sm btn-icon me-2 edit-record" data-type="edit" data-id="${full["id"]}"><i class="ti ti-edit"></i></button>`;
+            }
+            if (canDeleteReimbursement) {
+              buttons +=
+                '<div class="dropdown">' +
+                '<a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="ti ti-dots-vertical ti-sm"></i></a>' +
+                '<div class="dropdown-menu dropdown-menu-end">' +
+                `<a href="javascript:;" class="dropdown-item delete-record text-danger" data-id="${full["id"]}">Delete</a>` +
+                "</div>" +
+                "</div>";
+            }
+
+            buttons += "</div>";
+            return buttons;
           },
         },
       ],
@@ -183,6 +190,11 @@ $(function () {
         },
       },
     });
+
+    // Check if user has permission to create reimbursement
+    if (!canCreateReimbursement) {
+      dt_reimbursement.buttons(".create-record").remove();
+    }
   }
 
   // Hapus Record
@@ -213,37 +225,26 @@ $(function () {
             type: "DELETE",
             url: `/reimbursement/${idReimbursement}`,
             success: function () {
-              dt_reimbursement.ajax.reload(null, false);
-            },
-            error: function (xhr, status, error) {
-              var errorMessage = "Failed to delete reimbursement.";
-
-              if (xhr.responseJSON && xhr.responseJSON.message) {
-                errorMessage = xhr.responseJSON.message;
-              } else if (xhr.statusText) {
-                errorMessage = xhr.statusText;
-              }
-
-              console.log(xhr); // Untuk debug lebih lanjut
-
+              // SweetAlert sukses
               Swal.fire({
-                title: "Error!",
-                text: errorMessage,
-                icon: "error",
+                icon: "success",
+                title: "Deleted!",
+                text: "Transaction Maker has been deleted!",
                 customClass: {
                   confirmButton: "btn btn-success",
                 },
               });
+              dt_reimbursement.ajax.reload(null, false);
             },
-          });
-
-          // SweetAlert sukses
-          Swal.fire({
-            icon: "success",
-            title: "Deleted!",
-            text: "Reimbursement has been deleted!",
-            customClass: {
-              confirmButton: "btn btn-success",
+            error: function (xhr, status, error) {
+              Swal.fire({
+                title: "Oops!",
+                text: xhr.responseJSON.error || error,
+                icon: "error",
+                customClass: {
+                  confirmButton: "btn btn-danger",
+                },
+              });
             },
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -450,7 +451,7 @@ $(function () {
       error: function (xhr, status, error) {
         Swal.fire({
           title: "Oops!",
-          text: error,
+          text: xhr.responseJSON.error || error,
           icon: "error",
           customClass: {
             confirmButton: "btn btn-danger",
