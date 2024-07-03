@@ -55,7 +55,7 @@
             <table class="table borderless">
                 <tbody>
                     @foreach ($opty as $key => $value)
-                        @if ($key !== 'is_moved')
+                        @if ($key !== 'is_moved' && $key !== 'id')
                             <tr>
                                 <td>{{ strtoupper(str_replace('_', ' ', $key)) }}</td>
                                 <td>:</td>
@@ -154,6 +154,10 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+            <div class="mt-4">
+                <p><strong>Total Advance : Rp. {{ number_format($sum_tm) }}</strong> </p>
+                <p><strong>Sisa : Rp. {{ number_format($total_usage) }}</strong></p>
             </div>
         </div>
     </div>

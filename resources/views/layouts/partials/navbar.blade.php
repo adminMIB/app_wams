@@ -23,11 +23,6 @@
                             <span class="align-middle"><i class="ti ti-moon me-2"></i>Dark</span>
                         </a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
-                            <span class="align-middle"><i class="ti ti-device-desktop me-2"></i>System</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>

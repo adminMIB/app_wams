@@ -30,6 +30,9 @@ Auth::routes();
 
 Route::get('pie-data', [HomeController::class, 'getProjectsMakerDataPie']);
 Route::get('bar-data', [HomeController::class, 'getProjectMakerDataBar']);
+Route::get('dashboard/project-list', [HomeController::class, 'getAllProject']);
+Route::get('dashboard/card-header/total-data', [HomeController::class, 'percentageTotalDataProjectMaker']);
+Route::get('dashboard/card-header/total-nominal', [HomeController::class, 'percentageTotalNominalProjectMaker']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

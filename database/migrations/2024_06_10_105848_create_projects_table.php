@@ -20,10 +20,11 @@ class CreateProjectsTable extends Migration
             $table->integer('principal_id')->nullable();
             $table->string('file')->nullable();
             $table->json('component')->nullable();
-            $table->bigInteger('bmt')->nullable();
+            $table->bigInteger('bmt')->nullable()->default(0);
             $table->bigInteger('end_user')->nullable()->default(0);
             $table->bigInteger('delivery')->nullable()->default(0);
             $table->bigInteger('wapu')->nullable()->default(0);
+            $table->bigInteger('ca')->nullable()->default(0);
             $table->bigInteger('service')->nullable()->default(0);
             $table->bigInteger('subtotal')->nullable()->default(0);
             $table->bigInteger('bunga_admin')->nullable()->default(0);

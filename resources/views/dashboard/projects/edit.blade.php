@@ -132,8 +132,15 @@
                     <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Komponen</label>
                     <div class="col-sm-12 col-md-7">
                         <div class="select2-primary">
-                            <select class="form-select" name="component[]" id="component" multiple="multiple" required>
-                                <option value="">------PILIH------</option>
+                            <select
+                                class="form-select"
+                                name="component[]"
+                                id="component"
+                                multiple="multiple"
+                                data-placeholder="Pilih Komponen"
+                                data-allow-clear="true"
+                                required
+                            >
                                 @foreach ($component as $item)
                                     <option value="{{ $item }}">{{ ucwords(str_replace("_", " ", $item)) }}</option>
                                 @endforeach
@@ -210,6 +217,25 @@
                                 name="wapu"
                                 min=1
                                 value='{{ old('wapu', $project->wapu) }}'
+                                required
+                                autocomplete="off"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-4" id="showCa" style="display: none">
+                    <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">CA</label>
+                    <div class="col-sm-12 col-md-7">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Rp</span>
+                            <input
+                                type="text"
+                                id="ca"
+                                class="form-control uang calculate"
+                                name="ca"
+                                min=1
+                                value='{{ old('ca', $project->ca) }}'
                                 required
                                 autocomplete="off"
                             >

@@ -83,7 +83,7 @@ class ProjectController extends Controller
             ->first();
 
         $customer = Customer::find($project->customer_id)->select('name');
-        $component = ['delivery', 'end_user', 'service', 'wapu'];
+        $component = ['ca', 'delivery', 'end_user', 'service', 'wapu'];
 
         return view('dashboard.projects.edit', compact(
             'principal',
@@ -110,6 +110,7 @@ class ProjectController extends Controller
                 'projects.end_user',
                 'projects.delivery',
                 'projects.wapu',
+                'projects.ca',
                 'projects.service',
                 'projects.subtotal',
                 'projects.bunga_admin',
@@ -129,30 +130,33 @@ class ProjectController extends Controller
         $data->dibuat_pada = Carbon::parse($data->dibuat_pada)->translatedFormat('Y-m-d H:i:s');
         $data->total_nominal_project = "Rp. " . number_format($data->total_nominal_project);
         $data->bmt = "Rp. " . number_format($data->bmt);
-        $data->end_user = "Rp. " . number_format($data->end_user);
-        $data->delivery = "Rp. " . number_format($data->delivery);
-        $data->service = "Rp. " . number_format($data->service);
-        $data->wapu = "Rp. " . number_format($data->wapu);
+        $data->end_user = $data->end_user != 0 ? "Rp. " . number_format($data->end_user) : null;
+        $data->delivery = $data->delivery != 0 ? "Rp. " . number_format($data->delivery) : null;
+        $data->service = $data->service != 0 ? "Rp. " . number_format($data->service) : null;
+        $data->wapu = $data->wapu != 0 ? "Rp. " . number_format($data->wapu) : null;
+        $data->ca = $data->ca != 0 ? "Rp. " . number_format($data->ca) : null;
         $data->biaya_admin = "Rp. " . number_format($data->biaya_admin);
         $data->bunga_admin = $data->bunga_admin . ' %';
         $data->subtotal = "Rp. " . number_format($data->subtotal);
         $data->biaya_pengurangan = "Rp. " . number_format($data->biaya_pengurangan);
         $data->component = json_decode($data->component);
 
-        if ($data) {
-            $project = (array) $data;
-        } else {
-            $project = [];
-        }
+        $project = (array) $data;
+
+        $project = array_filter($project, function ($value) {
+            return $value !== null;
+        });
 
         $projectData = DB::table('projects')
             ->join('opties', 'projects.opty_id', '=', 'opties.id')
-            ->select('projects.id', 'opties.project_name')
+            ->select('projects.id', DB::raw("CONCAT(opties.project_name, ' - ', projects.id_project) AS project_name"))
             ->where('projects.id', '!=', $id)
             ->get();
 
-        $optyData = Opty::where('is_moved', false)->get(['id', 'project_name']);
-
+        $optyData = DB::table('opties')
+            ->where('is_moved', false)
+            ->select(DB::raw("CONCAT(project_name, ' - ', code_opty) AS project_name"), 'id')
+            ->get();
 
         return view("dashboard.projects.show", compact(
             "project",
@@ -190,10 +194,10 @@ class ProjectController extends Controller
                         unlink($pathFile);
                     }
                 }
-                
+
                 $requestAll['file'] = $this->save_file($request->file('file'));
             }
-            
+
             // cleansing data before save to db
             $requestAll['component']    = json_encode($request->component);
             $requestAll['bmt']          = str_replace([".", ", "], "", $request->bmt);
@@ -201,6 +205,7 @@ class ProjectController extends Controller
             $requestAll['end_user']     = str_replace([".", ", "], "", $request->end_user);
             $requestAll['service']      = str_replace([".", ", "], "", $request->service);
             $requestAll['wapu']         = str_replace([".", ", "], "", $request->wapu);
+            $requestAll['ca']         = str_replace([".", ", "], "", $request->ca);
 
             $project->update($requestAll);
 

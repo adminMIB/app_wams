@@ -154,6 +154,7 @@ class OptyController extends Controller
         $data = DB::table('opties')
             ->join("customers", "opties.customer_id", "=", "customers.id")
             ->select(
+                "opties.id",
                 "opties.code_opty as id_opty",
                 "opties.project_name as project",
                 "customers.name as customer_name",
@@ -166,6 +167,10 @@ class OptyController extends Controller
             ->where('opties.id', $id)
             ->first();
 
+        $sum_tm = OptyMaker::whereIn('opty_id', [$data->id])->sum('nominal_trx');
+
+        $total_usage = $data->revenue_sales - $sum_tm;
+
         if ($data) {
             $opty = (array) $data;
         } else {
@@ -175,9 +180,9 @@ class OptyController extends Controller
         $opty['created_at'] = Carbon::parse($opty['created_at'])->format('Y-m-d, H:i:s');
         $opty['revenue_sales'] = "Rp. " . number_format($opty['revenue_sales']);
 
-        $optyMaker = OptyMaker::where('opty_id', $id)->get();
+        $optyMaker =  OptyMaker::whereIn('opty_id', [$data->id])->orderBy('id', 'desc')->get();
 
-        return view('dashboard.opty.detail', compact('opty', 'optyMaker'));
+        return view('dashboard.opty.detail', compact('opty', 'optyMaker', 'total_usage', 'sum_tm'));
     }
 
     public function destroy($id)
@@ -205,17 +210,14 @@ class OptyController extends Controller
         DB::beginTransaction();
         try {
             $opty = Opty::find($opty_id);
-            $optyMaker = OptyMaker::where('opty_id', $opty_id)->get();
-            $insertData = [];
-
             $project = Project::create([
                 'id_project' => $request->id_project,
-                'opty_id' => $opty_id,
-                'bmt' => $opty->revenue_sales,
+                'opty_id' => $opty_id
             ]);
 
-            if (count($optyMaker) > 0) {
-                foreach ($optyMaker as $row) {
+            OptyMaker::where('opty_id', $opty_id)->chunk(1000, function ($optyMakers) use ($project) {
+                $insertData = [];
+                foreach ($optyMakers as $row) {
                     $insertData[] = [
                         "project_id" => $project->id,
                         "tanggal" => $row->date_trx,
@@ -223,28 +225,32 @@ class OptyController extends Controller
                         "nama_tujuan" => $row->nama_penerima,
                         "nominal" => $row->nominal_trx,
                         "keterangan" => $row->keterangan,
+                        "category" => $row->category,
                         "file" => !empty($row->file) ? $row->file : '',
                         "created_at" => $row->created_at,
                         "updated_at" => $row->updated_at
                     ];
 
-                    $source_path = public_path("uploads/opty-maker/{$row->file}");
-                    $destination = public_path("uploads/projects-maker/{$row->file}");
+                    // File processing
+                    if (!empty($row->file)) {
+                        $source_path = public_path("uploads/opty-maker/{$row->file}");
+                        $destination = public_path("uploads/projects-maker/{$row->file}");
 
-                    if (File::exists($source_path)) {
-                        $destination_directory = dirname($destination);
-                        if (!File::exists($destination_directory)) {
-                            File::makeDirectory($destination_directory, 0755, true, true);
+                        if (File::exists($source_path)) {
+                            $destination_directory = dirname($destination);
+                            if (!File::exists($destination_directory)) {
+                                File::makeDirectory($destination_directory, 0755, true, true);
+                            }
+
+                            File::copy($source_path, $destination);
+                        } else {
+                            Log::warning("File tidak ditemukan: $source_path");
                         }
-
-                        File::copy($source_path, $destination);
-                    } else {
-                        Log::warning("File tidak ditemukan: $source_path");
                     }
                 }
-
+                // Batch insert
                 ProjectMaker::insert($insertData);
-            }
+            });
 
             $opty->update(['is_moved' => true]);
 

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h6>Filter By Tanggal Transaksi</h6>
     <div :class="sizeInput">
       <div class="input-group">
         <span class="input-group-text">
@@ -9,14 +8,6 @@
         <input type="text" :id="inputId" class="form-control" readonly />
         <button @click="$emit('clear')" class="btn btn-secondary">Clear</button>
       </div>
-    </div>
-    <div v-if="isLoading" class="loading-spinner-container">
-      <div class="spinner-border spinner-border-lg text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-    <div v-else-if="noData" class="no-data-container text-secondary">
-      Tidak ada data pada periode {{ startDate }} - {{ endDate }}
     </div>
   </div>
 </template>

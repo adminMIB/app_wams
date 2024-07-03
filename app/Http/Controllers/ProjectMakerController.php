@@ -123,6 +123,7 @@ class ProjectMakerController extends Controller
                     'nama_penerima' => $pm->nama_tujuan,
                     'nominal_trx' => $pm->nominal,
                     'keterangan' => $pm->keterangan,
+                    'category' => $pm->category,
                     'file' => $pm->file ?? '',
                     'created_at' => $pm->created_at ?? now(),
                     'updated_at' => $pm->updated_at ?? now()

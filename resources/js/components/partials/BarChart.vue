@@ -34,12 +34,30 @@ export default defineComponent({
         parseInt(props.chartData.total_cash) +
         parseInt(props.chartData.total_po) +
         parseInt(props.chartData.total_transfer);
-      
+
       percentages.value = [
         total ? ((props.chartData.total_cash / total) * 100).toFixed(2) : 0,
         total ? ((props.chartData.total_po / total) * 100).toFixed(2) : 0,
         total ? ((props.chartData.total_transfer / total) * 100).toFixed(2) : 0,
       ];
+    };
+
+    const currencyFormatter = function (value) {
+      if (!value) return "";
+      value = value.toString();
+      let numberString = value.replace(/[^,\d]/g, "").toString(),
+        split = numberString.split(","),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+      if (ribuan) {
+        let separator = sisa ? "." : "";
+        rupiah += separator + ribuan.join(".");
+      }
+
+      rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+      return "IDR " + rupiah;
     };
 
     const chartOptions = ref({
@@ -77,11 +95,19 @@ export default defineComponent({
           dataLabels: {
             enabled: true,
             formatter: function () {
-              const index = this.point.index;
-              return `${this.series.name} (${percentages.value[index]}%)`;
+              const seriesIndex = this.series.index;
+              return `${this.series.name} (${percentages.value[seriesIndex]}%)`;
             },
             color: "#ffffff",
           },
+        },
+      },
+      tooltip: {
+        formatter: function () {
+          const seriesIndex = this.series.index;
+          const currencyFormattedValue = currencyFormatter(this.y);
+          return `
+            <b>${this.series.name}</b> <b>(${percentages.value[seriesIndex]}%)</b> <br> ${currencyFormattedValue}`;
         },
       },
       series: [

@@ -1,16 +1,19 @@
 <template>
   <div class="row">
     <!-- Welcome Page -->
-    <div class="col-xl-4 mb-4 col-lg-5 col-12">
-      <div class="card">
+    <div class="col-12">
+      <div class="card bg-transparent shadow-none my-6 border-0">
         <div class="card-body pb-3">
           <div class="col-md-12">
-            <h3 class="text-capitalize">Welcome back, {{ userData.name }} 👋🏻</h3>
+            <h3 class="text-capitalize">
+              Welcome back, {{ userData.name }} 👋🏻
+            </h3>
             <div class="col-12 col-lg-10">
               <p>
                 Agar tampilan lebih maksimal, ubah settingan scale pada display
                 desktop anda menjadi 100% atau zoom out menjadi 80% pada page
-                zoom menggunakan <mark> ctrl - atau command - </mark>
+                zoom <mark>Browser</mark> menggunakan
+                <mark> ctrl - atau command - </mark>
               </p>
             </div>
           </div>
@@ -20,83 +23,178 @@
     <!-- Welcome Page -->
 
     <!-- Statistics -->
-    <div class="col-xl-8 mb-4 col-lg-7 col-12">
-      <div class="card h-100">
-        <div class="card-header d-flex justify-content-between mb-3">
-          <h5 class="card-title mb-0">Statistics</h5>
-        </div>
+    <div class="col-lg-6 col-sm-6 mb-4">
+      <div class="card card-border-shadow-primary">
         <div class="card-body">
-          <div class="row gy-3">
-            <StatCard
-              v-for="(item, index) in statItems"
-              :key="index"
-              :badgeClass="item.badgeClass"
-              :iconClass="item.iconClass"
-              :value="item.value"
-              :label="item.label"
-            />
+          <div class="d-flex align-items-center mb-2">
+            <div class="avatar me-4">
+              <span class="avatar-initial rounded bg-label-danger">
+                <i class="ti ti-hexagonal-prism ti-28px"></i>
+              </span>
+            </div>
+            <h4 class="mb-0">{{ dataCard.percent?.totalDataThisYear }}</h4>
           </div>
+          <p class="mb-1">Total Transaction Project Maker</p>
+          <p
+            class="mb-0"
+            style="cursor: pointer"
+            v-tooltip="
+              dataCard.percent?.status == 'positif'
+                ? `Kenaikan ${
+                    dataCard.percent?.percentageThisYear
+                  }% dibanding dengan tahun lalu (${
+                    new Date().getFullYear() - 1
+                  }) : ${dataCard.percent?.percentageLastYear}%`
+                : `Penurunan ${
+                    dataCard.percent?.percentageThisYear
+                  }% dibanding dengan tahun lalu (${
+                    new Date().getFullYear() - 1
+                  }) : ${dataCard.percent?.percentageLastYear}%`
+            "
+          >
+            <span class="text-heading fw-medium me-2">
+              <i
+                :class="
+                  dataCard.percent?.status == 'positif'
+                    ? 'ti ti-stairs-up ti-18px text-danger'
+                    : 'ti ti-stairs-down ti-18px text-success'
+                "
+              />
+              <b>{{ dataCard.percent?.percentageThisYear }}%</b>
+            </span>
+            <small class="text-muted">than last Year</small>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 mb-4">
+      <div class="card card-border-shadow-primary">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-2">
+            <div class="avatar me-4">
+              <span class="avatar-initial rounded bg-label-danger">
+                <i class="ti ti-businessplan ti-28px"></i>
+              </span>
+            </div>
+            <h4 class="mb-0">IDR {{ $currencyFormatter(dataCard.nominal?.totalNominalThisYear) }}</h4>
+          </div>
+          <p class="mb-1">Total Nominal Transaction Project Maker</p>
+          <p
+            class="mb-0"
+            style="cursor: pointer"
+            v-tooltip="
+              dataCard.nominal?.status == 'positif'
+                ? `Kenaikan ${
+                    dataCard.nominal?.percentageThisYear
+                  }% dibanding dengan tahun lalu (${
+                    new Date().getFullYear() - 1
+                  }) : ${dataCard.nominal?.percentageLastYear}%`
+                : `Penurunan ${
+                    dataCard.nominal?.percentageThisYear
+                  }% dibanding dengan tahun lalu (${
+                    new Date().getFullYear() - 1
+                  }) : ${dataCard.nominal?.percentageLastYear}%`
+            "
+          >
+            <span class="text-heading fw-medium me-2">
+              <i
+                :class="
+                  dataCard.nominal?.status == 'positif'
+                    ? 'ti ti-stairs-up ti-18px text-danger'
+                    : 'ti ti-stairs-down ti-18px text-success'
+                "
+              />
+              <b>{{ dataCard.nominal?.percentageThisYear }}%</b>
+            </span>
+            <small class="text-muted">than last year</small>
+          </p>
         </div>
       </div>
     </div>
     <!--/ Statistics -->
 
-    <!-- Start chart bar trans maker by jenis trx -->
-    <div class="col-12 col-lg-4 mb-4">
+    <!-- start char bar and pie -->
+    <div class="col-12">
       <div class="card">
-        <div class="card-header">
-          <h6>Total Transaction Maker Projects (Jenis Transaksi)</h6>
-        </div>
-        <div class="card-body">
-          <FilterDateRange
-            :isLoading="isBarLoading"
-            :noData="noDataBar"
-            inputId="barFilter"
-            :startDate="barFilter.startDate"
-            :endDate="barFilter.endDate"
-            sizeInput="col-12 col-lg-10 mb-4"
-            @clear="clearDateRangeBar"
-          />
-          <div v-if="!isBarLoading && !noDataBar" class="row">
-            <div class="col-12">
-              <BarChart :chartData="barChartData" />
+        <div class="card-header border-bottom">
+          <h5 class="card-title mb-3">Filter</h5>
+          <div class="row">
+            <div class="col-lg-6 col-12">
+              <FilterDateRange
+                :isLoading="isLoading"
+                :noData="noData"
+                sizeInput="col-lg-8 col-12 mt-2"
+                :startDate="filterDate.startDate"
+                :endDate="filterDate.endDate"
+                inputId="daterange"
+                @clear="clearDateRange"
+              />
             </div>
-            <div class="col-12 mt-2">
-              <BarTable :data="barData" />
+            <div class="col-lg-6 col-12">
+              <div class="col-lg-8 col-12 mt-2">
+                <Multiselect
+                  v-model="selectedProject"
+                  :options="projects"
+                  :custom-label="customLabelForProject"
+                  placeholder="Select Project"
+                  @select="handleSelect"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body boorder-top">
+          <div class="row">
+            <div class="col-lg-6 col-12 card-separator">
+              <div v-if="!isLoading && !noDataBar" class="row">
+                <div class="col-12">
+                  <h6 class="mt-4 mb-3">
+                    Transaction Maker (Jenis Transaction)
+                  </h6>
+                  <BarChart :chartData="barChartData" />
+                </div>
+                <div class="col-12">
+                  <BarTable :data="barData" :theme="theme" />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-12">
+              <div v-if="!isLoading && !noData" class="row">
+                <div class="col-12">
+                  <h6 class="mt-4 mb-3" style="text-align: right">
+                    Transaction Maker (Komponen)
+                  </h6>
+                  <PieChart :chartData="chartData" />
+                </div>
+                <div class="col-12">
+                  <PieTable :data="groupData" :theme="theme" />
+                </div>
+              </div>
+            </div>
+            <div v-if="isLoading" class="loading-spinner-container">
+              <div
+                class="spinner-border spinner-border-lg text-primary"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div v-else-if="noData" class="no-data-container text-secondary">
+              Tidak ada data pada
+              <span v-if="filterDate.startDate !== null">
+                &nbsp;periode
+                <b>{{ filterDate.startDate }} - {{ filterDate.endDate }}</b>
+              </span>
+              <span v-if="selectedProject !== null"
+                >&nbsp;Project : <b>{{ selectedProject.name }}</b></span
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- End chart bar -->
-
-    <!-- Chart pie transaction maker by category -->
-    <div class="col-12 col-lg-8 mb-4">
-      <div class="card">
-        <div class="card-header">
-          <h6>Total Transaction Maker Projects (Komponen)</h6>
-        </div>
-        <div class="card-body">
-          <FilterDateRange
-            :isLoading="isLoading"
-            :noData="noData"
-            :startDate="pieFilter.startDate"
-            :endDate="pieFilter.endDate"
-            inputId="daterange"
-            @clear="clearDateRange"
-          />
-          <div v-if="!isLoading && !noData" class="row">
-            <div class="col12 col-lg-6">
-              <PieTable :data="groupData" />
-            </div>
-            <div class="col-12 col-lg-6">
-              <PieChart :chartData="chartData" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End chart pie transaction maker -->
+    <!-- end chat bar and pie -->
   </div>
 </template>
 
@@ -106,8 +204,9 @@ import PieChart from "./partials/PieChart.vue";
 import PieTable from "./partials/PieTable.vue";
 import BarTable from "./partials/BarTable.vue";
 import BarChart from "./partials/BarChart.vue";
-import StatCard from "./partials/StatCard.vue";
 import FilterDateRange from "./partials/FilterDateRange.vue";
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.css";
 
 import axios from "axios";
 import $ from "jquery";
@@ -117,22 +216,16 @@ export default {
   components: {
     PieChart,
     PieTable,
-    StatCard,
     FilterDateRange,
     BarChart,
-    BarTable
+    BarTable,
+    Multiselect,
   },
   setup() {
-    const pieFilter = ref({
+    const filterDate = ref({
       startDate: null,
       endDate: null,
       daterangePicker: null,
-    });
-
-    const barFilter = ref({
-      daterangePicker: "",
-      startDate: "",
-      endDate: "",
     });
 
     const barChartData = ref({
@@ -146,17 +239,31 @@ export default {
     const barData = ref([]);
     const noDataBar = ref(false);
     const isLoading = ref(true);
-    const isBarLoading = ref(true);
     const noData = ref(false);
     const groupData = ref([]);
     const userData = window.auth;
+    const projects = ref([]);
+    const selectedProject = ref(null);
+    const dataCard = ref({
+      percent: null,
+      nominal: null,
+    });
+
+    const theme =
+      localStorage.getItem(
+        "templateCustomizer-vertical-menu-template--Style"
+      ) || "light";
 
     const fetchDataPie = async () => {
       isLoading.value = true;
       try {
-        let url = "/pie-data";
-        if (pieFilter.value.startDate && pieFilter.value.endDate) {
-          url += `?start_date=${pieFilter.value.startDate}&end_date=${pieFilter.value.endDate}`;
+        let url = "/pie-data?";
+        if (filterDate.value.startDate && filterDate.value.endDate) {
+          url += `start_date=${filterDate.value.startDate}&end_date=${filterDate.value.endDate}&`;
+        }
+
+        if (selectedProject.value !== null) {
+          url += `projectId=${selectedProject.value.id}&`;
         }
 
         const response = await axios.get(url);
@@ -176,11 +283,24 @@ export default {
       }
     };
 
+    const fetchProjectList = async () => {
+      try {
+        const response = await axios.get(`/dashboard/project-list`);
+        projects.value = response.data;
+      } catch (error) {
+        console.error("Failed to fetch project data:", error);
+      }
+    };
+
     const fetchDataBar = async () => {
       try {
-        let url = "/bar-data";
-        if (barFilter.value.startDate && barFilter.value.endDate) {
-          url += `?start_date=${barFilter.value.startDate}&end_date=${barFilter.value.endDate}`;
+        let url = "/bar-data?";
+        if (filterDate.value.startDate && filterDate.value.endDate) {
+          url += `start_date=${filterDate.value.startDate}&end_date=${filterDate.value.endDate}&`;
+        }
+
+        if (selectedProject.value !== null) {
+          url += `projectId=${selectedProject.value.id}&`;
         }
 
         const response = await axios.get(url);
@@ -200,113 +320,87 @@ export default {
       } catch (error) {
         console.error("Failed to fetch bar data:", error);
       } finally {
-        isBarLoading.value = false;
+        isLoading.value = false;
+      }
+    };
+
+    const fetchDataCard = async () => {
+      try {
+        const response = await axios.get(`/dashboard/card-header/total-data`);
+        const getCardNominal = await axios.get("dashboard/card-header/total-nominal");
+
+        dataCard.value.percent = response.data;
+        dataCard.value.nominal = getCardNominal.data;
+
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
       }
     };
 
     const clearDateRange = () => {
-      pieFilter.value.startDate = null;
-      pieFilter.value.endDate = null;
-      if (pieFilter.value.daterangePicker) {
-        $(pieFilter.value.daterangePicker).val("");
+      filterDate.value.startDate = null;
+      filterDate.value.endDate = null;
+      if (filterDate.value.daterangePicker) {
+        $(filterDate.value.daterangePicker).val("");
       }
       fetchDataPie();
-    };
-
-    const clearDateRangeBar = () => {
-      barFilter.value.startDate = null;
-      barFilter.value.endDate = null;
-      if (barFilter.value.daterangePicker) {
-        $(barFilter.value.daterangePicker).val("");
-      }
       fetchDataBar();
     };
 
-    onMounted(() => {
-      pieFilter.value.daterangePicker = $("#daterange");
-      $(pieFilter.value.daterangePicker).daterangepicker(
-        {
-          opens: "left",
-          autoApply: true,
-        },
-        function (start, end) {
-          pieFilter.value.startDate = start.format("YYYY-MM-DD");
-          pieFilter.value.endDate = end.format("YYYY-MM-DD");
-          fetchDataPie();
-        }
-      );
+    const handleSelect = () => {
+      fetchDataBar();
+      fetchDataPie();
+    };
 
-      barFilter.value.daterangePicker = $("#barFilter");
-      $(barFilter.value.daterangePicker).daterangepicker(
+    const customLabelForProject = (option) => `${option.name} - ${option.code}`;
+
+    onMounted(() => {
+      console.log(theme);
+      filterDate.value.daterangePicker = $("#daterange");
+      $(filterDate.value.daterangePicker).daterangepicker(
         {
           opens: "left",
           autoApply: true,
         },
         function (start, end) {
-          barFilter.value.startDate = start.format("YYYY-MM-DD");
-          barFilter.value.endDate = end.format("YYYY-MM-DD");
+          filterDate.value.startDate = start.format("YYYY-MM-DD");
+          filterDate.value.endDate = end.format("YYYY-MM-DD");
+          fetchDataPie();
           fetchDataBar();
         }
       );
 
       fetchDataPie();
       fetchDataBar();
+      fetchProjectList();
+      fetchDataCard();
     });
 
     watch(
-      [() => pieFilter.value.startDate, () => pieFilter.value.endDate],
-      fetchDataPie
-    );
-
-    watch(
-      [() => barFilter.value.startDate, () => barFilter.value.endDate],
+      [() => filterDate.value.startDate, () => filterDate.value.endDate],
+      fetchDataPie,
       fetchDataBar
     );
 
-    const statItems = [
-      {
-        badgeClass: "bg-label-primary",
-        iconClass: "ti ti-chart-pie-2 ti-sm",
-        value: "230k",
-        label: "Total Opties",
-      },
-      {
-        badgeClass: "bg-label-info",
-        iconClass: "ti ti-users ti-sm",
-        value: "8.549k",
-        label: "Total Projects",
-      },
-      {
-        badgeClass: "bg-label-danger",
-        iconClass: "ti ti-shopping-cart ti-sm",
-        value: "1.423k",
-        label: "Total Project Maker",
-      },
-      {
-        badgeClass: "bg-label-success",
-        iconClass: "ti ti-currency-dollar ti-sm",
-        value: "$9745",
-        label: "Revenue",
-      },
-    ];
-
     return {
-      pieFilter,
-      barFilter,
+      filterDate,
       clearDateRange,
-      clearDateRangeBar,
       chartData,
       barChartData,
       isLoading,
-      isBarLoading,
       noData,
       noDataBar,
       groupData,
-      statItems,
       fetchDataPie,
       fetchDataBar,
       userData,
-      barData
+      barData,
+      theme,
+      projects,
+      selectedProject,
+      customLabelForProject,
+      handleSelect,
+      dataCard,
     };
   },
 };
@@ -321,9 +415,5 @@ export default {
   height: 200px;
   width: 100%;
   text-align: center;
-}
-
-.row > .row {
-  width: 100%;
 }
 </style>

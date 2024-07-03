@@ -30,7 +30,7 @@
                             <input type="text" id="pic_name" name="pic_name" class="form-control" placeholder="Nama PIC" autocomplete="off" autofocus />
                         </div>
                         <div class="col-4 mb-3">
-                            <label class="form-label" for="email_pic">Nama PIC</label>
+                            <label class="form-label" for="email_pic">Email PIC</label>
                             <input type="email" id="email_pic" name="email_pic" class="form-control" placeholder="Email PIC" autocomplete="off" autofocus />
                         </div>
                         <div class="col-4 mb-3">

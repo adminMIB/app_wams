@@ -3,9 +3,11 @@ require('./bootstrap');
 import { createApp } from 'vue';
 import Dashboard from './components/Dashboard.vue';
 import HighchartsVue from 'highcharts-vue';
+import tooltip from './components/directives/tooltip';
 
 // Import CSS
 import 'bootstrap-daterangepicker/daterangepicker.css';
+import './components/directives/tooltip.css'
 
 const currencyFormatter = function(value) {
   if (!value) return '';
@@ -30,6 +32,8 @@ const app = createApp({});
 app.config.globalProperties.$currencyFormatter = currencyFormatter;
 
 app.use(HighchartsVue);
+
+app.directive("tooltip", tooltip);
 
 app.component('dashboard', Dashboard);
 
