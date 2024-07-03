@@ -20,6 +20,13 @@
 @endsection
 
 @section('page-script')
+    <script>
+        var canViewseimbursement = @json($canViewseimbursement);
+        var canCreateReimbursement = @json($canCreateReimbursement);
+        var canEditReimbursement = @json($canEditReimbursement);
+        var canDeleteReimbursement = @json($canDeleteReimbursement);
+        var canApprovelReimbursement = @json($canApprovelReimbursement);
+    </script>
     <script src="{{ asset('js/pages/reimbursement.js') }}"></script>
 @endsection
 
@@ -57,7 +64,7 @@
                         <th>Customer</th>
                         <th>Keterangan</th>
                         <th>Created Date</th>
-                        <th>Action</th>
+                            <th>Action</th>
                     </tr>
                 </thead>
             </table>

@@ -90,7 +90,10 @@ $(function () {
           orderable: false,
           render: function (data, type, full, meta) {
             let html = '<div class="d-flex align-items-center">';
-            html += `<a class="btn btn-sm btn-icon me-2" href="/project/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Lengkapi Data"><i class="ti ti-edit"></i></a>`;
+
+            if (canEditProjects) {
+              html += `<a class="btn btn-sm btn-icon me-2" href="/project/${full["id"]}/edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Lengkapi Data"><i class="ti ti-edit"></i></a>`;
+            }
 
             html += "</div>";
             return html;

@@ -23,9 +23,16 @@ class ReimbursementController extends Controller
     public function index(Request $request)
     {
         if (!auth()->user()->can('views')) {
-            abort(403, 'Unauthorized action.');
+            abort(403, 'Dont have access!');
 
         } else {
+
+            // define premission send response json
+            $canViewseimbursement = auth()->user()->can('views');
+            $canCreateReimbursement = auth()->user()->can('create');
+            $canEditReimbursement = auth()->user()->can('update');
+            $canDeleteReimbursement = auth()->user()->can('delete');
+            $canApprovelReimbursement = auth()->user()->can('approval');
 
             // Ambil data projects dari tabel opties
             $projects = DB::table('opties')->select('id', 'project_name')->latest('id')->get();
@@ -63,7 +70,7 @@ class ReimbursementController extends Controller
                     ->make(true);
             }
 
-            return view('reimbursement.index', compact('projects'));
+            return view('reimbursement.index', compact('projects', 'canCreateReimbursement', 'canViewseimbursement', 'canEditReimbursement', 'canDeleteReimbursement', 'canApprovelReimbursement'));
         }
 
         
@@ -73,7 +80,7 @@ class ReimbursementController extends Controller
     public function store(Request $request)
     {
         if (!auth()->user()->can('create')) {
-            return response()->json(['error' => 'Unauthorized action.'], 403);
+            return response()->json(['error' => 'Dont have access!'], 403);
 
         } else {
 
@@ -127,7 +134,7 @@ class ReimbursementController extends Controller
     {    
 
         if (!auth()->user()->can('views')) {
-            return response()->json(['error' => 'Unauthorized action.'], 403);
+            return response()->json(['error' => 'Dont have access!'], 403);
 
         } else {
 
@@ -167,7 +174,7 @@ class ReimbursementController extends Controller
     {
 
         if (!auth()->user()->can('update')) {
-            return response()->json(['error' => 'Unauthorized action.'], 403);
+            return response()->json(['error' => 'Dont have access!'], 403);
 
         } else {
 
@@ -221,7 +228,7 @@ class ReimbursementController extends Controller
     {
 
         if (!auth()->user()->can('views')) {
-            abort(403, 'FORBIDEN.');
+            abort(403, 'Dont have access!.');
 
         } else {
             $projects = DB::table('opties')->select('id', 'project_name', 'customer_id' )->latest('id')->get();
@@ -264,11 +271,10 @@ class ReimbursementController extends Controller
     }   
 
 
-
     public function destroy($id)
     {
         if (!auth()->user()->can('delete')) {
-            return response()->json(['error' => 'Unauthorized action.'], 403);
+            return response()->json(['error' => 'Dont have access!'], 403);
             
         } else {
             try {

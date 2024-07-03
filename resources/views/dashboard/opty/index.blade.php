@@ -15,6 +15,13 @@
 @endsection
 
 @section('page-script')
+    <script>
+        var canViewseOpty = @json($canViewseOpty);
+        var canCreateOpty = @json($canCreateOpty);
+        var canEditOpty = @json($canEditOpty);
+        var canDeleteOpty = @json($canDeleteOpty);
+        var canApprovelOpty = @json($canApprovelOpty);
+    </script>
     <script src="{{ asset('js/pages/opty.js') }}"></script>
 @endsection
 

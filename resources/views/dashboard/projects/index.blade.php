@@ -18,6 +18,15 @@
 @endsection
 
 @section('page-script')
+
+    <script>
+        var canViewseProjects = @json($canViewseProjects);
+        var canCreateProjects = @json($canCreateProjects);
+        var canEditProjects = @json($canEditProjects);
+        var canDeleteProjects = @json($canDeleteProjects);
+        var canApprovelProjects = @json($canApprovelProjects);
+    </script>
+
     <script src="{{ asset('js/pages/projects.js') }}"></script>
 @endsection
 
