@@ -4,6 +4,7 @@ import { createApp } from 'vue';
 import Dashboard from './components/Dashboard.vue';
 import HighchartsVue from 'highcharts-vue';
 import tooltip from './components/directives/tooltip';
+import DataTables from 'datatables.net-vue3';
 
 // Import CSS
 import 'bootstrap-daterangepicker/daterangepicker.css';
@@ -32,6 +33,8 @@ const app = createApp({});
 app.config.globalProperties.$currencyFormatter = currencyFormatter;
 
 app.use(HighchartsVue);
+
+app.use(DataTables);
 
 app.directive("tooltip", tooltip);
 

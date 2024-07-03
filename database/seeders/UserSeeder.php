@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
         // create users using factories
         $userFitri = \App\Models\User::factory()->create([
             'name' => "fitri",
-            'email' => "fitrimitraintibersama@mail.com",
+            'email' => "fitri@mitraintibersama.com",
             'password' => Hash::make('password'),
             'roles_id' => $financeRole
         ]);
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
         
         $userCorporate = \App\Models\User::factory()->create([
             'name' => "corporate",
-            'email' => "corporatemitraintibersama@mail.com",
+            'email' => "corporate@mitraintibersama.com",
             'password' => Hash::make('password'),
             'roles_id' => $managementRole
 
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
 
         $userSuperAdmin = \App\Models\User::factory()->create([
             'name' => "super admin",
-            'email' => "superadminmitraintibersama@mail.com",
+            'email' => "superadmin@mitraintibersama.com",
             'password' => Hash::make('password'),
             'roles_id' => $superAdminRole
 

@@ -44,12 +44,20 @@
                     dataCard.percent?.percentageThisYear
                   }% dibanding dengan tahun lalu (${
                     new Date().getFullYear() - 1
-                  }) : ${dataCard.percent?.percentageLastYear}%`
+                  }) : ${
+                    dataCard.percent?.percentageLastYear
+                  }%. dengan total trasaction ${
+                    dataCard.percent?.totalDataLastyear
+                  }`
                 : `Penurunan ${
                     dataCard.percent?.percentageThisYear
                   }% dibanding dengan tahun lalu (${
                     new Date().getFullYear() - 1
-                  }) : ${dataCard.percent?.percentageLastYear}%`
+                  }) : ${
+                    dataCard.percent?.percentageLastYear
+                  }%, dengan total trasaction ${
+                    dataCard.percent?.totalDataLastyear
+                  }`
             "
           >
             <span class="text-heading fw-medium me-2">
@@ -77,7 +85,10 @@
                 <i class="ti ti-businessplan ti-28px"></i>
               </span>
             </div>
-            <h4 class="mb-0">IDR {{ $currencyFormatter(dataCard.nominal?.totalNominalThisYear) }}</h4>
+            <h4 class="mb-0">
+              IDR
+              {{ $currencyFormatter(dataCard.nominal?.totalNominalThisYear) }}
+            </h4>
           </div>
           <p class="mb-1">Total Nominal Transaction Project Maker</p>
           <p
@@ -89,12 +100,16 @@
                     dataCard.nominal?.percentageThisYear
                   }% dibanding dengan tahun lalu (${
                     new Date().getFullYear() - 1
-                  }) : ${dataCard.nominal?.percentageLastYear}%`
+                  }) : ${
+                    dataCard.nominal?.percentageLastYear
+                  }%, dengan total nominal ${dataCard.nominal?.totalLastYear}`
                 : `Penurunan ${
                     dataCard.nominal?.percentageThisYear
                   }% dibanding dengan tahun lalu (${
                     new Date().getFullYear() - 1
-                  }) : ${dataCard.nominal?.percentageLastYear}%`
+                  }) : ${
+                    dataCard.nominal?.percentageLastYear
+                  }%, dengan total nominal ${dataCard.nominal?.totalLastYear}`
             "
           >
             <span class="text-heading fw-medium me-2">
@@ -156,6 +171,9 @@
                 </div>
                 <div class="col-12">
                   <BarTable :data="barData" :theme="theme" />
+                  <p class="mt-3">
+                    Grand Total : <b>IDR {{ $currencyFormatter(barChartData.grand_total) }}</b>
+                  </p>
                 </div>
               </div>
             </div>
@@ -169,6 +187,9 @@
                 </div>
                 <div class="col-12">
                   <PieTable :data="groupData" :theme="theme" />
+                  <p class="mt-3" style="text-align: right;">
+                    Grand Total : <b>IDR {{ $currencyFormatter(chartData.grand_total) }}</b>
+                  </p>
                 </div>
               </div>
             </div>
@@ -195,6 +216,11 @@
       </div>
     </div>
     <!-- end chat bar and pie -->
+    <div class="mt-4">
+      <CardStatistic :data="dataStatistic" />
+    </div>
+
+    <QuarterTable :theme="theme"/>
   </div>
 </template>
 
@@ -204,7 +230,10 @@ import PieChart from "./partials/PieChart.vue";
 import PieTable from "./partials/PieTable.vue";
 import BarTable from "./partials/BarTable.vue";
 import BarChart from "./partials/BarChart.vue";
+import CardStatistic from "./partials/CardStatistic.vue";
 import FilterDateRange from "./partials/FilterDateRange.vue";
+import QuarterTable from "./partials/QuarterTable.vue";
+import Slider from "./partials/Slider.vue";
 import Multiselect from "vue-multiselect";
 import "vue-multiselect/dist/vue-multiselect.css";
 
@@ -220,6 +249,9 @@ export default {
     BarChart,
     BarTable,
     Multiselect,
+    CardStatistic,
+    Slider,
+    QuarterTable
   },
   setup() {
     const filterDate = ref({
@@ -244,6 +276,7 @@ export default {
     const userData = window.auth;
     const projects = ref([]);
     const selectedProject = ref(null);
+    const dataStatistic = ref({});
     const dataCard = ref({
       percent: null,
       nominal: null,
@@ -327,11 +360,14 @@ export default {
     const fetchDataCard = async () => {
       try {
         const response = await axios.get(`/dashboard/card-header/total-data`);
-        const getCardNominal = await axios.get("dashboard/card-header/total-nominal");
+        const statistic = await axios.get(`/dashboard/card-statistic`);
+        const getCardNominal = await axios.get(
+          "dashboard/card-header/total-nominal"
+        );
 
         dataCard.value.percent = response.data;
         dataCard.value.nominal = getCardNominal.data;
-
+        dataStatistic.value = statistic.data;
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -355,7 +391,6 @@ export default {
     const customLabelForProject = (option) => `${option.name} - ${option.code}`;
 
     onMounted(() => {
-      console.log(theme);
       filterDate.value.daterangePicker = $("#daterange");
       $(filterDate.value.daterangePicker).daterangepicker(
         {
@@ -401,6 +436,7 @@ export default {
       customLabelForProject,
       handleSelect,
       dataCard,
+      dataStatistic,
     };
   },
 };

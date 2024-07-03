@@ -185,27 +185,27 @@ class HomeController extends Controller
     {
         $currentYear = Carbon::now()->year;
         $lastYear = Carbon::now()->subYear()->year;
-        
+
         $totalThisYear = ProjectMaker::whereYear('tanggal', $currentYear)->count();
         $totalLastYear = ProjectMaker::whereYear('tanggal', $lastYear)->count();
-        
+
         if ($totalLastYear > 0) {
             $percentageChange = (($totalThisYear - $totalLastYear) / $totalLastYear) * 100;
         } else {
             $percentageChange = $totalThisYear > 0 ? 100 : 0;
         }
-        
+
         $percentageLastYear = $totalLastYear > 0 ? ($totalLastYear / $totalThisYear) * 100 : 0;
-        
+
         $status = $percentageChange >= 0 ? 'positif' : 'negatif';
-        
+
         return response()->json([
             'totalDataThisYear' => $totalThisYear,
+            'totalDataLastyear' => $totalLastYear,
             'percentageThisYear' => $percentageChange,
             'percentageLastYear' => $percentageLastYear,
             'status' => $status
         ]);
-        
     }
 
     public function percentageTotalNominalProjectMaker()
@@ -215,22 +215,177 @@ class HomeController extends Controller
 
         $totalThisYear = ProjectMaker::whereYear('tanggal', $currentYear)->sum('nominal');
         $totalLastYear = ProjectMaker::whereYear('tanggal', $lastYear)->sum('nominal');
-        
+
         if ($totalLastYear > 0) {
             $percentageChange = (($totalThisYear - $totalLastYear) / $totalLastYear) * 100;
         } else {
             $percentageChange = $totalThisYear > 0 ? 100 : 0;
         }
-        
+
         $percentageLastYear = $totalLastYear > 0 ? ($totalLastYear / $totalThisYear) * 100 : 0;
-        
+
         $status = $percentageChange >= 0 ? 'positif' : 'negatif';
 
         return response()->json([
             'totalNominalThisYear' => $totalThisYear,
+            'totalLastYear' => $totalLastYear,
             'percentageThisYear' => $percentageChange,
             'percentageLastYear' => $percentageLastYear,
             'status' => $status
         ]);
+    }
+
+    public function statisticCard()
+    {
+        $querySummary = DB::table('project_makers')
+            ->select(DB::raw('
+                SUM(CASE WHEN category = \'delivery\' THEN nominal ELSE 0 END) as total_delivery,
+                SUM(CASE WHEN category = \'end_user\' THEN nominal ELSE 0 END) as total_end_user,
+                SUM(CASE WHEN category = \'service\' THEN nominal ELSE 0 END) as total_service,
+                CAST(SUM(CASE WHEN jenis_transaksi = \'transfer\' THEN nominal ELSE 0 END) AS INTEGER) as total_transfer,
+                CAST(SUM(CASE WHEN jenis_transaksi = \'cash\' THEN nominal ELSE 0 END) AS INTEGER) as total_cash,
+                CAST(SUM(CASE WHEN jenis_transaksi = \'PO\' THEN nominal ELSE 0 END) AS INTEGER) as total_po
+            '))
+            ->first();
+
+        // Query untuk nama penerima
+        $queryByNamaPenerima = DB::table('project_makers')
+            ->select('nama_tujuan as title', DB::raw('SUM(nominal) as total'))
+            ->groupBy('title')
+            ->get()
+            ->map(function ($row) {
+                $row->icon = 'ti ti-arrows-transfer-up ti-sm';
+                return $row;
+            });
+
+        // Query untuk project
+        $queryByProject = DB::table('project_makers')
+            ->join('projects', 'project_makers.project_id', '=', 'projects.id')
+            ->join('opties', 'projects.opty_id', '=', 'opties.id')
+            ->select('opties.project_name as title', DB::raw('SUM(project_makers.nominal) as total'))
+            ->groupBy('opties.project_name')
+            ->get()
+            ->map(function ($row) {
+                $row->icon = 'ti ti-arrows-transfer-up ti-sm';
+                return $row;
+            });
+
+        // Data component
+        $dataComponent = [
+            [
+                'icon' => 'ti ti-arrows-transfer-up ti-sm',
+                'title' => 'Delivery',
+                'total' => $querySummary->total_delivery,
+            ],
+            [
+                'icon' => 'ti ti-arrows-transfer-up ti-sm',
+                'title' => 'End User',
+                'total' => $querySummary->total_end_user,
+            ],
+            [
+                'icon' => 'ti ti-arrows-transfer-up ti-sm',
+                'title' => 'Services',
+                'total' => $querySummary->total_service,
+            ],
+        ];
+
+        // Data jenis transaksi
+        $dataJenisTransaction = [
+            [
+                'icon' => 'ti ti-arrows-transfer-up ti-sm',
+                'title' => 'Cash',
+                'total' => $querySummary->total_cash,
+            ],
+            [
+                'icon' => 'ti ti-arrows-transfer-up ti-sm',
+                'title' => 'Transfer',
+                'total' => $querySummary->total_transfer,
+            ],
+            [
+                'icon' => 'ti ti-arrows-transfer-up ti-sm',
+                'title' => 'PO',
+                'total' => $querySummary->total_po,
+            ],
+        ];
+
+        // Mengembalikan data sebagai JSON response
+        return response()->json([
+            'component' => $dataComponent,
+            'jenis_transaction' => $dataJenisTransaction,
+            'nama_penerima' => $queryByNamaPenerima,
+            'projects' => $queryByProject
+        ]);
+    }
+
+    public function getProjectMakerByQuarter(Request $request)
+    {
+        try {
+            $query = DB::table('project_makers')
+                ->join('projects', 'project_makers.project_id', '=', 'projects.id')
+                ->join('opties', 'projects.opty_id', '=', 'opties.id')
+                ->select(
+                    'project_makers.tanggal',
+                    'project_makers.jenis_transaksi',
+                    'project_makers.category',
+                    'opties.project_name',
+                    'project_makers.nama_tujuan',
+                    'project_makers.nominal'
+                );
+
+            // Filtering berdasarkan quarter dan year
+            if ($request->has('quarter') && $request->has('year')) {
+                $quarter = $request->quarter;
+                $year = $request->year;
+
+                // Validasi parameter year
+                if (!is_numeric($year) || strlen($year) != 4) {
+                    throw new \Exception('Invalid year format');
+                }
+
+                // Validasi parameter quarter
+                if (!in_array($quarter, [1, 2, 3, 4])) {
+                    throw new \Exception('Invalid quarter');
+                }
+
+                switch ($quarter) {
+                    case 1:
+                        $start_date = "$year-01-01";
+                        $end_date = "$year-03-31";
+                        break;
+                    case 2:
+                        $start_date = "$year-04-01";
+                        $end_date = "$year-06-30";
+                        break;
+                    case 3:
+                        $start_date = "$year-07-01";
+                        $end_date = "$year-09-30";
+                        break;
+                    case 4:
+                        $start_date = "$year-10-01";
+                        $end_date = "$year-12-31";
+                        break;
+                }
+
+                // Log nilai tanggal untuk debugging
+                \Log::info("Filtering by date range: $start_date to $end_date");
+
+                $query->whereBetween('project_makers.tanggal', [$start_date, $end_date]);
+            }
+
+            $results = $query->paginate(15);
+
+            return response()->json([
+                'content' => [
+                    'data' => $results->items(),
+                    'current_page' => $results->currentPage(),
+                    'per_page' => $results->perPage(),
+                    'total' => $results->total(),
+                ]
+            ]);
+        } catch (\Exception $e) {
+            // Log error untuk debugging
+            \Log::error('Error fetching project makers by quarter: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
